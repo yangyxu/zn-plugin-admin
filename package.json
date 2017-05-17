@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "chinese-to-pinyin": "^0.1.4",
+    "xlsx": "^0.9.10",
     "zeanium-node": "^0.4.29"
   }
 }
