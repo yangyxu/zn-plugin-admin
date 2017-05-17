@@ -1,0 +1,9 @@
+zn.define([
+    './AdminProject',
+    './AdminProjectBug',
+    './AdminUser',
+    './AdminUserLog',
+    './AdminRole',
+    './AdminMenu',
+    './AdminVar'
+]);
