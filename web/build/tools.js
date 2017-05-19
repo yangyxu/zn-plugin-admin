@@ -1,7 +1,5 @@
 'use strict';
 
-window.PluginModel = require('../znmodel/index.js');
-
 module.exports = zn.deepEachObject({
 	'/tool/Menu': './view/Menu.js',
 	'/tool/Project': './view/Project.js',

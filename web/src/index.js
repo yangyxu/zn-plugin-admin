@@ -13,4 +13,7 @@ for(var key in EXPORTS) {
     }
 }
 
+_EXPORTS.router = require('./router.js');
+_EXPORTS.tools = require('./tools.js');
+
 module.exports = _EXPORTS;

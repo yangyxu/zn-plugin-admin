@@ -1,5 +1,6 @@
 var React = require('react');
 var Var = require('./Var');
+var TreeModelView = require('../model/TreeModelView');
 var RightsSetting = require('../component/RightsSetting');
 var VarPanel = React.createClass({
 	getInitialState: function (){
@@ -73,7 +74,7 @@ module.exports = React.createClass({
 	},
 	render:function(){
 		return (
-			<PluginModel.TreeModelView {...this.props} rightRender={this.__rightRender} />
+			<TreeModelView {...this.props} rightRender={this.__rightRender} />
 		);
 	}
 });

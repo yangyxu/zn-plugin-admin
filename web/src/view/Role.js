@@ -1,4 +1,5 @@
 var React = require('react');
+var TreeModelView = require('../model/TreeModelView');
 var UsersForRoles = require('./UsersForRoles.js');
 module.exports = React.createClass({
 	getDefaultProps: function () {
@@ -39,7 +40,7 @@ module.exports = React.createClass({
 	},
 	render:function(){
 		return (
-			<PluginModel.TreeModelView {...this.props} rightRender={this.__rightRender} itemContentRender={this.__itemContentRender} />
+			<TreeModelView {...this.props} rightRender={this.__rightRender} itemContentRender={this.__itemContentRender} />
 		);
 	}
 });

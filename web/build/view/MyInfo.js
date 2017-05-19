@@ -1,6 +1,5 @@
 'use strict';
 
-require('./UserInfo.less');
 var React = require('react');
 
 module.exports = React.createClass({

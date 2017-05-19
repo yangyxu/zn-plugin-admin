@@ -1,4 +1,5 @@
 var React = require('react');
+var TreeModelView = require('../model/TreeModelView');
 var RightsSetting = require('../component/RightsSetting');
 module.exports = React.createClass({
 	getDefaultProps: function () {
@@ -69,7 +70,7 @@ module.exports = React.createClass({
 	},
 	render:function(){
 		return (
-			<PluginModel.TreeModelView {...this.props} where={{ menuId: this.props.menuId }} itemContentRender={this.__itemContentRender} rightRender={this.__rightRender} leftWidth={30} />
+			<TreeModelView {...this.props} where={{ menuId: this.props.menuId }} itemContentRender={this.__itemContentRender} rightRender={this.__rightRender} leftWidth={30} />
 		);
 	}
 });

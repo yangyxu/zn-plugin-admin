@@ -1,6 +1,5 @@
 'use strict';
 
-require('./UserSearcher.less');
 var React = require('react');
 
 var CHARS = ['A', 'B', 'C', 'D', ''];

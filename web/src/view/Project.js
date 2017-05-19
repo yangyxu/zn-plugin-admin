@@ -1,4 +1,5 @@
 var React = require('react');
+var TreeModelView = require('../model/TreeModelView');
 var ProjectBug = require('./ProjectBug.js');
 
 module.exports = React.createClass({
@@ -33,7 +34,7 @@ module.exports = React.createClass({
 	},
 	render:function(){
 		return (
-			<PluginModel.TreeModelView itemContentRender={this.__itemContentRender} {...this.props} rightRender={this.__rightRender} />
+			<TreeModelView itemContentRender={this.__itemContentRender} {...this.props} rightRender={this.__rightRender} />
 		);
 	}
 });

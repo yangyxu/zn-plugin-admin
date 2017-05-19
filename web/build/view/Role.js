@@ -3,6 +3,7 @@
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var React = require('react');
+var TreeModelView = require('../model/TreeModelView');
 var UsersForRoles = require('./UsersForRoles.js');
 module.exports = React.createClass({
 	displayName: 'exports',
@@ -48,6 +49,6 @@ module.exports = React.createClass({
 		}
 	},
 	render: function render() {
-		return React.createElement(PluginModel.TreeModelView, _extends({}, this.props, { rightRender: this.__rightRender, itemContentRender: this.__itemContentRender }));
+		return React.createElement(TreeModelView, _extends({}, this.props, { rightRender: this.__rightRender, itemContentRender: this.__itemContentRender }));
 	}
 });
