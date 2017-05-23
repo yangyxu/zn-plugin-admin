@@ -5,7 +5,7 @@ module.exports = zn.deepEachObject({
 	'/znadmin/User': './view/User.js',
     '/znadmin/UserInfo': './view/UserInfo.js',
     '/znadmin/UserLog': './view/UserLog.js',
-    '/znadmin/UserForRoles': './view/UserForRoles.js',
+    '/znadmin/UsersForRoles': './view/UsersForRoles.js',
 	'/znadmin/Role': './view/Role.js',
 	'/znadmin/Var': './view/Var.js'
 }, function (value, index, item){
