@@ -1,9 +1,9 @@
-module.exports = zn.deepEachObject({
-    'BaseModelView': './BaseModelView.js',
-    'TreeModelView': './TreeModelView.js',
-    'BaseBusinessView': './BaseBusinessView.js',
-    'MasterSlave': './MasterSlave.js',
-    'Slave': './Slave.js'
-}, function (value){
-    return require(value);
+module.exports = zn.arrayValueToObject([
+    'BaseModelView',
+    'TreeModelView',
+    'BaseBusinessView',
+    'MasterSlave',
+    'Slave'
+], function (value, index){
+    return require('./'+value+'.js');
 });

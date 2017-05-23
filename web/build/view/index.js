@@ -1,11 +1,3 @@
-'use strict';
-
-module.exports = zn.deepEachObject({
-    'Menu': './Menu.js',
-    'MyInfo': './MyInfo.js',
-    'Role': './Role.js',
-    'User': './User.js',
-    'Var': './Var.js'
-}, function (value, key) {
-    return require(value);
+module.exports = zn.arrayValueToObject(['Menu', 'MyInfo', 'Project', 'Role', 'User', 'UserInfo', 'UserLog', 'Var'], function (value, index) {
+    return require('./' + value + '.js');
 });

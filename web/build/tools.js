@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = zn.deepEachObject({
 	'/tool/Menu': './view/Menu.js',
 	'/tool/Project': './view/Project.js',

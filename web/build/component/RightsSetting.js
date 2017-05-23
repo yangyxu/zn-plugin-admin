@@ -1,5 +1,3 @@
-'use strict';
-
 var React = require('react');
 var UserSearcher = require('./UserSearcher');
 var RoleSearcher = require('./RoleSearcher');

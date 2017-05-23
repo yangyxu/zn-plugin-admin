@@ -1,7 +1,7 @@
-module.exports = zn.deepEachObject({
-    'RightsSetting': './RightsSetting.js',
-    'RoleSearcher': './RoleSearcher.js',
-    'UserSearcher': './UserSearcher.js'
-}, function (value, key){
-    return require(value);
+module.exports = zn.arrayValueToObject([
+    'RightsSetting',
+    'RoleSearcher',
+    'UserSearcher'
+], function (value, index){
+    return require('./'+value+'.js');
 });

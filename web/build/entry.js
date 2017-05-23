@@ -1,5 +1,2 @@
-'use strict';
-
-var React = require('react');
 var ReactDOM = require('react-dom');
-ReactDOM.render(React.createElement(UI.URLRouter, { home: '/', routers: require('./router.js') }), document.getElementById('container'));
+ReactDOM.render(React.createElement(UI.URLRouter, { home: '/', routers: require('./routers.js') }), document.getElementById('container'));
