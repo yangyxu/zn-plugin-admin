@@ -56,13 +56,11 @@ zn.define(function () {
             },
             description: {
                 value: null,
-                type: ['LONGTEXT'],
-                default: ''
+                type: ['LONGTEXT']
             },
             solution: {
                 value: null,
-                type: ['LONGTEXT'],
-                default: ''
+                type: ['LONGTEXT']
             },
             files: {
                 value: null,
