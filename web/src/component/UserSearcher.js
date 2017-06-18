@@ -1,7 +1,7 @@
 var React = require('react');
 var LetterSelector = require('./LetterSelector.js');
 var RoleSearcher = require('./RoleSearcher.js');
-module.exports = zn.react.znadmin.UserSearcher = React.createClass({
+module.exports = React.createClass({
 	getDefaultProps: function (){
 		return {
 			mulitable: false

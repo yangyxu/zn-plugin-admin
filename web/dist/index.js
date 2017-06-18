@@ -893,8 +893,8 @@
 	var React = __webpack_require__(5);
 	var LetterSelector = __webpack_require__(7);
 	var RoleSearcher = __webpack_require__(12);
-	module.exports = zn.react.znadmin.UserSearcher = React.createClass({
-		displayName: 'UserSearcher',
+	module.exports = React.createClass({
+		displayName: 'exports',
 
 		getDefaultProps: function getDefaultProps() {
 			return {
@@ -1066,8 +1066,8 @@
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var React = __webpack_require__(5);
-	module.exports = zn.react.znadmin.RoleSearcher = React.createClass({
-		displayName: 'RoleSearcher',
+	module.exports = React.createClass({
+		displayName: 'exports',
 
 		getDefaultProps: function getDefaultProps() {
 			return {
@@ -1145,8 +1145,8 @@
 
 	var React = __webpack_require__(5);
 	var RightsSetting = __webpack_require__(10);
-	module.exports = zn.react.TreeModelView = React.createClass({
-		displayName: 'TreeModelView',
+	module.exports = React.createClass({
+		displayName: 'exports',
 
 		getDefaultProps: function getDefaultProps() {
 			return {

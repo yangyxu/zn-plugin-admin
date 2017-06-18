@@ -1,5 +1,5 @@
 var React = require('react');
-module.exports = zn.react.znadmin.RoleSearcher = React.createClass({
+module.exports = React.createClass({
 	getDefaultProps: function (){
 		return {
 			value: ',',

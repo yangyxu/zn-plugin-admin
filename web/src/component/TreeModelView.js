@@ -1,6 +1,6 @@
 var React = require('react');
 var RightsSetting = require('../component/RightsSetting');
-module.exports = zn.react.TreeModelView = React.createClass({
+module.exports = React.createClass({
 	getDefaultProps: function () {
 		return {
 			model: 'zn_admin_var',
