@@ -1,10 +1,5 @@
 var React = require('react');
 module.exports = React.createClass({
-	getDefaultProps: function () {
-		return {
-
-		}
-	},
 	getInitialState: function () {
 		return {
 			data: Store.post('/znadmin/model/paging', {

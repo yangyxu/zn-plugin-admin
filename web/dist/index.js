@@ -1,2 +1,2558 @@
-!function(e){function t(a){if(n[a])return n[a].exports;var i=n[a]={exports:{},id:a,loaded:!1};return e[a].call(i.exports,i,i.exports,t),i.loaded=!0,i.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}([function(e,t,n){e.exports=n(1)},function(e,t,n){var a=n(2);a.render(React.createElement(UI.URLRouter,{home:"/",routers:n(3)}),document.getElementById("container"))},function(e,t){e.exports=ReactDOM},function(e,t,n){e.exports=zn.deepEachObject({"/znadmin/Menu":"./view/Menu.js","/znadmin/MyInfo":"./view/MyInfo.js","/znadmin/Project":"./view/Project.js","/znadmin/User":"./view/User.js","/znadmin/UserInfo":"./view/UserInfo.js","/znadmin/UserLog":"./view/UserLog.js","/znadmin/UsersForRoles":"./view/UsersForRoles.js","/znadmin/Role":"./view/Role.js","/znadmin/Var":"./view/Var.js"},function(e,t,a){return n(4)(e)})},function(e,t,n){function a(e){return n(i(e))}function i(e){return s[e]||function(){throw new Error("Cannot find module '"+e+"'.")}()}var s={"./component/RightsSetting":5,"./component/RightsSetting.js":5,"./component/RoleSearcher":8,"./component/RoleSearcher.js":8,"./component/UserSearcher":7,"./component/UserSearcher.js":7,"./component/UserSearcher.less":9,"./component/index":12,"./component/index.js":12,"./entry":1,"./entry.js":1,"./index":14,"./index.js":14,"./less/UserItem.less":15,"./model/BaseBusinessView":17,"./model/BaseBusinessView.js":17,"./model/BaseModelView":18,"./model/BaseModelView.js":18,"./model/MasterSlave":19,"./model/MasterSlave.js":19,"./model/Slave":20,"./model/Slave.js":20,"./model/TreeModelView":21,"./model/TreeModelView.js":21,"./model/index":22,"./model/index.js":22,"./routers":3,"./routers.js":3,"./tools":24,"./tools.js":24,"./view/Menu":25,"./view/Menu.js":25,"./view/MyInfo":27,"./view/MyInfo.js":27,"./view/Project":28,"./view/Project.js":28,"./view/ProjectBug":29,"./view/ProjectBug.js":29,"./view/Role":30,"./view/Role.js":30,"./view/User":32,"./view/User.js":32,"./view/UserInfo":33,"./view/UserInfo.js":33,"./view/UserInfo.less":34,"./view/UserLog":36,"./view/UserLog.js":36,"./view/UsersForRoles":31,"./view/UsersForRoles.js":31,"./view/Var":26,"./view/Var.js":26,"./view/index":37,"./view/index.js":37};a.keys=function(){return Object.keys(s)},a.resolve=i,e.exports=a,a.id=4},function(e,t,n){var a=n(6),i=n(7),s=n(8);e.exports=a.createClass({displayName:"exports",getDefaultProps:function(){return{model:null,id:null}},getInitialState:function(){return{users:",",roles:",",observers:",",ownerId:0,items:[{title:"是否启用权限",name:"ifEnabledRights",type:"radio",data:[{text:"禁用",value:0},{text:"启用",value:1}]},{title:"扩展",name:"ext",type:"textarea"}]}},componentDidMount:function(){this.__load(this.props.id)},componentWillReceiveProps:function(e){e.id!=this.props.id&&this.__load(e.id)},__load:function(e){e&&Store.post("/znadmin/model/selectOne",{fields:"*",model:this.props.model,where:{id:e}}).exec().then(function(e){this.setState(e.result)}.bind(this))},__save:function(){if(!this.props.id)return void Toast.warning("必须编辑项");var e={users:this.state.users,roles:this.state.roles};Store.post("/znadmin/model/updateNode",{data:e,model:this.props.model,where:{id:this.props.id}}).exec().then(function(e){e.result.changedRows&&Toast.success("保存成功")}.bind(this))},__changeOwner:function(){},render:function(){var e=this;return a.createElement("div",{className:"rt-rights-setting",style:{padding:5}},a.createElement("div",{className:"title",style:{lineHeight:"4rem"}},a.createElement("i",{className:"fa fa-yelp",style:{margin:5}}),a.createElement("span",null,"权限设置【拥有者：",a.createElement("a",{onClick:this.__changeOwner},this.state.ownerId),"】"),this.props.id&&a.createElement(UI.Button,{onClick:this.__save,text:"保存",icon:"fa-save",float:"right",style:{margin:5}})),a.createElement(UI.Card,{icon:"fa-user",title:"用户"},a.createElement(i,{value:this.state.users,onChange:function(t){return e.state.users=t}})),a.createElement(UI.Card,{icon:"fa-graduation-cap",title:"角色"},a.createElement(s,{value:this.state.roles,onChange:function(t){return e.state.roles=t}})))}})},function(e,t){e.exports=React},function(e,t,n){var a=n(6),i=a.createClass({displayName:"UserSelector",getDefaultProps:function(){return{value:","}},getInitialState:function(){return{value:this.props.value,tag:null,tags:[],user:null,users:[]}},componentDidMount:function(){this.loadRoles(),this.loadUsers()},componentWillReceiveProps:function(e){e.value!=this.props.value&&this.setState({value:e.value})},loadRoles:function(){},loadUsers:function(){Store.post("/znadmin/model/select",{model:"zn_admin_user",fields:"id as value, name as text"}).exec().then(function(e){this.setState({users:e.result})}.bind(this))},__onTagClick:function(e){this.setState({tag:e.value})},__onUserClick:function(e){var t=e.value+",";this.state.value.indexOf(","+t)==-1?this.state.value=this.state.value+t:this.state.value=this.state.value.replace(","+t,","),this.setState({value:this.state.value}),this.props.onChange&&this.props.onChange(this.state.value)},render:function(){return a.createElement("div",{className:"rt-user-selector"},a.createElement("ul",{className:"tags",style:{borderBottom:"1px dashed #e4e2e2"}},this.state.tags.map(function(e,t){var n=this;return a.createElement("li",{key:t,className:this.state.tag==e.value?"curr":"",onClick:function(){return n.__onTagClick(e)}},e.text)}.bind(this))),a.createElement("ul",{className:"tags"},this.state.users.map(function(e,t){var n=this;return a.createElement("li",{key:t,className:this.state.value.indexOf(","+e.value+",")!==-1?"curr":"",onClick:function(){return n.__onUserClick(e)}},e.text)}.bind(this))))}});e.exports=a.createClass({displayName:"exports",getDefaultProps:function(){return{model:"zn_admin_user"}},getInitialState:function(){return{data:Store.post("/znadmin/model/select",{model:this.props.model,where:{pid:0}}),userSelectType:0}},componentDidMount:function(){},__onListViewItemClick:function(e,t){t.view&&this.setState({userSelectType:t.type})},render:function(){return a.createElement(i,this.props)}})},function(e,t,n){var a=n(6);e.exports=a.createClass({displayName:"exports",getDefaultProps:function(){return{value:","}},getInitialState:function(){return{value:this.props.value,roles:[]}},componentDidMount:function(){this.loadRoles()},componentWillReceiveProps:function(e){e.value!=this.props.value&&this.setState({value:e.value})},loadRoles:function(){Store.post("/znadmin/model/selectAllChildByPid",{model:"zn_admin_role",fields:"id as value, title as text, type",pid:1}).exec().then(function(e){this.setState({roles:e.result})}.bind(this))},__onTagClick:function(e){this.setState({tag:e.value})},__onUserClick:function(e){var t=e.value+",";this.state.value.indexOf(","+t)==-1?this.state.value=this.state.value+t:this.state.value=this.state.value.replace(","+t,","),this.setState({value:this.state.value}),this.props.onChange&&this.props.onChange(this.state.value)},__renderIcon:function(e){switch(e.type){case 0:return null;case 1:return a.createElement("i",{title:"这是部门",className:"fa fa-sitemap",style:{margin:5,color:"#d9534f"}});case 2:return a.createElement("i",{title:"这是角色",className:"fa fa-graduation-cap",style:{margin:5}})}},render:function(){return a.createElement("div",{className:"rt-user-selector"},a.createElement("ul",{className:"tags"},this.state.roles.map(function(e,t){var n=this;return a.createElement("li",{key:t,className:this.state.value.indexOf(","+e.value+",")!==-1?"curr":"",onClick:function(){return n.__onUserClick(e)}},this.__renderIcon(e),e.text)}.bind(this))))}})},function(e,t){},,,function(e,t,n){e.exports=zn.arrayValueToObject(["RightsSetting","RoleSearcher","UserSearcher"],function(e,t){return n(13)("./"+e+".js")})},function(e,t,n){function a(e){return n(i(e))}function i(e){return s[e]||function(){throw new Error("Cannot find module '"+e+"'.")}()}var s={"./RightsSetting.js":5,"./RoleSearcher.js":8,"./UserSearcher.js":7,"./index.js":12};a.keys=function(){return Object.keys(s)},a.resolve=i,e.exports=a,a.id=13},function(e,t,n){e.exports=zn.react.loadPaths({component:"./component/index.js",view:"./view/index.js",model:"./model/index.js",routers:"./routers.js",tools:"./tools.js"},function(e){return n(4)(e)})},function(e,t){},,function(e,t,n){var a=n(6);e.exports=a.createClass({displayName:"exports",getDefaultProps:function(){return{model:"",headers:[],insertInputs:[],updateInputs:[]}},getInitialState:function(){return{data:Store.post("/znadmin/model/paging",{model:this.props.model}),currItem:null,toolbarItems:[{text:"新建项目",name:"addItem",icon:"fa-plus"},{text:"编辑项目",name:"updateItem",icon:"fa-edit"},{text:"删除项目",name:"deleteItem",icon:"fa-remove"}]}},componentDidMount:function(){},__onTableRowClick:function(e,t,n,a){this._currItem=t},__doSuccess:function(){Popup.close("dialog"),Popup.message({content:"操作成功！",type:"success"}),this.state.data.refresh()},__addItem:function(e){Popup.dialog({title:"添加项",hStyle:{backgroundColor:"#0B72A5"},width:480,content:a.createElement(UI.Form,{method:"POST",layout:"stacked",action:"/znadmin/model/addNode",exts:{model:this.props.model},merge:"data",style:{margin:25},syncSubmit:!1,onSubmitSuccess:this.__doSuccess,btns:[{text:"新建项目",icon:"fa-plus",type:"submit",float:"right",style:{marginRight:0}},{text:"取消",type:"cancle",status:"danger",float:"right"}],items:this.props.insertInputs})})},__updateItem:function(e){Popup.dialog({title:"更新项目信息",hStyle:{backgroundColor:"#0B72A5"},width:480,content:a.createElement(UI.Form,{method:"POST",layout:"stacked",action:"/znadmin/model/updateNode",exts:{model:this.props.model},merge:"data",data:e,style:{margin:25},syncSubmit:!1,onSubmitSuccess:this.__doSuccess,btns:[{text:"更新",icon:"fa-edit",type:"submit",float:"right",style:{marginRight:0}},{text:"取消",type:"cancle",status:"danger",float:"right"}],items:this.props.updateInputs})})},__onToolbarClick:function(e){if("addItem"==e.name)return void this.__addItem();if(!this.state.currItem)return Popup.message({content:"必须选择主项",type:"warning"}),!1;switch(e.name){case"updateItem":this.__updateItem(this.state.currItem);break;case"deleteItem":Popup.confirm({content:"确认删除该项吗？",onConfirm:function(){Store.post("/znadmin/model/deleteNodes",{model:this.props.model,id:this.state.currItem.id}).exec().then(function(e){this.state.data.refresh(),Popup.message({content:"删除成功！",type:"warn"})}.bind(this),function(e){Popup.message({content:"删除出错: "+e.result,type:"danger"})})}.bind(this)})}},render:function(){return a.createElement(UI.ActivityLayout,{direction:"v",begin:3.5,barWidth:.3,unit:"rem"},a.createElement("div",null,a.createElement(UI.ButtonGroup,{float:"right",items:this.state.toolbarItems,onClick:this.__onToolbarClick})),a.createElement(UI.PagerView,{view:"Table",enableFilter:!1,checkbox:50,showHeader:!0,data:this.state.data,onTableRowClick:this.__onTableRowClick,items:this.props.headers}))}})},function(e,t,n){var a=n(6);e.exports=a.createClass({displayName:"exports",getDefaultProps:function(){return{model:""}},getInitialState:function(){return{data:Store.post("/znadmin/model/paging",{model:this.props.model,fields:"*"}),items:[],currItem:null,toolbarItems:[{text:"添加项",name:"addItem",icon:"fa-plus",style:{marginRight:0}},{text:"编辑项",name:"updateItem",icon:"fa-edit"},{text:"删除项",name:"deleteItem",icon:"fa-remove"}]}},componentDidMount:function(){this.__loadTableHeaders()},componentWillReceiveProps:function(e){e.model!=this.props.model&&(this.props.model=e.model,this.__loadTableHeaders(function(){this.state.data.ext({model:e.model}).refresh()}.bind(this)))},__loadTableHeaders:function(e){Store.get("/znadmin/model/getModelProps?model="+this.props.model).exec().then(function(t){this.setState({items:t.result}),e&&e(t)}.bind(this))},__onTableRowClick:function(e,t,n,a){this._currItem=t},__addItemSuccess:function(e){Popup.close("dialog"),Popup.message({content:"添加成功！",type:"success"})},__addItem:function(e){var t=this;Popup.dialog({title:"添加项",hStyle:{backgroundColor:"#0B72A5"},width:480,content:a.createElement(UI.Form,{method:"POST",layout:"stacked",action:"/znadmin/model/addNode",exts:{model:this.props.model},merge:"data",style:{margin:25},syncSubmit:!1,onSubmitBefore:function(e,t){},onSubmitSuccess:function(){return t.state.data.refresh()},btns:[{text:"添加",icon:"fa-plus",type:"submit",float:"right",style:{marginRight:0}},{text:"取消",type:"cancle",status:"danger",float:"right"}],items:[{name:"title",title:"title",type:"text",required:!0}]})})},__updateItem:function(e){var t=this;Popup.dialog({title:"修改项",hStyle:{backgroundColor:"#0B72A5"},width:480,content:a.createElement(UI.Form,{method:"POST",layout:"stacked",action:"/znadmin/model/updateNode",exts:{model:this.props.model},merge:"data",data:e,style:{margin:25},syncSubmit:!1,onSubmitBefore:function(e,t){},onSubmitSuccess:function(){return t.state.data.refresh()},btns:[{text:"添加",icon:"fa-plus",type:"submit",float:"right",style:{marginRight:0}},{text:"取消",type:"cancle",status:"danger",float:"right"}],items:[{name:"title",title:"title",type:"text",required:!0}]})})},__onToolbarClick:function(e){if("addItem"==e.name)return void this.__addItem();if(!this.state.currItem)return Popup.message({content:"必须选择主项",type:"warning"}),!1;switch(e.name){case"updateItem":this.__updateItem(this.state.currItem);break;case"deleteItem":Popup.confirm({content:"确认删除该项吗？",onConfirm:function(){Store.post("/znadmin/model/deleteNodes",{model:this.props.model,id:this.state.currItem.id}).exec().then(function(e){this.state.data.refresh(),Popup.message({content:"删除成功！",type:"warn"})}.bind(this),function(e){Popup.message({content:"删除出错: "+e.result,type:"danger"})})}.bind(this)})}},render:function(){return a.createElement(UI.ActivityLayout,{direction:"v",begin:3.5,barWidth:.3,unit:"rem"},a.createElement("div",null,a.createElement(UI.ButtonGroup,{float:"right",items:this.state.toolbarItems,onClick:this.__onToolbarClick})),a.createElement(UI.PagerView,{view:"Table",enableFilter:!1,checkbox:50,showHeader:!0,data:this.state.data,items:this.state.items}))}})},function(e,t,n){var a=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var a in n)Object.prototype.hasOwnProperty.call(n,a)&&(e[a]=n[a])}return e},i=n(6),s=n(20);e.exports=i.createClass({displayName:"exports",getDefaultProps:function(){return{title:"",model:"",where:{},formItems:[],toolbarItems:[],slave:{title:"",model:"",where:{},formItems:[],toolbarItems:[]}}},getInitialState:function(){return{masterId:null,data:Store.post("/znadmin/model/paging",{model:this.props.model,where:this.props.where})}},componentDidMount:function(){},__doSuccess:function(){Popup.close("dialog"),Popup.message({content:"操作成功！",type:"success"}),this.state.data.refresh()},__addItem:function(e){Popup.dialog({title:"添加",hStyle:{backgroundColor:"#0B72A5"},width:480,content:i.createElement(UI.Form,{method:"POST",layout:"stacked",action:"/znadmin/model/addNode",exts:{model:this.props.model},hiddens:this.props.where,merge:"data",style:{margin:25},syncSubmit:!1,onSubmitSuccess:this.__doSuccess,btns:[{text:"添加",icon:"fa-plus",type:"submit",float:"right",style:{marginRight:0}},{text:"取消",type:"cancle",status:"danger",float:"right"}],items:this.props.formItems})})},__removeItems:function(){Popup.confirm({content:"确认删除该项吗？",onConfirm:function(){Store.post("/znadmin/model/deleteNode",{model:this.props.model,id:data.id}).exec().then(function(e){this.state.data.refresh(),Popup.message({content:"删除成功！",type:"warn"})}.bind(this),function(e){Popup.message({content:"删除出错: "+e.result,type:"danger"})})}.bind(this)})},__removeItem:function(){this.state.masterId?Popup.confirm({content:"确认删除该项吗？",onConfirm:function(){Store.post("/znadmin/model/deleteNode",{model:this.props.model,id:this.state.masterId}).exec().then(function(e){this.state.data.refresh(),Toast.success("删除成功！")}.bind(this),function(e){Toast.error("删除出错: "+e.result)})}.bind(this)}):Toast.warning("请先选择待删除数据项！")},__updateItem:function(e){Popup.dialog({title:"更新项目信息",hStyle:{backgroundColor:"#0B72A5"},width:480,content:i.createElement(UI.Form,{method:"POST",layout:"stacked",action:"/znadmin/model/updateNode",exts:{model:this.props.model},merge:"data",data:e,style:{margin:25},syncSubmit:!1,onSubmitSuccess:this.__doSuccess,btns:[{text:"更新",icon:"fa-edit",type:"submit",float:"right",style:{marginRight:0}},{text:"取消",type:"cancle",status:"danger",float:"right"}],items:this.props.formItems})})},__onToolbarClick:function(e){switch(e.name){case"addItem":this.__addItem();break;case"removeItem":this.__removeItem();break;case"removeItems":this.__removeItems()}},__onPagerListViewClick:function(e,t,n,a){this.setState({masterId:e})},render:function(){return i.createElement(UI.Page,{toolbarItems:this.props.toolbarItems,onToolbarClick:this.__onToolbarClick,title:this.props.title},i.createElement(UI.ActivityLayout,{direction:"h",begin:this.props.leftWidth||250,unit:"px"},i.createElement(UI.PagerView,{view:"ListView",className:"rt-list-view-border",textKey:"name",valueKey:"id",selectMode:"radio",fireIndex:0,onItemClick:this.__onPagerListViewClick,itemRender:this.props.itemRender,itemClassName:this.props.itemClassName,data:this.state.data}),this.state.masterId?i.createElement(s,a({},this.props.slave,{masterId:this.state.masterId})):i.createElement("div",null,"请选择主表数据记录")))}})},function(e,t,n){var a=n(6);e.exports=a.createClass({displayName:"exports",getDefaultProps:function(){return{masterId:0,title:"",model:"",where:{},formItems:[],toolbarItems:[]}},getInitialState:function(){var e=this.props.where;return this.props.masterId&&(e.masterId=this.props.masterId),{where:e,data:Store.post("/znadmin/model/paging",{model:this.props.model,where:e})}},componentWillReceiveProps:function(e){e.masterId!==this.props.masterId&&(this.state.data._data.where={masterId:e.masterId},this.state.data.exec())},__doSuccess:function(){Popup.close(),Popup.message({content:"操作成功！",type:"success"}),this.state.data.refresh()},__addItem:function(e){Popup.dialog({title:"添加",width:480,content:a.createElement(UI.Form,{method:"POST",layout:"stacked",action:"/znadmin/model/addNode",exts:{model:this.props.model},hiddens:this.state.where,merge:"data",style:{margin:25},syncSubmit:!1,onSubmitSuccess:this.__doSuccess,btns:[{text:"添加",icon:"fa-plus",type:"submit",float:"right",style:{marginRight:0}},{text:"取消",type:"cancle",float:"right",status:"danger"}],items:this.props.formItems})})},__updateItem:function(e){Popup.dialog({title:"修改信息",width:480,content:a.createElement(UI.Form,{method:"POST",layout:"stacked",action:"/znadmin/model/updateNode",exts:{model:this.props.model},merge:"data",value:e,style:{margin:25},syncSubmit:!1,onSubmitSuccess:this.__doSuccess,btns:[{text:"修改",icon:"fa-edit",type:"submit",float:"right",style:{marginRight:0}},{text:"取消",type:"cancle",status:"danger",float:"right"}],items:this.props.formItems})})},__onToolbarClick:function(e){switch(e.name){case"addItem":return this.__addItem();case"updateItem":return this.__updateItem(this.state.currItem);case"deleteItems":Popup.confirm({content:"确认删除该项吗？",onConfirm:function(){Store.post("/znadmin/model/deleteNodes",{model:this.props.model,ids:this._value}).exec().then(function(e){this.state.data.refresh(),Popup.message({content:"删除成功！",type:"warn"})}.bind(this),function(e){Popup.message({content:"删除出错: "+e.result,type:"danger"})})}.bind(this)})}},render:function(){var e=this;return a.createElement(UI.Page,{title:this.props.title,toolbarItems:this.props.toolbarItems,onToolbarClick:this.__onToolbarClick},a.createElement(UI.PagerView,{view:"ListView",className:"rt-list-view-border",ref:"listview",textKey:"name",valueKey:"id",selectMode:"checkbox",itemRender:this.props.itemRender,onClick:function(t,n){return e._value=t},data:this.state.data}))}})},function(e,t,n){var a=n(6),i=n(5);e.exports=zn.react.TreeModelView=a.createClass({displayName:"TreeModelView",getDefaultProps:function(){return{model:"zn_admin_var",pid:0}},getInitialState:function(){var e=this.props.where;return e?e.pid=this.props.pid:e={pid:this.props.pid},this._where=e,{data:Store.post("/znadmin/model/select",{model:this.props.model,where:e,order:{treeOrder:"asc"}}),items:this.props.fields||[],currItem:null,toolbarItems:[{title:"添加主项",name:"addMainItem",icon:"fa-plus-square"},{title:"添加子项",name:"addChildItem",icon:"fa-plus"},{title:"删除当前项",name:"deleteCurrItem",icon:"fa-remove"},{title:"编辑当前项",name:"editCurrItem",icon:"fa-edit"},{title:"上移当前项",name:"upCurrItem",icon:"fa-angle-up"},{title:"下移当前项",name:"downCurrItem",icon:"fa-angle-down"}]}},componentDidMount:function(){this.__loadTableHeaders()},componentWillReceiveProps:function(e){e.model!=this.props.model&&(this.props.model=e.model,this.__loadTableHeaders(function(){this.state.data.extend({model:e.model}).refresh()}.bind(this)))},__loadTableHeaders:function(e){this.state.items.length||Store.get("/znadmin/model/getModelProps?model="+this.props.model).exec().then(function(t){this.setState({items:t.result}),e&&e(t)}.bind(this))},__onClick:function(e,t){this.state.currItem=e,this.setState({currItem:e}),this.props.onItemClick&&this.props.onItemClick(e,t)},__addItemSuccess:function(e){Popup.close("dialog"),Popup.message({content:"添加成功！",type:"success"});var t=this.refs.maintreemenu;e&&this.state.currItem&&(t=this.state.currItem.props.parent),t.refresh()},__editItemSuccess:function(){Popup.close("dialog"),this.state.currItem.props.parent.refresh()},__editItem:function(){var e=this;return this.state.currItem?void Popup.dialog({title:"编辑",hStyle:{backgroundColor:"#0B72A5"},width:780,content:a.createElement(UI.Form,{method:"POST",layout:"stacked",style:{margin:25},action:"/znadmin/model/updateNode",exts:{model:this.props.model,where:{id:this.state.currItem.props.data.id}},merge:"data",value:Store.post("/znadmin/model/selectOne",{model:this.props.model,where:{id:this.state.currItem.props.data.id}}),syncSubmit:!1,onSubmitBefore:function(t,n){e._data=t},onSubmitSuccess:this.__editItemSuccess,btns:[{text:"修改",icon:"fa-edit",type:"submit",float:"right",style:{marginRight:0}}],items:this.state.items})}):void Popup.message({content:"必须编辑项",type:"warning"})},__addItem:function(e){var t=this,n={};for(var i in this._where)n[i]=this._where[i];n.pid=e,Popup.dialog({title:"添加项",hStyle:{backgroundColor:"#0B72A5"},width:780,content:a.createElement(UI.Form,{method:"POST",layout:"stacked",action:"/znadmin/model/addNode",hiddens:n,exts:{model:this.props.model},merge:"data",style:{margin:25},syncSubmit:!1,onSubmitBefore:function(e,n){t._data=e},onSubmitSuccess:function(){return t.__addItemSuccess(e)},btns:[{text:"添加",icon:"fa-plus",type:"submit",float:"right",style:{marginRight:0}},{text:"取消",type:"cancle",status:"danger",float:"right"}],items:this.state.items})})},__onToolbarClick:function(e){if("addMainItem"==e.name)return void this.__addItem();if(!this.state.currItem)return Popup.message({content:"必须选择主项",type:"warning"}),!1;var t=this.state.currItem.props.data.id;switch(e.name){case"addChildItem":this.__addItem(t);break;case"editCurrItem":this.__editItem();break;case"upCurrItem":this.__upItem();break;case"downCurrItem":this.__downItem();break;case"deleteCurrItem":Popup.confirm({content:"确认删除该项吗？",onConfirm:function(){Store.post("/znadmin/model/deleteNode",{model:this.props.model,id:t}).exec().then(function(e){this.state.currItem.props.parent.refresh(),Popup.message({content:"删除成功！",type:"warn"})}.bind(this),function(e){Popup.message({content:"删除出错: "+e.result,type:"danger"})})}.bind(this)})}},__renderRight:function(){var e=this.props.rightRender&&this.props.rightRender(this);return e?e:a.createElement(i,{model:this.props.model,id:this.state.currItem?this.state.currItem.props.data.id:null})},__itemContentRender:function(e){var t=this.props.itemContentRender&&this.props.itemContentRender(e);return t?t:a.createElement("span",null,a.createElement("i",{style:{margin:5},className:"fa "+e.data.icon}),e.data.id+"、"+e.data.title)},render:function(){return a.createElement(UI.Page,{toolbarItems:this.state.toolbarItems,onToolbarClick:this.__onToolbarClick,title:this.props.title},a.createElement(UI.ActivityLayout,{direction:"h",begin:this.props.leftWidth||35,barWidth:.3,unit:"rem"},a.createElement(UI.TreeListView,{itemContentRender:this.__itemContentRender,ref:"maintreemenu",activeAll:this.props.activeAll,onClick:this.__onClick,data:this.state.data}),this.__renderRight()))}})},function(e,t,n){e.exports=zn.arrayValueToObject(["BaseModelView","TreeModelView","BaseBusinessView","MasterSlave","Slave"],function(e,t){return n(23)("./"+e+".js")})},function(e,t,n){function a(e){return n(i(e))}function i(e){return s[e]||function(){throw new Error("Cannot find module '"+e+"'.")}()}var s={"./BaseBusinessView.js":17,"./BaseModelView.js":18,"./MasterSlave.js":19,"./Slave.js":20,"./TreeModelView.js":21,"./index.js":22};a.keys=function(){return Object.keys(s)},a.resolve=i,e.exports=a,a.id=23},function(e,t,n){e.exports=zn.deepEachObject({"/tool/Menu":"./view/Menu.js","/tool/Project":"./view/Project.js","/tool/User":"./view/User.js","/tool/Role":"./view/Role.js","/tool/Var":"./view/Var.js"},function(e,t,a){return n(4)(e)})},function(e,t,n){var a=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var a in n)Object.prototype.hasOwnProperty.call(n,a)&&(e[a]=n[a])}return e},i=n(6),s=(n(26),n(21)),o=n(5),r=i.createClass({displayName:"VarPanel",getInitialState:function(){return{typeIndex:0}},__onListViewItemClick:function(e,t,n){this.setState({typeIndex:n})},__renderBody:function(){var e=this.props.treeModel;return i.createElement(o,{model:e.props.model,id:e.state.currItem?e.state.currItem.props.data.id:null})},render:function(){return this.__renderBody()}});e.exports=i.createClass({displayName:"exports",getDefaultProps:function(){return{model:"zn_admin_menu",title:"菜单管理",leftWidth:30,pid:0,fields:[{title:"标题",type:"Input",name:"title"},{title:"类型",type:"Radio",name:"type",value:0,data:[{text:"分类",value:0},{text:"功能菜单",value:1}]},{title:"图标",type:"Input",name:"icon"},{title:"链接",type:"Input",name:"url"},{title:"路径",type:"Input",name:"path"},{title:"扩展",type:"Textarea",name:"ext"}]}},__rightRender:function(e){return i.createElement(r,{treeModel:e})},render:function(){return i.createElement(s,a({},this.props,{rightRender:this.__rightRender}))}})},function(e,t,n){var a=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var a in n)Object.prototype.hasOwnProperty.call(n,a)&&(e[a]=n[a])}return e},i=n(6),s=n(21),o=n(5);e.exports=i.createClass({displayName:"exports",getDefaultProps:function(){return{model:"zn_admin_var",pid:0,title:"资源管理",menuId:0,fields:[{title:"标题",type:"Input",name:"title"},{title:"类型",type:"Radio",name:"type",value:0,data:[{text:"分类",value:0},{text:"按钮",value:1},{text:"常量",value:2},{text:"标签",value:3},{text:"标签",value:4}]},{title:"图标",type:"Input",name:"icon"},{title:"图片",type:"ImageUploader",name:"img",action:"/znadmin/uploadFiles"},{title:"链接",type:"Input",name:"url"},{title:"路径",type:"Input",name:"path"},{title:"扩展",type:"Textarea",name:"ext"}]}},__rightRender:function(e){if(!e.state.currItem)return null;e.state.currItem.props.data.id;return i.createElement("div",null,i.createElement(o,{model:this.props.model,id:e.state.currItem?e.state.currItem.props.data.id:null}))},__itemContentRender:function(e){var t=e.data;switch(t.type){case 1:return i.createElement("span",null,i.createElement("i",{title:"这是操作按钮",className:"fa fa-hand-o-up",style:{margin:5,color:"#0B72A5"}}),i.createElement("i",{className:"fa "+t.icon,style:{marginRight:5}}),t.id+"、"+t.title);case 2:return i.createElement("span",null,i.createElement("i",{title:"这是静态常量",className:"fa fa-text-width",style:{margin:5,color:"#d9534f"}}),i.createElement("i",{className:"fa "+t.icon,style:{marginRight:5}}),t.id+"、"+t.title);case 3:return i.createElement("span",null,i.createElement("i",{title:"这是标签类别",className:"fa fa-tag",style:{margin:5}}),i.createElement("i",{className:"fa "+t.icon,style:{marginRight:5}}),t.id+"、"+t.title)}},render:function(){return i.createElement(s,a({},this.props,{where:{menuId:this.props.menuId},itemContentRender:this.__itemContentRender,rightRender:this.__rightRender,leftWidth:30}))}})},function(e,t,n){var a=n(6);e.exports=a.createClass({displayName:"exports",getInitialState:function(){return{userId:this.props.userId||Session.json().id,toolbarItems:this.props.userId?[]:[{icon:"fa-edit",text:"修改个人信息",onClick:this.__onEdit}],info:null,formItems:[{title:"头像",name:"avatarImg",type:"ImageUploader",action:"/klproject/uploadFiles"},{title:"用户名",name:"name",type:"Input",required:!0,error:"用户名必填项!"},{title:"密码",name:"pwd",type:"Input",attrs:{type:"password"},required:!0,error:"密码必填项!"},{title:"邮箱",name:"email",type:"Input",required:!0,error:"邮箱必填项!"},{title:"手机号",name:"phone",type:"Input",required:!0,error:"手机号必填项!"},{title:"地址",name:"address",type:"Input"},{title:"说明",name:"note",type:"Textarea"}],data:Store.post("/znadmin/model/select",{model:"zn_admin_role",where:{pid:0}})}},componentDidMount:function(){this.__loadUserInfo()},__doSuccess:function(){Popup.close("dialog"),Toast.success("修改成功"),Store.post("/znadmin/user/findUserById",{userId:this.state.userId}).exec().then(function(e){this.setState({info:e.result})}.bind(this))},__onEdit:function(e){Popup.dialog({title:"修改个人信息",hStyle:{backgroundColor:"#0B72A5"},width:480,content:a.createElement(UI.Form,{method:"POST",layout:"stacked",action:"/znadmin/model/updateNode",exts:{model:"zn_admin_user",where:{id:this.state.info.id}},merge:"data",value:this.state.info,style:{margin:25},syncSubmit:!1,onSubmitSuccess:this.__doSuccess,btns:[{text:"修改",icon:"fa-edit",type:"submit",float:"right",style:{marginRight:0}},{text:"取消",type:"cancle",status:"danger",float:"right"}],items:this.state.formItems})})},__loadUserInfo:function(){Store.post("/znadmin/user/findUserById",{userId:this.state.userId}).exec().then(function(e){this.setState({info:e.result})}.bind(this))},__onTreeMenuItemCheckboxChange:function(e){Store.post("/znadmin/user/updateUser",{data:{roleIds:e},userId:this.state.info.id}).exec().then(function(e){Toast.success("保存成功")})},__itemContentRender:function(e){var t="";return 1==e.data.type&&(t="fa-sitemap"),2==e.data.type&&(t="fa-graduation-cap"),a.createElement("span",null,a.createElement("i",{style:{margin:5},className:"fa "+t}),e.data.id+"、"+e.data.title)},render:function(){return this.state.info?a.createElement(UI.Page,{title:this.state.info.name,icon:"fa-newspaper-o",toolbarItems:this.state.toolbarItems},a.createElement("div",{className:"user-info"},a.createElement("div",{className:"info-form user-item"},a.createElement("img",{className:"avatar",src:Store.fixURL(this.state.info.avatarImg)||"./images/DefaultAvatar.png"}),a.createElement("div",{className:"details"},a.createElement("span",{className:"last-logintime"},"最近一次登录时间：",this.state.info.lastLoginTime||"还未登陆"),a.createElement("div",{className:"name"},this.state.info.name),a.createElement("div",null,a.createElement("i",{className:"fa fa-clock-o"}),"创建时间：",this.state.info.createTime),a.createElement("div",null,a.createElement("i",{className:"fa fa-envelope"}),"邮箱：",this.state.info.email),a.createElement("div",null,a.createElement("i",{className:"fa fa-phone"}),"手机号：",this.state.info.phone),a.createElement("div",null,this.state.info.note))),a.createElement("div",{className:"rt-panel c-default"},a.createElement("div",{className:"p-head"},"部门及角色"),a.createElement("div",{className:"p-body"},a.createElement(UI.TreeListView,{disabled:!0,cascade:!1,enableCheckbox:!0,onItemCheckboxChange:this.__onTreeMenuItemCheckboxChange,value:this.state.info.roleIds,itemContentRender:this.__itemContentRender,ref:"maintreemenu",activeAll:!0,data:this.state.data}))))):null}})},function(e,t,n){var a=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var a in n)Object.prototype.hasOwnProperty.call(n,a)&&(e[a]=n[a])}return e},i=n(6),s=n(21),o=n(29);e.exports=i.createClass({displayName:"exports",getDefaultProps:function(){return{model:"zn_admin_project",title:"项目管理",leftWidth:20,pid:0,fields:[{title:"模块名称",type:"Input",name:"title"},{title:"版本号",type:"Input",name:"version"},{title:"优先级",
-type:"Select",name:"priority",data:[{text:"正常",value:1},{text:"紧急",value:2},{text:"非常紧急",value:3}]},{title:"开始时间",name:"beginTime",type:"Timer"},{title:"结束时间",name:"endTime",type:"Timer"},{title:"文件",name:"files",type:"FileUploader",action:"/znadmin/uploadFiles"},{title:"功能表述",type:"RichEditor",name:"description"},{title:"备注",type:"Textarea",name:"note"}]}},__rightRender:function(e){var t=e.state.currItem;return i.createElement(o,{data:t?t.props.data:null})},__itemContentRender:function(e){return i.createElement("div",{style:{display:"inline-flex",lineHeight:"25px"}},i.createElement("span",{className:"title"},e.data.title),i.createElement("span",{className:"version"},"(",e.data.version,")"))},render:function(){return i.createElement(s,a({itemContentRender:this.__itemContentRender},this.props,{rightRender:this.__rightRender}))}})},function(e,t,n){var a=n(6);e.exports=a.createClass({displayName:"exports",getDefaultProps:function(){return{data:null,model:"zn_admin_project_bug"}},componentWillReceiveProps:function(e){e.data!==this.props.data&&(this.state.data._data.where={projectId:e.data.id},this.state.data.exec())},getInitialState:function(){var e={};return this.props.data&&(e.projectId=this.props.data.id),{data:Store.post("/znadmin/model/paging",{model:this.props.model,where:e}),items:[{title:"操作",width:60,textAlign:"center"},{title:"问题",name:"title",width:220,filter:{type:"Input",opts:["like"]}},{title:"状态",name:"state",width:80,filter:{type:"Menu",data:[{text:"待处理",value:0},{text:"处理中...",value:2},{text:"已经解决",value:3},{text:"已经确认",value:3}],opts:["="]}},{title:"优先级",name:"priority",width:80,filter:{type:"Menu",data:[{text:"正常",value:1},{text:"紧急",value:2},{text:"非常紧急",value:3}],opts:["="]}},{title:"开始时间",name:"beginTime",width:140},{title:"结束时间",name:"endTime",width:140},{title:"完成时间",name:"finishTime",width:140},{title:"提交时间",name:"createTime",width:140},{title:"描述",name:"note"}],formItems:[{title:"问题",name:"title",type:"Textarea"},{title:"版本号",type:"Input",name:"version"},{title:"优先级",type:"Select",name:"priority",data:[{text:"正常",value:1},{text:"紧急",value:2},{text:"非常紧急",value:3}]},{title:"开始时间",name:"beginTime",type:"Timer"},{title:"结束时间",name:"endTime",type:"Timer"},{title:"附件",name:"files",type:"FileUploader",action:"/znadmin/uploadFiles"},{title:"问题描述",name:"description",type:"RichEditor"},{title:"解决方案",name:"solution",type:"RichEditor"}],toolbarItems:[{text:"添加",icon:"fa-plus"}]}},__onRowActions:function(e,t){var n=this.state.data,a=this;switch(e.props.icon){case"fa-remove":Alert.show({width:280,title:"提示",content:"确定删除该数据吗？",onConfirm:function(){Store.post("/znadmin/model/deleteNode",{model:a.props.model,id:t.id}).exec().then(function(e){Toast.success("删除成功！"),n.refresh()})}});break;case"fa-edit":this.__updateItem(t)}},__onView:function(){},__onTableColumnRender:function(e,t,n,i,s){var o=this;switch(t){case 0:return a.createElement(UI.ListView,{className:"rt-flex",data:[{text:"删除",icon:"fa-remove"},{text:"修改",icon:"fa-edit"}],itemRender:function(e,t){return a.createElement("i",{title:e.text,className:"fa "+e.icon,style:e.style})},onClick:function(e,t){return o.__onRowActions(t,n)}});case 1:return a.createElement("a",{style:{textDecoration:"underline"},onClick:function(){return o.__onView(n)}},s);case 2:switch(+s){case 0:return a.createElement("span",null,"等待处理");case 1:return a.createElement("span",{style:{color:"yellow"}},"处理中");case 2:return a.createElement("span",{style:{color:"red"}},"已经解决");case 3:return a.createElement("span",{style:{color:"red"}},"已经确认")}return null;case 3:switch(+s){case 1:return a.createElement("span",null,"正常");case 2:return a.createElement("span",{style:{color:"#F44336"}},"紧急");case 3:return a.createElement("span",{style:{color:"red"}},"非常紧急")}return null}},__updateItem:function(e){Popup.dialog({title:"修改",hStyle:{backgroundColor:"#0B72A5"},width:780,content:a.createElement(UI.Form,{method:"POST",layout:"stacked",action:"/znadmin/model/updateNode",exts:{model:this.props.model,where:{id:e.id}},merge:"data",value:Store.post("/znadmin/model/selectOne",{model:this.props.model,where:{id:e.id}}),style:{margin:25},syncSubmit:!1,onSubmitSuccess:this.__doSuccess,btns:[{text:"修改",icon:"fa-edit",type:"submit",float:"right",style:{marginRight:0}},{text:"取消",type:"cancle",status:"danger",float:"right"}],items:this.state.formItems})})},__doSuccess:function(){Popup.close("dialog"),Toast.success("操作成功"),this.state.data.refresh()},__addItem:function(e){return this.props.data?void Popup.dialog({title:"添加",width:780,content:a.createElement(UI.Form,{method:"POST",layout:"stacked",action:"/znadmin/model/addNode",exts:{model:this.props.model},hiddens:{projectId:this.props.data.id},merge:"data",style:{margin:25},syncSubmit:!1,onSubmitSuccess:this.__doSuccess,btns:[{text:"添加",icon:"fa-plus",type:"submit",float:"right",style:{marginRight:0}},{text:"取消",type:"cancle",status:"danger",float:"right"}],items:this.state.formItems})}):(Toast.warning("请先选择左边商品类型项"),!1)},__onToolbarClick:function(e){switch(e.icon){case"fa-plus":this.__addItem()}},render:function(){return a.createElement(UI.Page,{title:"问题列表",icon:"fa-list-ul",onToolbarClick:this.__onToolbarClick,toolbarItems:this.state.toolbarItems},a.createElement(UI.PagerView,{view:"Table",checkbox:0,enableFilter:!0,showHeader:!0,data:this.state.data,columnRender:this.__onTableColumnRender,onTableRowClick:this.__onTableRowClick,items:this.state.items}))}})},function(e,t,n){var a=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var a in n)Object.prototype.hasOwnProperty.call(n,a)&&(e[a]=n[a])}return e},i=n(6),s=n(21),o=n(31);e.exports=i.createClass({displayName:"exports",getDefaultProps:function(){return{model:"zn_admin_role",pid:0,title:"部门及角色管理",menuId:0,fields:[{title:"名称",type:"Input",name:"title"},{title:"类型",type:"Radio",name:"type",value:1,data:[{text:"分类",value:0},{text:"部门",value:1},{text:"角色",value:2}]},{title:"说明",type:"Textarea",name:"note"}]}},componentDidMount:function(){},__rightRender:function(e){return i.createElement(o,{roleId:e.state.currItem?e.state.currItem.props.data.id:null})},__itemContentRender:function(e){var t=e.data;switch(t.type){case 0:return i.createElement("span",null,t.id+"、"+t.title);case 1:return i.createElement("span",null,i.createElement("i",{title:"这是部门",className:"fa fa-sitemap",style:{margin:5,color:"#d9534f"}}),t.id+"、"+t.title);case 2:return i.createElement("span",null,i.createElement("i",{title:"这是角色",className:"fa fa-graduation-cap",style:{margin:5}}),t.id+"、"+t.title)}},render:function(){return i.createElement(s,a({},this.props,{rightRender:this.__rightRender,itemContentRender:this.__itemContentRender}))}})},function(e,t,n){var a=n(6);e.exports=a.createClass({displayName:"exports",getDefaultProps:function(){return{}},getInitialState:function(){return{data:Store.post("/znadmin/model/paging",{model:"zn_admin_user"})}},componentWillReceiveProps:function(e){e.roleId!=this.props.roleId&&(this.state.data._data.where={"0&<>":"locate(',"+e.roleId+",',roleIds)"},this.state.data.exec())},__onUserClick:function(e,t,n){e.stopPropagation(),Session.jump("/main/znadmin/UserInfo",{userId:t.id})},__itemRender:function(e,t){var n=this;return a.createElement("div",{className:"user-item"},a.createElement("img",{className:"avatar",src:Store.fixURL(e.avatarImg||"")}),a.createElement("div",{className:"details"},a.createElement("span",{className:"last-logintime"},e.lastLoginTime||"还未登陆"),a.createElement("div",{className:"name",onClick:function(a){return n.__onUserClick(a,e,t)}},e.name),a.createElement("div",null,a.createElement("i",{className:"fa fa-clock-o"}),"创建时间：",e.createTime),a.createElement("div",null,a.createElement("i",{className:"fa fa-envelope"}),"邮箱：",e.email),a.createElement("div",null,a.createElement("i",{className:"fa fa-phone"}),"手机号：",e.phone)))},render:function(){return a.createElement(UI.PagerView,{view:"ListView",className:"rt-list-view-border",textKey:"name",valueKey:"id",selectMode:"none",itemRender:this.__itemRender,data:this.state.data})}})},function(e,t,n){var a=n(6);e.exports=a.createClass({displayName:"exports",getDefaultProps:function(){return{model:"zn_admin_user"}},getInitialState:function(){return{data:Store.post("/znadmin/model/paging",{model:this.props.model}),items:[{title:"用户名",name:"name",width:80},{title:"邮箱",name:"email",width:200},{title:"手机号",name:"phone",width:120},{title:"地址",name:"address",width:200},{title:"说明",name:"note"}],formItems:[{title:"用户名",name:"name",type:"Input",required:!0,error:"用户名必填项!"},{title:"邮箱",name:"email",type:"Input"},{title:"手机号",name:"phone",type:"Input"},{title:"地址",name:"address",type:"Input"},{title:"说明",name:"note",type:"Textarea"}],toolbarItems:[{text:"添加",name:"add",icon:"fa-plus",style:{marginRight:5}},{text:"删除",name:"remove",status:"danger",icon:"fa-remove",style:{marginRight:5}}]}},__doSuccess:function(){Popup.close("dialog"),Toast.success("操作成功！"),this.state.data.refresh()},__addItem:function(){Popup.dialog({title:"新增用户",hStyle:{backgroundColor:"#0B72A5"},width:480,content:a.createElement(UI.Form,{method:"POST",layout:"stacked",action:"/znadmin/model/addNode",merge:"data",exts:{model:this.props.model},style:{margin:25},syncSubmit:!1,onSubmitSuccess:this.__doSuccess,btns:[{text:"新增用户",icon:"fa-plus",type:"submit",float:"right",style:{marginRight:0}},{text:"取消",type:"cancle",status:"danger",float:"right"}],items:this.state.formItems})})},__updateItem:function(e){Popup.dialog({title:"更新用户信息",hStyle:{backgroundColor:"#0B72A5"},width:480,content:a.createElement(UI.Form,{method:"POST",layout:"stacked",action:"/znadmin/model/updateNode",exts:{model:this.props.model,where:{id:e.id}},merge:"data",data:e,style:{margin:25},syncSubmit:!1,onSubmitSuccess:this.__doSuccess,btns:[{text:"更新",icon:"fa-edit",type:"submit",float:"right",style:{marginRight:0}},{text:"取消",type:"cancle",status:"danger",float:"right"}],items:this.state.formItems})})},__removeItems:function(){var e=this,t=this.refs.table.getValue();t&&t.length?Popup.confirm({content:"确认删除这"+t.length+"个用户吗？",onConfirm:function(){Store.post("/znadmin/model/deleteNodes",{model:this.props.model,ids:t}).exec().then(function(){Toast.success("删除成功"),e.state.data.refresh()},function(e){Toast.warning("删除失败: "+e.result)})}.bind(this)}):Toast.warning("请先选择要删除的用户")},__onToolbarClick:function(e){switch(e.name){case"add":this.__addItem();break;case"remove":this.__removeItems()}},__onEditItem:function(e,t){e.stopPropagation(),this.__updateItem(t)},__itemRender:function(e,t){var n=this;return a.createElement("div",{className:"user-item"},a.createElement("img",{className:"avatar",src:"./images/DefaultAvatar.png"}),a.createElement("div",{className:"details"},a.createElement("span",{className:"last-logintime"},e.lastLoginTime||"还未登陆"),a.createElement("div",{className:"name",onClick:function(a){return n.__onUserClick(a,e,t)}},e.name,a.createElement("i",{style:{margin:5,color:"#971818"},className:"fa fa-edit",onClick:function(t){return n.__onEditItem(t,e)}})),a.createElement("div",null,a.createElement("i",{className:"fa fa-clock-o"}),"创建时间：",e.createTime),a.createElement("div",null,a.createElement("i",{className:"fa fa-envelope"}),"邮箱：",e.email),a.createElement("div",null,a.createElement("i",{className:"fa fa-phone"}),"手机号：",e.phone)))},__onTableColumnRender:function(e,t,n,i,s){switch(t){case 1:return a.createElement("a",{href:"#/main/znadmin/UserInfo?userId="+n.id},s)}},render:function(){return a.createElement(UI.Page,{toolbarItems:this.state.toolbarItems,onToolbarClick:this.__onToolbarClick,title:"系统账户管理"},a.createElement(UI.PagerView,{ref:"table",view:"Table",enableFilter:!0,checkbox:50,showHeader:!0,columnRender:this.__onTableColumnRender,onTableRowClick:this.__onTableRowClick,data:this.state.data,items:this.state.items}))}})},function(e,t,n){var a=n(6);e.exports=a.createClass({displayName:"exports",getInitialState:function(){return{userId:this.props.userId,info:null,data:Store.post("/znadmin/model/select",{model:"zn_admin_role",where:{pid:0}})}},componentDidMount:function(){this.__loadUserInfo()},__loadUserInfo:function(){Store.post("/znadmin/user/findUserById",{userId:this.state.userId}).exec().then(function(e){this.setState({info:e.result})}.bind(this))},__onTreeMenuItemCheckboxChange:function(e){Store.post("/znadmin/user/updateUser",{data:{roleIds:e},userId:this.state.info.id}).exec().then(function(e){Popup.message({content:"保存成功!",type:"success"})})},__itemContentRender:function(e){var t="";return 1==e.data.type&&(t="fa-sitemap"),2==e.data.type&&(t="fa-graduation-cap"),a.createElement("span",null,a.createElement("i",{style:{margin:5},className:"fa "+t}),e.data.id+"、"+e.data.title)},render:function(){return this.state.info?a.createElement(UI.Page,{title:this.state.info.name,icon:"fa-newspaper-o",toolbarItems:this.state.toolbarItems},a.createElement("div",{className:"user-info"},a.createElement("div",{className:"info-form user-item"},a.createElement("img",{className:"avatar",src:"./images/DefaultAvatar.png"}),a.createElement("div",{className:"details"},a.createElement("span",{className:"last-logintime"},"最近一次登录时间：",this.state.info.lastLoginTime||"还未登陆"),a.createElement("div",{className:"name"},this.state.info.name),a.createElement("div",null,a.createElement("i",{className:"fa fa-clock-o"}),"创建时间：",this.state.info.createTime),a.createElement("div",null,a.createElement("i",{className:"fa fa-envelope"}),"邮箱：",this.state.info.email),a.createElement("div",null,a.createElement("i",{className:"fa fa-phone"}),"手机号：",this.state.info.phone),a.createElement("div",null,this.state.info.note))),a.createElement("div",{className:"rt-panel c-default"},a.createElement("div",{className:"p-head"},"部门及角色"),a.createElement("div",{className:"p-body"},a.createElement(UI.TreeListView,{cascade:!1,enableCheckbox:!0,onItemCheckboxChange:this.__onTreeMenuItemCheckboxChange,value:this.state.info.roleIds,itemContentRender:this.__itemContentRender,ref:"maintreemenu",activeAll:!0,data:this.state.data}))))):null}})},function(e,t){},,function(e,t,n){var a=n(6);e.exports=a.createClass({displayName:"exports",getDefaultProps:function(){return{model:"zn_admin_user_log"}},getInitialState:function(){return{data:Store.post("/znadmin/model/paging",{model:this.props.model}),items:[{title:"操作人",name:"userId_convert",width:100},{title:"操作时间",name:"createTime",width:180},{title:"类型",name:"actionType",width:80},{title:"说明",name:"note"}]}},__onToolbarClick:function(){},render:function(){return a.createElement(UI.Page,{toolbarItems:[{text:"导出"}],onToolbarClick:this.__onToolbarClick,title:"系统账户登录日志"},a.createElement(UI.PagerView,{view:"Table",enableFilter:!1,checkbox:0,showHeader:!0,data:this.state.data,items:this.state.items}))}})},function(e,t,n){e.exports=zn.arrayValueToObject(["Menu","MyInfo","Project","Role","User","UserInfo","UserLog","Var"],function(e,t){return n(38)("./"+e+".js")})},function(e,t,n){function a(e){return n(i(e))}function i(e){return s[e]||function(){throw new Error("Cannot find module '"+e+"'.")}()}var s={"./Menu.js":25,"./MyInfo.js":27,"./Project.js":28,"./ProjectBug.js":29,"./Role.js":30,"./User.js":32,"./UserInfo.js":33,"./UserLog.js":36,"./UsersForRoles.js":31,"./Var.js":26,"./index.js":37};a.keys=function(){return Object.keys(s)},a.resolve=i,e.exports=a,a.id=38}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(1);
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	zn.react.znadmin = __webpack_require__(2);
+	zn.deepEachObject({}, function (value) {
+	  return __webpack_require__(14)(value);
+	});
+	module.exports = zn.react.extendPath('/znadmin/', __webpack_require__(34));
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = zn.arrayValueToObject(['LetterSelector', 'RightsSetting', 'RoleSearcher', 'UserSearcher', 'BaseModelView', 'TreeModelView', 'BaseBusinessView', 'MasterSlave', 'Slave'], function (value, index) {
+	    return __webpack_require__(3)("./" + value + '.js');
+	});
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./BaseBusinessView.js": 4,
+		"./BaseModelView.js": 6,
+		"./LetterSelector.js": 7,
+		"./MasterSlave.js": 8,
+		"./RightsSetting.js": 10,
+		"./RoleSearcher.js": 12,
+		"./Slave.js": 9,
+		"./TreeModelView.js": 13,
+		"./UserSearcher.js": 11,
+		"./index.js": 2
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 3;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				model: '',
+				headers: [],
+				insertInputs: [],
+				updateInputs: []
+			};
+		},
+		getInitialState: function getInitialState() {
+			return {
+				data: Store.post('/znadmin/model/paging', {
+					model: this.props.model
+				}),
+				currItem: null,
+				toolbarItems: [{ text: '新建项目', name: 'addItem', icon: 'fa-plus' }, { text: '编辑项目', name: 'updateItem', icon: 'fa-edit' }, { text: '删除项目', name: 'deleteItem', icon: 'fa-remove' }]
+			};
+		},
+		componentDidMount: function componentDidMount() {},
+		__onTableRowClick: function __onTableRowClick(event, data, row, table) {
+			this._currItem = data;
+		},
+		__doSuccess: function __doSuccess() {
+			Popup.close('dialog');
+			Popup.message({
+				content: '操作成功！',
+				type: 'success'
+			});
+			this.state.data.refresh();
+		},
+		__addItem: function __addItem(pid) {
+			Popup.dialog({
+				title: '添加项',
+				hStyle: { backgroundColor: '#0B72A5' },
+				width: 480,
+				content: React.createElement(UI.Form, {
+					method: 'POST',
+					layout: 'stacked',
+					action: '/znadmin/model/addNode',
+					exts: { model: this.props.model },
+					merge: 'data',
+					style: { margin: 25 },
+					syncSubmit: false,
+					onSubmitSuccess: this.__doSuccess,
+					btns: [{ text: '新建项目', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
+					items: this.props.insertInputs })
+			});
+		},
+		__updateItem: function __updateItem(data) {
+			Popup.dialog({
+				title: '更新项目信息',
+				hStyle: { backgroundColor: '#0B72A5' },
+				width: 480,
+				content: React.createElement(UI.Form, {
+					method: 'POST',
+					layout: 'stacked',
+					action: '/znadmin/model/updateNode',
+					exts: { model: this.props.model },
+					merge: 'data',
+					data: data,
+					style: { margin: 25 },
+					syncSubmit: false,
+					onSubmitSuccess: this.__doSuccess,
+					btns: [{ text: '更新', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
+					items: this.props.updateInputs })
+			});
+		},
+		__onToolbarClick: function __onToolbarClick(item) {
+			if (item.name == 'addItem') {
+				this.__addItem();
+				return;
+			}
+			if (!this.state.currItem) {
+				Popup.message({
+					content: '必须选择主项',
+					type: 'warning'
+				});
+
+				return false;
+			}
+			switch (item.name) {
+				case 'updateItem':
+					this.__updateItem(this.state.currItem);
+					break;
+				case 'deleteItem':
+					Popup.confirm({
+						content: '确认删除该项吗？',
+						onConfirm: function () {
+							Store.post('/znadmin/model/deleteNodes', {
+								model: this.props.model,
+								id: this.state.currItem.id
+							}).exec().then(function (data) {
+								this.state.data.refresh();
+								Popup.message({
+									content: '删除成功！',
+									type: 'warn'
+								});
+							}.bind(this), function (data) {
+								Popup.message({
+									content: '删除出错: ' + data.result,
+									type: 'danger'
+								});
+							});
+						}.bind(this)
+					});
+					break;
+			}
+		},
+		render: function render() {
+			return React.createElement(
+				UI.ActivityLayout,
+				{ direction: 'v', begin: 3.5, barWidth: 0.3, unit: 'rem' },
+				React.createElement(UI.ButtonGroup, { float: 'right', items: this.state.toolbarItems, onClick: this.__onToolbarClick }),
+				React.createElement(UI.PagerView, {
+					view: 'Table',
+					enableFilter: false,
+					checkbox: 50,
+					showHeader: true,
+					data: this.state.data,
+					onTableRowClick: this.__onTableRowClick,
+					items: this.props.headers })
+			);
+		}
+	});
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+	module.exports = React;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				model: ''
+			};
+		},
+		getInitialState: function getInitialState() {
+			return {
+				data: Store.post('/znadmin/model/paging', {
+					model: this.props.model,
+					fields: '*'
+				}),
+				items: [],
+				currItem: null,
+				toolbarItems: [{ text: '添加项', name: 'addItem', icon: 'fa-plus', style: { marginRight: 0 } }, { text: '编辑项', name: 'updateItem', icon: 'fa-edit' }, { text: '删除项', name: 'deleteItem', icon: 'fa-remove' }]
+			};
+		},
+		componentDidMount: function componentDidMount() {
+			this.__loadTableHeaders();
+		},
+		componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+			if (nextProps.model != this.props.model) {
+				this.props.model = nextProps.model;
+				this.__loadTableHeaders(function () {
+					this.state.data.ext({ model: nextProps.model }).refresh();
+				}.bind(this));
+			}
+		},
+		__loadTableHeaders: function __loadTableHeaders(callback) {
+			Store.get('/znadmin/model/getModelProps?model=' + this.props.model).exec().then(function (data) {
+				this.setState({
+					items: data.result
+				});
+				callback && callback(data);
+			}.bind(this));
+		},
+		__onTableRowClick: function __onTableRowClick(event, data, row, table) {
+			this._currItem = data;
+		},
+		__addItemSuccess: function __addItemSuccess(pid) {
+			Popup.close('dialog');
+			Popup.message({
+				content: '添加成功！',
+				type: 'success'
+			});
+		},
+		__addItem: function __addItem(pid) {
+			var _this = this;
+
+			Popup.dialog({
+				title: '添加项',
+				hStyle: { backgroundColor: '#0B72A5' },
+				width: 480,
+				content: React.createElement(UI.Form, {
+					method: 'POST',
+					layout: 'stacked',
+					action: '/znadmin/model/addNode',
+					exts: { model: this.props.model },
+					merge: 'data',
+					style: { margin: 25 },
+					syncSubmit: false,
+					onSubmitBefore: function onSubmitBefore(data, form) {},
+					onSubmitSuccess: function onSubmitSuccess() {
+						return _this.state.data.refresh();
+					},
+					btns: [{ text: '添加', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
+					items: [{ name: 'title', title: 'title', type: 'text', required: true }] })
+			});
+		},
+		__updateItem: function __updateItem(data) {
+			var _this2 = this;
+
+			Popup.dialog({
+				title: '修改项',
+				hStyle: { backgroundColor: '#0B72A5' },
+				width: 480,
+				content: React.createElement(UI.Form, {
+					method: 'POST',
+					layout: 'stacked',
+					action: '/znadmin/model/updateNode',
+					exts: { model: this.props.model },
+					merge: 'data',
+					data: data,
+					style: { margin: 25 },
+					syncSubmit: false,
+					onSubmitBefore: function onSubmitBefore(data, form) {},
+					onSubmitSuccess: function onSubmitSuccess() {
+						return _this2.state.data.refresh();
+					},
+					btns: [{ text: '添加', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
+					items: [{ name: 'title', title: 'title', type: 'text', required: true }] })
+			});
+		},
+		__onToolbarClick: function __onToolbarClick(item) {
+			if (item.name == 'addItem') {
+				this.__addItem();
+				return;
+			}
+			if (!this.state.currItem) {
+				Popup.message({
+					content: '必须选择主项',
+					type: 'warning'
+				});
+
+				return false;
+			}
+			switch (item.name) {
+				case 'updateItem':
+					this.__updateItem(this.state.currItem);
+					break;
+				case 'deleteItem':
+					Popup.confirm({
+						content: '确认删除该项吗？',
+						onConfirm: function () {
+							Store.post('/znadmin/model/deleteNodes', {
+								model: this.props.model,
+								id: this.state.currItem.id
+							}).exec().then(function (data) {
+								this.state.data.refresh();
+								Popup.message({
+									content: '删除成功！',
+									type: 'warn'
+								});
+							}.bind(this), function (data) {
+								Popup.message({
+									content: '删除出错: ' + data.result,
+									type: 'danger'
+								});
+							});
+						}.bind(this)
+					});
+					break;
+			}
+		},
+		render: function render() {
+			return React.createElement(
+				UI.ActivityLayout,
+				{ direction: 'v', begin: 3.5, barWidth: 0.3, unit: 'rem' },
+				React.createElement(
+					'div',
+					null,
+					React.createElement(UI.ButtonGroup, { float: 'right', items: this.state.toolbarItems, onClick: this.__onToolbarClick })
+				),
+				React.createElement(UI.PagerView, {
+					view: 'Table',
+					enableFilter: false,
+					checkbox: 50,
+					showHeader: true,
+					data: this.state.data,
+					items: this.state.items })
+			);
+		}
+	});
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+
+	var CHARS = zn.char.getUppercaseLetters();
+
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				value: ',',
+				mulitable: true
+			};
+		},
+		getInitialState: function getInitialState() {
+			return {
+				value: this.props.value,
+				tag: null,
+				user: null,
+				users: []
+			};
+		},
+		__onLetterClick: function __onLetterClick(item) {
+			var _id = item + ',';
+			if (this.state.value.indexOf(',' + _id) == -1) {
+				this.state.value = this.state.value + _id;
+			} else {
+				this.state.value = this.state.value.replace(',' + _id, ',');
+			}
+			this.setValue(this.state.value);
+		},
+		setValue: function setValue(value) {
+			this.setState({
+				value: value
+			});
+
+			this.props.onChange && this.props.onChange(value);
+		},
+		__onCheck: function __onCheck(event, value) {
+			if (value) {
+				this.setValue(',' + CHARS.join(',') + ',');
+			} else {
+				this.setValue(',');
+			}
+		},
+		render: function render() {
+			return React.createElement(
+				'div',
+				{ className: 'rt-letter-selector' },
+				React.createElement(
+					'ul',
+					{ className: 'tags' },
+					CHARS.map(function (item, index) {
+						var _this = this;
+
+						return React.createElement(
+							'li',
+							{ key: index, className: 'tag ' + (this.state.value.indexOf(item) != -1 ? 'selected' : ''), onClick: function onClick() {
+									return _this.__onLetterClick(item);
+								} },
+							item
+						);
+					}.bind(this)),
+					this.props.mulitable && React.createElement(
+						'li',
+						null,
+						React.createElement(zn.react.Checkbox, { text: '\u5168\u9009', onChange: this.__onCheck })
+					)
+				)
+			);
+		}
+	});
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = __webpack_require__(5);
+	var Slave = __webpack_require__(9);
+
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				title: '',
+				model: '',
+				where: {},
+				formItems: [],
+				toolbarItems: [],
+				slave: {
+					title: '',
+					model: '',
+					where: {},
+					formItems: [],
+					toolbarItems: []
+				}
+			};
+		},
+		getInitialState: function getInitialState() {
+			return {
+				masterId: null,
+				data: Store.post('/znadmin/model/paging', {
+					model: this.props.model,
+					where: this.props.where
+				})
+			};
+		},
+		componentDidMount: function componentDidMount() {},
+		__doSuccess: function __doSuccess() {
+			Popup.close('dialog');
+			Popup.message({
+				content: '操作成功！',
+				type: 'success'
+			});
+			this.state.data.refresh();
+		},
+		__addItem: function __addItem(pid) {
+			Popup.dialog({
+				title: '添加',
+				hStyle: { backgroundColor: '#0B72A5' },
+				width: 480,
+				content: React.createElement(UI.Form, {
+					method: 'POST',
+					layout: 'stacked',
+					action: '/znadmin/model/addNode',
+					exts: { model: this.props.model },
+					hiddens: this.props.where,
+					merge: 'data',
+					style: { margin: 25 },
+					syncSubmit: false,
+					onSubmitSuccess: this.__doSuccess,
+					btns: [{ text: '添加', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
+					items: this.props.formItems })
+			});
+		},
+		__removeItems: function __removeItems() {
+			Popup.confirm({
+				content: '确认删除该项吗？',
+				onConfirm: function () {
+					Store.post('/znadmin/model/deleteNode', {
+						model: this.props.model,
+						id: data.id
+					}).exec().then(function (data) {
+						this.state.data.refresh();
+						Popup.message({
+							content: '删除成功！',
+							type: 'warn'
+						});
+					}.bind(this), function (data) {
+						Popup.message({
+							content: '删除出错: ' + data.result,
+							type: 'danger'
+						});
+					});
+				}.bind(this)
+			});
+		},
+		__removeItem: function __removeItem() {
+			if (this.state.masterId) {
+				Popup.confirm({
+					content: '确认删除该项吗？',
+					onConfirm: function () {
+						Store.post('/znadmin/model/deleteNode', {
+							model: this.props.model,
+							id: this.state.masterId
+						}).exec().then(function (data) {
+							this.state.data.refresh();
+							Toast.success('删除成功！');
+						}.bind(this), function (data) {
+							Toast.error('删除出错: ' + data.result);
+						});
+					}.bind(this)
+				});
+			} else {
+				Toast.warning('请先选择待删除数据项！');
+			}
+		},
+		__updateItem: function __updateItem(data) {
+			Popup.dialog({
+				title: '更新项目信息',
+				hStyle: { backgroundColor: '#0B72A5' },
+				width: 480,
+				content: React.createElement(UI.Form, {
+					method: 'POST',
+					layout: 'stacked',
+					action: '/znadmin/model/updateNode',
+					exts: {
+						model: this.props.model
+					},
+					merge: 'data',
+					data: data,
+					style: { margin: 25 },
+					syncSubmit: false,
+					onSubmitSuccess: this.__doSuccess,
+					btns: [{ text: '更新', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
+					items: this.props.formItems })
+			});
+		},
+		__onToolbarClick: function __onToolbarClick(props) {
+			switch (props.name) {
+				case 'addItem':
+					this.__addItem();
+					break;
+				case 'removeItem':
+					this.__removeItem();
+					break;
+				case 'removeItems':
+					this.__removeItems();
+					break;
+			}
+		},
+		__onPagerListViewClick: function __onPagerListViewClick(value, rtitem, rtlist, event) {
+			this.setState({ masterId: value });
+		},
+		render: function render() {
+			return React.createElement(
+				UI.Page,
+				{
+					toolbarItems: this.props.toolbarItems,
+					onToolbarClick: this.__onToolbarClick,
+					title: this.props.title },
+				React.createElement(
+					UI.ActivityLayout,
+					{ direction: 'h', begin: this.props.leftWidth || 250, unit: 'px' },
+					React.createElement(UI.PagerView, {
+						view: 'ListView',
+						className: 'rt-list-view-border',
+						textKey: 'name',
+						valueKey: 'id',
+						selectMode: 'radio',
+						fireIndex: 0,
+						onItemClick: this.__onPagerListViewClick,
+						itemRender: this.props.itemRender,
+						itemClassName: this.props.itemClassName,
+						data: this.state.data }),
+					!!this.state.masterId ? React.createElement(Slave, _extends({}, this.props.slave, { masterId: this.state.masterId })) : React.createElement(
+						'div',
+						null,
+						'\u8BF7\u9009\u62E9\u4E3B\u8868\u6570\u636E\u8BB0\u5F55'
+					)
+				)
+			);
+		}
+	});
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				masterId: 0,
+				title: '',
+				model: '',
+				where: {},
+				formItems: [],
+				toolbarItems: []
+			};
+		},
+		getInitialState: function getInitialState() {
+			var _where = this.props.where;
+			if (this.props.masterId) {
+				_where.masterId = this.props.masterId;
+			}
+			return {
+				where: _where,
+				data: Store.post('/znadmin/model/paging', {
+					model: this.props.model,
+					where: _where
+				})
+			};
+		},
+		componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+			if (nextProps.masterId !== this.props.masterId) {
+				this.state.data._data.where = { masterId: nextProps.masterId };
+				this.state.data.exec();
+			}
+		},
+		__doSuccess: function __doSuccess() {
+			Popup.close();
+			Popup.message({
+				content: '操作成功！',
+				type: 'success'
+			});
+			this.state.data.refresh();
+		},
+		__addItem: function __addItem(pid) {
+			Popup.dialog({
+				title: '添加',
+				width: 480,
+				content: React.createElement(UI.Form, {
+					method: 'POST',
+					layout: 'stacked',
+					action: '/znadmin/model/addNode',
+					exts: { model: this.props.model },
+					hiddens: this.state.where,
+					merge: 'data',
+					style: { margin: 25 },
+					syncSubmit: false,
+					onSubmitSuccess: this.__doSuccess,
+					btns: [{ text: '添加', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', float: 'right', status: 'danger' }],
+					items: this.props.formItems })
+			});
+		},
+		__updateItem: function __updateItem(data) {
+			Popup.dialog({
+				title: '修改信息',
+				width: 480,
+				content: React.createElement(UI.Form, {
+					method: 'POST',
+					layout: 'stacked',
+					action: '/znadmin/model/updateNode',
+					exts: { model: this.props.model },
+					merge: 'data',
+					value: data,
+					style: { margin: 25 },
+					syncSubmit: false,
+					onSubmitSuccess: this.__doSuccess,
+					btns: [{ text: '修改', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
+					items: this.props.formItems })
+			});
+		},
+		__onToolbarClick: function __onToolbarClick(item) {
+			switch (item.name) {
+				case 'addItem':
+					return this.__addItem();
+				case 'updateItem':
+					return this.__updateItem(this.state.currItem);
+				case 'deleteItems':
+					Popup.confirm({
+						content: '确认删除该项吗？',
+						onConfirm: function () {
+							Store.post('/znadmin/model/deleteNodes', {
+								model: this.props.model,
+								ids: this._value
+							}).exec().then(function (data) {
+								this.state.data.refresh();
+								Popup.message({
+									content: '删除成功！',
+									type: 'warn'
+								});
+							}.bind(this), function (data) {
+								Popup.message({
+									content: '删除出错: ' + data.result,
+									type: 'danger'
+								});
+							});
+						}.bind(this)
+					});
+					break;
+			}
+		},
+		render: function render() {
+			var _this = this;
+
+			return React.createElement(
+				UI.Page,
+				{
+					title: this.props.title,
+					toolbarItems: this.props.toolbarItems,
+					onToolbarClick: this.__onToolbarClick },
+				React.createElement(UI.PagerView, {
+					view: 'ListView',
+					className: 'rt-list-view-border',
+					ref: 'listview',
+					textKey: 'name',
+					valueKey: 'id',
+					selectMode: 'checkbox',
+					itemRender: this.props.itemRender,
+					onClick: function onClick(value, rtitem) {
+						return _this._value = value;
+					},
+					data: this.state.data })
+			);
+		}
+	});
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	var UserSearcher = __webpack_require__(11);
+	var RoleSearcher = __webpack_require__(12);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				model: null,
+				id: null
+			};
+		},
+		getInitialState: function getInitialState() {
+			return {
+				users: ',',
+				roles: ',',
+				observers: ',',
+				ownerId: 0,
+				items: [{
+					title: '是否启用权限', name: 'ifEnabledRights', type: 'radio',
+					data: [{ text: "禁用", value: 0 }, { text: '启用', value: 1 }]
+				}, { title: '扩展', name: 'ext', type: 'textarea' }]
+			};
+		},
+		componentDidMount: function componentDidMount() {
+			this.__load(this.props.id);
+		},
+		componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+			if (nextProps.id != this.props.id) {
+				this.__load(nextProps.id);
+			}
+		},
+		__load: function __load(id) {
+			if (id) {
+				Store.post('/znadmin/model/selectOne', {
+					fields: '*',
+					model: this.props.model,
+					where: { id: id }
+				}).exec().then(function (data) {
+					this.setState(data.result);
+				}.bind(this));
+			}
+		},
+		__save: function __save() {
+			if (!this.props.id) {
+				Toast.warning('必须编辑项');
+				return;
+			}
+			var _data = {
+				users: this.state.users,
+				roles: this.state.roles
+			};
+
+			Store.post('/znadmin/model/updateNode', { data: _data, model: this.props.model, where: { id: this.props.id } }).exec().then(function (data) {
+				if (data.result.changedRows) {
+					Toast.success('保存成功');
+				}
+			}.bind(this));
+		},
+		__changeOwner: function __changeOwner() {},
+		render: function render() {
+			var _this = this;
+
+			return React.createElement(
+				'div',
+				{ className: 'rt-rights-setting', style: { padding: 5 } },
+				React.createElement(
+					'div',
+					{ className: 'title', style: { lineHeight: '4rem' } },
+					React.createElement('i', { className: 'fa fa-yelp', style: { margin: 5 } }),
+					React.createElement(
+						'span',
+						null,
+						'\u6743\u9650\u8BBE\u7F6E\u3010\u62E5\u6709\u8005\uFF1A',
+						React.createElement(
+							'a',
+							{ onClick: this.__changeOwner },
+							this.state.ownerId
+						),
+						'\u3011'
+					),
+					this.props.id && React.createElement(UI.Button, { onClick: this.__save, text: '\u4FDD\u5B58', icon: 'fa-save', float: 'right', style: { margin: 5 } })
+				),
+				React.createElement(
+					UI.Card,
+					{ icon: 'fa-user', title: '\u7528\u6237' },
+					React.createElement(UserSearcher, { value: this.state.users, onChange: function onChange(value) {
+							return _this.state.users = value;
+						} })
+				),
+				React.createElement(
+					UI.Card,
+					{ icon: 'fa-graduation-cap', title: '\u89D2\u8272' },
+					React.createElement(RoleSearcher, { value: this.state.roles, onChange: function onChange(value) {
+							return _this.state.roles = value;
+						} })
+				)
+			);
+		}
+	});
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	var LetterSelector = __webpack_require__(7);
+	var RoleSearcher = __webpack_require__(12);
+	module.exports = zn.react.znadmin.UserSearcher = React.createClass({
+		displayName: 'UserSearcher',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				mulitable: false
+			};
+		},
+		getInitialState: function getInitialState() {
+			return {
+				currIndex: 0,
+				search: '',
+				value: ',',
+				users: []
+			};
+		},
+		componentDidMount: function componentDidMount() {
+			this.__loadUsers();
+		},
+		__onLetterChange: function __onLetterChange(value) {
+			/*
+	  this.__loadUsers({
+	  	firstChar: value
+	  });*/
+		},
+		__onRoleChange: function __onRoleChange(value) {
+			/*
+	  this.__loadUsers({
+	  	role: value
+	  });*/
+		},
+		__loadUsers: function __loadUsers(where) {
+			Store.post('/znadmin/model/select', {
+				model: 'AdminUser',
+				where: where || {}
+			}).exec().then(function (data) {
+				this.setState({
+					users: data.result
+				});
+			}.bind(this));
+		},
+		__onSearch: function __onSearch(value) {
+			this.setState({
+				search: value
+			});
+		},
+		__onUserClick: function __onUserClick(user) {
+			var _id = user.id + ',';
+			if (this.props.mulitable) {
+				if (this.state.value.indexOf(',' + _id) == -1) {
+					this.state.value = this.state.value + _id;
+				} else {
+					this.state.value = this.state.value.replace(',' + _id, ',');
+				}
+			} else {
+				if (this.state.value == user.id) {
+					this.state.value = null;
+				} else {
+					this.state.value = user.id;
+				}
+			}
+
+			this.setValue(this.state.value);
+		},
+		__onUserCheckAll: function __onUserCheckAll(event, value) {
+			if (value) {
+				this.setValue(',' + this._users.join(',') + ',');
+			} else {
+				this.setValue(',');
+			}
+		},
+		__renderUsers: function __renderUsers() {
+			var _value = this.state.value,
+			    _search = this.state.search;
+			this._users = [];
+			return React.createElement(
+				'div',
+				{ className: 'user-view' },
+				React.createElement(zn.react.Search, { onSearch: this.__onSearch }),
+				React.createElement(
+					'ul',
+					{ className: 'users' },
+					this.state.users.map(function (user, index) {
+						var _this = this;
+
+						var _selected = false,
+						    _userId = user.id,
+						    _name = user.name;
+						if (_search && _name.indexOf(_search) == -1) {
+							return null;
+						} else {
+							if (_search) {
+								_name = _name.replace(_search, '<span style="color:red">' + _search + '</span>');
+							}
+						}
+						this._users.push(_userId);
+
+						if (this.props.mulitable) {
+							_selected = _value.indexOf(',' + _userId + ',') != -1;
+						} else {
+							_selected = _value === _userId;
+						}
+						return React.createElement(
+							'li',
+							{ key: index, className: 'user ' + (_selected ? 'selected' : ''), onClick: function onClick() {
+									return _this.__onUserClick(user);
+								} },
+							React.createElement('img', { className: 'avatar', src: Store.fixURL(user.avatarImg) }),
+							React.createElement('span', { className: 'name', dangerouslySetInnerHTML: { __html: _name } })
+						);
+					}.bind(this)),
+					this.props.mulitable && React.createElement(
+						'li',
+						null,
+						React.createElement(zn.react.Checkbox, { text: '\u5168\u9009', onChange: this.__onUserCheckAll })
+					)
+				)
+			);
+		},
+		setValue: function setValue(value) {
+			this.setState({
+				value: value
+			});
+			this.props.onChange && this.props.onChange(value);
+		},
+		getValue: function getValue() {
+			return this.state.value;
+		},
+		__renderView: function __renderView() {
+			switch (this.state.currIndex) {
+				case 0:
+					return React.createElement(LetterSelector, { onChange: this.__onLetterChange });
+				case 1:
+					return React.createElement(RoleSearcher, { onChange: this.__onRoleChange });
+			}
+		},
+		render: function render() {
+			return React.createElement(
+				'div',
+				{ className: 'rt-user-searcher' },
+				React.createElement(
+					'ul',
+					{ className: 'type-tab' },
+					[{ text: '首字母', icon: 'fa-font' }, { text: '所属部门', icon: 'fa-sitemap' }].map(function (item, index) {
+						var _this2 = this;
+
+						return React.createElement(
+							'li',
+							{ className: this.state.currIndex === index ? 'curr' : '', key: index, onClick: function onClick() {
+									return _this2.setState({ currIndex: index });
+								} },
+							React.createElement('i', { style: { marginRight: 5 }, className: 'fa ' + item.icon }),
+							React.createElement(
+								'span',
+								null,
+								item.text
+							)
+						);
+					}.bind(this))
+				),
+				this.__renderView(),
+				this.__renderUsers()
+			);
+		}
+	});
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = __webpack_require__(5);
+	module.exports = zn.react.znadmin.RoleSearcher = React.createClass({
+		displayName: 'RoleSearcher',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				value: ',',
+				disabled: false,
+				cascade: false,
+				activeAll: false,
+				enableCheckbox: true
+			};
+		},
+		getInitialState: function getInitialState() {
+			return {
+				value: this.props.value,
+				data: Store.post('/znadmin/model/select', {
+					model: 'zn_admin_role', where: {
+						pid: 0
+					}
+				})
+			};
+		},
+		componentDidUpdate: function componentDidUpdate(prevProps) {
+			if (prevProps.value != this.props.value) {
+				this.setState({
+					value: this.props.value
+				});
+			}
+		},
+		__onTreeMenuItemCheckboxChange: function __onTreeMenuItemCheckboxChange(value) {
+			this.state.value = value;
+			this.props.onChange && this.props.onChange(value);
+		},
+		setValue: function setValue(value) {
+			this.setState({
+				value: value
+			});
+			this.props.onChange && this.props.onChange(value);
+		},
+		getValue: function getValue() {
+			return this.state.value;
+		},
+		__itemContentRender: function __itemContentRender(props) {
+			var _icon = '';
+			switch (props.data.type) {
+				case 1:
+					_icon = 'fa-sitemap';
+					break;
+				case 2:
+					_icon = 'fa-graduation-cap';
+					break;
+			}
+
+			return React.createElement(
+				'span',
+				null,
+				_icon && React.createElement('i', { style: { margin: 5 }, className: 'fa ' + _icon }),
+				(this.props.debug ? props.data.id + '、' : '') + props.data.title
+			);
+		},
+		render: function render() {
+			return React.createElement(
+				'div',
+				{ className: 'rt-user-selector' },
+				React.createElement(zn.react.TreeListView, _extends({}, this.props, {
+					value: this.state.value,
+					data: this.state.data,
+					onItemCheckboxChange: this.__onTreeMenuItemCheckboxChange,
+					itemContentRender: this.__itemContentRender }))
+			);
+		}
+	});
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	var RightsSetting = __webpack_require__(10);
+	module.exports = zn.react.TreeModelView = React.createClass({
+		displayName: 'TreeModelView',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				model: 'zn_admin_var',
+				pid: 0
+			};
+		},
+		getInitialState: function getInitialState() {
+			var _where = this.props.where;
+			if (_where) {
+				_where.pid = this.props.pid;
+			} else {
+				_where = { pid: this.props.pid };
+			}
+			this._where = _where;
+			return {
+				data: Store.post('/znadmin/model/select', { model: this.props.model, where: _where, order: { treeOrder: 'asc' } }),
+				items: this.props.fields || [],
+				currItem: null,
+				toolbarItems: [{ title: '添加主项', name: 'addMainItem', icon: 'fa-plus-square' }, { title: '添加子项', name: 'addChildItem', icon: 'fa-plus' }, { title: '删除当前项', name: 'deleteCurrItem', icon: 'fa-remove' }, { title: '编辑当前项', name: 'editCurrItem', icon: 'fa-edit' }, { title: '上移当前项', name: 'upCurrItem', icon: 'fa-angle-up' }, { title: '下移当前项', name: 'downCurrItem', icon: 'fa-angle-down' }]
+			};
+		},
+		componentDidMount: function componentDidMount() {
+			this.__loadTableHeaders();
+		},
+		componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+			if (nextProps.model != this.props.model) {
+				this.props.model = nextProps.model;
+				this.__loadTableHeaders(function () {
+					this.state.data.extend({
+						model: nextProps.model
+					}).refresh();
+				}.bind(this));
+			}
+		},
+		__loadTableHeaders: function __loadTableHeaders(callback) {
+			if (!this.state.items.length) {
+				Store.get('/znadmin/model/getModelProps?model=' + this.props.model).exec().then(function (data) {
+					this.setState({
+						items: data.result
+					});
+					callback && callback(data);
+				}.bind(this));
+			}
+		},
+		__onClick: function __onClick(item, event) {
+			this.state.currItem = item;
+			this.setState({
+				currItem: item
+			});
+			this.props.onItemClick && this.props.onItemClick(item, event);
+		},
+		__addItemSuccess: function __addItemSuccess(pid) {
+			Popup.close('dialog');
+			Popup.message({
+				content: '添加成功！',
+				type: 'success'
+			});
+
+			var _treemenu = this.refs.maintreemenu;
+			if (pid && this.state.currItem) {
+				_treemenu = this.state.currItem.props.parent;
+			}
+			_treemenu.refresh();
+		},
+		__editItemSuccess: function __editItemSuccess() {
+			Popup.close('dialog');
+			this.state.currItem.props.parent.refresh();
+		},
+		__editItem: function __editItem() {
+			var _this = this;
+
+			if (!this.state.currItem) {
+				Popup.message({
+					content: '必须编辑项',
+					type: 'warning'
+				});
+				return;
+			}
+			Popup.dialog({
+				title: '编辑',
+				hStyle: { backgroundColor: '#0B72A5' },
+				width: 780,
+				content: React.createElement(UI.Form, {
+					method: 'POST',
+					layout: 'stacked',
+					style: { margin: 25 },
+					action: '/znadmin/model/updateNode',
+					exts: { model: this.props.model, where: { id: this.state.currItem.props.data.id } },
+					merge: 'data',
+					value: Store.post('/znadmin/model/selectOne', { model: this.props.model, where: { id: this.state.currItem.props.data.id } }),
+					syncSubmit: false,
+					onSubmitBefore: function onSubmitBefore(data, form) {
+						_this._data = data;
+					},
+					onSubmitSuccess: this.__editItemSuccess,
+					btns: [{ text: '修改', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }],
+					items: this.state.items })
+			});
+		},
+		__addItem: function __addItem(pid) {
+			var _this2 = this;
+
+			var _where = {};
+			for (var key in this._where) {
+				_where[key] = this._where[key];
+			}
+			_where['pid'] = pid;
+			Popup.dialog({
+				title: '添加项',
+				hStyle: { backgroundColor: '#0B72A5' },
+				width: 780,
+				content: React.createElement(UI.Form, {
+					method: 'POST',
+					layout: 'stacked',
+					action: '/znadmin/model/addNode',
+					hiddens: _where,
+					exts: { model: this.props.model },
+					merge: 'data',
+					style: { margin: 25 },
+					syncSubmit: false,
+					onSubmitBefore: function onSubmitBefore(data, form) {
+						_this2._data = data;
+					},
+					onSubmitSuccess: function onSubmitSuccess() {
+						return _this2.__addItemSuccess(pid);
+					},
+					btns: [{ text: '添加', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
+					items: this.state.items })
+			});
+		},
+		__onToolbarClick: function __onToolbarClick(item) {
+			if (item.name == 'addMainItem') {
+				this.__addItem();
+				return;
+			}
+			if (!this.state.currItem) {
+				Popup.message({
+					content: '必须选择主项',
+					type: 'warning'
+				});
+
+				return false;
+			}
+			var _id = this.state.currItem.props.data.id;
+			switch (item.name) {
+				case 'addChildItem':
+					this.__addItem(_id);
+					break;
+				case 'editCurrItem':
+					this.__editItem();
+					break;
+				case 'upCurrItem':
+					this.__upItem();
+					break;
+				case 'downCurrItem':
+					this.__downItem();
+					break;
+				case 'deleteCurrItem':
+					Popup.confirm({
+						content: '确认删除该项吗？',
+						onConfirm: function () {
+							Store.post('/znadmin/model/deleteNode', {
+								model: this.props.model,
+								id: _id
+							}).exec().then(function (data) {
+								this.state.currItem.props.parent.refresh();
+								Popup.message({
+									content: '删除成功！',
+									type: 'warn'
+								});
+							}.bind(this), function (data) {
+								Popup.message({
+									content: '删除出错: ' + data.result,
+									type: 'danger'
+								});
+							});
+						}.bind(this)
+					});
+					break;
+			}
+		},
+		__renderRight: function __renderRight() {
+			var _result = this.props.rightRender && this.props.rightRender(this);
+			if (_result) {
+				return _result;
+			} else {
+				return React.createElement(RightsSetting, { model: this.props.model, id: this.state.currItem ? this.state.currItem.props.data.id : null });
+			}
+		},
+		__itemContentRender: function __itemContentRender(props) {
+			var _result = this.props.itemContentRender && this.props.itemContentRender(props);
+			if (_result) {
+				return _result;
+			} else {
+				return React.createElement(
+					'span',
+					null,
+					React.createElement('i', { style: { margin: 5 }, className: 'fa ' + props.data.icon }),
+					props.data.id + '、' + props.data.title
+				);
+			}
+		},
+		render: function render() {
+			return React.createElement(
+				UI.Page,
+				{
+					toolbarItems: this.state.toolbarItems,
+					onToolbarClick: this.__onToolbarClick,
+					title: this.props.title },
+				React.createElement(
+					UI.ActivityLayout,
+					{ direction: 'h', begin: this.props.leftWidth || 35, barWidth: 0.3, unit: 'rem' },
+					React.createElement(UI.TreeListView, { itemContentRender: this.__itemContentRender, ref: 'maintreemenu', activeAll: this.props.activeAll, onClick: this.__onClick, data: this.state.data }),
+					this.__renderRight()
+				)
+			);
+		}
+	});
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./component/BaseBusinessView": 4,
+		"./component/BaseBusinessView.js": 4,
+		"./component/BaseModelView": 6,
+		"./component/BaseModelView.js": 6,
+		"./component/LetterSelector": 7,
+		"./component/LetterSelector.js": 7,
+		"./component/LetterSelector.less": 15,
+		"./component/MasterSlave": 8,
+		"./component/MasterSlave.js": 8,
+		"./component/RightsSetting": 10,
+		"./component/RightsSetting.js": 10,
+		"./component/RoleSearcher": 12,
+		"./component/RoleSearcher.js": 12,
+		"./component/Slave": 9,
+		"./component/Slave.js": 9,
+		"./component/TreeModelView": 13,
+		"./component/TreeModelView.js": 13,
+		"./component/UserSearcher": 11,
+		"./component/UserSearcher.js": 11,
+		"./component/UserSearcher.less": 18,
+		"./component/index": 2,
+		"./component/index.js": 2,
+		"./index": 1,
+		"./index.js": 1,
+		"./less/UserItem.less": 20,
+		"./page/Menu": 22,
+		"./page/Menu.js": 22,
+		"./page/MyInfo": 24,
+		"./page/MyInfo.js": 24,
+		"./page/Project": 25,
+		"./page/Project.js": 25,
+		"./page/ProjectBug": 26,
+		"./page/ProjectBug.js": 26,
+		"./page/Role": 27,
+		"./page/Role.js": 27,
+		"./page/User": 29,
+		"./page/User.js": 29,
+		"./page/UserInfo": 30,
+		"./page/UserInfo.js": 30,
+		"./page/UserInfo.less": 31,
+		"./page/UserLog": 33,
+		"./page/UserLog.js": 33,
+		"./page/UsersForRoles": 28,
+		"./page/UsersForRoles.js": 28,
+		"./page/Var": 23,
+		"./page/Var.js": 23,
+		"./page/index": 34,
+		"./page/index.js": 34
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 14;
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 16 */,
+/* 17 */,
+/* 18 */
+/***/ (function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 19 */,
+/* 20 */
+/***/ (function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 21 */,
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = __webpack_require__(5);
+	var Var = __webpack_require__(23);
+	var TreeModelView = __webpack_require__(13);
+	var RightsSetting = __webpack_require__(10);
+	var VarPanel = React.createClass({
+		displayName: 'VarPanel',
+
+		getInitialState: function getInitialState() {
+			return {
+				typeIndex: 0
+			};
+		},
+		__onListViewItemClick: function __onListViewItemClick(event, item, index) {
+			this.setState({ typeIndex: index });
+		},
+		__renderBody: function __renderBody() {
+			var _treeModel = this.props.treeModel;
+
+			return React.createElement(RightsSetting, { model: _treeModel.props.model, id: _treeModel.state.currItem ? _treeModel.state.currItem.props.data.id : null });
+			/*
+	  switch (this.state.typeIndex) {
+	  	case 0:
+	  		return <RightsSetting model={_treeModel.props.model} id={_treeModel.state.currItem?_treeModel.state.currItem.props.data.id:null}  />;
+	  	case 1:
+	  		if(_treeModel.state.currItem){
+	  			return <Var menuId={_treeModel.state.currItem.props.data.id} pid={2} />
+	  		}else {
+	  			return <div style={{textAlign:'center'}}>请先选中菜单</div>;
+	  		}
+	  }*/
+		},
+		render: function render() {
+			return this.__renderBody();
+			return React.createElement(
+				UI.ActivityLayout,
+				{ direction: 'v', begin: 4, barWidth: 0.3, unit: 'rem' },
+				React.createElement(UI.ListView, {
+					className: 'rt-list-view-tab',
+					fireIndex: 0,
+					onClick: this.__onListViewItemClick,
+					itemRender: function itemRender(item, index) {
+						return React.createElement(
+							'span',
+							null,
+							React.createElement('i', { style: { marginRight: 5 }, className: 'fa ' + item.icon }),
+							item.text
+						);
+					},
+					data: [{ text: '权限设置', icon: 'fa-yelp' }, { text: '资源管理', icon: 'fa-table' }] }),
+				this.__renderBody()
+			);
+		}
+	});
+
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				model: 'zn_admin_menu',
+				title: '菜单管理',
+				leftWidth: 30,
+				pid: 0,
+				fields: [{ title: '标题', type: 'Input', name: 'title' }, { title: '类型', type: 'Radio', name: 'type', value: 0,
+					data: [{ text: '分类', value: 0 }, { text: '功能菜单', value: 1 }]
+				}, { title: '图标', type: 'Input', name: 'icon' }, { title: '链接', type: 'Input', name: 'url' }, { title: '路径', type: 'Input', name: 'path' }, { title: '扩展', type: 'Textarea', name: 'ext' }]
+			};
+		},
+		__rightRender: function __rightRender(treeModel) {
+			return React.createElement(VarPanel, { treeModel: treeModel });
+		},
+		render: function render() {
+			return React.createElement(TreeModelView, _extends({}, this.props, { rightRender: this.__rightRender }));
+		}
+	});
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = __webpack_require__(5);
+	var TreeModelView = __webpack_require__(13);
+	var RightsSetting = __webpack_require__(10);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				model: 'zn_admin_var',
+				pid: 0,
+				title: '资源管理',
+				menuId: 0,
+				fields: [{ title: '标题', type: 'Input', name: 'title' }, { title: '类型', type: 'Radio', name: 'type', value: 0,
+					data: [{ text: '分类', value: 0 }, { text: '按钮', value: 1 }, { text: '常量', value: 2 }, { text: '标签', value: 3 }, { text: '标签', value: 4 }]
+				}, { title: '图标', type: 'Input', name: 'icon' }, { title: '图片', type: 'ImageUploader', name: 'img', action: '/znadmin/uploadFiles' }, { title: '链接', type: 'Input', name: 'url' }, { title: '路径', type: 'Input', name: 'path' }, { title: '扩展', type: 'Textarea', name: 'ext' }]
+			};
+		},
+		__rightRender: function __rightRender(treeModel) {
+			if (!treeModel.state.currItem) {
+				return null;
+			}
+			var _id = treeModel.state.currItem.props.data.id;
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(RightsSetting, { model: this.props.model, id: treeModel.state.currItem ? treeModel.state.currItem.props.data.id : null })
+			);
+		},
+		__itemContentRender: function __itemContentRender(item) {
+			var _data = item.data;
+			switch (_data.type) {
+				case 1:
+					return React.createElement(
+						'span',
+						null,
+						React.createElement('i', { title: '\u8FD9\u662F\u64CD\u4F5C\u6309\u94AE', className: 'fa fa-hand-o-up', style: { margin: 5, color: '#0B72A5' } }),
+						React.createElement('i', { className: 'fa ' + _data.icon, style: { marginRight: 5 } }),
+						_data.id + '、' + _data.title
+					);
+				case 2:
+					return React.createElement(
+						'span',
+						null,
+						React.createElement('i', { title: '\u8FD9\u662F\u9759\u6001\u5E38\u91CF', className: 'fa fa-text-width', style: { margin: 5, color: '#d9534f' } }),
+						React.createElement('i', { className: 'fa ' + _data.icon, style: { marginRight: 5 } }),
+						_data.id + '、' + _data.title
+					);
+				case 3:
+					return React.createElement(
+						'span',
+						null,
+						React.createElement('i', { title: '\u8FD9\u662F\u6807\u7B7E\u7C7B\u522B', className: 'fa fa-tag', style: { margin: 5 } }),
+						React.createElement('i', { className: 'fa ' + _data.icon, style: { marginRight: 5 } }),
+						_data.id + '、' + _data.title
+					);
+			}
+		},
+		render: function render() {
+			return React.createElement(TreeModelView, _extends({}, this.props, { where: { menuId: this.props.menuId }, itemContentRender: this.__itemContentRender, rightRender: this.__rightRender, leftWidth: 30 }));
+		}
+	});
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getInitialState: function getInitialState() {
+			return {
+				userId: this.props.userId || Session.json().id,
+				toolbarItems: this.props.userId ? [] : [{ icon: 'fa-edit', text: '修改个人信息', onClick: this.__onEdit }],
+				info: null,
+				formItems: [{ title: '头像', name: 'avatarImg', type: 'ImageUploader', action: '/klproject/uploadFiles' }, { title: '用户名', name: 'name', type: 'Input', required: true, error: '用户名必填项!' }, { title: '密码', name: 'pwd', type: 'Input', attrs: { type: 'password' }, required: true, error: '密码必填项!' }, { title: '邮箱', name: 'email', type: 'Input', required: true, error: '邮箱必填项!' }, { title: '手机号', name: 'phone', type: 'Input', required: true, error: '手机号必填项!' }, { title: '地址', name: 'address', type: 'Input' }, { title: '说明', name: 'note', type: 'Textarea' }],
+				data: Store.post('/znadmin/model/select', { model: 'zn_admin_role', where: { pid: 0 } })
+			};
+		},
+		componentDidMount: function componentDidMount() {
+			this.__loadUserInfo();
+		},
+		__doSuccess: function __doSuccess() {
+			Popup.close('dialog');
+			Toast.success('修改成功');
+			Store.post('/znadmin/user/findUserById', { userId: this.state.userId }).exec().then(function (data) {
+				this.setState({
+					info: data.result
+				});
+			}.bind(this));
+		},
+		__onEdit: function __onEdit(data) {
+			Popup.dialog({
+				title: '修改个人信息',
+				hStyle: { backgroundColor: '#0B72A5' },
+				width: 480,
+				content: React.createElement(UI.Form, {
+					method: 'POST',
+					layout: 'stacked',
+					action: '/znadmin/model/updateNode',
+					exts: { model: 'zn_admin_user', where: { id: this.state.info.id } },
+					merge: 'data',
+					value: this.state.info,
+					style: { margin: 25 },
+					syncSubmit: false,
+					onSubmitSuccess: this.__doSuccess,
+					btns: [{ text: '修改', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
+					items: this.state.formItems })
+			});
+		},
+		__loadUserInfo: function __loadUserInfo() {
+			Store.post('/znadmin/user/findUserById', { userId: this.state.userId }).exec().then(function (data) {
+				this.setState({
+					info: data.result
+				});
+			}.bind(this));
+		},
+		__onTreeMenuItemCheckboxChange: function __onTreeMenuItemCheckboxChange(value) {
+			Store.post('/znadmin/user/updateUser', { data: { roleIds: value }, userId: this.state.info.id }).exec().then(function (data) {
+				Toast.success('保存成功');
+			});
+		},
+		__itemContentRender: function __itemContentRender(props) {
+			var _icon = '';
+			if (props.data.type == 1) {
+				_icon = 'fa-sitemap';
+			}
+			if (props.data.type == 2) {
+				_icon = 'fa-graduation-cap';
+			}
+
+			return React.createElement(
+				'span',
+				null,
+				React.createElement('i', { style: { margin: 5 }, className: 'fa ' + _icon }),
+				props.data.id + '、' + props.data.title
+			);
+		},
+		render: function render() {
+			if (!this.state.info) {
+				return null;
+			}
+			return React.createElement(
+				UI.Page,
+				{ title: this.state.info.name, icon: 'fa-newspaper-o', toolbarItems: this.state.toolbarItems },
+				React.createElement(
+					'div',
+					{ className: 'user-info' },
+					React.createElement(
+						'div',
+						{ className: 'info-form user-item' },
+						React.createElement('img', { className: 'avatar', src: Store.fixURL(this.state.info.avatarImg) || './images/DefaultAvatar.png' }),
+						React.createElement(
+							'div',
+							{ className: 'details' },
+							React.createElement(
+								'span',
+								{ className: 'last-logintime' },
+								'\u6700\u8FD1\u4E00\u6B21\u767B\u5F55\u65F6\u95F4\uFF1A',
+								this.state.info.lastLoginTime || '还未登陆'
+							),
+							React.createElement(
+								'div',
+								{ className: 'name' },
+								this.state.info.name
+							),
+							React.createElement(
+								'div',
+								null,
+								React.createElement('i', { className: 'fa fa-clock-o' }),
+								'\u521B\u5EFA\u65F6\u95F4\uFF1A',
+								this.state.info.createTime
+							),
+							React.createElement(
+								'div',
+								null,
+								React.createElement('i', { className: 'fa fa-envelope' }),
+								'\u90AE\u7BB1\uFF1A',
+								this.state.info.email
+							),
+							React.createElement(
+								'div',
+								null,
+								React.createElement('i', { className: 'fa fa-phone' }),
+								'\u624B\u673A\u53F7\uFF1A',
+								this.state.info.phone
+							),
+							React.createElement(
+								'div',
+								null,
+								this.state.info.note
+							)
+						)
+					),
+					React.createElement(
+						'div',
+						{ className: 'rt-panel c-default' },
+						React.createElement(
+							'div',
+							{ className: 'p-head' },
+							'\u90E8\u95E8\u53CA\u89D2\u8272'
+						),
+						React.createElement(
+							'div',
+							{ className: 'p-body' },
+							React.createElement(UI.TreeListView, { disabled: true, cascade: false, enableCheckbox: true, onItemCheckboxChange: this.__onTreeMenuItemCheckboxChange, value: this.state.info.roleIds, itemContentRender: this.__itemContentRender, ref: 'maintreemenu', activeAll: true, data: this.state.data })
+						)
+					)
+				)
+			);
+		}
+	});
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = __webpack_require__(5);
+	var TreeModelView = __webpack_require__(13);
+	var ProjectBug = __webpack_require__(26);
+
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				model: 'zn_admin_project',
+				title: '项目管理',
+				leftWidth: 20,
+				pid: 0,
+				fields: [{ title: '模块名称', type: 'Input', name: 'title' }, { title: '版本号', type: 'Input', name: 'version' }, { title: '优先级', type: 'Select', name: 'priority', data: [{ text: '正常', value: 1 }, { text: '紧急', value: 2 }, { text: '非常紧急', value: 3 }] }, { title: '开始时间', name: 'beginTime', type: 'Timer' }, { title: '结束时间', name: 'endTime', type: 'Timer' }, { title: '文件', name: 'files', type: 'FileUploader', action: '/znadmin/uploadFiles' }, { title: '功能表述', type: 'RichEditor', name: 'description' }, { title: '备注', type: 'Textarea', name: 'note' }]
+			};
+		},
+		__rightRender: function __rightRender(tree) {
+			var _currItem = tree.state.currItem;
+			return React.createElement(ProjectBug, { data: _currItem ? _currItem.props.data : null });
+		},
+		__itemContentRender: function __itemContentRender(item) {
+			//console.log(item);
+			return React.createElement(
+				'div',
+				{ style: { display: 'inline-flex', lineHeight: '25px' } },
+				React.createElement(
+					'span',
+					{ className: 'title' },
+					item.data.title
+				),
+				React.createElement(
+					'span',
+					{ className: 'version' },
+					'(',
+					item.data.version,
+					')'
+				)
+			);
+		},
+		render: function render() {
+			return React.createElement(TreeModelView, _extends({ itemContentRender: this.__itemContentRender }, this.props, { rightRender: this.__rightRender }));
+		}
+	});
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				data: null,
+				model: 'zn_admin_project_bug'
+			};
+		},
+		componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+			if (nextProps.data !== this.props.data) {
+				this.state.data._data.where = {
+					projectId: nextProps.data.id
+				};
+				this.state.data.exec();
+			}
+		},
+		getInitialState: function getInitialState() {
+			var _where = {};
+			if (this.props.data) {
+				_where.projectId = this.props.data.id;
+			}
+			return {
+				data: Store.post('/znadmin/model/paging', {
+					model: this.props.model,
+					where: _where
+				}),
+				items: [{ title: '操作', width: 60, textAlign: 'center' }, { title: '问题', name: 'title', width: 220, filter: { type: 'Input', opts: ['like'] } }, { title: '状态', name: 'state', width: 80, filter: { type: 'Menu', data: [{ text: '待处理', value: 0 }, { text: '处理中...', value: 2 }, { text: '已经解决', value: 3 }, { text: '已经确认', value: 3 }], opts: ['='] } }, { title: '优先级', name: 'priority', width: 80, filter: { type: 'Menu', data: [{ text: '正常', value: 1 }, { text: '紧急', value: 2 }, { text: '非常紧急', value: 3 }], opts: ['='] } }, { title: '开始时间', name: 'beginTime', width: 140 }, { title: '结束时间', name: 'endTime', width: 140 }, { title: '完成时间', name: 'finishTime', width: 140 }, { title: '提交时间', name: 'createTime', width: 140 }, { title: '描述', name: 'note' }],
+				formItems: [{ title: '问题', name: 'title', type: 'Textarea' }, { title: '版本号', type: 'Input', name: 'version' }, {
+					title: '优先级',
+					type: 'Select',
+					name: 'priority',
+					data: [{ text: '正常', value: 1 }, { text: '紧急', value: 2 }, { text: '非常紧急', value: 3 }]
+				}, { title: '开始时间', name: 'beginTime', type: 'Timer' }, { title: '结束时间', name: 'endTime', type: 'Timer' }, { title: '附件', name: 'files', type: 'FileUploader', action: '/znadmin/uploadFiles' }, { title: '问题描述', name: 'description', type: 'RichEditor' }, { title: '解决方案', name: 'solution', type: 'RichEditor' }],
+				toolbarItems: [{ text: '添加', icon: 'fa-plus' }]
+			};
+		},
+		__onRowActions: function __onRowActions(rtitem, data) {
+			var _data = this.state.data;
+			var _self = this;
+			switch (rtitem.props.icon) {
+				case 'fa-remove':
+					Alert.show({
+						width: 280,
+						title: '提示',
+						content: '确定删除该数据吗？',
+						onConfirm: function onConfirm() {
+							Store.post('/znadmin/model/deleteNode', {
+								model: _self.props.model,
+								id: data.id
+							}).exec().then(function (data) {
+								Toast.success('删除成功！');
+								_data.refresh();
+							});
+						}
+					});
+					break;
+				case 'fa-edit':
+					this.__updateItem(data);
+					break;
+			}
+		},
+		__onView: function __onView() {},
+		__onTableColumnRender: function __onTableColumnRender(rowIndex, columnIndex, data, item, value) {
+			var _this = this;
+
+			switch (columnIndex) {
+				case 0:
+					return React.createElement(UI.ListView, {
+						className: 'rt-flex',
+						data: [{ text: '删除', icon: 'fa-remove' }, { text: '修改', icon: 'fa-edit' }],
+						itemRender: function itemRender(item, index) {
+							return React.createElement('i', { title: item.text, className: 'fa ' + item.icon, style: item.style });
+						},
+						onClick: function onClick(value, rtitem) {
+							return _this.__onRowActions(rtitem, data);
+						}
+					});
+				case 1:
+					return React.createElement(
+						'a',
+						{ style: { textDecoration: 'underline' }, onClick: function onClick() {
+								return _this.__onView(data);
+							} },
+						value
+					);
+				case 2:
+					switch (+value) {
+						case 0:
+							return React.createElement(
+								'span',
+								null,
+								'\u7B49\u5F85\u5904\u7406'
+							);
+						case 1:
+							return React.createElement(
+								'span',
+								{ style: { color: 'yellow' } },
+								'\u5904\u7406\u4E2D'
+							);
+						case 2:
+							return React.createElement(
+								'span',
+								{ style: { color: 'red' } },
+								'\u5DF2\u7ECF\u89E3\u51B3'
+							);
+						case 3:
+							return React.createElement(
+								'span',
+								{ style: { color: 'red' } },
+								'\u5DF2\u7ECF\u786E\u8BA4'
+							);
+					}
+					return null;
+				case 3:
+					switch (+value) {
+						case 1:
+							return React.createElement(
+								'span',
+								null,
+								'\u6B63\u5E38'
+							);
+						case 2:
+							return React.createElement(
+								'span',
+								{ style: { color: '#F44336' } },
+								'\u7D27\u6025'
+							);
+						case 3:
+							return React.createElement(
+								'span',
+								{ style: { color: 'red' } },
+								'\u975E\u5E38\u7D27\u6025'
+							);
+					}
+					return null;
+			}
+		},
+		__updateItem: function __updateItem(data) {
+			Popup.dialog({
+				title: '修改',
+				hStyle: { backgroundColor: '#0B72A5' },
+				width: 780,
+				content: React.createElement(UI.Form, {
+					method: 'POST',
+					layout: 'stacked',
+					action: '/znadmin/model/updateNode',
+					exts: { model: this.props.model, where: { id: data.id } },
+					merge: 'data',
+					value: Store.post('/znadmin/model/selectOne', { model: this.props.model, where: { id: data.id } }),
+					style: { margin: 25 },
+					syncSubmit: false,
+					onSubmitSuccess: this.__doSuccess,
+					btns: [{ text: '修改', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
+					items: this.state.formItems })
+			});
+		},
+		__doSuccess: function __doSuccess() {
+			Popup.close('dialog');
+			Toast.success('操作成功');
+			this.state.data.refresh();
+		},
+		__addItem: function __addItem(pid) {
+			if (!this.props.data) {
+				Toast.warning('请先选择左边商品类型项');
+				return false;
+			}
+			Popup.dialog({
+				title: '添加',
+				width: 780,
+				content: React.createElement(UI.Form, {
+					method: 'POST',
+					layout: 'stacked',
+					action: '/znadmin/model/addNode',
+					exts: { model: this.props.model },
+					hiddens: { projectId: this.props.data.id },
+					merge: 'data',
+					style: { margin: 25 },
+					syncSubmit: false,
+					onSubmitSuccess: this.__doSuccess,
+					btns: [{ text: '添加', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
+					items: this.state.formItems })
+			});
+		},
+		__onToolbarClick: function __onToolbarClick(rtitem) {
+			switch (rtitem.icon) {
+				case 'fa-plus':
+					this.__addItem();
+					break;
+			}
+		},
+		render: function render() {
+			return React.createElement(
+				UI.Page,
+				{ title: '\u95EE\u9898\u5217\u8868', icon: 'fa-list-ul',
+					onToolbarClick: this.__onToolbarClick,
+					toolbarItems: this.state.toolbarItems },
+				React.createElement(UI.PagerView, {
+					view: 'Table',
+					checkbox: 0,
+					enableFilter: true,
+					showHeader: true,
+					data: this.state.data,
+					columnRender: this.__onTableColumnRender,
+					onTableRowClick: this.__onTableRowClick,
+					items: this.state.items })
+			);
+		}
+	});
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = __webpack_require__(5);
+	var TreeModelView = __webpack_require__(13);
+	var UsersForRoles = __webpack_require__(28);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				model: 'zn_admin_role',
+				pid: 0,
+				title: '部门及角色管理',
+				menuId: 0,
+				fields: [{ title: '名称', type: 'Input', name: 'title' }, { title: '类型', type: 'Radio', name: 'type', value: 1,
+					data: [{ text: '分类', value: 0 }, { text: '部门', value: 1 }, { text: '角色', value: 2 }]
+				}, { title: '说明', type: 'Textarea', name: 'note' }]
+			};
+		},
+		componentDidMount: function componentDidMount() {},
+		__rightRender: function __rightRender(treeMenu) {
+			return React.createElement(UsersForRoles, { roleId: treeMenu.state.currItem ? treeMenu.state.currItem.props.data.id : null });
+		},
+		__itemContentRender: function __itemContentRender(item) {
+			var _data = item.data;
+			switch (_data.type) {
+				case 0:
+					return React.createElement(
+						'span',
+						null,
+						_data.id + '、' + _data.title
+					);
+				case 1:
+					return React.createElement(
+						'span',
+						null,
+						React.createElement('i', { title: '\u8FD9\u662F\u90E8\u95E8', className: 'fa fa-sitemap', style: { margin: 5, color: '#d9534f' } }),
+						_data.id + '、' + _data.title
+					);
+				case 2:
+					return React.createElement(
+						'span',
+						null,
+						React.createElement('i', { title: '\u8FD9\u662F\u89D2\u8272', className: 'fa fa-graduation-cap', style: { margin: 5 } }),
+						_data.id + '、' + _data.title
+					);
+			}
+		},
+		render: function render() {
+			return React.createElement(TreeModelView, _extends({}, this.props, { rightRender: this.__rightRender, itemContentRender: this.__itemContentRender }));
+		}
+	});
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getInitialState: function getInitialState() {
+			return {
+				data: Store.post('/znadmin/model/paging', {
+					model: 'zn_admin_user'
+				})
+			};
+		},
+		componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+			if (nextProps.roleId != this.props.roleId) {
+				this.state.data._data.where = {
+					"0&<>": "locate('," + nextProps.roleId + ",',roleIds)"
+				};
+				this.state.data.exec();
+			}
+		},
+		__onUserClick: function __onUserClick(event, item, index) {
+			event.stopPropagation();
+			Session.jump('/main/znadmin/UserInfo', { userId: item.id });
+		},
+		__itemRender: function __itemRender(item, index) {
+			var _this = this;
+
+			return React.createElement(
+				'div',
+				{ className: 'user-item' },
+				React.createElement('img', { className: 'avatar', src: Store.fixURL(item.avatarImg || '') }),
+				React.createElement(
+					'div',
+					{ className: 'details' },
+					React.createElement(
+						'span',
+						{ className: 'last-logintime' },
+						item.lastLoginTime || '还未登陆'
+					),
+					React.createElement(
+						'div',
+						{ className: 'name', onClick: function onClick(event) {
+								return _this.__onUserClick(event, item, index);
+							} },
+						item.name
+					),
+					React.createElement(
+						'div',
+						null,
+						React.createElement('i', { className: 'fa fa-clock-o' }),
+						'\u521B\u5EFA\u65F6\u95F4\uFF1A',
+						item.createTime
+					),
+					React.createElement(
+						'div',
+						null,
+						React.createElement('i', { className: 'fa fa-envelope' }),
+						'\u90AE\u7BB1\uFF1A',
+						item.email
+					),
+					React.createElement(
+						'div',
+						null,
+						React.createElement('i', { className: 'fa fa-phone' }),
+						'\u624B\u673A\u53F7\uFF1A',
+						item.phone
+					)
+				)
+			);
+		},
+		render: function render() {
+			return React.createElement(UI.PagerView, {
+				view: 'ListView',
+				className: 'rt-list-view-border',
+				textKey: 'name',
+				valueKey: 'id',
+				selectMode: 'none',
+				itemRender: this.__itemRender,
+				data: this.state.data });
+		}
+	});
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				model: 'zn_admin_user'
+			};
+		},
+		getInitialState: function getInitialState() {
+			return {
+				data: Store.post('/znadmin/model/paging', {
+					model: this.props.model
+				}),
+				items: [{ title: '用户名', name: 'name', width: 80 }, { title: '邮箱', name: 'email', width: 200 }, { title: '手机号', name: 'phone', width: 120 }, { title: '地址', name: 'address', width: 200 }, { title: '说明', name: 'note' }],
+				formItems: [{ title: '用户名', name: 'name', type: 'Input', required: true, error: '用户名必填项!' }, { title: '邮箱', name: 'email', type: 'Input' }, { title: '手机号', name: 'phone', type: 'Input' }, { title: '地址', name: 'address', type: 'Input' }, { title: '说明', name: 'note', type: 'Textarea' }],
+				toolbarItems: [{ text: '添加', name: 'add', icon: 'fa-plus', style: { marginRight: 5 } }, { text: '删除', name: 'remove', status: 'danger', icon: 'fa-remove', style: { marginRight: 5 } }]
+			};
+		},
+		__doSuccess: function __doSuccess() {
+			Popup.close('dialog');
+			Toast.success('操作成功！');
+			this.state.data.refresh();
+		},
+		__addItem: function __addItem() {
+			Popup.dialog({
+				title: '新增用户',
+				hStyle: { backgroundColor: '#0B72A5' },
+				width: 480,
+				content: React.createElement(UI.Form, {
+					method: 'POST',
+					layout: 'stacked',
+					action: '/znadmin/model/addNode',
+					merge: 'data',
+					exts: { model: this.props.model },
+					style: { margin: 25 },
+					syncSubmit: false,
+					onSubmitSuccess: this.__doSuccess,
+					btns: [{ text: '新增用户', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
+					items: this.state.formItems })
+			});
+		},
+		__updateItem: function __updateItem(data) {
+			Popup.dialog({
+				title: '更新用户信息',
+				hStyle: { backgroundColor: '#0B72A5' },
+				width: 480,
+				content: React.createElement(UI.Form, {
+					method: 'POST',
+					layout: 'stacked',
+					action: '/znadmin/model/updateNode',
+					exts: { model: this.props.model, where: { id: data.id } },
+					merge: 'data',
+					data: data,
+					style: { margin: 25 },
+					syncSubmit: false,
+					onSubmitSuccess: this.__doSuccess,
+					btns: [{ text: '更新', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
+					items: this.state.formItems })
+			});
+		},
+		__removeItems: function __removeItems() {
+			var _self = this,
+			    _values = this.refs.table.getValue();
+			if (_values && _values.length) {
+				Popup.confirm({
+					content: '确认删除这' + _values.length + '个用户吗？',
+					onConfirm: function () {
+						Store.post('/znadmin/model/deleteNodes', { model: this.props.model, ids: _values }).exec().then(function () {
+							Toast.success('删除成功');
+							_self.state.data.refresh();
+						}, function (data) {
+							Toast.warning('删除失败: ' + data.result);
+						});
+					}.bind(this)
+				});
+			} else {
+				Toast.warning('请先选择要删除的用户');
+			}
+		},
+		__onToolbarClick: function __onToolbarClick(item) {
+			switch (item.name) {
+				case 'add':
+					this.__addItem();
+					break;
+				case 'remove':
+					this.__removeItems();
+					break;
+			}
+		},
+		__onEditItem: function __onEditItem(event, item) {
+			event.stopPropagation();
+			this.__updateItem(item);
+		},
+		__itemRender: function __itemRender(item, index) {
+			var _this = this;
+
+			return React.createElement(
+				'div',
+				{ className: 'user-item' },
+				React.createElement('img', { className: 'avatar', src: './images/DefaultAvatar.png' }),
+				React.createElement(
+					'div',
+					{ className: 'details' },
+					React.createElement(
+						'span',
+						{ className: 'last-logintime' },
+						item.lastLoginTime || '还未登陆'
+					),
+					React.createElement(
+						'div',
+						{ className: 'name', onClick: function onClick(event) {
+								return _this.__onUserClick(event, item, index);
+							} },
+						item.name,
+						React.createElement('i', { style: { margin: 5, color: '#971818' }, className: 'fa fa-edit', onClick: function onClick(event) {
+								return _this.__onEditItem(event, item);
+							} })
+					),
+					React.createElement(
+						'div',
+						null,
+						React.createElement('i', { className: 'fa fa-clock-o' }),
+						'\u521B\u5EFA\u65F6\u95F4\uFF1A',
+						item.createTime
+					),
+					React.createElement(
+						'div',
+						null,
+						React.createElement('i', { className: 'fa fa-envelope' }),
+						'\u90AE\u7BB1\uFF1A',
+						item.email
+					),
+					React.createElement(
+						'div',
+						null,
+						React.createElement('i', { className: 'fa fa-phone' }),
+						'\u624B\u673A\u53F7\uFF1A',
+						item.phone
+					)
+				)
+			);
+		},
+		__onTableColumnRender: function __onTableColumnRender(rowIndex, columnIndex, data, item, value) {
+			switch (columnIndex) {
+				case 1:
+					return React.createElement(
+						'a',
+						{ href: '#/main/znadmin/UserInfo?userId=' + data.id },
+						value
+					);
+			}
+		},
+		render: function render() {
+			return React.createElement(
+				UI.Page,
+				{
+					toolbarItems: this.state.toolbarItems,
+					onToolbarClick: this.__onToolbarClick,
+					title: '\u7CFB\u7EDF\u8D26\u6237\u7BA1\u7406' },
+				React.createElement(UI.PagerView, {
+					ref: 'table',
+					view: 'Table',
+					enableFilter: true,
+					checkbox: 50,
+					showHeader: true,
+					columnRender: this.__onTableColumnRender,
+					onTableRowClick: this.__onTableRowClick,
+					data: this.state.data,
+					items: this.state.items })
+			);
+		}
+	});
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getInitialState: function getInitialState() {
+			return {
+				userId: this.props.userId,
+				info: null,
+				data: Store.post('/znadmin/model/select', { model: 'zn_admin_role', where: { pid: 0 } })
+			};
+		},
+		componentDidMount: function componentDidMount() {
+			this.__loadUserInfo();
+		},
+		__loadUserInfo: function __loadUserInfo() {
+			Store.post('/znadmin/user/findUserById', { userId: this.state.userId }).exec().then(function (data) {
+				this.setState({
+					info: data.result
+				});
+			}.bind(this));
+		},
+		__onTreeMenuItemCheckboxChange: function __onTreeMenuItemCheckboxChange(value) {
+			Store.post('/znadmin/user/updateUser', { data: { roleIds: value }, userId: this.state.info.id }).exec().then(function (data) {
+				Popup.message({
+					content: '保存成功!',
+					type: 'success'
+				});
+			});
+		},
+		__itemContentRender: function __itemContentRender(props) {
+			var _icon = '';
+			if (props.data.type == 1) {
+				_icon = 'fa-sitemap';
+			}
+			if (props.data.type == 2) {
+				_icon = 'fa-graduation-cap';
+			}
+			return React.createElement(
+				'span',
+				null,
+				React.createElement('i', { style: { margin: 5 }, className: 'fa ' + _icon }),
+				props.data.id + '、' + props.data.title
+			);
+		},
+		render: function render() {
+			if (!this.state.info) {
+				return null;
+			}
+			return React.createElement(
+				UI.Page,
+				{ title: this.state.info.name, icon: 'fa-newspaper-o', toolbarItems: this.state.toolbarItems },
+				React.createElement(
+					'div',
+					{ className: 'user-info' },
+					React.createElement(
+						'div',
+						{ className: 'info-form user-item' },
+						React.createElement('img', { className: 'avatar', src: './images/DefaultAvatar.png' }),
+						React.createElement(
+							'div',
+							{ className: 'details' },
+							React.createElement(
+								'span',
+								{ className: 'last-logintime' },
+								'\u6700\u8FD1\u4E00\u6B21\u767B\u5F55\u65F6\u95F4\uFF1A',
+								this.state.info.lastLoginTime || '还未登陆'
+							),
+							React.createElement(
+								'div',
+								{ className: 'name' },
+								this.state.info.name
+							),
+							React.createElement(
+								'div',
+								null,
+								React.createElement('i', { className: 'fa fa-clock-o' }),
+								'\u521B\u5EFA\u65F6\u95F4\uFF1A',
+								this.state.info.createTime
+							),
+							React.createElement(
+								'div',
+								null,
+								React.createElement('i', { className: 'fa fa-envelope' }),
+								'\u90AE\u7BB1\uFF1A',
+								this.state.info.email
+							),
+							React.createElement(
+								'div',
+								null,
+								React.createElement('i', { className: 'fa fa-phone' }),
+								'\u624B\u673A\u53F7\uFF1A',
+								this.state.info.phone
+							),
+							React.createElement(
+								'div',
+								null,
+								this.state.info.note
+							)
+						)
+					),
+					React.createElement(
+						'div',
+						{ className: 'rt-panel c-default' },
+						React.createElement(
+							'div',
+							{ className: 'p-head' },
+							'\u90E8\u95E8\u53CA\u89D2\u8272'
+						),
+						React.createElement(
+							'div',
+							{ className: 'p-body' },
+							React.createElement(UI.TreeListView, { cascade: false, enableCheckbox: true, onItemCheckboxChange: this.__onTreeMenuItemCheckboxChange, value: this.state.info.roleIds, itemContentRender: this.__itemContentRender, ref: 'maintreemenu', activeAll: true, data: this.state.data })
+						)
+					)
+				)
+			);
+		}
+	});
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 32 */,
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				model: 'zn_admin_user_log'
+			};
+		},
+		getInitialState: function getInitialState() {
+			return {
+				data: Store.post('/znadmin/model/paging', {
+					model: this.props.model
+				}),
+				items: [{ title: '操作人', name: 'userId_convert', width: 100 }, { title: '操作时间', name: 'createTime', width: 180 }, { title: '类型', name: 'actionType', width: 80 }, { title: '说明', name: 'note' }]
+			};
+		},
+		__onToolbarClick: function __onToolbarClick() {},
+		render: function render() {
+			return React.createElement(
+				UI.Page,
+				{
+					toolbarItems: [{ text: '导出' }],
+					onToolbarClick: this.__onToolbarClick,
+					title: '\u7CFB\u7EDF\u8D26\u6237\u767B\u5F55\u65E5\u5FD7' },
+				React.createElement(UI.PagerView, {
+					view: 'Table',
+					enableFilter: false,
+					checkbox: 0,
+					showHeader: true,
+					data: this.state.data,
+					items: this.state.items })
+			);
+		}
+	});
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = zn.arrayValueToObject(['Menu', 'MyInfo', 'Project', 'Role', 'User', 'UserInfo', 'UserLog', 'UsersForRoles', 'Var'], function (value, index) {
+	    return __webpack_require__(35)("./" + value + '.js');
+	});
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./Menu.js": 22,
+		"./MyInfo.js": 24,
+		"./Project.js": 25,
+		"./ProjectBug.js": 26,
+		"./Role.js": 27,
+		"./User.js": 29,
+		"./UserInfo.js": 30,
+		"./UserLog.js": 33,
+		"./UsersForRoles.js": 28,
+		"./Var.js": 23,
+		"./index.js": 34
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 35;
+
+
+/***/ })
+/******/ ]);

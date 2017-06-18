@@ -1,5 +1,5 @@
 var React = require('react');
-var TreeModelView = require('../model/TreeModelView');
+var TreeModelView = require('../component/TreeModelView');
 var ProjectBug = require('./ProjectBug.js');
 
 module.exports = React.createClass({

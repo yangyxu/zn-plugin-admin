@@ -2,7 +2,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var React = require('react');
 var Var = require('./Var');
-var TreeModelView = require('../model/TreeModelView');
+var TreeModelView = require('../component/TreeModelView');
 var RightsSetting = require('../component/RightsSetting');
 var VarPanel = React.createClass({
 	displayName: 'VarPanel',

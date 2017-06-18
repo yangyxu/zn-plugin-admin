@@ -1,145 +1,168 @@
 var React = require('react');
-
-var CHARS = ['A', 'B', 'C', 'D', ''];
-
-var UserSelector = React.createClass({
-	displayName: 'UserSelector',
+var LetterSelector = require('./LetterSelector.js');
+var RoleSearcher = require('./RoleSearcher.js');
+module.exports = zn.react.znadmin.UserSearcher = React.createClass({
+	displayName: 'UserSearcher',
 
 	getDefaultProps: function getDefaultProps() {
 		return {
-			value: ','
+			mulitable: false
 		};
 	},
 	getInitialState: function getInitialState() {
 		return {
-			value: this.props.value,
-			tag: null,
-			tags: [],
-			user: null,
+			currIndex: 0,
+			search: '',
+			value: ',',
 			users: []
 		};
 	},
 	componentDidMount: function componentDidMount() {
-		this.loadRoles();
-		this.loadUsers();
+		this.__loadUsers();
 	},
-	componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-		if (nextProps.value != this.props.value) {
-			this.setState({
-				value: nextProps.value
-			});
-		}
-	},
-	loadRoles: function loadRoles() {
+	__onLetterChange: function __onLetterChange(value) {
 		/*
-  Store.post('/plugins/dbms/model/selectAllChildByPid', {model: 'zn_admin_role', fields: 'id as value, title as text', pid: 1}).exec().then(function (data){
-  	this.setState({
-  		tags: data.result
-  	});
-  }.bind(this));*/
+  this.__loadUsers({
+  	firstChar: value
+  });*/
 	},
-	loadUsers: function loadUsers() {
-		Store.post('/znadmin/model/select', { model: 'zn_admin_user', fields: 'id as value, name as text' }).exec().then(function (data) {
+	__onRoleChange: function __onRoleChange(value) {
+		/*
+  this.__loadUsers({
+  	role: value
+  });*/
+	},
+	__loadUsers: function __loadUsers(where) {
+		Store.post('/znadmin/model/select', {
+			model: 'AdminUser',
+			where: where || {}
+		}).exec().then(function (data) {
 			this.setState({
 				users: data.result
 			});
 		}.bind(this));
 	},
-	__onTagClick: function __onTagClick(item) {
-		this.setState({ tag: item.value });
+	__onSearch: function __onSearch(value) {
+		this.setState({
+			search: value
+		});
 	},
 	__onUserClick: function __onUserClick(user) {
-		var _id = user.value + ',';
-		if (this.state.value.indexOf(',' + _id) == -1) {
-			this.state.value = this.state.value + _id;
+		var _id = user.id + ',';
+		if (this.props.mulitable) {
+			if (this.state.value.indexOf(',' + _id) == -1) {
+				this.state.value = this.state.value + _id;
+			} else {
+				this.state.value = this.state.value.replace(',' + _id, ',');
+			}
 		} else {
-			this.state.value = this.state.value.replace(',' + _id, ',');
+			if (this.state.value == user.id) {
+				this.state.value = null;
+			} else {
+				this.state.value = user.id;
+			}
 		}
+
+		this.setValue(this.state.value);
+	},
+	__onUserCheckAll: function __onUserCheckAll(event, value) {
+		if (value) {
+			this.setValue(',' + this._users.join(',') + ',');
+		} else {
+			this.setValue(',');
+		}
+	},
+	__renderUsers: function __renderUsers() {
+		var _value = this.state.value,
+		    _search = this.state.search;
+		this._users = [];
+		return React.createElement(
+			'div',
+			{ className: 'user-view' },
+			React.createElement(zn.react.Search, { onSearch: this.__onSearch }),
+			React.createElement(
+				'ul',
+				{ className: 'users' },
+				this.state.users.map(function (user, index) {
+					var _this = this;
+
+					var _selected = false,
+					    _userId = user.id,
+					    _name = user.name;
+					if (_search && _name.indexOf(_search) == -1) {
+						return null;
+					} else {
+						if (_search) {
+							_name = _name.replace(_search, '<span style="color:red">' + _search + '</span>');
+						}
+					}
+					this._users.push(_userId);
+
+					if (this.props.mulitable) {
+						_selected = _value.indexOf(',' + _userId + ',') != -1;
+					} else {
+						_selected = _value === _userId;
+					}
+					return React.createElement(
+						'li',
+						{ key: index, className: 'user ' + (_selected ? 'selected' : ''), onClick: function onClick() {
+								return _this.__onUserClick(user);
+							} },
+						React.createElement('img', { className: 'avatar', src: Store.fixURL(user.avatarImg) }),
+						React.createElement('span', { className: 'name', dangerouslySetInnerHTML: { __html: _name } })
+					);
+				}.bind(this)),
+				this.props.mulitable && React.createElement(
+					'li',
+					null,
+					React.createElement(zn.react.Checkbox, { text: '\u5168\u9009', onChange: this.__onUserCheckAll })
+				)
+			)
+		);
+	},
+	setValue: function setValue(value) {
 		this.setState({
-			value: this.state.value
+			value: value
 		});
-		this.props.onChange && this.props.onChange(this.state.value);
+		this.props.onChange && this.props.onChange(value);
+	},
+	getValue: function getValue() {
+		return this.state.value;
+	},
+	__renderView: function __renderView() {
+		switch (this.state.currIndex) {
+			case 0:
+				return React.createElement(LetterSelector, { onChange: this.__onLetterChange });
+			case 1:
+				return React.createElement(RoleSearcher, { onChange: this.__onRoleChange });
+		}
 	},
 	render: function render() {
 		return React.createElement(
 			'div',
-			{ className: 'rt-user-selector' },
+			{ className: 'rt-user-searcher' },
 			React.createElement(
 				'ul',
-				{ className: 'tags', style: { borderBottom: '1px dashed #e4e2e2' } },
-				this.state.tags.map(function (item, index) {
-					var _this = this;
-
-					return React.createElement(
-						'li',
-						{ key: index, className: this.state.tag == item.value ? 'curr' : '', onClick: function onClick() {
-								return _this.__onTagClick(item);
-							} },
-						item.text
-					);
-				}.bind(this))
-			),
-			React.createElement(
-				'ul',
-				{ className: 'tags' },
-				this.state.users.map(function (item, index) {
+				{ className: 'type-tab' },
+				[{ text: '首字母', icon: 'fa-font' }, { text: '所属部门', icon: 'fa-sitemap' }].map(function (item, index) {
 					var _this2 = this;
 
 					return React.createElement(
 						'li',
-						{ key: index, className: this.state.value.indexOf(',' + item.value + ',') !== -1 ? 'curr' : '', onClick: function onClick() {
-								return _this2.__onUserClick(item);
+						{ className: this.state.currIndex === index ? 'curr' : '', key: index, onClick: function onClick() {
+								return _this2.setState({ currIndex: index });
 							} },
-						item.text
+						React.createElement('i', { style: { marginRight: 5 }, className: 'fa ' + item.icon }),
+						React.createElement(
+							'span',
+							null,
+							item.text
+						)
 					);
 				}.bind(this))
-			)
-		);
-	}
-});
-
-module.exports = React.createClass({
-	displayName: 'exports',
-
-	getDefaultProps: function getDefaultProps() {
-		return {
-			model: 'zn_admin_user'
-		};
-	},
-	getInitialState: function getInitialState() {
-		return {
-			data: Store.post('/znadmin/model/select', { model: this.props.model, where: { pid: 0 } }),
-			userSelectType: 0
-		};
-	},
-	componentDidMount: function componentDidMount() {},
-	__onListViewItemClick: function __onListViewItemClick(event, item) {
-		if (item.view) {
-			this.setState({
-				userSelectType: item.type
-			});
-		}
-	},
-	render: function render() {
-		return React.createElement(UserSelector, this.props);
-
-		return React.createElement(
-			'div',
-			{ className: 'rt-user-searcher' },
-			React.createElement(UI.ListView, {
-				className: 'c-tab-1',
-				fireIndex: 0,
-				onClick: this.__onListViewItemClick,
-				itemRender: function itemRender(item) {
-					return React.createElement(
-						'span',
-						null,
-						React.createElement('i', { style: { marginRight: 5 }, className: 'fa ' + item.icon }),
-						item.text
-					);
-				},
-				data: [{ text: '首字母', icon: 'fa-font', type: 0 }, { text: '所属部门', icon: 'fa-sitemap', type: 1 }] }),
-			React.createElement(UserSelector, { type: this.state.userSelectType })
+			),
+			this.__renderView(),
+			this.__renderUsers()
 		);
 	}
 });

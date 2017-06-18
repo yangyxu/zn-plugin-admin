@@ -116,9 +116,7 @@ module.exports = React.createClass({
 	render:function(){
 		return (
 			<UI.ActivityLayout direction="v" begin={3.5} barWidth={0.3} unit="rem">
-				<div>
-					<UI.ButtonGroup float='right' items={this.state.toolbarItems} onClick={this.__onToolbarClick} />
-				</div>
+				<UI.ButtonGroup float='right' items={this.state.toolbarItems} onClick={this.__onToolbarClick} />
 				<UI.PagerView
 					view="Table"
 					enableFilter={false}

@@ -1,125 +1,148 @@
 var React = require('react');
-
-var CHARS = ['A','B','C','D',''];
-
-var UserSelector = React.createClass({
+var LetterSelector = require('./LetterSelector.js');
+var RoleSearcher = require('./RoleSearcher.js');
+module.exports = zn.react.znadmin.UserSearcher = React.createClass({
 	getDefaultProps: function (){
 		return {
-			value: ','
-		};
+			mulitable: false
+		}
 	},
-	getInitialState: function (){
+	getInitialState: function () {
 		return {
-			value: this.props.value,
-			tag: null,
-			tags: [],
-			user: null,
+			currIndex: 0,
+			search: '',
+			value: ',',
 			users: []
 		}
 	},
 	componentDidMount: function (){
-		this.loadRoles();
-		this.loadUsers();
+		this.__loadUsers();
 	},
-	componentWillReceiveProps: function (nextProps){
-		if(nextProps.value != this.props.value){
-			this.setState({
-				value: nextProps.value
-			});
-		}
-	},
-	loadRoles: function (){
+	__onLetterChange: function (value){
 		/*
-		Store.post('/plugins/dbms/model/selectAllChildByPid', {model: 'zn_admin_role', fields: 'id as value, title as text', pid: 1}).exec().then(function (data){
-			this.setState({
-				tags: data.result
-			});
-		}.bind(this));*/
+		this.__loadUsers({
+			firstChar: value
+		});*/
 	},
-	loadUsers: function (){
-		Store.post('/znadmin/model/select', {model: 'zn_admin_user', fields: 'id as value, name as text'}).exec().then(function (data){
+	__onRoleChange: function (value){
+		/*
+		this.__loadUsers({
+			role: value
+		});*/
+	},
+	__loadUsers: function (where){
+		Store.post('/znadmin/model/select', {
+			model: 'AdminUser',
+			where: where || {}
+		}).exec().then(function (data){
 			this.setState({
 				users: data.result
 			});
 		}.bind(this));
 	},
-	__onTagClick: function (item){
-		this.setState({tag:item.value})
+	__onSearch: function (value){
+		this.setState({
+			search: value
+		});
 	},
 	__onUserClick: function (user){
-		var _id = user.value + ',';
-		if(this.state.value.indexOf(','+_id)==-1){
-			this.state.value = this.state.value + _id;
+		var _id = user.id + ',';
+		if(this.props.mulitable){
+			if(this.state.value.indexOf(','+_id)==-1){
+				this.state.value = this.state.value + _id;
+			}else {
+				this.state.value = this.state.value.replace(',' + _id, ',');
+			}
 		}else {
-			this.state.value = this.state.value.replace(','+_id, ',');
+			if(this.state.value == user.id){
+				this.state.value = null;
+			}else {
+				this.state.value = user.id;
+			}
 		}
-		this.setState({
-			value: this.state.value
-		});
-		this.props.onChange && this.props.onChange(this.state.value);
+
+		this.setValue(this.state.value);
 	},
-	render: function (){
+	__onUserCheckAll: function (event, value){
+		if(value){
+			this.setValue(',' + this._users.join(',') + ',');
+		}else {
+			this.setValue(',');
+		}
+	},
+	__renderUsers: function (){
+		var _value = this.state.value,
+			_search = this.state.search;
+		this._users = [];
 		return (
-			<div className="rt-user-selector">
-				<ul className="tags" style={{borderBottom: '1px dashed #e4e2e2'}}>
+			<div className="user-view">
+				<zn.react.Search onSearch={this.__onSearch} />
+				<ul className="users">
 					{
-						this.state.tags.map(function (item, index){
-							return <li key={index} className={this.state.tag==item.value ? 'curr' : ''} onClick={()=>this.__onTagClick(item)}>{item.text}</li>;
+						this.state.users.map(function (user, index){
+							var _selected = false,
+								_userId = user.id,
+								_name = user.name;
+							if(_search && _name.indexOf(_search)==-1){
+								return null;
+							}else {
+								if(_search){
+									_name = _name.replace(_search, '<span style="color:red">'+_search+'</span>');
+								}
+							}
+							this._users.push(_userId);
+
+							if(this.props.mulitable){
+								_selected = _value.indexOf(',' + _userId+',')!=-1;
+							}else {
+								_selected = _value === _userId;
+							}
+							return <li key={index} className={'user '+(_selected?'selected':'')} onClick={()=>this.__onUserClick(user)}>
+								<img className="avatar" src={Store.fixURL(user.avatarImg)} />
+								<span className="name" dangerouslySetInnerHTML={{ __html: _name }} ></span>
+							</li>;
 						}.bind(this))
 					}
-				</ul>
-				<ul className="tags">
-					{
-						this.state.users.map(function (item, index){
-							return <li key={index} className={this.state.value.indexOf(',' + item.value + ',')!==-1?'curr':''} onClick={()=>this.__onUserClick(item)}>{item.text}</li>;
-						}.bind(this))
-					}
+					{this.props.mulitable && <li><zn.react.Checkbox text="全选" onChange={this.__onUserCheckAll} /></li>}
 				</ul>
 			</div>
 		);
-	}
-});
-
-
-module.exports = React.createClass({
-	getDefaultProps: function () {
-		return {
-			model: 'zn_admin_user'
-		};
 	},
-	getInitialState: function () {
-		return {
-			data: Store.post('/znadmin/model/select', { model: this.props.model, where: { pid: 0 } }),
-			userSelectType: 0
-		}
+	setValue: function (value){
+		this.setState({
+			value: value
+		});
+		this.props.onChange && this.props.onChange(value);
 	},
-	componentDidMount: function (){
-
+	getValue: function (){
+		return this.state.value;
 	},
-	__onListViewItemClick: function (event, item){
-		if(item.view){
-			this.setState({
-				userSelectType: item.type
-			});
+	__renderView: function (){
+		switch (this.state.currIndex) {
+			case 0:
+				return <LetterSelector onChange={this.__onLetterChange} />;
+			case 1:
+				return <RoleSearcher onChange={this.__onRoleChange} />;
 		}
 	},
 	render:function(){
 		return (
-			<UserSelector {...this.props} />
-		);
-
-		return (
 			<div className="rt-user-searcher">
-				<UI.ListView
-					className="c-tab-1"
-					fireIndex={0}
-					onClick={this.__onListViewItemClick}
-					itemRender={(item)=>{ return <span><i style={{marginRight:5}} className={'fa ' + item.icon} />{item.text}</span>;}}
-					data={[
-						{ text: '首字母', icon: 'fa-font', type: 0 },
-						{ text: '所属部门', icon: 'fa-sitemap', type: 1 }
-					]} />
-				<UserSelector type={this.state.userSelectType} />
+				<ul className="type-tab">
+					{
+						[
+							{ text: '首字母', icon: 'fa-font' },
+							{ text: '所属部门', icon: 'fa-sitemap' }
+						].map(function (item, index){
+							return <li className={this.state.currIndex===index ? 'curr': ''} key={index} onClick={()=>this.setState({ currIndex: index })}>
+								<i style={{marginRight:5}} className={'fa ' + item.icon} />
+								<span>{item.text}</span>
+							</li>;
+						}.bind(this))
+					}
+				</ul>
+				{this.__renderView()}
+				{this.__renderUsers()}
 			</div>
 		);
 	}

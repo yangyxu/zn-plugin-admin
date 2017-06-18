@@ -113,11 +113,7 @@ module.exports = React.createClass({
 		return React.createElement(
 			UI.ActivityLayout,
 			{ direction: 'v', begin: 3.5, barWidth: 0.3, unit: 'rem' },
-			React.createElement(
-				'div',
-				null,
-				React.createElement(UI.ButtonGroup, { float: 'right', items: this.state.toolbarItems, onClick: this.__onToolbarClick })
-			),
+			React.createElement(UI.ButtonGroup, { float: 'right', items: this.state.toolbarItems, onClick: this.__onToolbarClick }),
 			React.createElement(UI.PagerView, {
 				view: 'Table',
 				enableFilter: false,

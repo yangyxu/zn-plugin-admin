@@ -1,69 +1,69 @@
 var React = require('react');
-
-module.exports = React.createClass({
+module.exports = zn.react.znadmin.RoleSearcher = React.createClass({
 	getDefaultProps: function (){
 		return {
-			value: ','
+			value: ',',
+			disabled: false,
+			cascade: false,
+			activeAll: false,
+			enableCheckbox: true
 		};
 	},
 	getInitialState: function (){
 		return {
 			value: this.props.value,
-			roles: []
+			data: Store.post('/znadmin/model/select', {
+				model: 'zn_admin_role', where: {
+					pid: 0
+				}
+			})
 		}
 	},
-	componentDidMount: function (){
-		this.loadRoles();
-	},
-	componentWillReceiveProps: function (nextProps){
-		if(nextProps.value != this.props.value){
+	componentDidUpdate: function (prevProps){
+		if(prevProps.value != this.props.value){
 			this.setState({
-				value: nextProps.value
+				value: this.props.value
 			});
 		}
 	},
-	loadRoles: function (){
-		Store.post('/znadmin/model/selectAllChildByPid', {model: 'zn_admin_role', fields: 'id as value, title as text, type', pid: 1}).exec().then(function (data){
-			this.setState({
-				roles: data.result
-			});
-		}.bind(this));
+	__onTreeMenuItemCheckboxChange: function (value){
+		this.state.value = value;
+		this.props.onChange && this.props.onChange(value);
 	},
-	__onTagClick: function (item){
-		this.setState({tag:item.value})
-	},
-	__onUserClick: function (user){
-		var _id = user.value + ',';
-		if(this.state.value.indexOf(',' + _id)==-1){
-			this.state.value = this.state.value + _id;
-		}else {
-			this.state.value = this.state.value.replace((',' + _id), ',');
-		}
+	setValue: function (value){
 		this.setState({
-			value: this.state.value
+			value: value
 		});
-		this.props.onChange && this.props.onChange(this.state.value);
+		this.props.onChange && this.props.onChange(value);
 	},
-	__renderIcon: function (item){
-		switch (item.type) {
-			case 0:
-				return null;
+	getValue: function (){
+		return this.state.value;
+	},
+	__itemContentRender: function (props){
+		var _icon = '';
+		switch (props.data.type) {
 			case 1:
-				return <i title="这是部门" className='fa fa-sitemap' style={{margin: 5,color: '#d9534f'}} />;
+				_icon = 'fa-sitemap';
+				break;
 			case 2:
-				return <i title="这是角色" className='fa fa-graduation-cap' style={{margin: 5}} />;
+				_icon = 'fa-graduation-cap';
+				break;
 		}
+
+		return <span>
+			{_icon && <i style={{margin:5}} className={'fa ' + _icon} />}
+			{(this.props.debug?(props.data.id + '、'):'') + props.data.title}
+		</span>;
 	},
 	render: function (){
 		return (
 			<div className="rt-user-selector">
-				<ul className="tags">
-					{
-						this.state.roles.map(function (item, index){
-							return <li key={index} className={this.state.value.indexOf(',' + item.value + ',')!==-1?'curr':''} onClick={()=>this.__onUserClick(item)}>{this.__renderIcon(item)}{item.text}</li>;
-						}.bind(this))
-					}
-				</ul>
+				<zn.react.TreeListView
+					{...this.props}
+					value={this.state.value}
+					data={this.state.data}
+					onItemCheckboxChange={this.__onTreeMenuItemCheckboxChange}
+					itemContentRender={this.__itemContentRender} />
 			</div>
 		);
 	}

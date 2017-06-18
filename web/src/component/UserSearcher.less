@@ -1,6 +1,91 @@
 .rt-user-searcher{
+    .type-tab{
+        margin: 5px;
+        display: flex;
+        line-height: 30px;
+        li{
+            flex: 1;
+            cursor: pointer;
+            text-align: center;
+            /*border-color: #e6e6e6;*/
+            border-color: #03A9F4;
+            color: #03A9F4;
+            border-style: solid;
+            border-width: 1px 1px 1px 0px;
+            &:hover{
+                font-weight: bolder;
+            }
+            &.curr{
+                background-color: #03A9F4;
+                border-color: #03A9F4;
+                color: #FFF;
+            }
+            &:first-child{
+                border-left-width: 1px;
+                border-radius: 5px 0px 0px 5px;
+            }
+            &:last-child{
+                border-radius: 0px 5px 5px 0px;
+            }
+        }
+    }
+
+    .user-view{
+        border-top: 1px dashed #e4e2e2;
+        .users{
+            overflow: hidden;
+            li{
+                padding: 4px 6px;
+                &.user{
+                    float: left;
+                    cursor: pointer;
+                    margin: 3px;
+                    border-radius: 2px;
+                    border: 1px solid #f3f3f3;
+                    text-align: center;
+                    /*box-shadow: 2px 2px 2px #f1ecec;*/
+                    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+                    min-width: 28px;
+                    .avatar{
+
+                    }
+                    .name{
+
+                    }
+                    &:hover{
+                        border-color: #03A9F4;
+                        color: #03A9F4;
+                    }
+                    &.selected{
+                        background-color: #03A9F4;
+                        border-color: #03A9F4;
+                        color: #FFF;
+                        &::after{
+                            content: "\f058";
+                            font-family: FontAwesome;
+                            font-size: 14px;
+                            color: #3498db;
+                            width: 10px;
+                            height: 7px;
+                            vertical-align: bottom;
+                            border-radius: 50%;
+                            position: absolute;
+                            top: -8px;
+                            right: -10px;
+                            display: block;
+                            line-height: 16px;
+                            background: white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
 }
+
+
 
 .rt-user-selector{
     .tags{
