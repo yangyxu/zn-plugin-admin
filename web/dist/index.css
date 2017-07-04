@@ -43,7 +43,7 @@
   border-width: 1px 1px 1px 0px;
 }
 .rt-user-searcher .type-tab li:hover {
-  font-weight: bolder;
+  opacity: 0.6;
 }
 .rt-user-searcher .type-tab li.curr {
   background-color: #03A9F4;
@@ -67,9 +67,10 @@
   padding: 4px 6px;
 }
 .rt-user-searcher .user-view .users li.user {
+  position: relative;
   float: left;
   cursor: pointer;
-  margin: 3px;
+  margin: 5px 3px;
   border-radius: 2px;
   border: 1px solid #f3f3f3;
   text-align: center;
@@ -87,6 +88,7 @@
   color: #FFF;
 }
 .rt-user-searcher .user-view .users li.user.selected::after {
+  position: absolute;
   content: "\f058";
   font-family: FontAwesome;
   font-size: 14px;
@@ -95,7 +97,6 @@
   height: 7px;
   vertical-align: bottom;
   border-radius: 50%;
-  position: absolute;
   top: -8px;
   right: -10px;
   display: block;
@@ -179,4 +180,231 @@
   margin: 10px 0px;
   position: relative;
   min-height: 64px;
+}
+.v-login.admin {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  top: 0px;
+  left: 0px;
+  -webkit-transition: 2s -webkit-filter linear;
+  -moz-transition: 2s -moz-filter linear;
+  -o-transition: 2s -o-filter linear;
+  transition: 2s filter linear;
+}
+.v-login.admin .bg-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: url(#blur);
+  filter: blur(5px);
+  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='3');
+}
+.v-login.admin .main {
+  position: absolute;
+  width: 480px;
+  /*height: 360px;*/
+  top: 40%;
+  left: 50%;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin: -180px 0 0 -240px;
+  background: #fff;
+  box-shadow: 0 4px 23px 5px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+.v-login.admin .main .head {
+  padding: 10px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  background-color: #3FA9F5;
+  color: #FFF;
+  border-radius: 5px 5px 0 0;
+  text-align: center;
+  /*border-bottom: 1px solid #3FA9F5;*/
+}
+.v-login.admin .main .logo .logo-img {
+  margin: 15px auto 4px auto;
+  display: block;
+  width: 96px;
+}
+.v-login.admin .main .form {
+  overflow: hidden;
+}
+.v-login.admin .main .foot {
+  font-size: 12px;
+  padding: 10px;
+  color: #0B72A5;
+  text-align: center;
+}
+.v-login.admin {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  top: 0px;
+  left: 0px;
+  -webkit-transition: 2s -webkit-filter linear;
+  -moz-transition: 2s -moz-filter linear;
+  -o-transition: 2s -o-filter linear;
+  transition: 2s filter linear;
+}
+.v-login.admin .bg-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: url(#blur);
+  filter: blur(5px);
+  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='3');
+}
+.v-login.admin .main {
+  position: absolute;
+  width: 480px;
+  /*height: 360px;*/
+  top: 40%;
+  left: 50%;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin: -180px 0 0 -240px;
+  background: #fff;
+  box-shadow: 0 4px 23px 5px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+.v-login.admin .main .head {
+  padding: 10px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  background-color: #3FA9F5;
+  color: #FFF;
+  border-radius: 5px 5px 0 0;
+  text-align: center;
+  /*border-bottom: 1px solid #3FA9F5;*/
+}
+.v-login.admin .main .logo .logo-img {
+  margin: 15px auto 4px auto;
+  display: block;
+  width: 96px;
+}
+.v-login.admin .main .form {
+  overflow: hidden;
+}
+.v-login.admin .main .foot {
+  font-size: 12px;
+  padding: 10px;
+  color: #0B72A5;
+  text-align: center;
+}
+.main-top.admin {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  color: #1f9bdd;
+  line-height: 8rem;
+}
+.main-top.admin .rt-fl > .logo {
+  float: left;
+  text-indent: 10px;
+  margin-left: 70px;
+}
+.main-top.admin .rt-fl > .logo::before {
+  content: ' ';
+  display: inline-block;
+  background: url('../images/logo.jpg') no-repeat;
+  background-size: contain;
+  width: 76px;
+  height: 40px;
+  left: 10px;
+  margin: 5px;
+  position: absolute;
+}
+.main-top.admin .rt-fl .title {
+  margin: 10px;
+  line-height: 120px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.main-top.admin > .right {
+  float: right;
+  cursor: pointer;
+  padding-right: 20px;
+}
+.main-top.admin > .right .info {
+  position: relative;
+  margin: 0px 10px;
+  padding: 0 10px;
+}
+.main-top.admin > .right .info .avatar {
+  border-radius: 50%;
+}
+.main-top.admin > .right .info .exit {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background-color: #3E9FE2;
+  cursor: pointer;
+  margin-top: -50px;
+}
+.main-top.admin > .right .info .exit .fa {
+  font-size: 22px;
+  margin: 4px;
+}
+.main-top.admin > .right .info:hover .exit {
+  margin-top: 0px;
+}
+.main-top.admin > .right > .search .fa {
+  position: relative;
+  right: -16px;
+}
+.main-top.admin > .right > .search input {
+  background-color: transparent !important;
+  border: none;
+  border-bottom: 1px solid #9DA8BB;
+  border-radius: 0px;
+  padding-left: 20px;
+  color: #FFF;
+  font-size: 1.6rem;
+}
+.main-top.admin > .right > * {
+  float: right;
+}
+.main-left.admin {
+  font-size: 2.2rem;
+}
+.main-left.admin > .navigation-menu {
+  overflow: hidden;
+  margin-top: 50px;
+}
+.main-left.admin > .navigation-menu li {
+  border-left: 5px solid transparent;
+  cursor: pointer;
+  padding: 20px 5px;
+  color: #9AA5B8;
+}
+.main-left.admin > .navigation-menu li > .fa {
+  margin: 0px 15px;
+}
+.main-left.admin > .navigation-menu li.curr {
+  border-left: 5px solid #3EA9F5;
+  background-color: #232B36;
+  color: #FFFFFF;
+}
+.main-left.admin > .navigation-menu li:hover {
+  color: #DEE7EC;
+}
+.main-foot {
+  text-align: center;
+  font-size: 12px;
+  line-height: 3rem;
+  background-color: #17a7ee;
+  color: #FFF;
 }

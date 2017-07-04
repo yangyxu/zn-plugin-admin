@@ -399,7 +399,6 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(5);
-
 	var CHARS = zn.char.getUppercaseLetters();
 
 	module.exports = React.createClass({
@@ -1419,7 +1418,20 @@
 		"./page/Var": 23,
 		"./page/Var.js": 23,
 		"./page/index": 34,
-		"./page/index.js": 34
+		"./page/index.js": 34,
+		"./view/web/Dashboard": 36,
+		"./view/web/Dashboard.js": 36,
+		"./view/web/Index": 37,
+		"./view/web/Index.js": 37,
+		"./view/web/Index.less": 38,
+		"./view/web/Login": 40,
+		"./view/web/Login.js": 40,
+		"./view/web/Login.less": 41,
+		"./view/web/Main": 43,
+		"./view/web/Main.js": 43,
+		"./view/web/Main.less": 44,
+		"./view/web/exports": 46,
+		"./view/web/exports.js": 46
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -2552,6 +2564,501 @@
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
 	webpackContext.id = 35;
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getInitialState: function getInitialState() {
+			return {
+				userId: Session.json().id || 1,
+				toolbarItems: [],
+				info: null,
+				kylinInfo: null,
+				data: Store.post('/znadmin/model/select', { model: 'zn_admin_role', where: { pid: 0 } })
+			};
+		},
+		componentDidMount: function componentDidMount() {},
+		render: function render() {
+			if (!this.state.info) {
+				return null;
+			}
+			return React.createElement(
+				UI.Page,
+				{ title: '控制面板', icon: 'fa-newspaper-o', toolbarItems: this.state.toolbarItems },
+				React.createElement(
+					'div',
+					{ className: 'user-info' },
+					React.createElement(
+						'div',
+						{ className: 'info-form user-item' },
+						React.createElement('img', { className: 'avatar', src: './images/DefaultAvatar.png' }),
+						React.createElement(
+							'div',
+							{ className: 'details' },
+							React.createElement(
+								'span',
+								{ className: 'last-logintime' },
+								'\u6700\u8FD1\u4E00\u6B21\u767B\u5F55\u65F6\u95F4\uFF1A',
+								this.state.info.lastLoginTime || '2016-8-21 14:38:20'
+							),
+							React.createElement(
+								'div',
+								{ className: 'name' },
+								this.state.info.name
+							),
+							React.createElement(
+								'div',
+								null,
+								React.createElement('i', { className: 'fa fa-clock-o' }),
+								'\u521B\u5EFA\u65F6\u95F4\uFF1A',
+								this.state.info.createTime
+							),
+							React.createElement(
+								'div',
+								null,
+								React.createElement('i', { className: 'fa fa-envelope' }),
+								'\u90AE\u7BB1\uFF1A',
+								this.state.info.email
+							),
+							React.createElement(
+								'div',
+								null,
+								React.createElement('i', { className: 'fa fa-phone' }),
+								'\u624B\u673A\u53F7\uFF1A',
+								this.state.info.phone
+							),
+							React.createElement(
+								'div',
+								null,
+								this.state.info.note
+							)
+						)
+					),
+					React.createElement(
+						'div',
+						{ className: 'rt-panel c-default' },
+						React.createElement(
+							'div',
+							{ className: 'p-head' },
+							'\u90E8\u95E8\u53CA\u89D2\u8272'
+						),
+						React.createElement(
+							'div',
+							{ className: 'p-body' },
+							React.createElement(UI.TreeMenu, { cascade: false, enableCheckbox: true, onItemCheckboxChange: this.__onTreeMenuItemCheckboxChange, value: this.state.info.roleIds, itemContentRender: this.__itemContentRender, ref: 'maintreemenu', activeAll: true, data: this.state.data })
+						)
+					)
+				)
+			);
+		}
+	});
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getInitialState: function getInitialState() {
+			return {
+				action: 'login'
+			};
+		},
+		__doSuccess: function __doSuccess(data, xhr) {
+			var _user = data.result;
+			//document.cookie = _user['@session'];
+			Session.clear().set(_user).jump('/main/znadmin/MyInfo');
+		},
+		renderForm: function renderForm() {
+			var _this = this;
+
+			switch (this.state.action) {
+				case 'login':
+					return React.createElement(
+						'div',
+						null,
+						React.createElement(UI.Form, {
+							method: 'POST',
+							layout: 'stacked',
+							action: '/znadmin/user/login',
+							style: { margin: 25 },
+							btns: [{
+								text: '登录',
+								type: 'submit',
+								float: 'none',
+								textAlign: 'center',
+								style: { marginTop: 25, fontSize: 16, fontWeight: 600, height: 40, lineHeight: '30px' }
+							}],
+							onSubmitSuccess: this.__doSuccess,
+							onSubmitError: function onSubmitError(data) {
+								return Popup.message({ content: "登录失败: " + data.result, type: 'warning' });
+							},
+							items: [{ title: '用户名', placeholder: '用户名', name: 'name', type: 'Input', required: true, error: '用户名是必填项' }, { title: '密码', placeholder: '密码 (不少于6位)', name: 'password', type: 'Input', attrs: { type: 'password' }, required: true, error: '密码是必填项且不能少于6位' }] }),
+						React.createElement(
+							'div',
+							null,
+							React.createElement(
+								'a',
+								{ onClick: function onClick() {
+										return _this.setState({ action: 'forget' });
+									}, style: { float: 'right', marginRight: 25, color: '#0B72A5', cursor: 'pointer' } },
+								'\u5FD8\u8BB0\u5BC6\u7801?'
+							)
+						)
+					);
+				case 'forget':
+					return React.createElement(
+						'div',
+						null,
+						React.createElement(UI.Form, {
+							method: 'POST',
+							layout: 'stacked',
+							style: { margin: 25 },
+							btns: [{
+								text: '提交',
+								type: 'submit',
+								float: 'none',
+								textAlign: 'center',
+								style: { marginTop: 25, fontSize: 16, fontWeight: 600, height: 40, lineHeight: '30px' }
+							}],
+							onSubmitSuccess: this.__doSuccess,
+							onSubmitError: function onSubmitError(data) {
+								return Popup.message({ content: "注册失败: " + data.result, type: 'warning' });
+							},
+							items: [{ title: '邮箱', placeholder: '邮箱 (注册使用邮箱)', name: 'email', type: 'Input', required: true, error: '邮箱是必填项' }] }),
+						React.createElement(
+							'div',
+							null,
+							React.createElement(
+								'a',
+								{ onClick: function onClick() {
+										return _this.setState({ action: 'login' });
+									}, style: { float: 'left', marginLeft: 25, color: '#0B72A5', cursor: 'pointer' } },
+								'<<登录'
+							)
+						)
+					);
+			}
+		},
+		render: function render() {
+			return React.createElement(
+				'div',
+				{ className: 'v-login admin' },
+				React.createElement('img', { className: 'bg-img', src: './images/bg/4.jpg' }),
+				React.createElement(
+					'div',
+					{ className: 'main animated slideInDown' },
+					React.createElement(
+						'div',
+						{ className: 'head' },
+						'\u4E0A\u6D77\u817E\u9E9F\u6570\u636E\u7BA1\u7406\u4E2D\u5FC3'
+					),
+					React.createElement(
+						'div',
+						{ className: 'logo' },
+						React.createElement('img', { className: 'logo-img', src: './images/logo.jpg' })
+					),
+					React.createElement(
+						'div',
+						{ className: 'form' },
+						this.renderForm()
+					),
+					React.createElement(
+						'div',
+						{ className: 'foot' },
+						'\u4E0A\u6D77\u817E\u9E9F\u6587\u5316\u4F20\u5A92\u6709\u9650\u516C\u53F8 @2016'
+					)
+				)
+			);
+		}
+	});
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 39 */,
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	__webpack_require__(41);
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getInitialState: function getInitialState() {
+			return {
+				action: 'login'
+			};
+		},
+		__doSuccess: function __doSuccess(data, xhr) {
+			var _user = data.result;
+			Session.clear().set(_user).jump('/main/znadmin/MyInfo');
+		},
+		renderForm: function renderForm() {
+			var _this = this;
+
+			switch (this.state.action) {
+				case 'login':
+					return React.createElement(
+						'div',
+						null,
+						React.createElement(UI.Form, {
+							method: 'POST',
+							layout: 'stacked',
+							action: '/znadmin/user/login',
+							style: { margin: 25 },
+							btns: [{
+								text: '登录',
+								type: 'submit',
+								float: 'none',
+								textAlign: 'center',
+								style: { marginTop: 25, fontSize: 16, fontWeight: 600, height: 40, lineHeight: '30px' }
+							}],
+							onSubmitSuccess: this.__doSuccess,
+							onSubmitError: function onSubmitError(data) {
+								return Popup.message({ content: "登录失败: " + data.result, type: 'warning' });
+							},
+							items: [{ title: '用户名', placeholder: '用户名', name: 'name', type: 'Input', required: true, error: '用户名是必填项' }, { title: '密码', placeholder: '密码 (不少于6位)', name: 'password', type: 'Input', attrs: { type: 'password' }, required: true, error: '密码是必填项且不能少于6位' }] }),
+						React.createElement(
+							'div',
+							null,
+							React.createElement(
+								'a',
+								{ onClick: function onClick() {
+										return _this.setState({ action: 'forget' });
+									}, style: { float: 'right', marginRight: 25, color: '#0B72A5', cursor: 'pointer' } },
+								'\u5FD8\u8BB0\u5BC6\u7801?'
+							)
+						)
+					);
+				case 'forget':
+					return React.createElement(
+						'div',
+						null,
+						React.createElement(UI.Form, {
+							method: 'POST',
+							layout: 'stacked',
+							style: { margin: 25 },
+							btns: [{
+								text: '提交',
+								type: 'submit',
+								float: 'none',
+								textAlign: 'center',
+								style: { marginTop: 25, fontSize: 16, fontWeight: 600, height: 40, lineHeight: '30px' }
+							}],
+							onSubmitSuccess: this.__doSuccess,
+							onSubmitError: function onSubmitError(data) {
+								return Popup.message({ content: "注册失败: " + data.result, type: 'warning' });
+							},
+							items: [{ title: '邮箱', placeholder: '邮箱 (注册使用邮箱)', name: 'email', type: 'Input', required: true, error: '邮箱是必填项' }] }),
+						React.createElement(
+							'div',
+							null,
+							React.createElement(
+								'a',
+								{ onClick: function onClick() {
+										return _this.setState({ action: 'login' });
+									}, style: { float: 'left', marginLeft: 25, color: '#0B72A5', cursor: 'pointer' } },
+								'<<登录'
+							)
+						)
+					);
+			}
+		},
+		render: function render() {
+			return React.createElement(
+				'div',
+				{ className: 'v-login admin' },
+				React.createElement('img', { className: 'bg-img', src: './images/bg/4.jpg' }),
+				React.createElement(
+					'div',
+					{ className: 'main animated slideInDown' },
+					React.createElement(
+						'div',
+						{ className: 'head' },
+						'\u4E0A\u6D77\u817E\u9E9F\u6570\u636E\u7BA1\u7406\u4E2D\u5FC3'
+					),
+					React.createElement(
+						'div',
+						{ className: 'logo' },
+						React.createElement('img', { className: 'logo-img', src: './images/logo.jpg' })
+					),
+					React.createElement(
+						'div',
+						{ className: 'form' },
+						this.renderForm()
+					),
+					React.createElement(
+						'div',
+						{ className: 'foot' },
+						'\u4E0A\u6D77\u817E\u9E9F\u6587\u5316\u4F20\u5A92\u6709\u9650\u516C\u53F8 @2016'
+					)
+				)
+			);
+		}
+	});
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 42 */,
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	__webpack_require__(44);
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getInitialState: function getInitialState() {
+			return {
+				data: Store.post('/znadmin/model/select', { model: 'zn_admin_menu', ifEnabledRights: true, where: { pid: 2 } })
+			};
+		},
+		__onMenuItemClick: function __onMenuItemClick(item) {
+			var _data = item.props.data;
+			if (_data.url) {
+				Session.jump(_data.url);
+			}
+		},
+		__itemContentRender: function __itemContentRender(item, index) {
+			return React.createElement(
+				'span',
+				null,
+				React.createElement('i', { className: 'fa ' + item.data.icon, style: { width: 16, margin: 10 } }),
+				item.data.title
+			);
+		},
+		__onListItemClick: function __onListItemClick(props, rtitem) {
+			switch (rtitem.props.text) {
+				case '我的信息':
+					Session.jump('/main/znadmin/MyInfo');
+					break;
+				case '退出':
+					Session.doHome();
+					break;
+			}
+			Popover.close('_click');
+		},
+		render: function render() {
+			if (!Session.json()) {
+				Session.jump('/index');
+			} else {
+				if (!this.props.request || this.props.request.name == '') {
+					Session.jump('/main/znadmin/MyInfo');
+				}
+			}
+
+			var _title = Session.json().name || Session.json().email;
+			return React.createElement(
+				UI.FixedLayout,
+				{
+					style: { position: 'fixed' },
+					hStyle: { borderBottom: '1px solid #3d3d3d' },
+					direction: 'v',
+					unit: 'rem',
+					end: 3,
+					begin: 8 },
+				React.createElement(
+					'div',
+					{ className: 'main-top admin' },
+					React.createElement('div', { className: 'rt-fl' }),
+					React.createElement(
+						'div',
+						{ className: 'right' },
+						React.createElement(
+							UI.Dropdown,
+							null,
+							React.createElement(
+								'div',
+								{ className: 'info' },
+								React.createElement('img', { className: 'avatar', src: Store.fixURL(Session.json().avatarImg) || "./images/DefaultAvatar.png", style: { width: 32, height: 32, position: 'relative', top: 10, marginRight: 5 } }),
+								React.createElement(
+									'span',
+									null,
+									_title,
+									React.createElement('i', { style: { margin: 5 }, className: 'fa fa-angle-down' })
+								)
+							),
+							React.createElement(UI.ListView, { selectMode: 'none', data: [{ text: '我的信息' }, { text: '退出' }], onItemClick: this.__onListItemClick, style: { backgroundColor: '#FFF' } })
+						)
+					)
+				),
+				React.createElement(
+					UI.ActivityLayout,
+					{
+						begin: 20,
+						unit: 'rem',
+						hStyle: { borderRight: '1px solid #e9e9e9' },
+						fStyle: { right: 10, left: '21rem' },
+						direction: 'h' },
+					React.createElement(UI.TreeListView, { itemContentRender: this.__itemContentRender, activeAll: true, onClick: this.__onMenuItemClick, data: this.state.data }),
+					this.props.view && React.createElement(this.props.view, this.props.request.search)
+				),
+				React.createElement(
+					'div',
+					{ className: 'main-foot' },
+					'\u4E0A\u6D77\u817E\u9E9F\u6587\u5316\u4F20\u5A92\u6709\u9650\u516C\u53F8 @2016 - @2017'
+				)
+			);
+		}
+	});
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 45 */,
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = zn.arrayValueToObject(['Menu', 'MyInfo', 'Project', 'Role', 'User', 'UserInfo', 'UserLog', 'UsersForRoles', 'Var'], function (value, index) {
+	    return __webpack_require__(47)("./" + value + '.js');
+	});
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./Dashboard.js": 36,
+		"./Index.js": 37,
+		"./Login.js": 40,
+		"./Main.js": 43,
+		"./exports.js": 46
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 47;
 
 
 /***/ })

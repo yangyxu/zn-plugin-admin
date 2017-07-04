@@ -1,5 +1,4 @@
 var React = require('react');
-
 var CHARS = zn.char.getUppercaseLetters();
 
 module.exports = React.createClass({
