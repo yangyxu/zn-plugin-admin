@@ -318,7 +318,6 @@
 .main-top.admin .rt-fl > .logo::before {
   content: ' ';
   display: inline-block;
-  background: url('../images/logo.jpg') no-repeat;
   background-size: contain;
   width: 76px;
   height: 40px;

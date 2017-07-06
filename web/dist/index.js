@@ -2793,7 +2793,6 @@
 /* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	__webpack_require__(41);
 	var React = __webpack_require__(5);
 	module.exports = React.createClass({
 		displayName: 'exports',
@@ -2922,7 +2921,6 @@
 /* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	__webpack_require__(44);
 	var React = __webpack_require__(5);
 	module.exports = React.createClass({
 		displayName: 'exports',
