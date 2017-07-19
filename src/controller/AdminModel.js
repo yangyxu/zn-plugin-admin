@@ -62,11 +62,12 @@ zn.define(function () {
                         });
                     });
 
-                    this.query(_sqls.join(';')).then(function (){
-                        response.success(_result);
-                    }, function (err){
-                        response.error('Import Error: ' + err.message);
-                    });
+                    this.query(_sqls.join(';'))
+                        .then(function (){
+                            response.success(_result);
+                        }, function (err){
+                            response.error('Import Error: ' + err.message);
+                        });
                 }
             },
             getAllModels: {
@@ -143,17 +144,16 @@ zn.define(function () {
                         _collection = this.collection(_values.model),
                         _pid = _values.pid;
                     _values.where = [
-                        'pid=' + _pid,
-                        "and locate('," + _pid + ",',parentPath)<>0"
+                        "locate('," + _pid + ",',parentPath)<>0"
                     ];
 
                     if(_collection){
                         _collection.select(_values)
-                        .then(function(data){
-                            response.success(data);
-                        }, function (data){
-                            response.error(data);
-                        });
+                                    .then(function(data){
+                                        response.success(data);
+                                    }, function (data){
+                                        response.error(data);
+                                    });
                     }else {
                         response.error('Model is not exist!');
                     }
@@ -171,11 +171,11 @@ zn.define(function () {
 
                     if(_collection){
                         _collection.select(_values)
-                        .then(function(data){
-                            response.success(data.length?data[0]:null);
-                        }, function (data){
-                            response.error(data);
-                        });
+                                    .then(function(data){
+                                        response.success(data.length?data[0]:null);
+                                    }, function (data){
+                                        response.error(data);
+                                    });
                     }else {
                         response.error('Model is not exist!');
                     }
@@ -193,11 +193,11 @@ zn.define(function () {
 
                     if(_collection){
                         _collection.select(_values)
-                        .then(function(data){
-                            response.success(data);
-                        }, function (data){
-                            response.error(data);
-                        });
+                                    .then(function(data){
+                                        response.success(data);
+                                    }, function (data){
+                                        response.error(data);
+                                    });
                     }else {
                         response.error('Model is not exist!');
                     }
@@ -214,11 +214,11 @@ zn.define(function () {
 
                     if(_collection){
                         _collection.paging(_values)
-                        .then(function(data){
-                            response.success(data);
-                        }, function (data){
-                            response.error(data);
-                        });
+                                    .then(function(data){
+                                        response.success(data);
+                                    }, function (data){
+                                        response.error(data);
+                                    });
                     }else {
                         response.error('Model is not exist!');
                     }
@@ -235,12 +235,12 @@ zn.define(function () {
                         _collection = this.collection(_values.model);
 
                     if(_collection){
-                        _collection.insert(_values)
-                        .then(function(data){
-                            response.success(data);
-                        }, function (data){
-                            response.error(data);
-                        });
+                        _collection.insert(_values.values)
+                                    .then(function(data){
+                                        response.success(data);
+                                    }, function (data){
+                                        response.error(data);
+                                    });
                     }else {
                         response.error('Model is not exist!');
                     }
@@ -250,7 +250,7 @@ zn.define(function () {
                 method: 'GET/POST',
                 argv: {
                     model: null,
-                    sets: null,
+                    updates: null,
                     where: null
                 },
                 value: function (request, response, chain){
@@ -258,12 +258,12 @@ zn.define(function () {
                         _collection = this.collection(_values.model);
 
                     if(_collection){
-                        _collection.update(_values)
-                        .then(function(data){
-                            response.success(data);
-                        }, function (data){
-                            response.error(data);
-                        });
+                        _collection.update(_values.updates, _values.where)
+                                    .then(function(data){
+                                        response.success(data);
+                                    }, function (data){
+                                        response.error(data);
+                                    });
                     }else {
                         response.error('Model is not exist!');
                     }
@@ -280,12 +280,12 @@ zn.define(function () {
                         _collection = this.collection(_values.model);
 
                     if(_collection){
-                        _collection.delete(_values)
-                        .then(function(data){
-                            response.success(data);
-                        }, function (data){
-                            response.error(data);
-                        });
+                        _collection.delete(_values.where)
+                                    .then(function(data){
+                                        response.success(data);
+                                    }, function (data){
+                                        response.error(data);
+                                    });
                     }else {
                         response.error('Model is not exist!');
                     }

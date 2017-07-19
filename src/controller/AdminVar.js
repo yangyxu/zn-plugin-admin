@@ -11,6 +11,10 @@ zn.define(function () {
                 value: function (request, response, chain){
                     var _values = request.getValue();
                     _values.where = "locate(',{0},', parentPath)<>0".format(_values.pid);
+                    _values.order = {
+                        treeOrder: 'asc'
+                    }
+                    _values.fields = '*';
                     this.collection('AdminVar')
                         .select(_values)
                         .then(function (data){
@@ -29,6 +33,9 @@ zn.define(function () {
                 value: function (request, response, chain){
                     var _values = request.getValue();
                     _values.where = 'pid=' + _values.pid;
+                    _values.order = {
+                        treeOrder: 'asc'
+                    }
                     this.collection('AdminVar')
                         .select(_values)
                         .then(function (data){

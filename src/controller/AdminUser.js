@@ -77,8 +77,7 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                     userId: null
                 },
                 value: function (request, response, chain){
-                    this.collection('AdminUser').update({
-                        updates: request.getValue('data'),
+                    this.collection('AdminUser').select({
                         where: {
                             id: request.getValue('userId')
                         }
