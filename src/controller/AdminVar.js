@@ -32,7 +32,7 @@ zn.define(function () {
                 },
                 value: function (request, response, chain){
                     var _values = request.getValue();
-                    _values.where = 'pid=' + _values.pid;
+                    _values.where = 'pid=' + (_values.pid || -1);
                     _values.order = {
                         treeOrder: 'asc'
                     }

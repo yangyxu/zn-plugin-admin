@@ -192,6 +192,7 @@ zn.define(function () {
                         _collection = this.collection(_values.model);
 
                     if(_collection){
+                        console.log('Value: ', _values);
                         _collection.select(_values)
                                     .then(function(data){
                                         response.success(data);
