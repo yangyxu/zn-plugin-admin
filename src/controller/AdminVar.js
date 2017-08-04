@@ -6,7 +6,7 @@ zn.define(function () {
                 method: 'GET/POST',
                 argv: {
                     pid: null,
-                    fields: 'id as value, title as text'
+                    fields: ''
                 },
                 value: function (request, response, chain){
                     var _values = request.getValue();
@@ -14,11 +14,10 @@ zn.define(function () {
                     _values.order = {
                         treeOrder: 'asc'
                     }
-                    _values.fields = '*';
                     this.collection('AdminVar')
                         .select(_values)
                         .then(function (data){
-                            response.success(data);
+                            response.success(zn.data.arrayToTree(data));
                         }, function (err){
                             response.error(err);
                         });

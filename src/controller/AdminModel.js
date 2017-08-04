@@ -159,6 +159,31 @@ zn.define(function () {
                     }
                 }
             },
+            getAllByPid: {
+                method: 'GET/POST',
+                argv: {
+                    pid: null,
+                    fields: ''
+                },
+                value: function (request, response, chain){
+                    var _values = request.getValue(),
+                        _collection = this.collection(_values.model);
+                    _values.where = "locate(',{0},', parentPath)<>0".format(_values.pid);
+                    _values.order = {
+                        treeOrder: 'asc'
+                    }
+                    if(_collection){
+                        _collection.select(_values)
+                                    .then(function (data){
+                                        response.success(zn.data.arrayToTree(data));
+                                    }, function (err){
+                                        response.error(err);
+                                    });
+                    }else {
+                        response.error('Model is not exist!');
+                    }
+                }
+            },
             selectOne: {
                 method: 'GET/POST',
                 argv: {

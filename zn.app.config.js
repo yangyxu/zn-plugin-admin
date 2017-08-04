@@ -1,8 +1,15 @@
-zn.define({
-    deploy: 'znadmin',
-    models: '/src/model/',
-    uploads: {
+zn.define([
+    './src/service/index.js',
+    './src/util/index.js'
+], function (services, utils){
 
-    },
-    controllers: '/src/controller/'
+    zn.plugin.admin = {};
+    zn.plugin.admin.util = utils;
+    zn.plugin.admin.service = services;
+
+    return {
+        deploy: 'znadmin',
+        models: '/src/model/',
+        controllers: '/src/controller/'
+    }
 });
