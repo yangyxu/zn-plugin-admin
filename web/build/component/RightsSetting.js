@@ -12,14 +12,13 @@ module.exports = React.createClass({
 	},
 	getInitialState: function getInitialState() {
 		return {
-			users: ',',
-			roles: ',',
-			observers: ',',
-			ownerId: 0,
+			zn_rights_users: ',',
+			zn_rights_roles: ',',
+			zn_rights_owner_id: 0,
 			items: [{
-				title: '是否启用权限', name: 'ifEnabledRights', type: 'radio',
+				title: '是否启用权限', name: 'zn_rights_enabled', type: 'radio',
 				data: [{ text: "禁用", value: 0 }, { text: '启用', value: 1 }]
-			}, { title: '扩展', name: 'ext', type: 'textarea' }]
+			}, { title: '扩展', name: 'zn_tree_extend', type: 'textarea' }]
 		};
 	},
 	componentDidMount: function componentDidMount() {
@@ -32,30 +31,32 @@ module.exports = React.createClass({
 	},
 	__load: function __load(id) {
 		if (id) {
-			Store.post('/znadmin/model/selectOne', {
-				fields: '*',
+			zn.http.post('/zn.plugin.admin/model/selectOne', {
 				model: this.props.model,
 				where: { id: id }
-			}).exec().then(function (data) {
+			}).then(function (data) {
 				this.setState(data.result);
 			}.bind(this));
 		}
 	},
 	__save: function __save() {
 		if (!this.props.id) {
-			Toast.warning('必须编辑项');
+			zn.toast.warning('必须编辑项');
 			return;
 		}
-		var _data = {
-			users: this.state.users,
-			roles: this.state.roles
-		};
 
-		Store.post('/znadmin/model/updateNode', { data: _data, model: this.props.model, where: { id: this.props.id } }).exec().then(function (data) {
+		zn.http.post('/zn.plugin.admin/model/update', {
+			updates: {
+				zn_rights_users: this.state.users,
+				zn_rights_roles: this.state.roles
+			},
+			model: this.props.model,
+			where: { id: this.props.id }
+		}).then(function (data) {
 			if (data.result.changedRows) {
-				Toast.success('保存成功');
+				zn.toast.success('保存成功');
 			}
-		}.bind(this));
+		});
 	},
 	__changeOwner: function __changeOwner() {},
 	render: function render() {
@@ -63,7 +64,7 @@ module.exports = React.createClass({
 
 		return React.createElement(
 			'div',
-			{ className: 'rt-rights-setting', style: { padding: 5 } },
+			{ className: 'zn-plugin-admin-rights-setting', style: { padding: 5 } },
 			React.createElement(
 				'div',
 				{ className: 'title', style: { lineHeight: '4rem' } },
@@ -75,24 +76,24 @@ module.exports = React.createClass({
 					React.createElement(
 						'a',
 						{ onClick: this.__changeOwner },
-						this.state.ownerId
+						this.state.zn_rights_owner_id
 					),
 					'\u3011'
 				),
-				this.props.id && React.createElement(UI.Button, { onClick: this.__save, text: '\u4FDD\u5B58', icon: 'fa-save', float: 'right', style: { margin: 5 } })
+				this.props.id && React.createElement(zn.react.Button, { onClick: this.__save, text: '\u4FDD\u5B58', icon: 'fa-save', float: 'right', style: { margin: 5 } })
 			),
 			React.createElement(
-				UI.Card,
+				zn.react.Card,
 				{ icon: 'fa-user', title: '\u7528\u6237' },
-				React.createElement(UserSearcher, { value: this.state.users, onChange: function onChange(value) {
-						return _this.state.users = value;
+				React.createElement(UserSearcher, { value: this.state.zn_rights_users, onChange: function onChange(value) {
+						return _this.state.zn_rights_users = value;
 					} })
 			),
 			React.createElement(
-				UI.Card,
+				zn.react.Card,
 				{ icon: 'fa-graduation-cap', title: '\u89D2\u8272' },
-				React.createElement(RoleSearcher, { value: this.state.roles, onChange: function onChange(value) {
-						return _this.state.roles = value;
+				React.createElement(RoleSearcher, { value: this.state.zn_rights_roles, onChange: function onChange(value) {
+						return _this.state.zn_rights_roles = value;
 					} })
 			)
 		);

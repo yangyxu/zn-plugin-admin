@@ -1,9 +1,9 @@
 zn.define([
-    './AdminRights'
-], function (AdminRights){
+    './Rights'
+], function (Rights){
 
     return {
-        rights: AdminRights
+        rights: Rights
     }
 
 });

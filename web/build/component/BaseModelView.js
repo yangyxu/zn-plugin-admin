@@ -9,9 +9,8 @@ module.exports = React.createClass({
 	},
 	getInitialState: function getInitialState() {
 		return {
-			data: Store.post('/znadmin/model/paging', {
-				model: this.props.model,
-				fields: '*'
+			data: zn.store.post('/zn.plugin.admin/model/paging', {
+				model: this.props.model
 			}),
 			items: [],
 			currItem: null,
@@ -25,12 +24,12 @@ module.exports = React.createClass({
 		if (nextProps.model != this.props.model) {
 			this.props.model = nextProps.model;
 			this.__loadTableHeaders(function () {
-				this.state.data.ext({ model: nextProps.model }).refresh();
+				this.state.data.extend({ model: nextProps.model }).refresh();
 			}.bind(this));
 		}
 	},
 	__loadTableHeaders: function __loadTableHeaders(callback) {
-		Store.get('/znadmin/model/getModelProps?model=' + this.props.model).exec().then(function (data) {
+		zn.http.get('/zn.plugin.admin/model/getModelProps?model=' + this.props.model).then(function (data) {
 			this.setState({
 				items: data.result
 			});
@@ -40,29 +39,19 @@ module.exports = React.createClass({
 	__onTableRowClick: function __onTableRowClick(event, data, row, table) {
 		this._currItem = data;
 	},
-	__addItemSuccess: function __addItemSuccess(pid) {
-		Popup.close('dialog');
-		Popup.message({
-			content: '添加成功！',
-			type: 'success'
-		});
+	__addItemSuccess: function __addItemSuccess() {
+		zn.modal.close();
+		zn.toast.success('添加成功！');
 	},
 	__addItem: function __addItem(pid) {
 		var _this = this;
 
-		Popup.dialog({
+		zn.dialog({
 			title: '添加项',
-			hStyle: { backgroundColor: '#0B72A5' },
-			width: 480,
-			content: React.createElement(UI.Form, {
-				method: 'POST',
-				layout: 'stacked',
-				action: '/znadmin/model/addNode',
+			content: React.createElement(zn.react.Form, {
+				action: '/zn.plugin.admin/model/insert',
 				exts: { model: this.props.model },
-				merge: 'data',
-				style: { margin: 25 },
-				syncSubmit: false,
-				onSubmitBefore: function onSubmitBefore(data, form) {},
+				merge: 'values',
 				onSubmitSuccess: function onSubmitSuccess() {
 					return _this.state.data.refresh();
 				},
@@ -73,20 +62,13 @@ module.exports = React.createClass({
 	__updateItem: function __updateItem(data) {
 		var _this2 = this;
 
-		Popup.dialog({
+		zn.dialog({
 			title: '修改项',
-			hStyle: { backgroundColor: '#0B72A5' },
-			width: 480,
-			content: React.createElement(UI.Form, {
-				method: 'POST',
-				layout: 'stacked',
-				action: '/znadmin/model/updateNode',
+			content: React.createElement(zn.react.Form, {
+				action: '/zn.plugin.admin/model/update',
 				exts: { model: this.props.model },
-				merge: 'data',
+				merge: 'updates',
 				data: data,
-				style: { margin: 25 },
-				syncSubmit: false,
-				onSubmitBefore: function onSubmitBefore(data, form) {},
 				onSubmitSuccess: function onSubmitSuccess() {
 					return _this2.state.data.refresh();
 				},
@@ -100,11 +82,7 @@ module.exports = React.createClass({
 			return;
 		}
 		if (!this.state.currItem) {
-			Popup.message({
-				content: '必须选择主项',
-				type: 'warning'
-			});
-
+			zn.toast.warning('必须选择主项');
 			return false;
 		}
 		switch (item.name) {
@@ -112,39 +90,28 @@ module.exports = React.createClass({
 				this.__updateItem(this.state.currItem);
 				break;
 			case 'deleteItem':
-				Popup.confirm({
-					content: '确认删除该项吗？',
-					onConfirm: function () {
-						Store.post('/znadmin/model/deleteNodes', {
-							model: this.props.model,
+				zn.confirm('确认删除该项吗？', '提示', function () {
+					zn.http.post('/zn.plugin.admin/model/delete', {
+						model: this.props.model,
+						where: {
 							id: this.state.currItem.id
-						}).exec().then(function (data) {
-							this.state.data.refresh();
-							Popup.message({
-								content: '删除成功！',
-								type: 'warn'
-							});
-						}.bind(this), function (data) {
-							Popup.message({
-								content: '删除出错: ' + data.result,
-								type: 'danger'
-							});
-						});
-					}.bind(this)
-				});
+						}
+					}).then(function (data) {
+						this.state.data.refresh();
+						zn.toast.success('删除成功！');
+					}.bind(this), function (data) {
+						zn.toast.error('删除出错: ' + data.result);
+					});
+				}.bind(this));
 				break;
 		}
 	},
 	render: function render() {
 		return React.createElement(
-			UI.ActivityLayout,
-			{ direction: 'v', begin: 3.5, barWidth: 0.3, unit: 'rem' },
-			React.createElement(
-				'div',
-				null,
-				React.createElement(UI.ButtonGroup, { float: 'right', items: this.state.toolbarItems, onClick: this.__onToolbarClick })
-			),
-			React.createElement(UI.PagerView, {
+			zn.react.ActivityLayout,
+			{ direction: 'top-bottoom', begin: 35, barWidth: 3 },
+			React.createElement(zn.react.ButtonGroup, { float: 'right', items: this.state.toolbarItems, onClick: this.__onToolbarClick }),
+			React.createElement(zn.react.PagerView, {
 				view: 'Table',
 				enableFilter: false,
 				checkbox: 50,

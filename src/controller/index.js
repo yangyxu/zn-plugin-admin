@@ -1,7 +1,10 @@
 zn.define([
-    './AdminMenu',
-    './AdminModel',
-    './AdminUser',
-    './AdminRole',
-    './AdminVar'
+    './Config',
+    './Document',
+    './Menu',
+    './Model',
+    './Project',
+    './Role',
+    './User',
+    './Var'
 ]);

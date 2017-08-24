@@ -1,0 +1,29 @@
+[
+    {
+        "zn_title": "集团"
+    },
+    {
+        "zn_tree_pid": 1,
+        "zn_title": "北京分公司"
+    },
+    {
+        "zn_tree_pid": 1,
+        "zn_title": "上海分公司"
+    },
+    {
+        "zn_tree_pid": 2,
+        "zn_title": "行政部"
+    },
+    {
+        "zn_tree_pid": 3,
+        "zn_title": "行政部"
+    },
+    {
+        "zn_tree_pid": 3,
+        "zn_title": "技术部"
+    },
+    {
+        "zn_tree_pid": 3,
+        "zn_title": "财务部"
+    }
+]

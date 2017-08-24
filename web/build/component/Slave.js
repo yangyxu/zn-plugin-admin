@@ -19,7 +19,7 @@ module.exports = React.createClass({
 		}
 		return {
 			where: _where,
-			data: Store.post('/znadmin/model/paging', {
+			data: zn.store.post('/zn.plugin.admin/model/paging', {
 				model: this.props.model,
 				where: _where
 			})
@@ -32,44 +32,31 @@ module.exports = React.createClass({
 		}
 	},
 	__doSuccess: function __doSuccess() {
-		Popup.close();
-		Popup.message({
-			content: '操作成功！',
-			type: 'success'
-		});
+		zn.modal.close();
+		zn.toast.success('操作成功！');
 		this.state.data.refresh();
 	},
 	__addItem: function __addItem(pid) {
-		Popup.dialog({
+		zn.dialog({
 			title: '添加',
-			width: 480,
-			content: React.createElement(UI.Form, {
-				method: 'POST',
-				layout: 'stacked',
-				action: '/znadmin/model/addNode',
+			content: React.createElement(zn.react.Form, {
+				action: '/zn.plugin.admin/model/insert',
 				exts: { model: this.props.model },
 				hiddens: this.state.where,
-				merge: 'data',
-				style: { margin: 25 },
-				syncSubmit: false,
+				merge: 'values',
 				onSubmitSuccess: this.__doSuccess,
 				btns: [{ text: '添加', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', float: 'right', status: 'danger' }],
 				items: this.props.formItems })
 		});
 	},
 	__updateItem: function __updateItem(data) {
-		Popup.dialog({
+		zn.dialog({
 			title: '修改信息',
-			width: 480,
-			content: React.createElement(UI.Form, {
-				method: 'POST',
-				layout: 'stacked',
-				action: '/znadmin/model/updateNode',
+			content: React.createElement(zn.react.Form, {
+				action: '/zn.plugin.admin/model/update',
 				exts: { model: this.props.model },
-				merge: 'data',
+				merge: 'updates',
 				value: data,
-				style: { margin: 25 },
-				syncSubmit: false,
 				onSubmitSuccess: this.__doSuccess,
 				btns: [{ text: '修改', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
 				items: this.props.formItems })
@@ -82,26 +69,17 @@ module.exports = React.createClass({
 			case 'updateItem':
 				return this.__updateItem(this.state.currItem);
 			case 'deleteItems':
-				Popup.confirm({
-					content: '确认删除该项吗？',
-					onConfirm: function () {
-						Store.post('/znadmin/model/deleteNodes', {
-							model: this.props.model,
-							ids: this._value
-						}).exec().then(function (data) {
-							this.state.data.refresh();
-							Popup.message({
-								content: '删除成功！',
-								type: 'warn'
-							});
-						}.bind(this), function (data) {
-							Popup.message({
-								content: '删除出错: ' + data.result,
-								type: 'danger'
-							});
-						});
-					}.bind(this)
-				});
+				zn.confirm('确认删除该项吗？', '提示', function () {
+					zn.http.post('/zn.plugin.admin/model/delete', {
+						model: this.props.model,
+						where: 'in in (' + this._value.join(',') + ')'
+					}).then(function (data) {
+						this.state.data.refresh();
+						zn.toast.error('删除成功！');
+					}.bind(this), function (data) {
+						zn.toast.error('删除出错: ' + data.result);
+					});
+				}.bind(this));
 				break;
 		}
 	},
@@ -109,12 +87,12 @@ module.exports = React.createClass({
 		var _this = this;
 
 		return React.createElement(
-			UI.Page,
+			zn.react.Page,
 			{
 				title: this.props.title,
 				toolbarItems: this.props.toolbarItems,
 				onToolbarClick: this.__onToolbarClick },
-			React.createElement(UI.PagerView, {
+			React.createElement(zn.react.PagerView, {
 				view: 'ListView',
 				className: 'rt-list-view-border',
 				ref: 'listview',

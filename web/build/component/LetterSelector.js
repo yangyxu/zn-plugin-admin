@@ -44,7 +44,7 @@ module.exports = React.createClass({
 	render: function render() {
 		return React.createElement(
 			'div',
-			{ className: 'rt-letter-selector' },
+			{ className: 'zn-plugin-admin-letter-selector' },
 			React.createElement(
 				'ul',
 				{ className: 'tags' },

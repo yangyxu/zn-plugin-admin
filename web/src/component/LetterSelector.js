@@ -41,7 +41,7 @@ module.exports = React.createClass({
 	},
 	render: function (){
 		return (
-			<div className="rt-letter-selector">
+			<div className="zn-plugin-admin-letter-selector">
 				<ul className="tags">
 					{
 						CHARS.map(function (item, index){

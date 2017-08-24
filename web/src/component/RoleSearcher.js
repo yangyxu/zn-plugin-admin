@@ -12,9 +12,10 @@ module.exports = React.createClass({
 	getInitialState: function (){
 		return {
 			value: this.props.value,
-			data: Store.post('/znadmin/model/select', {
-				model: 'zn_admin_role', where: {
-					pid: 0
+			data: zn.store.post('/zn.plugin.admin/model/select', {
+				model: 'ZNPluginAdminRole',
+				where: {
+					zn_tree_pid: 0
 				}
 			})
 		}
@@ -52,7 +53,7 @@ module.exports = React.createClass({
 
 		return <span>
 			{_icon && <i style={{margin:5}} className={'fa ' + _icon} />}
-			{(this.props.debug?(props.data.id + '、'):'') + props.data.title}
+			{(this.props.debug?(props.data.id + '、'):'') + props.data.zn_title}
 		</span>;
 	},
 	render: function (){

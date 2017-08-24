@@ -8,7 +8,7 @@ zn.define([
     zn.plugin.admin.service = services;
 
     return {
-        deploy: 'znadmin',
+        deploy: 'zn.plugin.admin',
         models: '/src/model/',
         controllers: '/src/controller/'
     }

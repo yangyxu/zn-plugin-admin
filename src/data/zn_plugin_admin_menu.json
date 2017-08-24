@@ -1,0 +1,43 @@
+[
+    {
+        "zn_title": "管理平台"
+    },
+    {
+        "zn_title": "数据管理中心"
+    },
+    {
+        "zn_tree_pid": 2,
+        "zn_title": "系统设置",
+        "icon": "fa-gear"
+    },
+    {
+        "zn_tree_pid": 3,
+        "zn_title": "用户管理",
+        "icon": "fa-user-md",
+        "url": "/znpluginadmin.user.list"
+    },
+    {
+        "zn_tree_pid": 3,
+        "zn_title": "角色管理",
+        "icon": "fa-graduation-cap",
+        "url": "/znpluginadmin.setting.role"
+    },
+    {
+        "zn_tree_pid": 3,
+        "zn_title": "菜单管理",
+        "icon": "fa-outdent",
+        "url": "/znpluginadmin.setting.menu"
+    },
+    {
+        "zn_tree_pid": 3,
+        "zn_title": "资源及权限",
+        "icon": "fa-list-ul",
+        "url": "/znpluginadmin.setting.var"
+    },
+    {
+        "zn_tree_pid": 3,
+        "zn_title": "系统配置",
+        "icon": "fa-gears",
+        "url": "/znpluginadmin.setting.base"
+    }
+]

@@ -1,9 +1,10 @@
 zn.define([
-    './AdminProject',
-    './AdminProjectBug',
-    './AdminUser',
-    './AdminUserLog',
-    './AdminRole',
-    './AdminMenu',
-    './AdminVar'
+    './ZNPluginAdminConfig',
+    './ZNPluginAdminMenu',
+    './ZNPluginAdminProject',
+    './ZNPluginAdminProjectBug',
+    './ZNPluginAdminRole',
+    './ZNPluginAdminUser',
+    './ZNPluginAdminUserLog',
+    './ZNPluginAdminVar'
 ]);

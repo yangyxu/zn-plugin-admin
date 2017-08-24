@@ -1,0 +1,50 @@
+.zn-plugin-admin-widget-navigation-bar{
+    .menu-list{
+        color: #fff;
+        .menu-item{
+            box-shadow: 0 -1px 24px rgba(0,0,0,0.4);
+            &>.item-title{
+                font-size: 16px;
+                font-weight: bold;
+            }
+            .item-title{
+                padding: 5px 3px;
+                line-height: 25px;
+                display: flex;
+                align-items: center;
+
+                .fa{
+                    font-size: 20px;
+                }
+            }
+
+        }
+
+        .sub-menu-list{
+            .item-title{
+                font-size: 14px;
+                padding-left: 24px;
+            }
+
+            background-color: rgba(187, 187, 187, 0.4);
+
+            li{
+                cursor: pointer;
+                &.active-item{
+                    background-color: rgba(70, 177, 226, 0.7);
+                }
+
+                &:hover{
+                    background-color: rgba(70, 177, 226, 0.3);
+                }
+            }
+        }
+
+    }
+
+    .fa{
+        padding: 3px;
+        width: 28px;
+        text-align: center;
+    }
+}

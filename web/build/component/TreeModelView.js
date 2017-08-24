@@ -1,24 +1,28 @@
 var React = require('react');
-var RightsSetting = require('../component/RightsSetting');
+var RightsSetting = require('./RightsSetting');
 module.exports = React.createClass({
 	displayName: 'exports',
 
 	getDefaultProps: function getDefaultProps() {
 		return {
-			model: 'zn_admin_var',
+			model: 'ZNPluginAdminVar',
 			pid: 0
 		};
 	},
 	getInitialState: function getInitialState() {
 		var _where = this.props.where;
 		if (_where) {
-			_where.pid = this.props.pid;
+			_where.zn_tree_pid = this.props.pid;
 		} else {
-			_where = { pid: this.props.pid };
+			_where = { zn_tree_pid: this.props.pid };
 		}
 		this._where = _where;
 		return {
-			data: Store.post('/znadmin/model/select', { model: this.props.model, where: _where, order: { treeOrder: 'asc' } }),
+			data: zn.store.post('/zn.plugin.admin/model/select', {
+				model: this.props.model,
+				where: _where,
+				order: { zn_tree_order: 'asc' }
+			}),
 			items: this.props.fields || [],
 			currItem: null,
 			toolbarItems: [{ title: '添加主项', name: 'addMainItem', icon: 'fa-plus-square' }, { title: '添加子项', name: 'addChildItem', icon: 'fa-plus' }, { title: '删除当前项', name: 'deleteCurrItem', icon: 'fa-remove' }, { title: '编辑当前项', name: 'editCurrItem', icon: 'fa-edit' }, { title: '上移当前项', name: 'upCurrItem', icon: 'fa-angle-up' }, { title: '下移当前项', name: 'downCurrItem', icon: 'fa-angle-down' }]
@@ -39,7 +43,7 @@ module.exports = React.createClass({
 	},
 	__loadTableHeaders: function __loadTableHeaders(callback) {
 		if (!this.state.items.length) {
-			Store.get('/znadmin/model/getModelProps?model=' + this.props.model).exec().then(function (data) {
+			zn.store.get('/zn.plugin.admin/model/getModelProps?model=' + this.props.model).then(function (data) {
 				this.setState({
 					items: data.result
 				});
@@ -55,11 +59,8 @@ module.exports = React.createClass({
 		this.props.onItemClick && this.props.onItemClick(item, event);
 	},
 	__addItemSuccess: function __addItemSuccess(pid) {
-		Popup.close('dialog');
-		Popup.message({
-			content: '添加成功！',
-			type: 'success'
-		});
+		zn.modal.close();
+		zn.toast.success('添加成功！');
 
 		var _treemenu = this.refs.maintreemenu;
 		if (pid && this.state.currItem) {
@@ -68,32 +69,23 @@ module.exports = React.createClass({
 		_treemenu.refresh();
 	},
 	__editItemSuccess: function __editItemSuccess() {
-		Popup.close('dialog');
+		zn.modal.close();
 		this.state.currItem.props.parent.refresh();
 	},
 	__editItem: function __editItem() {
 		var _this = this;
 
 		if (!this.state.currItem) {
-			Popup.message({
-				content: '必须编辑项',
-				type: 'warning'
-			});
+			zn.toast.warning('必须编辑项');
 			return;
 		}
-		Popup.dialog({
+		zn.dialog({
 			title: '编辑',
-			hStyle: { backgroundColor: '#0B72A5' },
-			width: 780,
-			content: React.createElement(UI.Form, {
-				method: 'POST',
-				layout: 'stacked',
-				style: { margin: 25 },
-				action: '/znadmin/model/updateNode',
+			content: React.createElement(zn.react.Form, {
+				action: '/zn.plugin.admin/model/update',
 				exts: { model: this.props.model, where: { id: this.state.currItem.props.data.id } },
-				merge: 'data',
-				value: Store.post('/znadmin/model/selectOne', { model: this.props.model, where: { id: this.state.currItem.props.data.id } }),
-				syncSubmit: false,
+				merge: 'updates',
+				value: zn.store.post('/zn.plugin.admin/model/selectOne', { model: this.props.model, where: { id: this.state.currItem.props.data.id } }),
 				onSubmitBefore: function onSubmitBefore(data, form) {
 					_this._data = data;
 				},
@@ -109,20 +101,14 @@ module.exports = React.createClass({
 		for (var key in this._where) {
 			_where[key] = this._where[key];
 		}
-		_where['pid'] = pid;
-		Popup.dialog({
+		_where['zn_tree_pid'] = pid;
+		zn.dialog({
 			title: '添加项',
-			hStyle: { backgroundColor: '#0B72A5' },
-			width: 780,
-			content: React.createElement(UI.Form, {
-				method: 'POST',
-				layout: 'stacked',
-				action: '/znadmin/model/addNode',
+			content: React.createElement(zn.react.Form, {
+				action: '/zn.plugin.admin/model/insert',
 				hiddens: _where,
 				exts: { model: this.props.model },
-				merge: 'data',
-				style: { margin: 25 },
-				syncSubmit: false,
+				merge: 'values',
 				onSubmitBefore: function onSubmitBefore(data, form) {
 					_this2._data = data;
 				},
@@ -139,11 +125,7 @@ module.exports = React.createClass({
 			return;
 		}
 		if (!this.state.currItem) {
-			Popup.message({
-				content: '必须选择主项',
-				type: 'warning'
-			});
-
+			zn.toast.warning('必须选择主项');
 			return false;
 		}
 		var _id = this.state.currItem.props.data.id;
@@ -161,26 +143,17 @@ module.exports = React.createClass({
 				this.__downItem();
 				break;
 			case 'deleteCurrItem':
-				Popup.confirm({
-					content: '确认删除该项吗？',
-					onConfirm: function () {
-						Store.post('/znadmin/model/deleteNode', {
-							model: this.props.model,
-							id: _id
-						}).exec().then(function (data) {
-							this.state.currItem.props.parent.refresh();
-							Popup.message({
-								content: '删除成功！',
-								type: 'warn'
-							});
-						}.bind(this), function (data) {
-							Popup.message({
-								content: '删除出错: ' + data.result,
-								type: 'danger'
-							});
-						});
-					}.bind(this)
-				});
+				zn.confirm('确认删除该项吗？', '提示', function () {
+					zn.store.post('/zn.plugin.admin/model/delete', {
+						model: this.props.model,
+						where: { id: _id }
+					}).then(function (data) {
+						this.state.currItem.props.parent.refresh();
+						zn.toast.success('删除成功！');
+					}.bind(this), function (data) {
+						zn.toast.error('删除出错: ' + data.result);
+					});
+				}.bind(this));
 				break;
 		}
 	},
@@ -201,22 +174,35 @@ module.exports = React.createClass({
 				'span',
 				null,
 				React.createElement('i', { style: { margin: 5 }, className: 'fa ' + props.data.icon }),
-				props.data.id + '、' + props.data.title
+				props.data.id + '、' + props.data.zn_title
 			);
 		}
 	},
 	render: function render() {
 		return React.createElement(
-			UI.Page,
+			zn.react.Page,
 			{
 				toolbarItems: this.state.toolbarItems,
 				onToolbarClick: this.__onToolbarClick,
 				title: this.props.title },
 			React.createElement(
-				UI.ActivityLayout,
-				{ direction: 'h', begin: this.props.leftWidth || 35, barWidth: 0.3, unit: 'rem' },
-				React.createElement(UI.TreeListView, { itemContentRender: this.__itemContentRender, ref: 'maintreemenu', activeAll: this.props.activeAll, onClick: this.__onClick, data: this.state.data }),
-				this.__renderRight()
+				'div',
+				{ className: 'rt-flex-layout zn-plugin-admin-master-slave-flex-layout row' },
+				React.createElement(
+					'div',
+					{ className: 'layout-header', style: { width: 250 } },
+					React.createElement(zn.react.TreeListView, {
+						ref: 'maintreemenu',
+						itemContentRender: this.__itemContentRender,
+						activeAll: this.props.activeAll,
+						onClick: this.__onClick,
+						data: this.state.data })
+				),
+				React.createElement(
+					'div',
+					{ className: 'layout-body' },
+					this.__renderRight()
+				)
 			)
 		);
 	}

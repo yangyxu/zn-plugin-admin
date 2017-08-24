@@ -51,11 +51,11 @@
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	zn.react.znadmin = __webpack_require__(2);
+	zn.plugin.admin = __webpack_require__(2);
 	zn.deepEachObject({}, function (value) {
 	  return __webpack_require__(14)(value);
 	});
-	module.exports = zn.react.extendPath('/znadmin/', __webpack_require__(34));
+	module.exports = zn.react.extendPath('/zn.plugin.admin', __webpack_require__(28));
 
 /***/ }),
 /* 2 */
@@ -113,57 +113,43 @@
 		},
 		getInitialState: function getInitialState() {
 			return {
-				data: Store.post('/znadmin/model/paging', {
+				data: zn.store.post('/zn.plugin.admin/model/paging', {
 					model: this.props.model
 				}),
 				currItem: null,
 				toolbarItems: [{ text: '新建项目', name: 'addItem', icon: 'fa-plus' }, { text: '编辑项目', name: 'updateItem', icon: 'fa-edit' }, { text: '删除项目', name: 'deleteItem', icon: 'fa-remove' }]
 			};
 		},
-		componentDidMount: function componentDidMount() {},
 		__onTableRowClick: function __onTableRowClick(event, data, row, table) {
-			this._currItem = data;
+			this.state.currItem = data;
 		},
 		__doSuccess: function __doSuccess() {
-			Popup.close('dialog');
-			Popup.message({
-				content: '操作成功！',
-				type: 'success'
-			});
+			zn.modal.close();
+			zn.toast.success('操作成功！');
 			this.state.data.refresh();
 		},
 		__addItem: function __addItem(pid) {
-			Popup.dialog({
+			zn.dialog({
 				title: '添加项',
-				hStyle: { backgroundColor: '#0B72A5' },
-				width: 480,
-				content: React.createElement(UI.Form, {
-					method: 'POST',
-					layout: 'stacked',
-					action: '/znadmin/model/addNode',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/insert',
 					exts: { model: this.props.model },
-					merge: 'data',
-					style: { margin: 25 },
-					syncSubmit: false,
+					merge: 'values',
 					onSubmitSuccess: this.__doSuccess,
 					btns: [{ text: '新建项目', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
 					items: this.props.insertInputs })
 			});
 		},
 		__updateItem: function __updateItem(data) {
-			Popup.dialog({
+			zn.dialog({
 				title: '更新项目信息',
-				hStyle: { backgroundColor: '#0B72A5' },
-				width: 480,
-				content: React.createElement(UI.Form, {
+				content: React.createElement(zn.react.Form, {
 					method: 'POST',
 					layout: 'stacked',
-					action: '/znadmin/model/updateNode',
+					action: '/zn.plugin.admin/model/updates',
 					exts: { model: this.props.model },
-					merge: 'data',
+					merge: 'updates',
 					data: data,
-					style: { margin: 25 },
-					syncSubmit: false,
 					onSubmitSuccess: this.__doSuccess,
 					btns: [{ text: '更新', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
 					items: this.props.updateInputs })
@@ -175,11 +161,7 @@
 				return;
 			}
 			if (!this.state.currItem) {
-				Popup.message({
-					content: '必须选择主项',
-					type: 'warning'
-				});
-
+				zn.toast.warning('必须选择主项');
 				return false;
 			}
 			switch (item.name) {
@@ -187,35 +169,28 @@
 					this.__updateItem(this.state.currItem);
 					break;
 				case 'deleteItem':
-					Popup.confirm({
-						content: '确认删除该项吗？',
-						onConfirm: function () {
-							Store.post('/znadmin/model/deleteNodes', {
-								model: this.props.model,
+					zn.confirm('确认删除该项吗？', '提示', function () {
+						zn.http.post('/zn.plugin.admin/model/delete', {
+							model: this.props.model,
+							where: {
 								id: this.state.currItem.id
-							}).exec().then(function (data) {
-								this.state.data.refresh();
-								Popup.message({
-									content: '删除成功！',
-									type: 'warn'
-								});
-							}.bind(this), function (data) {
-								Popup.message({
-									content: '删除出错: ' + data.result,
-									type: 'danger'
-								});
-							});
-						}.bind(this)
-					});
+							}
+						}).then(function (data) {
+							this.state.data.refresh();
+							zn.toast.success('删除成功！');
+						}.bind(this), function (data) {
+							zn.toast.error('删除出错: ' + data.result);
+						});
+					}.bind(this));
 					break;
 			}
 		},
 		render: function render() {
 			return React.createElement(
-				UI.ActivityLayout,
-				{ direction: 'v', begin: 3.5, barWidth: 0.3, unit: 'rem' },
-				React.createElement(UI.ButtonGroup, { float: 'right', items: this.state.toolbarItems, onClick: this.__onToolbarClick }),
-				React.createElement(UI.PagerView, {
+				zn.react.ActivityLayout,
+				{ direction: 'top-bottoom', begin: 35, barWidth: 3 },
+				React.createElement(zn.react.ButtonGroup, { float: 'right', items: this.state.toolbarItems, onClick: this.__onToolbarClick }),
+				React.createElement(zn.react.PagerView, {
 					view: 'Table',
 					enableFilter: false,
 					checkbox: 50,
@@ -248,9 +223,8 @@
 		},
 		getInitialState: function getInitialState() {
 			return {
-				data: Store.post('/znadmin/model/paging', {
-					model: this.props.model,
-					fields: '*'
+				data: zn.store.post('/zn.plugin.admin/model/paging', {
+					model: this.props.model
 				}),
 				items: [],
 				currItem: null,
@@ -264,12 +238,12 @@
 			if (nextProps.model != this.props.model) {
 				this.props.model = nextProps.model;
 				this.__loadTableHeaders(function () {
-					this.state.data.ext({ model: nextProps.model }).refresh();
+					this.state.data.extend({ model: nextProps.model }).refresh();
 				}.bind(this));
 			}
 		},
 		__loadTableHeaders: function __loadTableHeaders(callback) {
-			Store.get('/znadmin/model/getModelProps?model=' + this.props.model).exec().then(function (data) {
+			zn.http.get('/zn.plugin.admin/model/getModelProps?model=' + this.props.model).then(function (data) {
 				this.setState({
 					items: data.result
 				});
@@ -279,29 +253,19 @@
 		__onTableRowClick: function __onTableRowClick(event, data, row, table) {
 			this._currItem = data;
 		},
-		__addItemSuccess: function __addItemSuccess(pid) {
-			Popup.close('dialog');
-			Popup.message({
-				content: '添加成功！',
-				type: 'success'
-			});
+		__addItemSuccess: function __addItemSuccess() {
+			zn.modal.close();
+			zn.toast.success('添加成功！');
 		},
 		__addItem: function __addItem(pid) {
 			var _this = this;
 
-			Popup.dialog({
+			zn.dialog({
 				title: '添加项',
-				hStyle: { backgroundColor: '#0B72A5' },
-				width: 480,
-				content: React.createElement(UI.Form, {
-					method: 'POST',
-					layout: 'stacked',
-					action: '/znadmin/model/addNode',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/insert',
 					exts: { model: this.props.model },
-					merge: 'data',
-					style: { margin: 25 },
-					syncSubmit: false,
-					onSubmitBefore: function onSubmitBefore(data, form) {},
+					merge: 'values',
 					onSubmitSuccess: function onSubmitSuccess() {
 						return _this.state.data.refresh();
 					},
@@ -312,20 +276,13 @@
 		__updateItem: function __updateItem(data) {
 			var _this2 = this;
 
-			Popup.dialog({
+			zn.dialog({
 				title: '修改项',
-				hStyle: { backgroundColor: '#0B72A5' },
-				width: 480,
-				content: React.createElement(UI.Form, {
-					method: 'POST',
-					layout: 'stacked',
-					action: '/znadmin/model/updateNode',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/update',
 					exts: { model: this.props.model },
-					merge: 'data',
+					merge: 'updates',
 					data: data,
-					style: { margin: 25 },
-					syncSubmit: false,
-					onSubmitBefore: function onSubmitBefore(data, form) {},
 					onSubmitSuccess: function onSubmitSuccess() {
 						return _this2.state.data.refresh();
 					},
@@ -339,11 +296,7 @@
 				return;
 			}
 			if (!this.state.currItem) {
-				Popup.message({
-					content: '必须选择主项',
-					type: 'warning'
-				});
-
+				zn.toast.warning('必须选择主项');
 				return false;
 			}
 			switch (item.name) {
@@ -351,39 +304,28 @@
 					this.__updateItem(this.state.currItem);
 					break;
 				case 'deleteItem':
-					Popup.confirm({
-						content: '确认删除该项吗？',
-						onConfirm: function () {
-							Store.post('/znadmin/model/deleteNodes', {
-								model: this.props.model,
+					zn.confirm('确认删除该项吗？', '提示', function () {
+						zn.http.post('/zn.plugin.admin/model/delete', {
+							model: this.props.model,
+							where: {
 								id: this.state.currItem.id
-							}).exec().then(function (data) {
-								this.state.data.refresh();
-								Popup.message({
-									content: '删除成功！',
-									type: 'warn'
-								});
-							}.bind(this), function (data) {
-								Popup.message({
-									content: '删除出错: ' + data.result,
-									type: 'danger'
-								});
-							});
-						}.bind(this)
-					});
+							}
+						}).then(function (data) {
+							this.state.data.refresh();
+							zn.toast.success('删除成功！');
+						}.bind(this), function (data) {
+							zn.toast.error('删除出错: ' + data.result);
+						});
+					}.bind(this));
 					break;
 			}
 		},
 		render: function render() {
 			return React.createElement(
-				UI.ActivityLayout,
-				{ direction: 'v', begin: 3.5, barWidth: 0.3, unit: 'rem' },
-				React.createElement(
-					'div',
-					null,
-					React.createElement(UI.ButtonGroup, { float: 'right', items: this.state.toolbarItems, onClick: this.__onToolbarClick })
-				),
-				React.createElement(UI.PagerView, {
+				zn.react.ActivityLayout,
+				{ direction: 'top-bottoom', begin: 35, barWidth: 3 },
+				React.createElement(zn.react.ButtonGroup, { float: 'right', items: this.state.toolbarItems, onClick: this.__onToolbarClick }),
+				React.createElement(zn.react.PagerView, {
 					view: 'Table',
 					enableFilter: false,
 					checkbox: 50,
@@ -444,7 +386,7 @@
 		render: function render() {
 			return React.createElement(
 				'div',
-				{ className: 'rt-letter-selector' },
+				{ className: 'zn-plugin-admin-letter-selector' },
 				React.createElement(
 					'ul',
 					{ className: 'tags' },
@@ -500,98 +442,68 @@
 		getInitialState: function getInitialState() {
 			return {
 				masterId: null,
-				data: Store.post('/znadmin/model/paging', {
+				data: zn.store.post('/zn.plugin.admin/model/paging', {
 					model: this.props.model,
 					where: this.props.where
 				})
 			};
 		},
-		componentDidMount: function componentDidMount() {},
 		__doSuccess: function __doSuccess() {
-			Popup.close('dialog');
-			Popup.message({
-				content: '操作成功！',
-				type: 'success'
-			});
+			zn.modal.close();
+			zn.toast.success('操作成功！');
 			this.state.data.refresh();
 		},
-		__addItem: function __addItem(pid) {
-			Popup.dialog({
+		__addItem: function __addItem() {
+			zn.dialog({
 				title: '添加',
-				hStyle: { backgroundColor: '#0B72A5' },
-				width: 480,
-				content: React.createElement(UI.Form, {
-					method: 'POST',
-					layout: 'stacked',
-					action: '/znadmin/model/addNode',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/insert',
 					exts: { model: this.props.model },
 					hiddens: this.props.where,
-					merge: 'data',
-					style: { margin: 25 },
-					syncSubmit: false,
+					merge: 'values',
 					onSubmitSuccess: this.__doSuccess,
 					btns: [{ text: '添加', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
 					items: this.props.formItems })
 			});
 		},
-		__removeItems: function __removeItems() {
-			Popup.confirm({
-				content: '确认删除该项吗？',
-				onConfirm: function () {
-					Store.post('/znadmin/model/deleteNode', {
-						model: this.props.model,
-						id: data.id
-					}).exec().then(function (data) {
-						this.state.data.refresh();
-						Popup.message({
-							content: '删除成功！',
-							type: 'warn'
-						});
-					}.bind(this), function (data) {
-						Popup.message({
-							content: '删除出错: ' + data.result,
-							type: 'danger'
-						});
-					});
-				}.bind(this)
-			});
+		__removeItems: function __removeItems(data) {
+			zn.confirm('确认删除该项吗？', '提醒', function () {
+				zn.http.post('/zn.plugin.admin/model/delete', {
+					model: this.props.model,
+					where: { id: data.id }
+				}).then(function (data) {
+					this.state.data.refresh();
+					zn.toast.warning('删除成功！');
+				}.bind(this), function (data) {
+					zn.toast.error('删除出错: ' + data.result);
+				});
+			}.bind(this));
 		},
 		__removeItem: function __removeItem() {
 			if (this.state.masterId) {
-				Popup.confirm({
-					content: '确认删除该项吗？',
-					onConfirm: function () {
-						Store.post('/znadmin/model/deleteNode', {
-							model: this.props.model,
-							id: this.state.masterId
-						}).exec().then(function (data) {
-							this.state.data.refresh();
-							Toast.success('删除成功！');
-						}.bind(this), function (data) {
-							Toast.error('删除出错: ' + data.result);
-						});
-					}.bind(this)
-				});
+				zn.confirm('确认删除该项吗？', '提醒', function () {
+					zn.http.post('/zn.plugin.admin/model/delete', {
+						model: this.props.model,
+						where: { id: this.state.masterId }
+					}).then(function (data) {
+						this.state.data.refresh();
+						zn.toast.warning('删除成功！');
+					}.bind(this), function (data) {
+						zn.toast.error('删除出错: ' + data.result);
+					});
+				}.bind(this));
 			} else {
-				Toast.warning('请先选择待删除数据项！');
+				zn.toast.warning('请先选择待删除数据项！');
 			}
 		},
 		__updateItem: function __updateItem(data) {
-			Popup.dialog({
+			zn.dialog({
 				title: '更新项目信息',
-				hStyle: { backgroundColor: '#0B72A5' },
-				width: 480,
-				content: React.createElement(UI.Form, {
-					method: 'POST',
-					layout: 'stacked',
-					action: '/znadmin/model/updateNode',
-					exts: {
-						model: this.props.model
-					},
-					merge: 'data',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/update',
+					exts: { model: this.props.model },
+					merge: 'updates',
 					data: data,
-					style: { margin: 25 },
-					syncSubmit: false,
 					onSubmitSuccess: this.__doSuccess,
 					btns: [{ text: '更新', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
 					items: this.props.formItems })
@@ -615,15 +527,15 @@
 		},
 		render: function render() {
 			return React.createElement(
-				UI.Page,
+				zn.react.Page,
 				{
 					toolbarItems: this.props.toolbarItems,
 					onToolbarClick: this.__onToolbarClick,
 					title: this.props.title },
 				React.createElement(
-					UI.ActivityLayout,
-					{ direction: 'h', begin: this.props.leftWidth || 250, unit: 'px' },
-					React.createElement(UI.PagerView, {
+					zn.react.ActivityLayout,
+					{ direction: 'left-right', begin: this.props.leftWidth || 250 },
+					React.createElement(zn.react.PagerView, {
 						view: 'ListView',
 						className: 'rt-list-view-border',
 						textKey: 'name',
@@ -669,7 +581,7 @@
 			}
 			return {
 				where: _where,
-				data: Store.post('/znadmin/model/paging', {
+				data: zn.store.post('/zn.plugin.admin/model/paging', {
 					model: this.props.model,
 					where: _where
 				})
@@ -682,44 +594,31 @@
 			}
 		},
 		__doSuccess: function __doSuccess() {
-			Popup.close();
-			Popup.message({
-				content: '操作成功！',
-				type: 'success'
-			});
+			zn.modal.close();
+			zn.toast.success('操作成功！');
 			this.state.data.refresh();
 		},
 		__addItem: function __addItem(pid) {
-			Popup.dialog({
+			zn.dialog({
 				title: '添加',
-				width: 480,
-				content: React.createElement(UI.Form, {
-					method: 'POST',
-					layout: 'stacked',
-					action: '/znadmin/model/addNode',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/insert',
 					exts: { model: this.props.model },
 					hiddens: this.state.where,
-					merge: 'data',
-					style: { margin: 25 },
-					syncSubmit: false,
+					merge: 'values',
 					onSubmitSuccess: this.__doSuccess,
 					btns: [{ text: '添加', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', float: 'right', status: 'danger' }],
 					items: this.props.formItems })
 			});
 		},
 		__updateItem: function __updateItem(data) {
-			Popup.dialog({
+			zn.dialog({
 				title: '修改信息',
-				width: 480,
-				content: React.createElement(UI.Form, {
-					method: 'POST',
-					layout: 'stacked',
-					action: '/znadmin/model/updateNode',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/update',
 					exts: { model: this.props.model },
-					merge: 'data',
+					merge: 'updates',
 					value: data,
-					style: { margin: 25 },
-					syncSubmit: false,
 					onSubmitSuccess: this.__doSuccess,
 					btns: [{ text: '修改', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
 					items: this.props.formItems })
@@ -732,26 +631,17 @@
 				case 'updateItem':
 					return this.__updateItem(this.state.currItem);
 				case 'deleteItems':
-					Popup.confirm({
-						content: '确认删除该项吗？',
-						onConfirm: function () {
-							Store.post('/znadmin/model/deleteNodes', {
-								model: this.props.model,
-								ids: this._value
-							}).exec().then(function (data) {
-								this.state.data.refresh();
-								Popup.message({
-									content: '删除成功！',
-									type: 'warn'
-								});
-							}.bind(this), function (data) {
-								Popup.message({
-									content: '删除出错: ' + data.result,
-									type: 'danger'
-								});
-							});
-						}.bind(this)
-					});
+					zn.confirm('确认删除该项吗？', '提示', function () {
+						zn.http.post('/zn.plugin.admin/model/delete', {
+							model: this.props.model,
+							where: 'in in (' + this._value.join(',') + ')'
+						}).then(function (data) {
+							this.state.data.refresh();
+							zn.toast.error('删除成功！');
+						}.bind(this), function (data) {
+							zn.toast.error('删除出错: ' + data.result);
+						});
+					}.bind(this));
 					break;
 			}
 		},
@@ -759,12 +649,12 @@
 			var _this = this;
 
 			return React.createElement(
-				UI.Page,
+				zn.react.Page,
 				{
 					title: this.props.title,
 					toolbarItems: this.props.toolbarItems,
 					onToolbarClick: this.__onToolbarClick },
-				React.createElement(UI.PagerView, {
+				React.createElement(zn.react.PagerView, {
 					view: 'ListView',
 					className: 'rt-list-view-border',
 					ref: 'listview',
@@ -798,14 +688,13 @@
 		},
 		getInitialState: function getInitialState() {
 			return {
-				users: ',',
-				roles: ',',
-				observers: ',',
-				ownerId: 0,
+				zn_rights_users: ',',
+				zn_rights_roles: ',',
+				zn_rights_owner_id: 0,
 				items: [{
-					title: '是否启用权限', name: 'ifEnabledRights', type: 'radio',
+					title: '是否启用权限', name: 'zn_rights_enabled', type: 'radio',
 					data: [{ text: "禁用", value: 0 }, { text: '启用', value: 1 }]
-				}, { title: '扩展', name: 'ext', type: 'textarea' }]
+				}, { title: '扩展', name: 'zn_tree_extend', type: 'textarea' }]
 			};
 		},
 		componentDidMount: function componentDidMount() {
@@ -818,30 +707,32 @@
 		},
 		__load: function __load(id) {
 			if (id) {
-				Store.post('/znadmin/model/selectOne', {
-					fields: '*',
+				zn.http.post('/zn.plugin.admin/model/selectOne', {
 					model: this.props.model,
 					where: { id: id }
-				}).exec().then(function (data) {
+				}).then(function (data) {
 					this.setState(data.result);
 				}.bind(this));
 			}
 		},
 		__save: function __save() {
 			if (!this.props.id) {
-				Toast.warning('必须编辑项');
+				zn.toast.warning('必须编辑项');
 				return;
 			}
-			var _data = {
-				users: this.state.users,
-				roles: this.state.roles
-			};
 
-			Store.post('/znadmin/model/updateNode', { data: _data, model: this.props.model, where: { id: this.props.id } }).exec().then(function (data) {
+			zn.http.post('/zn.plugin.admin/model/update', {
+				updates: {
+					zn_rights_users: this.state.users,
+					zn_rights_roles: this.state.roles
+				},
+				model: this.props.model,
+				where: { id: this.props.id }
+			}).then(function (data) {
 				if (data.result.changedRows) {
-					Toast.success('保存成功');
+					zn.toast.success('保存成功');
 				}
-			}.bind(this));
+			});
 		},
 		__changeOwner: function __changeOwner() {},
 		render: function render() {
@@ -849,7 +740,7 @@
 
 			return React.createElement(
 				'div',
-				{ className: 'rt-rights-setting', style: { padding: 5 } },
+				{ className: 'zn-plugin-admin-rights-setting', style: { padding: 5 } },
 				React.createElement(
 					'div',
 					{ className: 'title', style: { lineHeight: '4rem' } },
@@ -861,24 +752,24 @@
 						React.createElement(
 							'a',
 							{ onClick: this.__changeOwner },
-							this.state.ownerId
+							this.state.zn_rights_owner_id
 						),
 						'\u3011'
 					),
-					this.props.id && React.createElement(UI.Button, { onClick: this.__save, text: '\u4FDD\u5B58', icon: 'fa-save', float: 'right', style: { margin: 5 } })
+					this.props.id && React.createElement(zn.react.Button, { onClick: this.__save, text: '\u4FDD\u5B58', icon: 'fa-save', float: 'right', style: { margin: 5 } })
 				),
 				React.createElement(
-					UI.Card,
+					zn.react.Card,
 					{ icon: 'fa-user', title: '\u7528\u6237' },
-					React.createElement(UserSearcher, { value: this.state.users, onChange: function onChange(value) {
-							return _this.state.users = value;
+					React.createElement(UserSearcher, { value: this.state.zn_rights_users, onChange: function onChange(value) {
+							return _this.state.zn_rights_users = value;
 						} })
 				),
 				React.createElement(
-					UI.Card,
+					zn.react.Card,
 					{ icon: 'fa-graduation-cap', title: '\u89D2\u8272' },
-					React.createElement(RoleSearcher, { value: this.state.roles, onChange: function onChange(value) {
-							return _this.state.roles = value;
+					React.createElement(RoleSearcher, { value: this.state.zn_rights_roles, onChange: function onChange(value) {
+							return _this.state.zn_rights_roles = value;
 						} })
 				)
 			);
@@ -924,10 +815,10 @@
 	  });*/
 		},
 		__loadUsers: function __loadUsers(where) {
-			Store.post('/znadmin/model/select', {
-				model: 'AdminUser',
+			zn.http.post('/zn.plugin.admin/model/select', {
+				model: 'ZNPluginAdminUser',
 				where: where || {}
-			}).exec().then(function (data) {
+			}).then(function (data) {
 				this.setState({
 					users: data.result
 				});
@@ -999,7 +890,7 @@
 							{ key: index, className: 'user ' + (_selected ? 'selected' : ''), onClick: function onClick() {
 									return _this.__onUserClick(user);
 								} },
-							React.createElement('img', { className: 'avatar', src: Store.fixURL(user.avatarImg) }),
+							React.createElement('img', { className: 'avatar', src: zn.http.fixURL(user.avatar_img) }),
 							React.createElement('span', { className: 'name', dangerouslySetInnerHTML: { __html: _name } })
 						);
 					}.bind(this)),
@@ -1031,7 +922,7 @@
 		render: function render() {
 			return React.createElement(
 				'div',
-				{ className: 'rt-user-searcher' },
+				{ className: 'zn-plugin-admin-user-searcher' },
 				React.createElement(
 					'ul',
 					{ className: 'type-tab' },
@@ -1080,9 +971,10 @@
 		getInitialState: function getInitialState() {
 			return {
 				value: this.props.value,
-				data: Store.post('/znadmin/model/select', {
-					model: 'zn_admin_role', where: {
-						pid: 0
+				data: zn.store.post('/zn.plugin.admin/model/select', {
+					model: 'ZNPluginAdminRole',
+					where: {
+						zn_tree_pid: 0
 					}
 				})
 			};
@@ -1122,7 +1014,7 @@
 				'span',
 				null,
 				_icon && React.createElement('i', { style: { margin: 5 }, className: 'fa ' + _icon }),
-				(this.props.debug ? props.data.id + '、' : '') + props.data.title
+				(this.props.debug ? props.data.id + '、' : '') + props.data.zn_title
 			);
 		},
 		render: function render() {
@@ -1149,20 +1041,24 @@
 
 		getDefaultProps: function getDefaultProps() {
 			return {
-				model: 'zn_admin_var',
+				model: 'ZNPluginAdminVar',
 				pid: 0
 			};
 		},
 		getInitialState: function getInitialState() {
 			var _where = this.props.where;
 			if (_where) {
-				_where.pid = this.props.pid;
+				_where.zn_tree_pid = this.props.pid;
 			} else {
-				_where = { pid: this.props.pid };
+				_where = { zn_tree_pid: this.props.pid };
 			}
 			this._where = _where;
 			return {
-				data: Store.post('/znadmin/model/select', { model: this.props.model, where: _where, order: { treeOrder: 'asc' } }),
+				data: zn.store.post('/zn.plugin.admin/model/select', {
+					model: this.props.model,
+					where: _where,
+					order: { zn_tree_order: 'asc' }
+				}),
 				items: this.props.fields || [],
 				currItem: null,
 				toolbarItems: [{ title: '添加主项', name: 'addMainItem', icon: 'fa-plus-square' }, { title: '添加子项', name: 'addChildItem', icon: 'fa-plus' }, { title: '删除当前项', name: 'deleteCurrItem', icon: 'fa-remove' }, { title: '编辑当前项', name: 'editCurrItem', icon: 'fa-edit' }, { title: '上移当前项', name: 'upCurrItem', icon: 'fa-angle-up' }, { title: '下移当前项', name: 'downCurrItem', icon: 'fa-angle-down' }]
@@ -1183,7 +1079,7 @@
 		},
 		__loadTableHeaders: function __loadTableHeaders(callback) {
 			if (!this.state.items.length) {
-				Store.get('/znadmin/model/getModelProps?model=' + this.props.model).exec().then(function (data) {
+				zn.store.get('/zn.plugin.admin/model/getModelProps?model=' + this.props.model).then(function (data) {
 					this.setState({
 						items: data.result
 					});
@@ -1199,11 +1095,8 @@
 			this.props.onItemClick && this.props.onItemClick(item, event);
 		},
 		__addItemSuccess: function __addItemSuccess(pid) {
-			Popup.close('dialog');
-			Popup.message({
-				content: '添加成功！',
-				type: 'success'
-			});
+			zn.modal.close();
+			zn.toast.success('添加成功！');
 
 			var _treemenu = this.refs.maintreemenu;
 			if (pid && this.state.currItem) {
@@ -1212,32 +1105,23 @@
 			_treemenu.refresh();
 		},
 		__editItemSuccess: function __editItemSuccess() {
-			Popup.close('dialog');
+			zn.modal.close();
 			this.state.currItem.props.parent.refresh();
 		},
 		__editItem: function __editItem() {
 			var _this = this;
 
 			if (!this.state.currItem) {
-				Popup.message({
-					content: '必须编辑项',
-					type: 'warning'
-				});
+				zn.toast.warning('必须编辑项');
 				return;
 			}
-			Popup.dialog({
+			zn.dialog({
 				title: '编辑',
-				hStyle: { backgroundColor: '#0B72A5' },
-				width: 780,
-				content: React.createElement(UI.Form, {
-					method: 'POST',
-					layout: 'stacked',
-					style: { margin: 25 },
-					action: '/znadmin/model/updateNode',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/update',
 					exts: { model: this.props.model, where: { id: this.state.currItem.props.data.id } },
-					merge: 'data',
-					value: Store.post('/znadmin/model/selectOne', { model: this.props.model, where: { id: this.state.currItem.props.data.id } }),
-					syncSubmit: false,
+					merge: 'updates',
+					value: zn.store.post('/zn.plugin.admin/model/selectOne', { model: this.props.model, where: { id: this.state.currItem.props.data.id } }),
 					onSubmitBefore: function onSubmitBefore(data, form) {
 						_this._data = data;
 					},
@@ -1253,20 +1137,14 @@
 			for (var key in this._where) {
 				_where[key] = this._where[key];
 			}
-			_where['pid'] = pid;
-			Popup.dialog({
+			_where['zn_tree_pid'] = pid;
+			zn.dialog({
 				title: '添加项',
-				hStyle: { backgroundColor: '#0B72A5' },
-				width: 780,
-				content: React.createElement(UI.Form, {
-					method: 'POST',
-					layout: 'stacked',
-					action: '/znadmin/model/addNode',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/insert',
 					hiddens: _where,
 					exts: { model: this.props.model },
-					merge: 'data',
-					style: { margin: 25 },
-					syncSubmit: false,
+					merge: 'values',
 					onSubmitBefore: function onSubmitBefore(data, form) {
 						_this2._data = data;
 					},
@@ -1283,11 +1161,7 @@
 				return;
 			}
 			if (!this.state.currItem) {
-				Popup.message({
-					content: '必须选择主项',
-					type: 'warning'
-				});
-
+				zn.toast.warning('必须选择主项');
 				return false;
 			}
 			var _id = this.state.currItem.props.data.id;
@@ -1305,26 +1179,17 @@
 					this.__downItem();
 					break;
 				case 'deleteCurrItem':
-					Popup.confirm({
-						content: '确认删除该项吗？',
-						onConfirm: function () {
-							Store.post('/znadmin/model/deleteNode', {
-								model: this.props.model,
-								id: _id
-							}).exec().then(function (data) {
-								this.state.currItem.props.parent.refresh();
-								Popup.message({
-									content: '删除成功！',
-									type: 'warn'
-								});
-							}.bind(this), function (data) {
-								Popup.message({
-									content: '删除出错: ' + data.result,
-									type: 'danger'
-								});
-							});
-						}.bind(this)
-					});
+					zn.confirm('确认删除该项吗？', '提示', function () {
+						zn.store.post('/zn.plugin.admin/model/delete', {
+							model: this.props.model,
+							where: { id: _id }
+						}).then(function (data) {
+							this.state.currItem.props.parent.refresh();
+							zn.toast.success('删除成功！');
+						}.bind(this), function (data) {
+							zn.toast.error('删除出错: ' + data.result);
+						});
+					}.bind(this));
 					break;
 			}
 		},
@@ -1345,22 +1210,35 @@
 					'span',
 					null,
 					React.createElement('i', { style: { margin: 5 }, className: 'fa ' + props.data.icon }),
-					props.data.id + '、' + props.data.title
+					props.data.id + '、' + props.data.zn_title
 				);
 			}
 		},
 		render: function render() {
 			return React.createElement(
-				UI.Page,
+				zn.react.Page,
 				{
 					toolbarItems: this.state.toolbarItems,
 					onToolbarClick: this.__onToolbarClick,
 					title: this.props.title },
 				React.createElement(
-					UI.ActivityLayout,
-					{ direction: 'h', begin: this.props.leftWidth || 35, barWidth: 0.3, unit: 'rem' },
-					React.createElement(UI.TreeListView, { itemContentRender: this.__itemContentRender, ref: 'maintreemenu', activeAll: this.props.activeAll, onClick: this.__onClick, data: this.state.data }),
-					this.__renderRight()
+					'div',
+					{ className: 'rt-flex-layout zn-plugin-admin-master-slave-flex-layout row' },
+					React.createElement(
+						'div',
+						{ className: 'layout-header', style: { width: 250 } },
+						React.createElement(zn.react.TreeListView, {
+							ref: 'maintreemenu',
+							itemContentRender: this.__itemContentRender,
+							activeAll: this.props.activeAll,
+							onClick: this.__onClick,
+							data: this.state.data })
+					),
+					React.createElement(
+						'div',
+						{ className: 'layout-body' },
+						this.__renderRight()
+					)
 				)
 			);
 		}
@@ -1393,45 +1271,55 @@
 		"./component/UserSearcher.less": 18,
 		"./component/index": 2,
 		"./component/index.js": 2,
+		"./exports/Login": 20,
+		"./exports/Login.js": 20,
+		"./exports/Login.less": 21,
+		"./exports/Main": 23,
+		"./exports/Main.js": 23,
+		"./exports/Main.less": 26,
+		"./exports/index": 28,
+		"./exports/index.js": 28,
+		"./exports/my/Info": 30,
+		"./exports/my/Info.js": 30,
+		"./exports/my/index": 31,
+		"./exports/my/index.js": 31,
+		"./exports/project/Project": 33,
+		"./exports/project/Project.js": 33,
+		"./exports/project/ProjectBug": 34,
+		"./exports/project/ProjectBug.js": 34,
+		"./exports/project/index": 35,
+		"./exports/project/index.js": 35,
+		"./exports/setting/Base": 37,
+		"./exports/setting/Base.js": 37,
+		"./exports/setting/Menu": 38,
+		"./exports/setting/Menu.js": 38,
+		"./exports/setting/Role": 39,
+		"./exports/setting/Role.js": 39,
+		"./exports/setting/UsersForRoles": 40,
+		"./exports/setting/UsersForRoles.js": 40,
+		"./exports/setting/Var": 41,
+		"./exports/setting/Var.js": 41,
+		"./exports/setting/index": 42,
+		"./exports/setting/index.js": 42,
+		"./exports/user/Info": 44,
+		"./exports/user/Info.js": 44,
+		"./exports/user/Info.less": 45,
+		"./exports/user/List": 47,
+		"./exports/user/List.js": 47,
+		"./exports/user/LoginLog": 48,
+		"./exports/user/LoginLog.js": 48,
+		"./exports/user/index": 49,
+		"./exports/user/index.js": 49,
 		"./index": 1,
 		"./index.js": 1,
-		"./less/UserItem.less": 20,
-		"./page/Menu": 22,
-		"./page/Menu.js": 22,
-		"./page/MyInfo": 24,
-		"./page/MyInfo.js": 24,
-		"./page/Project": 25,
-		"./page/Project.js": 25,
-		"./page/ProjectBug": 26,
-		"./page/ProjectBug.js": 26,
-		"./page/Role": 27,
-		"./page/Role.js": 27,
-		"./page/User": 29,
-		"./page/User.js": 29,
-		"./page/UserInfo": 30,
-		"./page/UserInfo.js": 30,
-		"./page/UserInfo.less": 31,
-		"./page/UserLog": 33,
-		"./page/UserLog.js": 33,
-		"./page/UsersForRoles": 28,
-		"./page/UsersForRoles.js": 28,
-		"./page/Var": 23,
-		"./page/Var.js": 23,
-		"./page/index": 34,
-		"./page/index.js": 34,
-		"./view/web/Dashboard": 36,
-		"./view/web/Dashboard.js": 36,
-		"./view/web/Index": 37,
-		"./view/web/Index.js": 37,
-		"./view/web/Index.less": 38,
-		"./view/web/Login": 40,
-		"./view/web/Login.js": 40,
-		"./view/web/Login.less": 41,
-		"./view/web/Main": 43,
-		"./view/web/Main.js": 43,
-		"./view/web/Main.less": 44,
-		"./view/web/exports": 46,
-		"./view/web/exports.js": 46
+		"./style/layout.less/MasterSlaveFlexLayout.less": 51,
+		"./style/widget.less/UserItem.less": 53,
+		"./widget/NavigationBar": 24,
+		"./widget/NavigationBar.js": 24,
+		"./widget/NavigationBar.less": 55,
+		"./widget/UserSessionInfo": 25,
+		"./widget/UserSessionInfo.js": 25,
+		"./widget/UserSessionInfo.less": 57
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -1464,220 +1352,643 @@
 /***/ }),
 /* 19 */,
 /* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	var _exports = React.createClass({
+		displayName: 'exports',
+
+		getInitialState: function getInitialState() {
+			return {
+				base: null
+			};
+		},
+		componentDidMount: function componentDidMount() {
+			this.__loadBaseSetting();
+		},
+		__loadBaseSetting: function __loadBaseSetting() {
+			zn.http.post("/zn.plugin.admin/config/selectBy_id", {
+				_id: 'zn.plugin.admin.base',
+				valueKey: '_value'
+			}).then(function (data) {
+				if (data.status == 200) {
+					this.setState({
+						base: data.result
+					});
+				} else {
+					this.setState({
+						base: {
+							"company_title": "上海佑洋信息科技有限公司",
+							"company_logo": "./images/logo.png",
+							"company_website": "http://www.youyangit.com",
+							"company_tm": "上海佑洋信息科技有限公司 @2016 - @2017",
+							"main": "/znpluginadmin.dashboard",
+							"main_background_image": "./images/login_background/starry_sky_12.jpg",
+							"login_background_image": "./images/login_background/starry_sky_11.jpg"
+						}
+					});
+				}
+			}.bind(this), function (err) {
+				zn.toast.error('获取基础信息失败： ' + err.message);
+			});
+		},
+		__onLogin: function __onLogin(event) {
+			event.preventDefault();
+			var _form = event.target.form;
+			var _name = _form['name'].value,
+			    _password = _form['password'].value;
+			if (!_name || _name.length < 2) {
+				zn.alert('请输入长度不少于2位的用户名');
+				_form['name'].focus();
+				return false;
+			}
+			if (!_password || _password.length < 2) {
+				zn.alert('请输入长度不少于2位的密码');
+				_form['password'].focus();
+				return false;
+			}
+			zn.http.post("/zn.plugin.admin/user/login", {
+				name: _name,
+				password: _password
+			}).then(function (data) {
+				if (data.status == 200) {
+					zn.react.session.doMain(data.result);
+				} else {
+					zn.toast.error('登录失败： ' + data.result);
+				}
+			}, function (err) {
+				zn.toast.error('登录失败： ' + err.message);
+			});
+		},
+		render: function render() {
+			if (!this.state.base) {
+				return React.createElement(zn.react.DataLoader, null);
+			}
+			return React.createElement(
+				'div',
+				{ className: 'zn-plugin-admin-login' },
+				React.createElement('img', { className: 'background-image', src: this.state.base.login_background_image }),
+				React.createElement(
+					'div',
+					{ className: 'section-head' },
+					React.createElement(
+						'div',
+						{ className: 'warp' },
+						React.createElement(
+							'div',
+							{ className: 'head-left' },
+							React.createElement('img', { className: 'company-logo', src: this.state.base.company_logo }),
+							React.createElement(
+								'div',
+								{ className: 'company-title' },
+								this.state.base.company_title
+							)
+						),
+						React.createElement(
+							'div',
+							{ className: 'head-right' },
+							React.createElement(
+								'ul',
+								{ className: 'link-nav' },
+								React.createElement(
+									'li',
+									null,
+									React.createElement(
+										'a',
+										{ href: this.state.base.company_website },
+										'\u5B98\u7F51'
+									)
+								),
+								React.createElement(
+									'li',
+									null,
+									'\u4E0B\u8F7D'
+								)
+							)
+						)
+					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'section-body rt-scroll-webkit' },
+					React.createElement(
+						'div',
+						{ className: 'warp', style: { width: 640 } },
+						React.createElement(
+							'div',
+							{ className: 'intro' },
+							React.createElement(
+								'div',
+								{ className: 'qr' },
+								React.createElement(
+									'div',
+									{ style: { fontSize: 20, margin: 10 } },
+									'\u624B\u673A\u5BA2\u6237\u7AEF'
+								),
+								this.state.base.client_qr_image && React.createElement('img', { className: 'qr-image', src: this.state.base.client_qr_image }),
+								React.createElement(
+									'span',
+									null,
+									'\u626B\u4E00\u626B\u7ACB\u5373\u4E0B\u8F7D'
+								)
+							)
+						),
+						React.createElement(
+							'div',
+							{ className: 'form-dialog' },
+							React.createElement(
+								'form',
+								{ className: 'form' },
+								React.createElement(
+									'div',
+									{ className: 'dialog-title' },
+									'\u7528\u6237\u767B\u5F55'
+								),
+								React.createElement(
+									'div',
+									{ className: 'form-item' },
+									React.createElement('i', { className: 'fa fa-user' }),
+									React.createElement('input', { name: 'name', type: 'input', placeholder: '\u767B\u5F55\u7528\u6237\u540D', required: true })
+								),
+								React.createElement(
+									'div',
+									{ className: 'form-item' },
+									React.createElement('i', { className: 'fa fa-lock' }),
+									React.createElement('input', { name: 'password', type: 'password', placeholder: '\u5BC6\u7801', required: true })
+								),
+								React.createElement(
+									'div',
+									{ className: 'form-tips' },
+									React.createElement(
+										'label',
+										null,
+										React.createElement('input', { type: 'checkbox' }),
+										'\u8BB0\u4F4F\u5BC6\u7801'
+									),
+									React.createElement(
+										'label',
+										null,
+										'\u5FD8\u8BB0\u5BC6\u7801'
+									)
+								),
+								React.createElement(
+									'button',
+									{ onClick: this.__onLogin, className: 'btn-login' },
+									'\u767B \u5F55'
+								)
+							)
+						)
+					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'section-foot' },
+					React.createElement(
+						'div',
+						{ className: 'warp' },
+						React.createElement(
+							'div',
+							{ className: 'TM' },
+							this.state.base.company_tm
+						)
+					)
+				)
+			);
+		}
+	});
+
+	_exports.global = true;
+	module.exports = _exports;
+
+/***/ }),
+/* 21 */
 /***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 21 */,
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var React = __webpack_require__(5);
-	var Var = __webpack_require__(23);
-	var TreeModelView = __webpack_require__(13);
-	var RightsSetting = __webpack_require__(10);
-	var VarPanel = React.createClass({
-		displayName: 'VarPanel',
-
-		getInitialState: function getInitialState() {
-			return {
-				typeIndex: 0
-			};
-		},
-		__onListViewItemClick: function __onListViewItemClick(event, item, index) {
-			this.setState({ typeIndex: index });
-		},
-		__renderBody: function __renderBody() {
-			var _treeModel = this.props.treeModel;
-
-			return React.createElement(RightsSetting, { model: _treeModel.props.model, id: _treeModel.state.currItem ? _treeModel.state.currItem.props.data.id : null });
-			/*
-	  switch (this.state.typeIndex) {
-	  	case 0:
-	  		return <RightsSetting model={_treeModel.props.model} id={_treeModel.state.currItem?_treeModel.state.currItem.props.data.id:null}  />;
-	  	case 1:
-	  		if(_treeModel.state.currItem){
-	  			return <Var menuId={_treeModel.state.currItem.props.data.id} pid={2} />
-	  		}else {
-	  			return <div style={{textAlign:'center'}}>请先选中菜单</div>;
-	  		}
-	  }*/
-		},
-		render: function render() {
-			return this.__renderBody();
-			return React.createElement(
-				UI.ActivityLayout,
-				{ direction: 'v', begin: 4, barWidth: 0.3, unit: 'rem' },
-				React.createElement(UI.ListView, {
-					className: 'rt-list-view-tab',
-					fireIndex: 0,
-					onClick: this.__onListViewItemClick,
-					itemRender: function itemRender(item, index) {
-						return React.createElement(
-							'span',
-							null,
-							React.createElement('i', { style: { marginRight: 5 }, className: 'fa ' + item.icon }),
-							item.text
-						);
-					},
-					data: [{ text: '权限设置', icon: 'fa-yelp' }, { text: '资源管理', icon: 'fa-table' }] }),
-				this.__renderBody()
-			);
-		}
-	});
-
-	module.exports = React.createClass({
-		displayName: 'exports',
-
-		getDefaultProps: function getDefaultProps() {
-			return {
-				model: 'zn_admin_menu',
-				title: '菜单管理',
-				leftWidth: 30,
-				pid: 0,
-				fields: [{ title: '标题', type: 'Input', name: 'title' }, { title: '类型', type: 'Radio', name: 'type', value: 0,
-					data: [{ text: '分类', value: 0 }, { text: '功能菜单', value: 1 }]
-				}, { title: '图标', type: 'Input', name: 'icon' }, { title: '链接', type: 'Input', name: 'url' }, { title: '路径', type: 'Input', name: 'path' }, { title: '扩展', type: 'Textarea', name: 'ext' }]
-			};
-		},
-		__rightRender: function __rightRender(treeModel) {
-			return React.createElement(VarPanel, { treeModel: treeModel });
-		},
-		render: function render() {
-			return React.createElement(TreeModelView, _extends({}, this.props, { rightRender: this.__rightRender }));
-		}
-	});
-
-/***/ }),
+/* 22 */,
 /* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 	var React = __webpack_require__(5);
-	var TreeModelView = __webpack_require__(13);
-	var RightsSetting = __webpack_require__(10);
-	module.exports = React.createClass({
-		displayName: 'exports',
+	var NavigationBar = __webpack_require__(24);
+	var UserSessionInfo = __webpack_require__(25);
+	var _exports = React.createClass({
+		displayName: '_exports',
 
-		getDefaultProps: function getDefaultProps() {
+		getInitialState: function getInitialState() {
 			return {
-				model: 'zn_admin_var',
-				pid: 0,
-				title: '资源管理',
-				menuId: 0,
-				fields: [{ title: '标题', type: 'Input', name: 'title' }, { title: '类型', type: 'Radio', name: 'type', value: 0,
-					data: [{ text: '分类', value: 0 }, { text: '按钮', value: 1 }, { text: '常量', value: 2 }, { text: '标签', value: 3 }, { text: '标签', value: 4 }]
-				}, { title: '图标', type: 'Input', name: 'icon' }, { title: '图片', type: 'ImageUploader', name: 'img', action: '/znadmin/uploadFiles' }, { title: '链接', type: 'Input', name: 'url' }, { title: '路径', type: 'Input', name: 'path' }, { title: '扩展', type: 'Textarea', name: 'ext' }]
+				menus: [],
+				base: null
 			};
 		},
-		__rightRender: function __rightRender(treeModel) {
-			if (!treeModel.state.currItem) {
-				return null;
-			}
-			var _id = treeModel.state.currItem.props.data.id;
-			return React.createElement(
-				'div',
-				null,
-				React.createElement(RightsSetting, { model: this.props.model, id: treeModel.state.currItem ? treeModel.state.currItem.props.data.id : null })
-			);
+		componentDidMount: function componentDidMount() {
+			this.__loadBaseSetting();
+			this.__loadUserRights();
 		},
-		__itemContentRender: function __itemContentRender(item) {
-			var _data = item.data;
-			switch (_data.type) {
-				case 1:
-					return React.createElement(
-						'span',
-						null,
-						React.createElement('i', { title: '\u8FD9\u662F\u64CD\u4F5C\u6309\u94AE', className: 'fa fa-hand-o-up', style: { margin: 5, color: '#0B72A5' } }),
-						React.createElement('i', { className: 'fa ' + _data.icon, style: { marginRight: 5 } }),
-						_data.id + '、' + _data.title
-					);
-				case 2:
-					return React.createElement(
-						'span',
-						null,
-						React.createElement('i', { title: '\u8FD9\u662F\u9759\u6001\u5E38\u91CF', className: 'fa fa-text-width', style: { margin: 5, color: '#d9534f' } }),
-						React.createElement('i', { className: 'fa ' + _data.icon, style: { marginRight: 5 } }),
-						_data.id + '、' + _data.title
-					);
-				case 3:
-					return React.createElement(
-						'span',
-						null,
-						React.createElement('i', { title: '\u8FD9\u662F\u6807\u7B7E\u7C7B\u522B', className: 'fa fa-tag', style: { margin: 5 } }),
-						React.createElement('i', { className: 'fa ' + _data.icon, style: { marginRight: 5 } }),
-						_data.id + '、' + _data.title
-					);
-			}
+		__loadBaseSetting: function __loadBaseSetting() {
+			zn.http.post("/zn.plugin.admin/config/selectBy_id", {
+				_id: 'zn.plugin.admin.base',
+				valueKey: '_value'
+			}).then(function (data) {
+				if (data.status == 200) {
+					this.setState({
+						base: data.result
+					});
+				} else {
+					this.setState({
+						base: {
+							"company_title": "上海佑洋信息科技有限公司",
+							"company_logo": "./images/logo.png",
+							"company_website": "http://www.youyangit.com",
+							"company_tm": "上海佑洋信息科技有限公司 @2016 - @2017",
+							"main": "/znpluginadmin.dashboard",
+							"main_background_image": "./images/login_background/starry_sky_12.jpg",
+							"login_background_image": "./images/login_background/starry_sky_11.jpg"
+						}
+					});
+				}
+			}.bind(this), function (err) {
+				zn.toast.error('获取基础信息失败： ' + err.message);
+			});
+		},
+		__loadUserRights: function __loadUserRights() {
+			zn.http.get('/zn.plugin.admin/user/getUserRightsMenus').then(function (data) {
+				this.setState({
+					menus: data.result
+				});
+			}.bind(this));
+		},
+		__onSessionClick: function __onSessionClick() {
+			zn.modal.open(React.createElement(UserSessionInfo, null), {
+				modalStyle: { overflow: 'hidden' },
+				className: 'modal-right',
+				isMode: true,
+				removeSelf: false
+			});
+		},
+		__onSignOut: function __onSignOut() {
+			zn.confirm('确定要退出系统？', '提示', function () {
+				zn.http.post('/zn.plugin.admin/user/logout').then(function () {
+					zn.react.session.doHome();
+				});
+			});
 		},
 		render: function render() {
-			return React.createElement(TreeModelView, _extends({}, this.props, { where: { menuId: this.props.menuId }, itemContentRender: this.__itemContentRender, rightRender: this.__rightRender, leftWidth: 30 }));
+			if (!zn.react.session.validate()) {
+				return false;
+			}
+			if (!this.state.base) {
+				return React.createElement(zn.react.DataLoader, { content: '\u6B63\u5728\u52A0\u8F7D\u4E2D...', loader: 'timer' });
+			}
+			return React.createElement(
+				'div',
+				{ className: 'zn-plugin-admin-main' },
+				React.createElement('img', { className: 'background-image', src: this.state.base.main_background_image }),
+				React.createElement(
+					'div',
+					{ className: 'section-head' },
+					React.createElement(
+						'div',
+						{ className: 'warp' },
+						React.createElement(
+							'div',
+							{ className: 'head-left' },
+							React.createElement('img', { className: 'company-logo', src: this.state.base.company_logo }),
+							React.createElement(
+								'div',
+								{ className: 'company-title' },
+								this.state.base.company_title
+							)
+						),
+						React.createElement(
+							'div',
+							{ className: 'head-right' },
+							React.createElement(
+								'ul',
+								{ className: 'link-nav' },
+								React.createElement(
+									'li',
+									null,
+									React.createElement(
+										'a',
+										{ href: this.state.base.company_website },
+										'\u5B98\u7F51'
+									)
+								),
+								React.createElement(
+									'li',
+									null,
+									React.createElement(
+										'a',
+										{ href: this.state.base.company_website },
+										'\u4E0B\u8F7D'
+									)
+								)
+							),
+							React.createElement(
+								'div',
+								{ className: 'user-session', onClick: this.__onSessionClick },
+								React.createElement(
+									'figure',
+									{ className: 'avatar' },
+									React.createElement('img', { src: zn.http.fixURL(zn.react.session.json().avatar_img) || './images/DefaultAvatar.png' })
+								),
+								React.createElement(
+									'span',
+									{ className: 'name' },
+									zn.react.session.json().name
+								),
+								React.createElement('i', { className: 'fa fa-angle-down' })
+							),
+							React.createElement(
+								'div',
+								{ className: 'icons' },
+								React.createElement('i', { onClick: this.__onMessage, className: 'fa fa-comment-o', title: '\u6D88\u606F' }),
+								React.createElement('i', { onClick: this.__onSetting, className: 'fa fa-gear', title: '\u8BBE\u7F6E' }),
+								React.createElement('i', { onClick: this.__onSignOut, className: 'sign-out fa fa-sign-out', title: '\u6CE8\u9500' })
+							)
+						)
+					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'section-body' },
+					React.createElement(
+						'div',
+						{ className: 'warp inner-content' },
+						React.createElement(
+							'div',
+							{ className: 'navigation-view rt-scroll-webkit' },
+							React.createElement(NavigationBar, { data: this.state.menus })
+						),
+						React.createElement(
+							'div',
+							{ className: 'page-view' },
+							this.props.view && React.createElement(this.props.view, this.props.request.search)
+						)
+					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'section-foot' },
+					React.createElement(
+						'div',
+						{ className: 'warp' },
+						React.createElement(
+							'div',
+							{ className: 'TM' },
+							this.state.base.company_tm
+						)
+					)
+				)
+			);
 		}
 	});
+
+	_exports.global = true;
+	module.exports = _exports;
 
 /***/ }),
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: "exports",
+
+		getDefaultProps: function getDefaultProps() {
+			return {};
+		},
+		getInitialState: function getInitialState() {
+			return {};
+		},
+		componentDidMount: function componentDidMount() {},
+		__renderItem: function __renderItem(item, index) {
+			return React.createElement(
+				"li",
+				{ className: "menu-item" },
+				React.createElement(
+					"div",
+					{ className: "item-title" },
+					React.createElement("i", { className: "fa " + item.icon }),
+					item.zn_title
+				),
+				!!item.children && !!item.children.length && this.__renderChildren(item.children)
+			);
+		},
+		__renderChildren: function __renderChildren(children) {
+			return React.createElement(
+				"ul",
+				{ className: "sub-menu-list" },
+				children.map(function (item, index) {
+					var _this = this;
+
+					return React.createElement(
+						"li",
+						{ className: zn.react.session.isPath(item.url) ? 'active-item' : '', key: index, onClick: function onClick() {
+								return _this.__onSubItemClick(item, index);
+							} },
+						React.createElement(
+							"div",
+							{ className: "item-title" },
+							React.createElement("i", { className: "fa " + item.icon }),
+							item.zn_title
+						)
+					);
+				}.bind(this))
+			);
+		},
+		__onSubItemClick: function __onSubItemClick(item, index) {
+			if (item.url) {
+				zn.react.session.relativeJump(item.url);
+			}
+		},
+		render: function render() {
+			return React.createElement(
+				"div",
+				{ className: "zn-plugin-admin-widget-navigation-bar" },
+				React.createElement(
+					"ul",
+					{ className: "menu-list" },
+					this.props.data.map(function (item, index) {
+						return this.__renderItem(item, index);
+					}.bind(this))
+				)
+			);
+		}
+	});
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: "exports",
+
+		getDefaultProps: function getDefaultProps() {
+			return {};
+		},
+		getInitialState: function getInitialState() {
+			return {};
+		},
+		componentDidMount: function componentDidMount() {},
+		render: function render() {
+			return React.createElement("div", { className: "zn-plugin-admin-widget-user-session-info" });
+		}
+	});
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 27 */,
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var _exports = {},
+	    _subs = {},
+	    _path = null,
+	    _export = null;
+
+	['my', 'project', 'setting', 'user'].forEach(function (path) {
+	    _path = './' + path + '/index.js';
+	    _export = __webpack_require__(29)(_path);
+	    for (var key in _export) {
+	        _subs[('/znpluginadmin.' + path + '.' + key).toLowerCase()] = _export[key];
+	    }
+	});
+
+	['Login'].forEach(function (path) {
+	    _path = './' + path;
+	    _exports[('/' + path).toLowerCase()] = __webpack_require__(29)(_path);
+	});
+
+	_subs['/'] = __webpack_require__(23);
+	_exports['/main'] = _subs;
+
+	module.exports = _exports;
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./Login": 20,
+		"./Login.js": 20,
+		"./Login.less": 21,
+		"./Main": 23,
+		"./Main.js": 23,
+		"./Main.less": 26,
+		"./index": 28,
+		"./index.js": 28,
+		"./my/Info": 30,
+		"./my/Info.js": 30,
+		"./my/index": 31,
+		"./my/index.js": 31,
+		"./project/Project": 33,
+		"./project/Project.js": 33,
+		"./project/ProjectBug": 34,
+		"./project/ProjectBug.js": 34,
+		"./project/index": 35,
+		"./project/index.js": 35,
+		"./setting/Base": 37,
+		"./setting/Base.js": 37,
+		"./setting/Menu": 38,
+		"./setting/Menu.js": 38,
+		"./setting/Role": 39,
+		"./setting/Role.js": 39,
+		"./setting/UsersForRoles": 40,
+		"./setting/UsersForRoles.js": 40,
+		"./setting/Var": 41,
+		"./setting/Var.js": 41,
+		"./setting/index": 42,
+		"./setting/index.js": 42,
+		"./user/Info": 44,
+		"./user/Info.js": 44,
+		"./user/Info.less": 45,
+		"./user/List": 47,
+		"./user/List.js": 47,
+		"./user/LoginLog": 48,
+		"./user/LoginLog.js": 48,
+		"./user/index": 49,
+		"./user/index.js": 49
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 29;
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
 
 	module.exports = React.createClass({
 		displayName: 'exports',
 
 		getInitialState: function getInitialState() {
 			return {
-				userId: this.props.userId || Session.json().id,
+				userId: this.props.userId || zn.react.session.json().id,
 				toolbarItems: this.props.userId ? [] : [{ icon: 'fa-edit', text: '修改个人信息', onClick: this.__onEdit }],
 				info: null,
-				formItems: [{ title: '头像', name: 'avatarImg', type: 'ImageUploader', action: '/klproject/uploadFiles' }, { title: '用户名', name: 'name', type: 'Input', required: true, error: '用户名必填项!' }, { title: '密码', name: 'pwd', type: 'Input', attrs: { type: 'password' }, required: true, error: '密码必填项!' }, { title: '邮箱', name: 'email', type: 'Input', required: true, error: '邮箱必填项!' }, { title: '手机号', name: 'phone', type: 'Input', required: true, error: '手机号必填项!' }, { title: '地址', name: 'address', type: 'Input' }, { title: '说明', name: 'note', type: 'Textarea' }],
-				data: Store.post('/znadmin/model/select', { model: 'zn_admin_role', where: { pid: 0 } })
+				formItems: [{ title: '头像', name: 'avatar_img', type: 'ImageUploader', action: '/zn.plugin.admin/uploadFiles' }, { title: '用户名', name: 'name', type: 'Input', required: true, error: '用户名必填项!' }, { title: '密码', name: 'password', type: 'Input', attrs: { type: 'password' }, required: true, error: '密码必填项!' }, { title: '邮箱', name: 'email', type: 'Input', required: true, error: '邮箱必填项!' }, { title: '手机号', name: 'phone', type: 'Input', required: true, error: '手机号必填项!' }, { title: '地址', name: 'address', type: 'Input' }, { title: '说明', name: 'zn_note', type: 'Textarea' }],
+				data: zn.store.post('/zn.plugin.admin/model/select', { model: 'ZNPluginAdminRole', where: { zn_tree_pid: 0 } })
 			};
 		},
 		componentDidMount: function componentDidMount() {
 			this.__loadUserInfo();
 		},
 		__doSuccess: function __doSuccess() {
-			Popup.close('dialog');
-			Toast.success('修改成功');
-			Store.post('/znadmin/user/findUserById', { userId: this.state.userId }).exec().then(function (data) {
-				this.setState({
-					info: data.result
-				});
-			}.bind(this));
+			zn.modal.close();
+			zn.toast.success('修改成功');
+			this.__loadUserInfo();
 		},
 		__onEdit: function __onEdit(data) {
-			Popup.dialog({
+			zn.dialog({
 				title: '修改个人信息',
-				hStyle: { backgroundColor: '#0B72A5' },
-				width: 480,
-				content: React.createElement(UI.Form, {
-					method: 'POST',
-					layout: 'stacked',
-					action: '/znadmin/model/updateNode',
-					exts: { model: 'zn_admin_user', where: { id: this.state.info.id } },
-					merge: 'data',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/update',
+					exts: { model: 'ZNPluginAdminUser', where: { id: this.state.info.id } },
+					merge: 'updates',
 					value: this.state.info,
-					style: { margin: 25 },
-					syncSubmit: false,
 					onSubmitSuccess: this.__doSuccess,
 					btns: [{ text: '修改', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
 					items: this.state.formItems })
 			});
 		},
 		__loadUserInfo: function __loadUserInfo() {
-			Store.post('/znadmin/user/findUserById', { userId: this.state.userId }).exec().then(function (data) {
+			zn.http.post('/zn.plugin.admin/user/findUserById', {
+				userId: this.state.userId
+			}).then(function (data) {
 				this.setState({
 					info: data.result
 				});
 			}.bind(this));
 		},
 		__onTreeMenuItemCheckboxChange: function __onTreeMenuItemCheckboxChange(value) {
-			Store.post('/znadmin/user/updateUser', { data: { roleIds: value }, userId: this.state.info.id }).exec().then(function (data) {
-				Toast.success('保存成功');
+			zn.http.post('/zn.plugin.admin/user/updateUser', {
+				data: {
+					role_ids: value
+				},
+				userId: this.state.info.id
+			}).then(function (data) {
+				zn.toast.success('保存成功');
 			});
 		},
 		__itemContentRender: function __itemContentRender(props) {
@@ -1693,23 +2004,20 @@
 				'span',
 				null,
 				React.createElement('i', { style: { margin: 5 }, className: 'fa ' + _icon }),
-				props.data.id + '、' + props.data.title
+				props.data.id + '、' + props.data.zn_title
 			);
 		},
 		render: function render() {
-			if (!this.state.info) {
-				return null;
-			}
 			return React.createElement(
-				UI.Page,
-				{ title: this.state.info.name, icon: 'fa-newspaper-o', toolbarItems: this.state.toolbarItems },
-				React.createElement(
+				zn.react.Page,
+				{ loading: !this.state.info, title: this.state.info ? this.state.info.name : '加载中...', icon: 'fa-newspaper-o', toolbarItems: this.state.toolbarItems },
+				this.state.info && React.createElement(
 					'div',
 					{ className: 'user-info' },
 					React.createElement(
 						'div',
 						{ className: 'info-form user-item' },
-						React.createElement('img', { className: 'avatar', src: Store.fixURL(this.state.info.avatarImg) || './images/DefaultAvatar.png' }),
+						React.createElement('img', { className: 'avatar', src: zn.http.fixURL(this.state.info.avatar_img) || './images/DefaultAvatar.png' }),
 						React.createElement(
 							'div',
 							{ className: 'details' },
@@ -1717,7 +2025,7 @@
 								'span',
 								{ className: 'last-logintime' },
 								'\u6700\u8FD1\u4E00\u6B21\u767B\u5F55\u65F6\u95F4\uFF1A',
-								this.state.info.lastLoginTime || '还未登陆'
+								this.state.info.last_login_time || '还未登陆'
 							),
 							React.createElement(
 								'div',
@@ -1729,7 +2037,7 @@
 								null,
 								React.createElement('i', { className: 'fa fa-clock-o' }),
 								'\u521B\u5EFA\u65F6\u95F4\uFF1A',
-								this.state.info.createTime
+								this.state.info.zn_create_time
 							),
 							React.createElement(
 								'div',
@@ -1748,23 +2056,23 @@
 							React.createElement(
 								'div',
 								null,
-								this.state.info.note
+								this.state.info.zn_note
 							)
 						)
 					),
 					React.createElement(
-						'div',
-						{ className: 'rt-panel c-default' },
-						React.createElement(
-							'div',
-							{ className: 'p-head' },
-							'\u90E8\u95E8\u53CA\u89D2\u8272'
-						),
-						React.createElement(
-							'div',
-							{ className: 'p-body' },
-							React.createElement(UI.TreeListView, { disabled: true, cascade: false, enableCheckbox: true, onItemCheckboxChange: this.__onTreeMenuItemCheckboxChange, value: this.state.info.roleIds, itemContentRender: this.__itemContentRender, ref: 'maintreemenu', activeAll: true, data: this.state.data })
-						)
+						zn.react.Card,
+						{ title: '\u90E8\u95E8\u53CA\u89D2\u8272' },
+						React.createElement(zn.react.TreeListView, {
+							disabled: true,
+							cascade: false,
+							enableCheckbox: true,
+							onItemCheckboxChange: this.__onTreeMenuItemCheckboxChange,
+							value: this.state.info.roleIds,
+							itemContentRender: this.__itemContentRender,
+							ref: 'maintreemenu',
+							activeAll: true,
+							data: this.state.data })
 					)
 				)
 			);
@@ -1772,25 +2080,55 @@
 	});
 
 /***/ }),
-/* 25 */
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = zn.arrayValueToObject(['Info'], function (value, index) {
+	    return __webpack_require__(32)("./" + value + '.js');
+	});
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./Info.js": 30,
+		"./index.js": 31
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 32;
+
+
+/***/ }),
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var React = __webpack_require__(5);
 	var TreeModelView = __webpack_require__(13);
-	var ProjectBug = __webpack_require__(26);
+	var ProjectBug = __webpack_require__(34);
 
 	module.exports = React.createClass({
 		displayName: 'exports',
 
 		getDefaultProps: function getDefaultProps() {
 			return {
-				model: 'zn_admin_project',
+				model: 'ZNPluginAdminProject',
 				title: '项目管理',
 				leftWidth: 20,
 				pid: 0,
-				fields: [{ title: '模块名称', type: 'Input', name: 'title' }, { title: '版本号', type: 'Input', name: 'version' }, { title: '优先级', type: 'Select', name: 'priority', data: [{ text: '正常', value: 1 }, { text: '紧急', value: 2 }, { text: '非常紧急', value: 3 }] }, { title: '开始时间', name: 'beginTime', type: 'Timer' }, { title: '结束时间', name: 'endTime', type: 'Timer' }, { title: '文件', name: 'files', type: 'FileUploader', action: '/znadmin/uploadFiles' }, { title: '功能表述', type: 'RichEditor', name: 'description' }, { title: '备注', type: 'Textarea', name: 'note' }]
+				fields: [{ title: '模块名称', type: 'Input', name: 'zn_title' }, { title: '版本号', type: 'Input', name: 'version' }, { title: '优先级', type: 'Select', name: 'priority', data: [{ text: '正常', value: 1 }, { text: '紧急', value: 2 }, { text: '非常紧急', value: 3 }] }, { title: '开始时间', name: 'begin_time', type: 'Timer' }, { title: '结束时间', name: 'end_time', type: 'Timer' }, { title: '文件', name: 'files', type: 'FileUploader', action: '/zn.plugin.admin/uploadFiles' }, { title: '功能表述', type: 'RichEditor', name: 'description' }, { title: '备注', type: 'Textarea', name: 'zn_note' }]
 			};
 		},
 		__rightRender: function __rightRender(tree) {
@@ -1805,7 +2143,7 @@
 				React.createElement(
 					'span',
 					{ className: 'title' },
-					item.data.title
+					item.data.zn_title
 				),
 				React.createElement(
 					'span',
@@ -1822,7 +2160,7 @@
 	});
 
 /***/ }),
-/* 26 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(5);
@@ -1832,55 +2170,51 @@
 		getDefaultProps: function getDefaultProps() {
 			return {
 				data: null,
-				model: 'zn_admin_project_bug'
+				model: 'ZNPluginAdminProjectBug'
 			};
 		},
 		componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 			if (nextProps.data !== this.props.data) {
-				this.state.data._data.where = {
-					projectId: nextProps.data.id
-				};
-				this.state.data.exec();
+				this.state.data.extend({
+					where: {
+						project_id: nextProps.data.id
+					}
+				}).exec();
 			}
 		},
 		getInitialState: function getInitialState() {
 			var _where = {};
 			if (this.props.data) {
-				_where.projectId = this.props.data.id;
+				_where.project_id = this.props.data.id;
 			}
 			return {
-				data: Store.post('/znadmin/model/paging', {
+				data: zn.store.post('/zn.plugin.admin/model/paging', {
 					model: this.props.model,
 					where: _where
 				}),
-				items: [{ title: '操作', width: 60, textAlign: 'center' }, { title: '问题', name: 'title', width: 220, filter: { type: 'Input', opts: ['like'] } }, { title: '状态', name: 'state', width: 80, filter: { type: 'Menu', data: [{ text: '待处理', value: 0 }, { text: '处理中...', value: 2 }, { text: '已经解决', value: 3 }, { text: '已经确认', value: 3 }], opts: ['='] } }, { title: '优先级', name: 'priority', width: 80, filter: { type: 'Menu', data: [{ text: '正常', value: 1 }, { text: '紧急', value: 2 }, { text: '非常紧急', value: 3 }], opts: ['='] } }, { title: '开始时间', name: 'beginTime', width: 140 }, { title: '结束时间', name: 'endTime', width: 140 }, { title: '完成时间', name: 'finishTime', width: 140 }, { title: '提交时间', name: 'createTime', width: 140 }, { title: '描述', name: 'note' }],
-				formItems: [{ title: '问题', name: 'title', type: 'Textarea' }, { title: '版本号', type: 'Input', name: 'version' }, {
+				items: [{ title: '操作', width: 60, textAlign: 'center' }, { title: '问题', name: 'zn_title', width: 220, filter: { type: 'Input', opts: ['like'] } }, { title: '状态', name: 'state', width: 80, filter: { type: 'Menu', data: [{ text: '待处理', value: 0 }, { text: '处理中...', value: 2 }, { text: '已经解决', value: 3 }, { text: '已经确认', value: 3 }], opts: ['='] } }, { title: '优先级', name: 'priority', width: 80, filter: { type: 'Menu', data: [{ text: '正常', value: 1 }, { text: '紧急', value: 2 }, { text: '非常紧急', value: 3 }], opts: ['='] } }, { title: '开始时间', name: 'begin_time', width: 140 }, { title: '结束时间', name: 'end_time', width: 140 }, { title: '完成时间', name: 'finished_time', width: 140 }, { title: '提交时间', name: 'zn_create_time', width: 140 }, { title: '描述', name: 'zn_note' }],
+				formItems: [{ title: '问题', name: 'zn_title', type: 'Textarea' }, { title: '版本号', type: 'Input', name: 'version' }, {
 					title: '优先级',
 					type: 'Select',
 					name: 'priority',
 					data: [{ text: '正常', value: 1 }, { text: '紧急', value: 2 }, { text: '非常紧急', value: 3 }]
-				}, { title: '开始时间', name: 'beginTime', type: 'Timer' }, { title: '结束时间', name: 'endTime', type: 'Timer' }, { title: '附件', name: 'files', type: 'FileUploader', action: '/znadmin/uploadFiles' }, { title: '问题描述', name: 'description', type: 'RichEditor' }, { title: '解决方案', name: 'solution', type: 'RichEditor' }],
+				}, { title: '开始时间', name: 'begin_time', type: 'Timer' }, { title: '结束时间', name: 'end_time', type: 'Timer' }, { title: '附件', name: 'files', type: 'FileUploader', action: '/zn.plugin.admin/uploadFiles' }, { title: '问题描述', name: 'description', type: 'RichEditor' }, { title: '解决方案', name: 'solution', type: 'RichEditor' }],
 				toolbarItems: [{ text: '添加', icon: 'fa-plus' }]
 			};
 		},
-		__onRowActions: function __onRowActions(rtitem, data) {
+		__onRowActions: function __onRowActions(value, data) {
 			var _data = this.state.data;
 			var _self = this;
-			switch (rtitem.props.icon) {
+			switch (value.item.icon) {
 				case 'fa-remove':
-					Alert.show({
-						width: 280,
-						title: '提示',
-						content: '确定删除该数据吗？',
-						onConfirm: function onConfirm() {
-							Store.post('/znadmin/model/deleteNode', {
-								model: _self.props.model,
-								id: data.id
-							}).exec().then(function (data) {
-								Toast.success('删除成功！');
-								_data.refresh();
-							});
-						}
+					zn.confirm('确定删除该数据吗？', '提示', function () {
+						zn.http.post('/zn.plugin.admin/model/delete', {
+							model: _self.props.model,
+							where: { id: data.id }
+						}).then(function (data) {
+							zn.toast.success('删除成功！');
+							_data.refresh();
+						});
 					});
 					break;
 				case 'fa-edit':
@@ -1894,16 +2228,15 @@
 
 			switch (columnIndex) {
 				case 0:
-					return React.createElement(UI.ListView, {
+					return React.createElement(zn.react.ListView, {
 						className: 'rt-flex',
 						data: [{ text: '删除', icon: 'fa-remove' }, { text: '修改', icon: 'fa-edit' }],
 						itemRender: function itemRender(item, index) {
 							return React.createElement('i', { title: item.text, className: 'fa ' + item.icon, style: item.style });
 						},
-						onClick: function onClick(value, rtitem) {
-							return _this.__onRowActions(rtitem, data);
-						}
-					});
+						onClick: function onClick(value) {
+							return _this.__onRowActions(value, data);
+						} });
 				case 1:
 					return React.createElement(
 						'a',
@@ -1965,46 +2298,34 @@
 			}
 		},
 		__updateItem: function __updateItem(data) {
-			Popup.dialog({
+			zn.dialog({
 				title: '修改',
-				hStyle: { backgroundColor: '#0B72A5' },
-				width: 780,
-				content: React.createElement(UI.Form, {
-					method: 'POST',
-					layout: 'stacked',
-					action: '/znadmin/model/updateNode',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/update',
 					exts: { model: this.props.model, where: { id: data.id } },
-					merge: 'data',
-					value: Store.post('/znadmin/model/selectOne', { model: this.props.model, where: { id: data.id } }),
-					style: { margin: 25 },
-					syncSubmit: false,
+					merge: 'updates',
+					value: zn.store.post('/zn.plugin.admin/model/selectOne', { model: this.props.model, where: { id: data.id } }),
 					onSubmitSuccess: this.__doSuccess,
-					btns: [{ text: '修改', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
 					items: this.state.formItems })
 			});
 		},
 		__doSuccess: function __doSuccess() {
-			Popup.close('dialog');
-			Toast.success('操作成功');
+			zn.modal.close();
+			zn.toast.success('操作成功');
 			this.state.data.refresh();
 		},
 		__addItem: function __addItem(pid) {
 			if (!this.props.data) {
-				Toast.warning('请先选择左边商品类型项');
+				zn.toast.warning('请先选择左边商品类型项');
 				return false;
 			}
-			Popup.dialog({
+			zn.dialog({
 				title: '添加',
-				width: 780,
-				content: React.createElement(UI.Form, {
-					method: 'POST',
-					layout: 'stacked',
-					action: '/znadmin/model/addNode',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/insert',
 					exts: { model: this.props.model },
-					hiddens: { projectId: this.props.data.id },
-					merge: 'data',
-					style: { margin: 25 },
-					syncSubmit: false,
+					hiddens: { project_id: this.props.data.id },
+					merge: 'values',
 					onSubmitSuccess: this.__doSuccess,
 					btns: [{ text: '添加', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
 					items: this.state.formItems })
@@ -2019,11 +2340,9 @@
 		},
 		render: function render() {
 			return React.createElement(
-				UI.Page,
-				{ title: '\u95EE\u9898\u5217\u8868', icon: 'fa-list-ul',
-					onToolbarClick: this.__onToolbarClick,
-					toolbarItems: this.state.toolbarItems },
-				React.createElement(UI.PagerView, {
+				zn.react.Page,
+				{ title: '\u95EE\u9898\u5217\u8868', icon: 'fa-list-ul', onToolbarClick: this.__onToolbarClick, toolbarItems: this.state.toolbarItems },
+				React.createElement(zn.react.PagerView, {
 					view: 'Table',
 					checkbox: 0,
 					enableFilter: true,
@@ -2037,29 +2356,207 @@
 	});
 
 /***/ }),
-/* 27 */
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = zn.arrayValueToObject(['Project'], function (value, index) {
+	    return __webpack_require__(36)("./" + value + '.js');
+	});
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./Project.js": 33,
+		"./ProjectBug.js": 34,
+		"./index.js": 35
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 36;
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				_id: 'zn.plugin.admin.base',
+				title: '参数设置'
+			};
+		},
+		getInitialState: function getInitialState() {
+			return {
+				items: null
+			};
+		},
+		componentDidMount: function componentDidMount() {
+			this.__getData();
+		},
+		__getData: function __getData() {
+			zn.http.post('/zn.plugin.admin/config/selectBy_id', {
+				_id: this.props._id
+			}).then(function (data) {
+				var _items = [],
+				    _item = null;
+				zn.each(data.result, function (value, key) {
+					_item = {
+						name: key,
+						title: value._title,
+						type: value.input_type,
+						value: value._value || value._rich_value
+					};
+					if (_item.type == 'ImageUploader') {
+						_item.action = '/zn.plugin.admin/uploadFiles';
+					}
+					_items.push(_item);
+				});
+				this.setState({
+					items: _items
+				});
+			}.bind(this));
+		},
+		render: function render() {
+			return React.createElement(
+				zn.react.Page,
+				{ loading: !this.state.items, title: this.props.title },
+				React.createElement(
+					'div',
+					{ style: { backgroundColor: '#FFF' } },
+					this.state.items && React.createElement(zn.react.Form, {
+						items: this.state.items,
+						action: '/zn.plugin.admin/config/updateBy_id',
+						merge: 'updates',
+						exts: {
+							_id: this.props._id
+						}
+					})
+				)
+			);
+		}
+	});
+
+/***/ }),
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var React = __webpack_require__(5);
 	var TreeModelView = __webpack_require__(13);
-	var UsersForRoles = __webpack_require__(28);
+	var RightsSetting = __webpack_require__(10);
+
+	var VarPanel = React.createClass({
+		displayName: 'VarPanel',
+
+		getInitialState: function getInitialState() {
+			return {
+				typeIndex: 0
+			};
+		},
+		__onListViewItemClick: function __onListViewItemClick(event, item, index) {
+			this.setState({ typeIndex: index });
+		},
+		__renderBody: function __renderBody() {
+			var _treeModel = this.props.treeModel;
+
+			return React.createElement(RightsSetting, { model: _treeModel.props.model, id: _treeModel.state.currItem ? _treeModel.state.currItem.props.data.id : null });
+			/*
+	  switch (this.state.typeIndex) {
+	  	case 0:
+	  		return <RightsSetting model={_treeModel.props.model} id={_treeModel.state.currItem?_treeModel.state.currItem.props.data.id:null}  />;
+	  	case 1:
+	  		if(_treeModel.state.currItem){
+	  			return <Var menuId={_treeModel.state.currItem.props.data.id} pid={2} />
+	  		}else {
+	  			return <div style={{textAlign:'center'}}>请先选中菜单</div>;
+	  		}
+	  }*/
+		},
+		render: function render() {
+			return this.__renderBody();
+			return React.createElement(
+				zn.react.ActivityLayout,
+				{ direction: 'top-bottoom', begin: 40, barWidth: 3 },
+				React.createElement(zn.react.ListView, {
+					className: 'rt-list-view-tab',
+					fireIndex: 0,
+					onClick: this.__onListViewItemClick,
+					itemRender: function itemRender(item, index) {
+						return React.createElement(
+							'span',
+							null,
+							React.createElement('i', { style: { marginRight: 5 }, className: 'fa ' + item.icon }),
+							item.text
+						);
+					},
+					data: [{ text: '权限设置', icon: 'fa-yelp' }, { text: '资源管理', icon: 'fa-table' }] }),
+				this.__renderBody()
+			);
+		}
+	});
+
 	module.exports = React.createClass({
 		displayName: 'exports',
 
 		getDefaultProps: function getDefaultProps() {
 			return {
-				model: 'zn_admin_role',
+				model: 'ZNPluginAdminMenu',
+				title: '菜单管理',
+				leftWidth: 30,
+				pid: 0,
+				fields: [{ title: '标题', type: 'Input', name: 'zn_title' }, { title: '类型', type: 'Radio', name: 'zn_tree_type', value: 0,
+					data: [{ text: '分类', value: 0 }, { text: '功能菜单', value: 1 }]
+				}, { title: '图标', type: 'Input', name: 'icon' }, { title: '链接', type: 'Input', name: 'url' }, { title: '路径', type: 'Input', name: 'path' }, { title: '扩展', type: 'Textarea', name: 'zn_tree_extend' }]
+			};
+		},
+		__rightRender: function __rightRender(treeModel) {
+			return React.createElement(VarPanel, { treeModel: treeModel });
+		},
+		render: function render() {
+			return React.createElement(TreeModelView, _extends({}, this.props, { rightRender: this.__rightRender }));
+		}
+	});
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = __webpack_require__(5);
+
+	var TreeModelView = __webpack_require__(13);
+	var UsersForRoles = __webpack_require__(40);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				model: 'ZNPluginAdminRole',
 				pid: 0,
 				title: '部门及角色管理',
 				menuId: 0,
-				fields: [{ title: '名称', type: 'Input', name: 'title' }, { title: '类型', type: 'Radio', name: 'type', value: 1,
+				fields: [{ title: '名称', type: 'Input', name: 'zn_title' }, { title: '类型', type: 'Radio', name: 'zn_tree_type', value: 1,
 					data: [{ text: '分类', value: 0 }, { text: '部门', value: 1 }, { text: '角色', value: 2 }]
-				}, { title: '说明', type: 'Textarea', name: 'note' }]
+				}, { title: '说明', type: 'Textarea', name: 'zn_note' }]
 			};
 		},
-		componentDidMount: function componentDidMount() {},
 		__rightRender: function __rightRender(treeMenu) {
 			return React.createElement(UsersForRoles, { roleId: treeMenu.state.currItem ? treeMenu.state.currItem.props.data.id : null });
 		},
@@ -2070,21 +2567,21 @@
 					return React.createElement(
 						'span',
 						null,
-						_data.id + '、' + _data.title
+						_data.id + '、' + _data.zn_title
 					);
 				case 1:
 					return React.createElement(
 						'span',
 						null,
 						React.createElement('i', { title: '\u8FD9\u662F\u90E8\u95E8', className: 'fa fa-sitemap', style: { margin: 5, color: '#d9534f' } }),
-						_data.id + '、' + _data.title
+						_data.id + '、' + _data.zn_title
 					);
 				case 2:
 					return React.createElement(
 						'span',
 						null,
 						React.createElement('i', { title: '\u8FD9\u662F\u89D2\u8272', className: 'fa fa-graduation-cap', style: { margin: 5 } }),
-						_data.id + '、' + _data.title
+						_data.id + '、' + _data.zn_title
 					);
 			}
 		},
@@ -2094,7 +2591,7 @@
 	});
 
 /***/ }),
-/* 28 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(5);
@@ -2103,22 +2600,21 @@
 
 		getInitialState: function getInitialState() {
 			return {
-				data: Store.post('/znadmin/model/paging', {
-					model: 'zn_admin_user'
+				data: zn.store.post('/zn.plugin.admin/model/paging', {
+					model: 'ZNPluginAdminUser'
 				})
 			};
 		},
 		componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 			if (nextProps.roleId != this.props.roleId) {
-				this.state.data._data.where = {
-					"0&<>": "locate('," + nextProps.roleId + ",',roleIds)"
-				};
-				this.state.data.exec();
+				this.state.data.extend({
+					where: "locate('," + nextProps.roleId + ",',role_ids) <> 0"
+				}).exec();
 			}
 		},
 		__onUserClick: function __onUserClick(event, item, index) {
 			event.stopPropagation();
-			Session.jump('/main/znadmin/UserInfo', { userId: item.id });
+			zn.react.session.jump('/znpluginadmin.user.info', { userId: item.id });
 		},
 		__itemRender: function __itemRender(item, index) {
 			var _this = this;
@@ -2126,14 +2622,14 @@
 			return React.createElement(
 				'div',
 				{ className: 'user-item' },
-				React.createElement('img', { className: 'avatar', src: Store.fixURL(item.avatarImg || '') }),
+				React.createElement('img', { className: 'avatar', src: zn.http.fixURL(item.avatar_img) }),
 				React.createElement(
 					'div',
 					{ className: 'details' },
 					React.createElement(
 						'span',
 						{ className: 'last-logintime' },
-						item.lastLoginTime || '还未登陆'
+						item.last_login_time || '还未登陆'
 					),
 					React.createElement(
 						'div',
@@ -2147,7 +2643,7 @@
 						null,
 						React.createElement('i', { className: 'fa fa-clock-o' }),
 						'\u521B\u5EFA\u65F6\u95F4\uFF1A',
-						item.createTime
+						item.zn_create_time
 					),
 					React.createElement(
 						'div',
@@ -2167,7 +2663,7 @@
 			);
 		},
 		render: function render() {
-			return React.createElement(UI.PagerView, {
+			return React.createElement(zn.react.PagerView, {
 				view: 'ListView',
 				className: 'rt-list-view-border',
 				textKey: 'name',
@@ -2179,7 +2675,237 @@
 	});
 
 /***/ }),
-/* 29 */
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = __webpack_require__(5);
+	var TreeModelView = __webpack_require__(13);
+	var RightsSetting = __webpack_require__(10);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				model: 'ZNPluginAdminVar',
+				pid: 0,
+				title: '资源管理',
+				menuId: 0,
+				fields: [{ title: '标题', type: 'Input', name: 'zn_title' }, { title: '类型', type: 'Radio', name: 'zn_tree_type', value: 0,
+					data: [{ text: '分类', value: 0 }, { text: '按钮', value: 1 }, { text: '常量', value: 2 }, { text: '标签', value: 3 }, { text: '标签', value: 4 }]
+				}, { title: '图标', type: 'Input', name: 'icon' }, { title: '图片', type: 'ImageUploader', name: 'img', action: '/zn.plugin.admin/uploadFiles' }, { title: '链接', type: 'Input', name: 'url' }, { title: '路径', type: 'Input', name: 'path' }, { title: '扩展', type: 'Textarea', name: 'zn_tree_extend' }]
+			};
+		},
+		__rightRender: function __rightRender(treeModel) {
+			if (!treeModel.state.currItem) {
+				return null;
+			}
+			var _id = treeModel.state.currItem.props.data.id;
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(RightsSetting, { model: this.props.model, id: treeModel.state.currItem ? treeModel.state.currItem.props.data.id : null })
+			);
+		},
+		__itemContentRender: function __itemContentRender(item) {
+			var _data = item.data;
+			switch (_data.type) {
+				case 1:
+					return React.createElement(
+						'span',
+						null,
+						React.createElement('i', { title: '\u8FD9\u662F\u64CD\u4F5C\u6309\u94AE', className: 'fa fa-hand-o-up', style: { margin: 5, color: '#0B72A5' } }),
+						React.createElement('i', { className: 'fa ' + _data.icon, style: { marginRight: 5 } }),
+						_data.id + '、' + _data.zn_title
+					);
+				case 2:
+					return React.createElement(
+						'span',
+						null,
+						React.createElement('i', { title: '\u8FD9\u662F\u9759\u6001\u5E38\u91CF', className: 'fa fa-text-width', style: { margin: 5, color: '#d9534f' } }),
+						React.createElement('i', { className: 'fa ' + _data.icon, style: { marginRight: 5 } }),
+						_data.id + '、' + _data.zn_title
+					);
+				case 3:
+					return React.createElement(
+						'span',
+						null,
+						React.createElement('i', { title: '\u8FD9\u662F\u6807\u7B7E\u7C7B\u522B', className: 'fa fa-tag', style: { margin: 5 } }),
+						React.createElement('i', { className: 'fa ' + _data.icon, style: { marginRight: 5 } }),
+						_data.id + '、' + _data.zn_title
+					);
+			}
+		},
+		render: function render() {
+			return React.createElement(TreeModelView, _extends({}, this.props, { where: { menu_id: this.props.menuId }, itemContentRender: this.__itemContentRender, rightRender: this.__rightRender, leftWidth: 300 }));
+		}
+	});
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = zn.arrayValueToObject(['Base', 'Menu', 'Role', 'Var', 'UsersForRoles'], function (value, index) {
+	    return __webpack_require__(43)("./" + value + '.js');
+	});
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./Base.js": 37,
+		"./Menu.js": 38,
+		"./Role.js": 39,
+		"./UsersForRoles.js": 40,
+		"./Var.js": 41,
+		"./index.js": 42
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 43;
+
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getInitialState: function getInitialState() {
+			return {
+				info: null,
+				data: zn.store.post('/zn.plugin.admin/model/select', { model: 'ZNPluginAdminRole', where: { pid: 0 } })
+			};
+		},
+		componentDidMount: function componentDidMount() {
+			this.__loadUserInfo();
+		},
+		__loadUserInfo: function __loadUserInfo() {
+			zn.http.post('/zn.plugin.admin/user/findUserById', {
+				userId: this.props.userId
+			}).then(function (data) {
+				this.setState({
+					info: data.result
+				});
+			}.bind(this));
+		},
+		__onTreeMenuItemCheckboxChange: function __onTreeMenuItemCheckboxChange(value) {
+			zn.http.post('/zn.plugin.admin/user/updateUser', {
+				data: { role_ids: value },
+				userId: this.props.userId
+			}).then(function (data) {
+				zn.toast.success('保存成功!');
+			});
+		},
+		__itemContentRender: function __itemContentRender(props) {
+			var _icon = '';
+			if (props.data.zn_tree_type == 1) {
+				_icon = 'fa-sitemap';
+			}
+			if (props.data.zn_tree_type == 2) {
+				_icon = 'fa-graduation-cap';
+			}
+			return React.createElement(
+				'span',
+				null,
+				React.createElement('i', { style: { margin: 5 }, className: 'fa ' + _icon }),
+				props.data.id + '、' + props.data.zn_title
+			);
+		},
+		render: function render() {
+			return React.createElement(
+				zn.react.Page,
+				{ loading: !this.state.info, title: this.state.info.name, icon: 'fa-newspaper-o', toolbarItems: this.state.toolbarItems },
+				React.createElement(
+					'div',
+					{ className: 'zn-plugin-admin-user-info' },
+					React.createElement(
+						'div',
+						{ className: 'info-form user-item' },
+						React.createElement('img', { className: 'avatar', src: zn.http.fixURL(this.state.info.avatar_img) || './images/DefaultAvatar.png' }),
+						React.createElement(
+							'div',
+							{ className: 'details' },
+							React.createElement(
+								'span',
+								{ className: 'last-logintime' },
+								'\u6700\u8FD1\u4E00\u6B21\u767B\u5F55\u65F6\u95F4\uFF1A',
+								this.state.info.last_login_time || '还未登陆'
+							),
+							React.createElement(
+								'div',
+								{ className: 'name' },
+								this.state.info.name
+							),
+							React.createElement(
+								'div',
+								null,
+								React.createElement('i', { className: 'fa fa-clock-o' }),
+								'\u521B\u5EFA\u65F6\u95F4\uFF1A',
+								this.state.info.zn_create_time
+							),
+							React.createElement(
+								'div',
+								null,
+								React.createElement('i', { className: 'fa fa-envelope' }),
+								'\u90AE\u7BB1\uFF1A',
+								this.state.info.email
+							),
+							React.createElement(
+								'div',
+								null,
+								React.createElement('i', { className: 'fa fa-phone' }),
+								'\u624B\u673A\u53F7\uFF1A',
+								this.state.info.phone
+							),
+							React.createElement(
+								'div',
+								null,
+								this.state.info.zn_note
+							)
+						)
+					),
+					React.createElement(
+						zn.react.Card,
+						{ title: '\u90E8\u95E8\u53CA\u89D2\u8272' },
+						React.createElement(zn.react.TreeListView, {
+							ref: 'maintreemenu',
+							cascade: false,
+							enableCheckbox: true,
+							onItemCheckboxChange: this.__onTreeMenuItemCheckboxChange,
+							value: this.state.info.roleIds,
+							itemContentRender: this.__itemContentRender,
+							activeAll: true,
+							data: this.state.data })
+					)
+				)
+			);
+		}
+	});
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 46 */,
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(5);
@@ -2188,56 +2914,44 @@
 
 		getDefaultProps: function getDefaultProps() {
 			return {
-				model: 'zn_admin_user'
+				model: 'ZNPluginAdminUser'
 			};
 		},
 		getInitialState: function getInitialState() {
 			return {
-				data: Store.post('/znadmin/model/paging', {
+				data: zn.store.post('/zn.plugin.admin/model/paging', {
 					model: this.props.model
 				}),
-				items: [{ title: '用户名', name: 'name', width: 80 }, { title: '邮箱', name: 'email', width: 200 }, { title: '手机号', name: 'phone', width: 120 }, { title: '地址', name: 'address', width: 200 }, { title: '说明', name: 'note' }],
-				formItems: [{ title: '用户名', name: 'name', type: 'Input', required: true, error: '用户名必填项!' }, { title: '邮箱', name: 'email', type: 'Input' }, { title: '手机号', name: 'phone', type: 'Input' }, { title: '地址', name: 'address', type: 'Input' }, { title: '说明', name: 'note', type: 'Textarea' }],
+				items: [{ title: '用户名', name: 'name', width: 80 }, { title: '邮箱', name: 'email', width: 200 }, { title: '手机号', name: 'phone', width: 120 }, { title: '地址', name: 'address', width: 200 }, { title: '说明', name: 'zn_note' }],
+				formItems: [{ title: '用户名', name: 'name', type: 'Input', required: true, error: '用户名必填项!' }, { title: '邮箱', name: 'email', type: 'Input' }, { title: '手机号', name: 'phone', type: 'Input' }, { title: '地址', name: 'address', type: 'Input' }, { title: '说明', name: 'zn_note', type: 'Textarea' }],
 				toolbarItems: [{ text: '添加', name: 'add', icon: 'fa-plus', style: { marginRight: 5 } }, { text: '删除', name: 'remove', status: 'danger', icon: 'fa-remove', style: { marginRight: 5 } }]
 			};
 		},
 		__doSuccess: function __doSuccess() {
-			Popup.close('dialog');
-			Toast.success('操作成功！');
+			zn.modal.close();
+			zn.toast.success('操作成功！');
 			this.state.data.refresh();
 		},
 		__addItem: function __addItem() {
-			Popup.dialog({
+			zn.dialog({
 				title: '新增用户',
-				hStyle: { backgroundColor: '#0B72A5' },
-				width: 480,
-				content: React.createElement(UI.Form, {
-					method: 'POST',
-					layout: 'stacked',
-					action: '/znadmin/model/addNode',
-					merge: 'data',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/insert',
+					merge: 'values',
 					exts: { model: this.props.model },
-					style: { margin: 25 },
-					syncSubmit: false,
 					onSubmitSuccess: this.__doSuccess,
 					btns: [{ text: '新增用户', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
 					items: this.state.formItems })
 			});
 		},
 		__updateItem: function __updateItem(data) {
-			Popup.dialog({
+			zn.dialog({
 				title: '更新用户信息',
-				hStyle: { backgroundColor: '#0B72A5' },
-				width: 480,
-				content: React.createElement(UI.Form, {
-					method: 'POST',
-					layout: 'stacked',
-					action: '/znadmin/model/updateNode',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/update',
 					exts: { model: this.props.model, where: { id: data.id } },
-					merge: 'data',
+					merge: 'updates',
 					data: data,
-					style: { margin: 25 },
-					syncSubmit: false,
 					onSubmitSuccess: this.__doSuccess,
 					btns: [{ text: '更新', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
 					items: this.state.formItems })
@@ -2247,19 +2961,19 @@
 			var _self = this,
 			    _values = this.refs.table.getValue();
 			if (_values && _values.length) {
-				Popup.confirm({
-					content: '确认删除这' + _values.length + '个用户吗？',
-					onConfirm: function () {
-						Store.post('/znadmin/model/deleteNodes', { model: this.props.model, ids: _values }).exec().then(function () {
-							Toast.success('删除成功');
-							_self.state.data.refresh();
-						}, function (data) {
-							Toast.warning('删除失败: ' + data.result);
-						});
-					}.bind(this)
-				});
+				zn.confirm('确认删除这' + _values.length + '个用户吗？', '提示', function () {
+					zn.http.post('/zn.plugin.admin/model/delete', {
+						model: this.props.model,
+						where: "id in (" + _values.join(',') + ")"
+					}).then(function () {
+						zn.toast.success('删除成功');
+						_self.state.data.refresh();
+					}, function (data) {
+						zn.toast.error('删除失败: ' + data.result);
+					});
+				}.bind(this));
 			} else {
-				Toast.warning('请先选择要删除的用户');
+				zn.toast.warning('请先选择要删除的用户');
 			}
 		},
 		__onToolbarClick: function __onToolbarClick(item) {
@@ -2276,73 +2990,21 @@
 			event.stopPropagation();
 			this.__updateItem(item);
 		},
-		__itemRender: function __itemRender(item, index) {
-			var _this = this;
-
-			return React.createElement(
-				'div',
-				{ className: 'user-item' },
-				React.createElement('img', { className: 'avatar', src: './images/DefaultAvatar.png' }),
-				React.createElement(
-					'div',
-					{ className: 'details' },
-					React.createElement(
-						'span',
-						{ className: 'last-logintime' },
-						item.lastLoginTime || '还未登陆'
-					),
-					React.createElement(
-						'div',
-						{ className: 'name', onClick: function onClick(event) {
-								return _this.__onUserClick(event, item, index);
-							} },
-						item.name,
-						React.createElement('i', { style: { margin: 5, color: '#971818' }, className: 'fa fa-edit', onClick: function onClick(event) {
-								return _this.__onEditItem(event, item);
-							} })
-					),
-					React.createElement(
-						'div',
-						null,
-						React.createElement('i', { className: 'fa fa-clock-o' }),
-						'\u521B\u5EFA\u65F6\u95F4\uFF1A',
-						item.createTime
-					),
-					React.createElement(
-						'div',
-						null,
-						React.createElement('i', { className: 'fa fa-envelope' }),
-						'\u90AE\u7BB1\uFF1A',
-						item.email
-					),
-					React.createElement(
-						'div',
-						null,
-						React.createElement('i', { className: 'fa fa-phone' }),
-						'\u624B\u673A\u53F7\uFF1A',
-						item.phone
-					)
-				)
-			);
-		},
 		__onTableColumnRender: function __onTableColumnRender(rowIndex, columnIndex, data, item, value) {
 			switch (columnIndex) {
 				case 1:
 					return React.createElement(
 						'a',
-						{ href: '#/main/znadmin/UserInfo?userId=' + data.id },
+						{ href: '#' + zn.react.session.fixPath('/znpluginadmin.user.info') + '?userId=' + data.id },
 						value
 					);
 			}
 		},
 		render: function render() {
 			return React.createElement(
-				UI.Page,
-				{
-					toolbarItems: this.state.toolbarItems,
-					onToolbarClick: this.__onToolbarClick,
-					title: '\u7CFB\u7EDF\u8D26\u6237\u7BA1\u7406' },
-				React.createElement(UI.PagerView, {
+				zn.react.Page,
+				{ title: '\u7CFB\u7EDF\u8D26\u6237\u7BA1\u7406', toolbarItems: this.state.toolbarItems, onToolbarClick: this.__onToolbarClick },
+				React.createElement(zn.react.PagerView, {
 					ref: 'table',
 					view: 'Table',
 					enableFilter: true,
@@ -2357,138 +3019,7 @@
 	});
 
 /***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(5);
-
-	module.exports = React.createClass({
-		displayName: 'exports',
-
-		getInitialState: function getInitialState() {
-			return {
-				userId: this.props.userId,
-				info: null,
-				data: Store.post('/znadmin/model/select', { model: 'zn_admin_role', where: { pid: 0 } })
-			};
-		},
-		componentDidMount: function componentDidMount() {
-			this.__loadUserInfo();
-		},
-		__loadUserInfo: function __loadUserInfo() {
-			Store.post('/znadmin/user/findUserById', { userId: this.state.userId }).exec().then(function (data) {
-				this.setState({
-					info: data.result
-				});
-			}.bind(this));
-		},
-		__onTreeMenuItemCheckboxChange: function __onTreeMenuItemCheckboxChange(value) {
-			Store.post('/znadmin/user/updateUser', { data: { roleIds: value }, userId: this.state.info.id }).exec().then(function (data) {
-				Popup.message({
-					content: '保存成功!',
-					type: 'success'
-				});
-			});
-		},
-		__itemContentRender: function __itemContentRender(props) {
-			var _icon = '';
-			if (props.data.type == 1) {
-				_icon = 'fa-sitemap';
-			}
-			if (props.data.type == 2) {
-				_icon = 'fa-graduation-cap';
-			}
-			return React.createElement(
-				'span',
-				null,
-				React.createElement('i', { style: { margin: 5 }, className: 'fa ' + _icon }),
-				props.data.id + '、' + props.data.title
-			);
-		},
-		render: function render() {
-			if (!this.state.info) {
-				return null;
-			}
-			return React.createElement(
-				UI.Page,
-				{ title: this.state.info.name, icon: 'fa-newspaper-o', toolbarItems: this.state.toolbarItems },
-				React.createElement(
-					'div',
-					{ className: 'user-info' },
-					React.createElement(
-						'div',
-						{ className: 'info-form user-item' },
-						React.createElement('img', { className: 'avatar', src: './images/DefaultAvatar.png' }),
-						React.createElement(
-							'div',
-							{ className: 'details' },
-							React.createElement(
-								'span',
-								{ className: 'last-logintime' },
-								'\u6700\u8FD1\u4E00\u6B21\u767B\u5F55\u65F6\u95F4\uFF1A',
-								this.state.info.lastLoginTime || '还未登陆'
-							),
-							React.createElement(
-								'div',
-								{ className: 'name' },
-								this.state.info.name
-							),
-							React.createElement(
-								'div',
-								null,
-								React.createElement('i', { className: 'fa fa-clock-o' }),
-								'\u521B\u5EFA\u65F6\u95F4\uFF1A',
-								this.state.info.createTime
-							),
-							React.createElement(
-								'div',
-								null,
-								React.createElement('i', { className: 'fa fa-envelope' }),
-								'\u90AE\u7BB1\uFF1A',
-								this.state.info.email
-							),
-							React.createElement(
-								'div',
-								null,
-								React.createElement('i', { className: 'fa fa-phone' }),
-								'\u624B\u673A\u53F7\uFF1A',
-								this.state.info.phone
-							),
-							React.createElement(
-								'div',
-								null,
-								this.state.info.note
-							)
-						)
-					),
-					React.createElement(
-						'div',
-						{ className: 'rt-panel c-default' },
-						React.createElement(
-							'div',
-							{ className: 'p-head' },
-							'\u90E8\u95E8\u53CA\u89D2\u8272'
-						),
-						React.createElement(
-							'div',
-							{ className: 'p-body' },
-							React.createElement(UI.TreeListView, { cascade: false, enableCheckbox: true, onItemCheckboxChange: this.__onTreeMenuItemCheckboxChange, value: this.state.info.roleIds, itemContentRender: this.__itemContentRender, ref: 'maintreemenu', activeAll: true, data: this.state.data })
-						)
-					)
-				)
-			);
-		}
-	});
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 32 */,
-/* 33 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(5);
@@ -2497,26 +3028,25 @@
 
 		getDefaultProps: function getDefaultProps() {
 			return {
-				model: 'zn_admin_user_log'
+				model: 'ZNPluginAdminUserLog'
 			};
 		},
 		getInitialState: function getInitialState() {
 			return {
-				data: Store.post('/znadmin/model/paging', {
+				data: zn.store.post('/zn.plugin.admin/model/paging', {
 					model: this.props.model
 				}),
-				items: [{ title: '操作人', name: 'userId_convert', width: 100 }, { title: '操作时间', name: 'createTime', width: 180 }, { title: '类型', name: 'actionType', width: 80 }, { title: '说明', name: 'note' }]
+				items: [{ title: '操作人', name: 'user_id_convert', width: 100 }, { title: '操作时间', name: 'zn_create_time', width: 180 }, { title: '类型', name: 'type', width: 80 }, { title: '说明', name: 'zn_note' }]
 			};
 		},
-		__onToolbarClick: function __onToolbarClick() {},
 		render: function render() {
 			return React.createElement(
-				UI.Page,
+				zn.react.Page,
 				{
 					toolbarItems: [{ text: '导出' }],
 					onToolbarClick: this.__onToolbarClick,
 					title: '\u7CFB\u7EDF\u8D26\u6237\u767B\u5F55\u65E5\u5FD7' },
-				React.createElement(UI.PagerView, {
+				React.createElement(zn.react.PagerView, {
 					view: 'Table',
 					enableFilter: false,
 					checkbox: 0,
@@ -2528,29 +3058,22 @@
 	});
 
 /***/ }),
-/* 34 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = zn.arrayValueToObject(['Menu', 'MyInfo', 'Project', 'Role', 'User', 'UserInfo', 'UserLog', 'UsersForRoles', 'Var'], function (value, index) {
-	    return __webpack_require__(35)("./" + value + '.js');
+	module.exports = zn.arrayValueToObject(['Info', 'List', 'LoginLog'], function (value, index) {
+	    return __webpack_require__(50)("./" + value + '.js');
 	});
 
 /***/ }),
-/* 35 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./Menu.js": 22,
-		"./MyInfo.js": 24,
-		"./Project.js": 25,
-		"./ProjectBug.js": 26,
-		"./Role.js": 27,
-		"./User.js": 29,
-		"./UserInfo.js": 30,
-		"./UserLog.js": 33,
-		"./UsersForRoles.js": 28,
-		"./Var.js": 23,
-		"./index.js": 34
+		"./Info.js": 44,
+		"./List.js": 47,
+		"./LoginLog.js": 48,
+		"./index.js": 49
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -2563,501 +3086,35 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 35;
+	webpackContext.id = 50;
 
 
 /***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(5);
-
-	module.exports = React.createClass({
-		displayName: 'exports',
-
-		getInitialState: function getInitialState() {
-			return {
-				userId: Session.json().id || 1,
-				toolbarItems: [],
-				info: null,
-				kylinInfo: null,
-				data: Store.post('/znadmin/model/select', { model: 'zn_admin_role', where: { pid: 0 } })
-			};
-		},
-		componentDidMount: function componentDidMount() {},
-		render: function render() {
-			if (!this.state.info) {
-				return null;
-			}
-			return React.createElement(
-				UI.Page,
-				{ title: '控制面板', icon: 'fa-newspaper-o', toolbarItems: this.state.toolbarItems },
-				React.createElement(
-					'div',
-					{ className: 'user-info' },
-					React.createElement(
-						'div',
-						{ className: 'info-form user-item' },
-						React.createElement('img', { className: 'avatar', src: './images/DefaultAvatar.png' }),
-						React.createElement(
-							'div',
-							{ className: 'details' },
-							React.createElement(
-								'span',
-								{ className: 'last-logintime' },
-								'\u6700\u8FD1\u4E00\u6B21\u767B\u5F55\u65F6\u95F4\uFF1A',
-								this.state.info.lastLoginTime || '2016-8-21 14:38:20'
-							),
-							React.createElement(
-								'div',
-								{ className: 'name' },
-								this.state.info.name
-							),
-							React.createElement(
-								'div',
-								null,
-								React.createElement('i', { className: 'fa fa-clock-o' }),
-								'\u521B\u5EFA\u65F6\u95F4\uFF1A',
-								this.state.info.createTime
-							),
-							React.createElement(
-								'div',
-								null,
-								React.createElement('i', { className: 'fa fa-envelope' }),
-								'\u90AE\u7BB1\uFF1A',
-								this.state.info.email
-							),
-							React.createElement(
-								'div',
-								null,
-								React.createElement('i', { className: 'fa fa-phone' }),
-								'\u624B\u673A\u53F7\uFF1A',
-								this.state.info.phone
-							),
-							React.createElement(
-								'div',
-								null,
-								this.state.info.note
-							)
-						)
-					),
-					React.createElement(
-						'div',
-						{ className: 'rt-panel c-default' },
-						React.createElement(
-							'div',
-							{ className: 'p-head' },
-							'\u90E8\u95E8\u53CA\u89D2\u8272'
-						),
-						React.createElement(
-							'div',
-							{ className: 'p-body' },
-							React.createElement(UI.TreeMenu, { cascade: false, enableCheckbox: true, onItemCheckboxChange: this.__onTreeMenuItemCheckboxChange, value: this.state.info.roleIds, itemContentRender: this.__itemContentRender, ref: 'maintreemenu', activeAll: true, data: this.state.data })
-						)
-					)
-				)
-			);
-		}
-	});
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(5);
-	module.exports = React.createClass({
-		displayName: 'exports',
-
-		getInitialState: function getInitialState() {
-			return {
-				action: 'login'
-			};
-		},
-		__doSuccess: function __doSuccess(data, xhr) {
-			var _user = data.result;
-			//document.cookie = _user['@session'];
-			Session.clear().set(_user).jump('/main/znadmin/MyInfo');
-		},
-		renderForm: function renderForm() {
-			var _this = this;
-
-			switch (this.state.action) {
-				case 'login':
-					return React.createElement(
-						'div',
-						null,
-						React.createElement(UI.Form, {
-							method: 'POST',
-							layout: 'stacked',
-							action: '/znadmin/user/login',
-							style: { margin: 25 },
-							btns: [{
-								text: '登录',
-								type: 'submit',
-								float: 'none',
-								textAlign: 'center',
-								style: { marginTop: 25, fontSize: 16, fontWeight: 600, height: 40, lineHeight: '30px' }
-							}],
-							onSubmitSuccess: this.__doSuccess,
-							onSubmitError: function onSubmitError(data) {
-								return Popup.message({ content: "登录失败: " + data.result, type: 'warning' });
-							},
-							items: [{ title: '用户名', placeholder: '用户名', name: 'name', type: 'Input', required: true, error: '用户名是必填项' }, { title: '密码', placeholder: '密码 (不少于6位)', name: 'password', type: 'Input', attrs: { type: 'password' }, required: true, error: '密码是必填项且不能少于6位' }] }),
-						React.createElement(
-							'div',
-							null,
-							React.createElement(
-								'a',
-								{ onClick: function onClick() {
-										return _this.setState({ action: 'forget' });
-									}, style: { float: 'right', marginRight: 25, color: '#0B72A5', cursor: 'pointer' } },
-								'\u5FD8\u8BB0\u5BC6\u7801?'
-							)
-						)
-					);
-				case 'forget':
-					return React.createElement(
-						'div',
-						null,
-						React.createElement(UI.Form, {
-							method: 'POST',
-							layout: 'stacked',
-							style: { margin: 25 },
-							btns: [{
-								text: '提交',
-								type: 'submit',
-								float: 'none',
-								textAlign: 'center',
-								style: { marginTop: 25, fontSize: 16, fontWeight: 600, height: 40, lineHeight: '30px' }
-							}],
-							onSubmitSuccess: this.__doSuccess,
-							onSubmitError: function onSubmitError(data) {
-								return Popup.message({ content: "注册失败: " + data.result, type: 'warning' });
-							},
-							items: [{ title: '邮箱', placeholder: '邮箱 (注册使用邮箱)', name: 'email', type: 'Input', required: true, error: '邮箱是必填项' }] }),
-						React.createElement(
-							'div',
-							null,
-							React.createElement(
-								'a',
-								{ onClick: function onClick() {
-										return _this.setState({ action: 'login' });
-									}, style: { float: 'left', marginLeft: 25, color: '#0B72A5', cursor: 'pointer' } },
-								'<<登录'
-							)
-						)
-					);
-			}
-		},
-		render: function render() {
-			return React.createElement(
-				'div',
-				{ className: 'v-login admin' },
-				React.createElement('img', { className: 'bg-img', src: './images/bg/4.jpg' }),
-				React.createElement(
-					'div',
-					{ className: 'main animated slideInDown' },
-					React.createElement(
-						'div',
-						{ className: 'head' },
-						'\u4E0A\u6D77\u817E\u9E9F\u6570\u636E\u7BA1\u7406\u4E2D\u5FC3'
-					),
-					React.createElement(
-						'div',
-						{ className: 'logo' },
-						React.createElement('img', { className: 'logo-img', src: './images/logo.jpg' })
-					),
-					React.createElement(
-						'div',
-						{ className: 'form' },
-						this.renderForm()
-					),
-					React.createElement(
-						'div',
-						{ className: 'foot' },
-						'\u4E0A\u6D77\u817E\u9E9F\u6587\u5316\u4F20\u5A92\u6709\u9650\u516C\u53F8 @2016'
-					)
-				)
-			);
-		}
-	});
-
-/***/ }),
-/* 38 */
+/* 51 */
 /***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 39 */,
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(5);
-	module.exports = React.createClass({
-		displayName: 'exports',
-
-		getInitialState: function getInitialState() {
-			return {
-				action: 'login'
-			};
-		},
-		__doSuccess: function __doSuccess(data, xhr) {
-			var _user = data.result;
-			Session.clear().set(_user).jump('/main/znadmin/MyInfo');
-		},
-		renderForm: function renderForm() {
-			var _this = this;
-
-			switch (this.state.action) {
-				case 'login':
-					return React.createElement(
-						'div',
-						null,
-						React.createElement(UI.Form, {
-							method: 'POST',
-							layout: 'stacked',
-							action: '/znadmin/user/login',
-							style: { margin: 25 },
-							btns: [{
-								text: '登录',
-								type: 'submit',
-								float: 'none',
-								textAlign: 'center',
-								style: { marginTop: 25, fontSize: 16, fontWeight: 600, height: 40, lineHeight: '30px' }
-							}],
-							onSubmitSuccess: this.__doSuccess,
-							onSubmitError: function onSubmitError(data) {
-								return Popup.message({ content: "登录失败: " + data.result, type: 'warning' });
-							},
-							items: [{ title: '用户名', placeholder: '用户名', name: 'name', type: 'Input', required: true, error: '用户名是必填项' }, { title: '密码', placeholder: '密码 (不少于6位)', name: 'password', type: 'Input', attrs: { type: 'password' }, required: true, error: '密码是必填项且不能少于6位' }] }),
-						React.createElement(
-							'div',
-							null,
-							React.createElement(
-								'a',
-								{ onClick: function onClick() {
-										return _this.setState({ action: 'forget' });
-									}, style: { float: 'right', marginRight: 25, color: '#0B72A5', cursor: 'pointer' } },
-								'\u5FD8\u8BB0\u5BC6\u7801?'
-							)
-						)
-					);
-				case 'forget':
-					return React.createElement(
-						'div',
-						null,
-						React.createElement(UI.Form, {
-							method: 'POST',
-							layout: 'stacked',
-							style: { margin: 25 },
-							btns: [{
-								text: '提交',
-								type: 'submit',
-								float: 'none',
-								textAlign: 'center',
-								style: { marginTop: 25, fontSize: 16, fontWeight: 600, height: 40, lineHeight: '30px' }
-							}],
-							onSubmitSuccess: this.__doSuccess,
-							onSubmitError: function onSubmitError(data) {
-								return Popup.message({ content: "注册失败: " + data.result, type: 'warning' });
-							},
-							items: [{ title: '邮箱', placeholder: '邮箱 (注册使用邮箱)', name: 'email', type: 'Input', required: true, error: '邮箱是必填项' }] }),
-						React.createElement(
-							'div',
-							null,
-							React.createElement(
-								'a',
-								{ onClick: function onClick() {
-										return _this.setState({ action: 'login' });
-									}, style: { float: 'left', marginLeft: 25, color: '#0B72A5', cursor: 'pointer' } },
-								'<<登录'
-							)
-						)
-					);
-			}
-		},
-		render: function render() {
-			return React.createElement(
-				'div',
-				{ className: 'v-login admin' },
-				React.createElement('img', { className: 'bg-img', src: './images/bg/4.jpg' }),
-				React.createElement(
-					'div',
-					{ className: 'main animated slideInDown' },
-					React.createElement(
-						'div',
-						{ className: 'head' },
-						'\u4E0A\u6D77\u817E\u9E9F\u6570\u636E\u7BA1\u7406\u4E2D\u5FC3'
-					),
-					React.createElement(
-						'div',
-						{ className: 'logo' },
-						React.createElement('img', { className: 'logo-img', src: './images/logo.jpg' })
-					),
-					React.createElement(
-						'div',
-						{ className: 'form' },
-						this.renderForm()
-					),
-					React.createElement(
-						'div',
-						{ className: 'foot' },
-						'\u4E0A\u6D77\u817E\u9E9F\u6587\u5316\u4F20\u5A92\u6709\u9650\u516C\u53F8 @2016'
-					)
-				)
-			);
-		}
-	});
-
-/***/ }),
-/* 41 */
+/* 52 */,
+/* 53 */
 /***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 42 */,
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(5);
-	module.exports = React.createClass({
-		displayName: 'exports',
-
-		getInitialState: function getInitialState() {
-			return {
-				data: Store.post('/znadmin/model/select', { model: 'zn_admin_menu', ifEnabledRights: true, where: { pid: 2 } })
-			};
-		},
-		__onMenuItemClick: function __onMenuItemClick(item) {
-			var _data = item.props.data;
-			if (_data.url) {
-				Session.jump(_data.url);
-			}
-		},
-		__itemContentRender: function __itemContentRender(item, index) {
-			return React.createElement(
-				'span',
-				null,
-				React.createElement('i', { className: 'fa ' + item.data.icon, style: { width: 16, margin: 10 } }),
-				item.data.title
-			);
-		},
-		__onListItemClick: function __onListItemClick(props, rtitem) {
-			switch (rtitem.props.text) {
-				case '我的信息':
-					Session.jump('/main/znadmin/MyInfo');
-					break;
-				case '退出':
-					Session.doHome();
-					break;
-			}
-			Popover.close('_click');
-		},
-		render: function render() {
-			if (!Session.json()) {
-				Session.jump('/index');
-			} else {
-				if (!this.props.request || this.props.request.name == '') {
-					Session.jump('/main/znadmin/MyInfo');
-				}
-			}
-
-			var _title = Session.json().name || Session.json().email;
-			return React.createElement(
-				UI.FixedLayout,
-				{
-					style: { position: 'fixed' },
-					hStyle: { borderBottom: '1px solid #3d3d3d' },
-					direction: 'v',
-					unit: 'rem',
-					end: 3,
-					begin: 8 },
-				React.createElement(
-					'div',
-					{ className: 'main-top admin' },
-					React.createElement('div', { className: 'rt-fl' }),
-					React.createElement(
-						'div',
-						{ className: 'right' },
-						React.createElement(
-							UI.Dropdown,
-							null,
-							React.createElement(
-								'div',
-								{ className: 'info' },
-								React.createElement('img', { className: 'avatar', src: Store.fixURL(Session.json().avatarImg) || "./images/DefaultAvatar.png", style: { width: 32, height: 32, position: 'relative', top: 10, marginRight: 5 } }),
-								React.createElement(
-									'span',
-									null,
-									_title,
-									React.createElement('i', { style: { margin: 5 }, className: 'fa fa-angle-down' })
-								)
-							),
-							React.createElement(UI.ListView, { selectMode: 'none', data: [{ text: '我的信息' }, { text: '退出' }], onItemClick: this.__onListItemClick, style: { backgroundColor: '#FFF' } })
-						)
-					)
-				),
-				React.createElement(
-					UI.ActivityLayout,
-					{
-						begin: 20,
-						unit: 'rem',
-						hStyle: { borderRight: '1px solid #e9e9e9' },
-						fStyle: { right: 10, left: '21rem' },
-						direction: 'h' },
-					React.createElement(UI.TreeListView, { itemContentRender: this.__itemContentRender, activeAll: true, onClick: this.__onMenuItemClick, data: this.state.data }),
-					this.props.view && React.createElement(this.props.view, this.props.request.search)
-				),
-				React.createElement(
-					'div',
-					{ className: 'main-foot' },
-					'\u4E0A\u6D77\u817E\u9E9F\u6587\u5316\u4F20\u5A92\u6709\u9650\u516C\u53F8 @2016 - @2017'
-				)
-			);
-		}
-	});
-
-/***/ }),
-/* 44 */
+/* 54 */,
+/* 55 */
 /***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 45 */,
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 56 */,
+/* 57 */
+/***/ (function(module, exports) {
 
-	module.exports = zn.arrayValueToObject(['Menu', 'MyInfo', 'Project', 'Role', 'User', 'UserInfo', 'UserLog', 'UsersForRoles', 'Var'], function (value, index) {
-	    return __webpack_require__(47)("./" + value + '.js');
-	});
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var map = {
-		"./Dashboard.js": 36,
-		"./Index.js": 37,
-		"./Login.js": 40,
-		"./Main.js": 43,
-		"./exports.js": 46
-	};
-	function webpackContext(req) {
-		return __webpack_require__(webpackContextResolve(req));
-	};
-	function webpackContextResolve(req) {
-		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
-	};
-	webpackContext.keys = function webpackContextKeys() {
-		return Object.keys(map);
-	};
-	webpackContext.resolve = webpackContextResolve;
-	module.exports = webpackContext;
-	webpackContext.id = 47;
-
+	// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

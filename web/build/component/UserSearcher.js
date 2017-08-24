@@ -33,10 +33,10 @@ module.exports = React.createClass({
   });*/
 	},
 	__loadUsers: function __loadUsers(where) {
-		Store.post('/znadmin/model/select', {
-			model: 'AdminUser',
+		zn.http.post('/zn.plugin.admin/model/select', {
+			model: 'ZNPluginAdminUser',
 			where: where || {}
-		}).exec().then(function (data) {
+		}).then(function (data) {
 			this.setState({
 				users: data.result
 			});
@@ -108,7 +108,7 @@ module.exports = React.createClass({
 						{ key: index, className: 'user ' + (_selected ? 'selected' : ''), onClick: function onClick() {
 								return _this.__onUserClick(user);
 							} },
-						React.createElement('img', { className: 'avatar', src: Store.fixURL(user.avatarImg) }),
+						React.createElement('img', { className: 'avatar', src: zn.http.fixURL(user.avatar_img) }),
 						React.createElement('span', { className: 'name', dangerouslySetInnerHTML: { __html: _name } })
 					);
 				}.bind(this)),
@@ -140,7 +140,7 @@ module.exports = React.createClass({
 	render: function render() {
 		return React.createElement(
 			'div',
-			{ className: 'rt-user-searcher' },
+			{ className: 'zn-plugin-admin-user-searcher' },
 			React.createElement(
 				'ul',
 				{ className: 'type-tab' },
