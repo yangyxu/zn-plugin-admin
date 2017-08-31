@@ -87,7 +87,7 @@ module.exports = React.createClass({
 		switch (columnIndex) {
 			case 0:
 				return <zn.react.ListView
-							className="rt-flex"
+							className="zr-flex"
 							data={[
 								{ text:'删除', icon: 'fa-remove' },
 								{ text:'修改', icon: 'fa-edit' }

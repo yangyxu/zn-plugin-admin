@@ -38,8 +38,11 @@ module.exports = React.createClass({
 		return <span><i style={{margin:5}} className={'fa ' + _icon} />{props.data.id +'、'+ props.data.zn_title}</span>;
 	},
 	render:function(){
+		if(!this.state.info){
+			return <zn.react.DataLoader content="正在加载中..." loader="timer" />;
+		}
 		return (
-			<zn.react.Page loading={!this.state.info} title={this.state.info.name} icon="fa-newspaper-o" toolbarItems={this.state.toolbarItems} >
+			<zn.react.Page title={this.state.info.name} icon="fa-newspaper-o" toolbarItems={this.state.toolbarItems} >
 				<div className="zn-plugin-admin-user-info">
 					<div className="info-form user-item">
 						<img className="avatar" src={zn.http.fixURL(this.state.info.avatar_img)||'./images/DefaultAvatar.png'} />

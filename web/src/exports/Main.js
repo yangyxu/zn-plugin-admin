@@ -18,8 +18,14 @@ var _exports = React.createClass({
 			valueKey: '_value'
 		}).then(function (data){
 			if(data.status == 200){
+				var _base = data.result;
+				if(_base.main_background_image.indexOf('/')==0){
+					_base.company_logo = zn.http.fixURL(_base.company_logo);
+					_base.login_background_image = zn.http.fixURL(_base.login_background_image);
+					_base.main_background_image = zn.http.fixURL(_base.main_background_image);
+				}
 				this.setState({
-					base: data.result
+					base: _base
 				});
 			}else {
 				this.setState({
@@ -96,7 +102,7 @@ var _exports = React.createClass({
 				</div>
 				<div className="section-body">
 					<div className="warp inner-content">
-						<div className="navigation-view rt-scroll-webkit">
+						<div className="navigation-view zr-scroll-webkit">
 							<NavigationBar data={this.state.menus} />
 						</div>
 						<div className="page-view">

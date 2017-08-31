@@ -95,7 +95,7 @@ module.exports = React.createClass({
 				onToolbarClick={this.__onToolbarClick}>
 				<zn.react.PagerView
 					view="ListView"
-					className="rt-list-view-border"
+					className="zr-list-view-border"
 					ref="listview"
 					textKey="name"
 					valueKey="id"

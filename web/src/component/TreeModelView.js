@@ -24,12 +24,12 @@ module.exports = React.createClass({
 			items: this.props.fields||[],
 			currItem: null,
 			toolbarItems: [
-				{ title: '添加主项', name: 'addMainItem', icon: 'fa-plus-square' },
-				{ title: '添加子项', name: 'addChildItem', icon: 'fa-plus' },
-				{ title: '删除当前项', name: 'deleteCurrItem', icon: 'fa-remove' },
-				{ title: '编辑当前项', name: 'editCurrItem', icon: 'fa-edit' },
-				{ title: '上移当前项', name: 'upCurrItem', icon: 'fa-angle-up' },
-				{ title: '下移当前项', name: 'downCurrItem', icon: 'fa-angle-down' },
+				{ tooltip: '添加主项', name: 'addMainItem', icon: 'fa-plus-square' },
+				{ tooltip: '添加子项', name: 'addChildItem', icon: 'fa-plus' },
+				{ tooltip: '删除当前项', name: 'deleteCurrItem', icon: 'fa-remove' },
+				{ tooltip: '编辑当前项', name: 'editCurrItem', icon: 'fa-edit' },
+				{ tooltip: '上移当前项', name: 'upCurrItem', icon: 'fa-angle-up' },
+				{ tooltip: '下移当前项', name: 'downCurrItem', icon: 'fa-angle-down' },
 			]
 		}
 	},
@@ -179,7 +179,7 @@ module.exports = React.createClass({
 				toolbarItems={this.state.toolbarItems}
 				onToolbarClick={this.__onToolbarClick}
 				title={this.props.title}>
-				<div className="rt-flex-layout zn-plugin-admin-master-slave-flex-layout row">
+				<div className="zr-flex-layout zn-plugin-admin-master-slave-flex-layout row">
 					<div className="layout-header" style={{ width: 250 }}>
 						<zn.react.TreeListView
 							ref="maintreemenu"

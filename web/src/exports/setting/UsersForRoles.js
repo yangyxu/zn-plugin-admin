@@ -34,7 +34,7 @@ module.exports = React.createClass({
 		return (
 			<zn.react.PagerView
 				view="ListView"
-				className="rt-list-view-border"
+				className="zr-list-view-border"
 				textKey="name"
 				valueKey="id"
 				selectMode="none"

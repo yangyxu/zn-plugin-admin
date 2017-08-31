@@ -33,7 +33,7 @@ var VarPanel = React.createClass({
 		return (
 			<zn.react.ActivityLayout direction="top-bottoom" begin={40} barWidth={3}>
 				<zn.react.ListView
-					className="rt-list-view-tab"
+					className="zr-list-view-tab"
 					fireIndex={0}
 					onClick={this.__onListViewItemClick}
 					itemRender={(item, index)=>{ return <span><i style={{marginRight:5}} className={'fa ' + item.icon} />{item.text}</span>;}}

@@ -58,7 +58,7 @@ module.exports = React.createClass({
 	},
 	render: function (){
 		return (
-			<div className="rt-user-selector">
+			<div className="zr-user-selector">
 				<zn.react.TreeListView
 					{...this.props}
 					value={this.state.value}

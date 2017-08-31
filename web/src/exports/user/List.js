@@ -31,8 +31,6 @@ module.exports = React.createClass({
 		}
 	},
 	__doSuccess: function (){
-		zn.modal.close();
-		zn.toast.success('操作成功！');
 		this.state.data.refresh();
 	},
 	__addItem: function (){
@@ -43,10 +41,6 @@ module.exports = React.createClass({
 				merge='values'
 				exts={{ model: this.props.model }}
 				onSubmitSuccess={this.__doSuccess}
-				btns={[
-					{text: '新增用户', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight:0 }},
-					{text: '取消', type:'cancle', status: 'danger', float: 'right'}
-				]}
 				items={this.state.formItems} />
 		});
 	},
@@ -59,10 +53,6 @@ module.exports = React.createClass({
 				merge="updates"
 				data={data}
 				onSubmitSuccess={this.__doSuccess}
-				btns={[
-					{text: '更新', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight:0 }},
-					{text: '取消', type:'cancle', status: 'danger', float: 'right'}
-				]}
 				items={this.state.formItems} />
 		});
 	},
@@ -95,10 +85,6 @@ module.exports = React.createClass({
 				break;
 		}
 	},
-	__onEditItem: function (event, item){
-		event.stopPropagation();
-		this.__updateItem(item);
-	},
 	__onTableColumnRender: function (rowIndex, columnIndex, data, item, value){
 		switch (columnIndex) {
 			case 1:
@@ -115,7 +101,6 @@ module.exports = React.createClass({
 					checkbox={50}
 					showHeader={true}
 					columnRender={this.__onTableColumnRender}
-					onTableRowClick={this.__onTableRowClick}
 					data={this.state.data}
 					items={this.state.items}/>
 			</zn.react.Page>

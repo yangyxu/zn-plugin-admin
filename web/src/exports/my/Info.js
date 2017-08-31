@@ -22,8 +22,6 @@ module.exports = React.createClass({
 		this.__loadUserInfo();
 	},
 	__doSuccess: function (){
-		zn.modal.close();
-		zn.toast.success('修改成功');
 		this.__loadUserInfo();
 	},
 	__onEdit: function (data){
@@ -35,10 +33,6 @@ module.exports = React.createClass({
 						merge="updates"
 						value={this.state.info}
 						onSubmitSuccess={this.__doSuccess}
-						btns={[
-							{text: '修改', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight:0 }},
-							{text:'取消', type:'cancle', status: 'danger', float: 'right'}
-						]}
 						items={this.state.formItems} />
 		});
 	},
@@ -73,9 +67,13 @@ module.exports = React.createClass({
 		return <span><i style={{margin:5}} className={'fa ' + _icon} />{props.data.id +'、'+ props.data.zn_title}</span>;
 	},
 	render:function(){
+		if(!this.state.info){
+			return <zn.react.DataLoader content="正在加载中..." loader="timer" />;
+		}
 		return (
-			<zn.react.Page loading={!this.state.info} title={this.state.info?this.state.info.name:'加载中...'} icon="fa-newspaper-o" toolbarItems={this.state.toolbarItems} >
-				{this.state.info && <div className="user-info">
+			<zn.react.Page className="" title={this.state.info.name} icon="fa-newspaper-o"
+				toolbarItems={this.state.toolbarItems} >
+				<div className="user-info">
 					<div className="info-form user-item">
 						<img className="avatar" src={zn.http.fixURL(this.state.info.avatar_img)||'./images/DefaultAvatar.png'} />
 						<div className="details">
@@ -99,7 +97,7 @@ module.exports = React.createClass({
 							activeAll={true}
 							data={this.state.data} />
 					</zn.react.Card>
-				</div>}
+				</div>
 			</zn.react.Page>
 		);
 	}

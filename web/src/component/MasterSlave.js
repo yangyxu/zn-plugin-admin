@@ -119,7 +119,7 @@ module.exports = React.createClass({
 				<zn.react.ActivityLayout direction="left-right" begin={this.props.leftWidth||250}>
 					<zn.react.PagerView
 						view="ListView"
-						className="rt-list-view-border"
+						className="zr-list-view-border"
 						textKey="name"
 						valueKey="id"
 						selectMode="radio"

@@ -14,6 +14,11 @@ zn.define(function () {
                 type: ['varchar', 100],
                 default: ''
             },
+            owners: {
+                value: null,
+                type: ['varchar', 100],
+                default: ','
+            },
             type: {
                 value: null,
                 type: ['int', 11],
