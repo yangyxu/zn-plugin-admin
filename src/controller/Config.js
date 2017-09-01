@@ -28,6 +28,17 @@ zn.define(['node:fs'], function (node_fs) {
                 }
                 return this.query(_sqls.join(''));
             },
+            get_ids: {
+                method: 'GET',
+                value: function (request, response, chain){
+                    this.query('select _id as value, _id as text from zn_plugin_admin_config group by _id;')
+                        .then(function (data){
+                            response.success(data);
+                        }, function (err){
+                            response.error(err);
+                        });
+                }
+            },
             selectBy_id: {
                 method: 'GET/POST',
                 argv: {

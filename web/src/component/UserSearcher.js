@@ -128,20 +128,17 @@ module.exports = React.createClass({
 	render:function(){
 		return (
 			<div className="zn-plugin-admin-user-searcher">
-				<ul className="type-tab">
-					{
-						[
-							{ text: '首字母', icon: 'fa-font' },
-							{ text: '所属部门', icon: 'fa-sitemap' }
-						].map(function (item, index){
-							return <li className={this.state.currIndex===index ? 'curr': ''} key={index} onClick={()=>this.setState({ currIndex: index })}>
-								<i style={{marginRight:5}} className={'fa ' + item.icon} />
-								<span>{item.text}</span>
-							</li>;
-						}.bind(this))
-					}
-				</ul>
-
+				<zn.react.ListView
+					className="zr-tab-ios"
+					selectMode="radio"
+					textKey="text"
+					valueKey="index"
+					onClick={(value)=>this.setState({ currIndex: value.item.index })}
+					value={this.state.currIndex}
+					data={[
+						{ index: 0, text: '首字母', icon: 'fa-font' },
+						{ index: 1, text: '所属部门', icon: 'fa-sitemap' }
+					]} />
 				{this.__renderView()}
 				{this.__renderUsers()}
 			</div>

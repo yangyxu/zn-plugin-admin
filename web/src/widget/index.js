@@ -1,10 +1,6 @@
 module.exports = zn.arrayValueToObject([
-    'Base',
-    'Config',
-    'Menu',
-    'Role',
-    'Var',
-    'UsersForRoles'
+    'NavigationBar',
+    'UserSessionInfo'
 ], function (value, index){
     return require('./'+value+'.js');
 });

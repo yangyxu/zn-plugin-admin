@@ -52,10 +52,11 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	zn.plugin.admin = __webpack_require__(2);
+	zn.plugin.admin.widget = __webpack_require__(14);
 	zn.deepEachObject({}, function (value) {
-	  return __webpack_require__(14)(value);
+	  return __webpack_require__(18)(value);
 	});
-	module.exports = zn.react.extendPath('/zn.plugin.admin', __webpack_require__(28));
+	module.exports = zn.react.extendPath('/zn.plugin.admin', __webpack_require__(30));
 
 /***/ }),
 /* 2 */
@@ -537,7 +538,7 @@
 					{ direction: 'left-right', begin: this.props.leftWidth || 250 },
 					React.createElement(zn.react.PagerView, {
 						view: 'ListView',
-						className: 'rt-list-view-border',
+						className: 'zr-list-view-border',
 						textKey: 'name',
 						valueKey: 'id',
 						selectMode: 'radio',
@@ -656,7 +657,7 @@
 					onToolbarClick: this.__onToolbarClick },
 				React.createElement(zn.react.PagerView, {
 					view: 'ListView',
-					className: 'rt-list-view-border',
+					className: 'zr-list-view-border',
 					ref: 'listview',
 					textKey: 'name',
 					valueKey: 'id',
@@ -920,29 +921,21 @@
 			}
 		},
 		render: function render() {
+			var _this2 = this;
+
 			return React.createElement(
 				'div',
 				{ className: 'zn-plugin-admin-user-searcher' },
-				React.createElement(
-					'ul',
-					{ className: 'type-tab' },
-					[{ text: '首字母', icon: 'fa-font' }, { text: '所属部门', icon: 'fa-sitemap' }].map(function (item, index) {
-						var _this2 = this;
-
-						return React.createElement(
-							'li',
-							{ className: this.state.currIndex === index ? 'curr' : '', key: index, onClick: function onClick() {
-									return _this2.setState({ currIndex: index });
-								} },
-							React.createElement('i', { style: { marginRight: 5 }, className: 'fa ' + item.icon }),
-							React.createElement(
-								'span',
-								null,
-								item.text
-							)
-						);
-					}.bind(this))
-				),
+				React.createElement(zn.react.ListView, {
+					className: 'zr-tab-ios',
+					selectMode: 'radio',
+					textKey: 'text',
+					valueKey: 'index',
+					onClick: function onClick(value) {
+						return _this2.setState({ currIndex: value.item.index });
+					},
+					value: this.state.currIndex,
+					data: [{ index: 0, text: '首字母', icon: 'fa-font' }, { index: 1, text: '所属部门', icon: 'fa-sitemap' }] }),
 				this.__renderView(),
 				this.__renderUsers()
 			);
@@ -1020,7 +1013,7 @@
 		render: function render() {
 			return React.createElement(
 				'div',
-				{ className: 'rt-user-selector' },
+				{ className: 'zr-user-selector' },
 				React.createElement(zn.react.TreeListView, _extends({}, this.props, {
 					value: this.state.value,
 					data: this.state.data,
@@ -1061,7 +1054,7 @@
 				}),
 				items: this.props.fields || [],
 				currItem: null,
-				toolbarItems: [{ title: '添加主项', name: 'addMainItem', icon: 'fa-plus-square' }, { title: '添加子项', name: 'addChildItem', icon: 'fa-plus' }, { title: '删除当前项', name: 'deleteCurrItem', icon: 'fa-remove' }, { title: '编辑当前项', name: 'editCurrItem', icon: 'fa-edit' }, { title: '上移当前项', name: 'upCurrItem', icon: 'fa-angle-up' }, { title: '下移当前项', name: 'downCurrItem', icon: 'fa-angle-down' }]
+				toolbarItems: [{ tooltip: '添加主项', name: 'addMainItem', icon: 'fa-plus-square' }, { tooltip: '添加子项', name: 'addChildItem', icon: 'fa-plus' }, { tooltip: '删除当前项', name: 'deleteCurrItem', icon: 'fa-remove' }, { tooltip: '编辑当前项', name: 'editCurrItem', icon: 'fa-edit' }, { tooltip: '上移当前项', name: 'upCurrItem', icon: 'fa-angle-up' }, { tooltip: '下移当前项', name: 'downCurrItem', icon: 'fa-angle-down' }]
 			};
 		},
 		componentDidMount: function componentDidMount() {
@@ -1223,7 +1216,7 @@
 					title: this.props.title },
 				React.createElement(
 					'div',
-					{ className: 'rt-flex-layout zn-plugin-admin-master-slave-flex-layout row' },
+					{ className: 'zr-flex-layout zn-plugin-admin-master-slave-flex-layout row' },
 					React.createElement(
 						'div',
 						{ className: 'layout-header', style: { width: 250 } },
@@ -1248,78 +1241,18 @@
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	module.exports = zn.arrayValueToObject(['NavigationBar', 'UserSessionInfo'], function (value, index) {
+	    return __webpack_require__(15)("./" + value + '.js');
+	});
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	var map = {
-		"./component/BaseBusinessView": 4,
-		"./component/BaseBusinessView.js": 4,
-		"./component/BaseModelView": 6,
-		"./component/BaseModelView.js": 6,
-		"./component/LetterSelector": 7,
-		"./component/LetterSelector.js": 7,
-		"./component/LetterSelector.less": 15,
-		"./component/MasterSlave": 8,
-		"./component/MasterSlave.js": 8,
-		"./component/RightsSetting": 10,
-		"./component/RightsSetting.js": 10,
-		"./component/RoleSearcher": 12,
-		"./component/RoleSearcher.js": 12,
-		"./component/Slave": 9,
-		"./component/Slave.js": 9,
-		"./component/TreeModelView": 13,
-		"./component/TreeModelView.js": 13,
-		"./component/UserSearcher": 11,
-		"./component/UserSearcher.js": 11,
-		"./component/UserSearcher.less": 18,
-		"./component/index": 2,
-		"./component/index.js": 2,
-		"./exports/Login": 20,
-		"./exports/Login.js": 20,
-		"./exports/Login.less": 21,
-		"./exports/Main": 23,
-		"./exports/Main.js": 23,
-		"./exports/Main.less": 26,
-		"./exports/index": 28,
-		"./exports/index.js": 28,
-		"./exports/my/Info": 30,
-		"./exports/my/Info.js": 30,
-		"./exports/my/index": 31,
-		"./exports/my/index.js": 31,
-		"./exports/project/Project": 33,
-		"./exports/project/Project.js": 33,
-		"./exports/project/ProjectBug": 34,
-		"./exports/project/ProjectBug.js": 34,
-		"./exports/project/index": 35,
-		"./exports/project/index.js": 35,
-		"./exports/setting/Base": 37,
-		"./exports/setting/Base.js": 37,
-		"./exports/setting/Menu": 38,
-		"./exports/setting/Menu.js": 38,
-		"./exports/setting/Role": 39,
-		"./exports/setting/Role.js": 39,
-		"./exports/setting/UsersForRoles": 40,
-		"./exports/setting/UsersForRoles.js": 40,
-		"./exports/setting/Var": 41,
-		"./exports/setting/Var.js": 41,
-		"./exports/setting/index": 42,
-		"./exports/setting/index.js": 42,
-		"./exports/user/Info": 44,
-		"./exports/user/Info.js": 44,
-		"./exports/user/Info.less": 45,
-		"./exports/user/List": 47,
-		"./exports/user/List.js": 47,
-		"./exports/user/LoginLog": 48,
-		"./exports/user/LoginLog.js": 48,
-		"./exports/user/index": 49,
-		"./exports/user/index.js": 49,
-		"./index": 1,
-		"./index.js": 1,
-		"./style/layout.less/MasterSlaveFlexLayout.less": 51,
-		"./style/widget.less/UserItem.less": 53,
-		"./widget/NavigationBar": 24,
-		"./widget/NavigationBar.js": 24,
-		"./widget/NavigationBar.less": 55,
-		"./widget/UserSessionInfo": 25,
-		"./widget/UserSessionInfo.js": 25,
-		"./widget/UserSessionInfo.less": 57
+		"./NavigationBar.js": 16,
+		"./UserSessionInfo.js": 17,
+		"./index.js": 14
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -1332,26 +1265,214 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 14;
+	webpackContext.id = 15;
 
 
 /***/ }),
-/* 15 */
-/***/ (function(module, exports) {
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
 
-	// removed by extract-text-webpack-plugin
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: "exports",
+
+		getDefaultProps: function getDefaultProps() {
+			return {};
+		},
+		getInitialState: function getInitialState() {
+			return {};
+		},
+		componentDidMount: function componentDidMount() {},
+		__renderItem: function __renderItem(item, index) {
+			return React.createElement(
+				"li",
+				{ className: "menu-item" },
+				React.createElement(
+					"div",
+					{ className: "item-title" },
+					React.createElement("i", { className: "fa " + item.icon }),
+					item.zn_title
+				),
+				!!item.children && !!item.children.length && this.__renderChildren(item.children)
+			);
+		},
+		__renderChildren: function __renderChildren(children) {
+			return React.createElement(
+				"ul",
+				{ className: "sub-menu-list" },
+				children.map(function (item, index) {
+					var _this = this;
+
+					return React.createElement(
+						"li",
+						{ className: zn.react.session.isPath(item.url) ? 'active-item' : '', key: index, onClick: function onClick() {
+								return _this.__onSubItemClick(item, index);
+							} },
+						React.createElement(
+							"div",
+							{ className: "item-title" },
+							React.createElement("i", { className: "fa " + item.icon }),
+							item.zn_title
+						)
+					);
+				}.bind(this))
+			);
+		},
+		__onSubItemClick: function __onSubItemClick(item, index) {
+			if (item.url) {
+				zn.react.session.relativeJump(item.url);
+			}
+		},
+		render: function render() {
+			return React.createElement(
+				"div",
+				{ className: "zn-plugin-admin-widget-navigation-bar" },
+				React.createElement(
+					"ul",
+					{ className: "menu-list" },
+					this.props.data.map(function (item, index) {
+						return this.__renderItem(item, index);
+					}.bind(this))
+				)
+			);
+		}
+	});
 
 /***/ }),
-/* 16 */,
-/* 17 */,
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: "exports",
+
+		getDefaultProps: function getDefaultProps() {
+			return {};
+		},
+		getInitialState: function getInitialState() {
+			return {};
+		},
+		componentDidMount: function componentDidMount() {},
+		render: function render() {
+			return React.createElement("div", { className: "zn-plugin-admin-widget-user-session-info" });
+		}
+	});
+
+/***/ }),
 /* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./component/BaseBusinessView": 4,
+		"./component/BaseBusinessView.js": 4,
+		"./component/BaseModelView": 6,
+		"./component/BaseModelView.js": 6,
+		"./component/LetterSelector": 7,
+		"./component/LetterSelector.js": 7,
+		"./component/LetterSelector.less": 19,
+		"./component/MasterSlave": 8,
+		"./component/MasterSlave.js": 8,
+		"./component/RightsSetting": 10,
+		"./component/RightsSetting.js": 10,
+		"./component/RoleSearcher": 12,
+		"./component/RoleSearcher.js": 12,
+		"./component/Slave": 9,
+		"./component/Slave.js": 9,
+		"./component/TreeModelView": 13,
+		"./component/TreeModelView.js": 13,
+		"./component/UserSearcher": 11,
+		"./component/UserSearcher.js": 11,
+		"./component/UserSearcher.less": 22,
+		"./component/index": 2,
+		"./component/index.js": 2,
+		"./exports/Login": 24,
+		"./exports/Login.js": 24,
+		"./exports/Login.less": 25,
+		"./exports/Main": 27,
+		"./exports/Main.js": 27,
+		"./exports/Main.less": 28,
+		"./exports/index": 30,
+		"./exports/index.js": 30,
+		"./exports/my/Info": 32,
+		"./exports/my/Info.js": 32,
+		"./exports/my/Info.less": 33,
+		"./exports/my/index": 35,
+		"./exports/my/index.js": 35,
+		"./exports/project/Project": 37,
+		"./exports/project/Project.js": 37,
+		"./exports/project/ProjectBug": 38,
+		"./exports/project/ProjectBug.js": 38,
+		"./exports/project/index": 39,
+		"./exports/project/index.js": 39,
+		"./exports/setting/Base": 41,
+		"./exports/setting/Base.js": 41,
+		"./exports/setting/Config": 42,
+		"./exports/setting/Config.js": 42,
+		"./exports/setting/Menu": 43,
+		"./exports/setting/Menu.js": 43,
+		"./exports/setting/Role": 44,
+		"./exports/setting/Role.js": 44,
+		"./exports/setting/UsersForRoles": 45,
+		"./exports/setting/UsersForRoles.js": 45,
+		"./exports/setting/Var": 46,
+		"./exports/setting/Var.js": 46,
+		"./exports/setting/index": 47,
+		"./exports/setting/index.js": 47,
+		"./exports/user/Info": 49,
+		"./exports/user/Info.js": 49,
+		"./exports/user/Info.less": 50,
+		"./exports/user/List": 52,
+		"./exports/user/List.js": 52,
+		"./exports/user/LoginLog": 53,
+		"./exports/user/LoginLog.js": 53,
+		"./exports/user/index": 54,
+		"./exports/user/index.js": 54,
+		"./index": 1,
+		"./index.js": 1,
+		"./input/Role": 56,
+		"./input/Role.js": 56,
+		"./style/layout.less/MasterSlaveFlexLayout.less": 57,
+		"./style/widget.less/UserItem.less": 59,
+		"./widget/NavigationBar": 16,
+		"./widget/NavigationBar.js": 16,
+		"./widget/NavigationBar.less": 61,
+		"./widget/UserSessionInfo": 17,
+		"./widget/UserSessionInfo.js": 17,
+		"./widget/UserSessionInfo.less": 63,
+		"./widget/index": 14,
+		"./widget/index.js": 14
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 18;
+
+
+/***/ }),
+/* 19 */
 /***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 19 */,
-/* 20 */
+/* 20 */,
+/* 21 */,
+/* 22 */
+/***/ (function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 23 */,
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(5);
@@ -1372,8 +1493,15 @@
 				valueKey: '_value'
 			}).then(function (data) {
 				if (data.status == 200) {
+					var _base = data.result;
+					var _base = data.result;
+					if (_base.main_background_image.indexOf('/') == 0) {
+						_base.company_logo = zn.http.fixURL(_base.company_logo);
+						_base.login_background_image = zn.http.fixURL(_base.login_background_image);
+						_base.main_background_image = zn.http.fixURL(_base.main_background_image);
+					}
 					this.setState({
-						base: data.result
+						base: _base
 					});
 				} else {
 					this.setState({
@@ -1470,7 +1598,7 @@
 				),
 				React.createElement(
 					'div',
-					{ className: 'section-body rt-scroll-webkit' },
+					{ className: 'section-body zr-scroll-webkit' },
 					React.createElement(
 						'div',
 						{ className: 'warp', style: { width: 640 } },
@@ -1561,19 +1689,19 @@
 	module.exports = _exports;
 
 /***/ }),
-/* 21 */
+/* 25 */
 /***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 22 */,
-/* 23 */
+/* 26 */,
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(5);
-	var NavigationBar = __webpack_require__(24);
-	var UserSessionInfo = __webpack_require__(25);
+	var NavigationBar = __webpack_require__(16);
+	var UserSessionInfo = __webpack_require__(17);
 	var _exports = React.createClass({
 		displayName: '_exports',
 
@@ -1593,8 +1721,14 @@
 				valueKey: '_value'
 			}).then(function (data) {
 				if (data.status == 200) {
+					var _base = data.result;
+					if (_base.main_background_image.indexOf('/') == 0) {
+						_base.company_logo = zn.http.fixURL(_base.company_logo);
+						_base.login_background_image = zn.http.fixURL(_base.login_background_image);
+						_base.main_background_image = zn.http.fixURL(_base.main_background_image);
+					}
 					this.setState({
-						base: data.result
+						base: _base
 					});
 				} else {
 					this.setState({
@@ -1642,6 +1776,7 @@
 			if (!this.state.base) {
 				return React.createElement(zn.react.DataLoader, { content: '\u6B63\u5728\u52A0\u8F7D\u4E2D...', loader: 'timer' });
 			}
+
 			return React.createElement(
 				'div',
 				{ className: 'zn-plugin-admin-main' },
@@ -1720,13 +1855,13 @@
 						{ className: 'warp inner-content' },
 						React.createElement(
 							'div',
-							{ className: 'navigation-view rt-scroll-webkit' },
+							{ className: 'navigation-view zr-scroll-webkit' },
 							React.createElement(NavigationBar, { data: this.state.menus })
 						),
 						React.createElement(
 							'div',
 							{ className: 'page-view' },
-							this.props.view && React.createElement(this.props.view, this.props.request.search)
+							this.props.view && React.createElement(this.props.view, { request: this.props.request })
 						)
 					)
 				),
@@ -1751,104 +1886,14 @@
 	module.exports = _exports;
 
 /***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(5);
-	module.exports = React.createClass({
-		displayName: "exports",
-
-		getDefaultProps: function getDefaultProps() {
-			return {};
-		},
-		getInitialState: function getInitialState() {
-			return {};
-		},
-		componentDidMount: function componentDidMount() {},
-		__renderItem: function __renderItem(item, index) {
-			return React.createElement(
-				"li",
-				{ className: "menu-item" },
-				React.createElement(
-					"div",
-					{ className: "item-title" },
-					React.createElement("i", { className: "fa " + item.icon }),
-					item.zn_title
-				),
-				!!item.children && !!item.children.length && this.__renderChildren(item.children)
-			);
-		},
-		__renderChildren: function __renderChildren(children) {
-			return React.createElement(
-				"ul",
-				{ className: "sub-menu-list" },
-				children.map(function (item, index) {
-					var _this = this;
-
-					return React.createElement(
-						"li",
-						{ className: zn.react.session.isPath(item.url) ? 'active-item' : '', key: index, onClick: function onClick() {
-								return _this.__onSubItemClick(item, index);
-							} },
-						React.createElement(
-							"div",
-							{ className: "item-title" },
-							React.createElement("i", { className: "fa " + item.icon }),
-							item.zn_title
-						)
-					);
-				}.bind(this))
-			);
-		},
-		__onSubItemClick: function __onSubItemClick(item, index) {
-			if (item.url) {
-				zn.react.session.relativeJump(item.url);
-			}
-		},
-		render: function render() {
-			return React.createElement(
-				"div",
-				{ className: "zn-plugin-admin-widget-navigation-bar" },
-				React.createElement(
-					"ul",
-					{ className: "menu-list" },
-					this.props.data.map(function (item, index) {
-						return this.__renderItem(item, index);
-					}.bind(this))
-				)
-			);
-		}
-	});
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(5);
-	module.exports = React.createClass({
-		displayName: "exports",
-
-		getDefaultProps: function getDefaultProps() {
-			return {};
-		},
-		getInitialState: function getInitialState() {
-			return {};
-		},
-		componentDidMount: function componentDidMount() {},
-		render: function render() {
-			return React.createElement("div", { className: "zn-plugin-admin-widget-user-session-info" });
-		}
-	});
-
-/***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 27 */,
-/* 28 */
+/* 29 */,
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _exports = {},
@@ -1858,7 +1903,7 @@
 
 	['my', 'project', 'setting', 'user'].forEach(function (path) {
 	    _path = './' + path + '/index.js';
-	    _export = __webpack_require__(29)(_path);
+	    _export = __webpack_require__(31)(_path);
 	    for (var key in _export) {
 	        _subs[('/znpluginadmin.' + path + '.' + key).toLowerCase()] = _export[key];
 	    }
@@ -1866,58 +1911,61 @@
 
 	['Login'].forEach(function (path) {
 	    _path = './' + path;
-	    _exports[('/' + path).toLowerCase()] = __webpack_require__(29)(_path);
+	    _exports[('/' + path).toLowerCase()] = __webpack_require__(31)(_path);
 	});
 
-	_subs['/'] = __webpack_require__(23);
+	_subs['/'] = __webpack_require__(27);
 	_exports['/main'] = _subs;
 
 	module.exports = _exports;
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./Login": 20,
-		"./Login.js": 20,
-		"./Login.less": 21,
-		"./Main": 23,
-		"./Main.js": 23,
-		"./Main.less": 26,
-		"./index": 28,
-		"./index.js": 28,
-		"./my/Info": 30,
-		"./my/Info.js": 30,
-		"./my/index": 31,
-		"./my/index.js": 31,
-		"./project/Project": 33,
-		"./project/Project.js": 33,
-		"./project/ProjectBug": 34,
-		"./project/ProjectBug.js": 34,
-		"./project/index": 35,
-		"./project/index.js": 35,
-		"./setting/Base": 37,
-		"./setting/Base.js": 37,
-		"./setting/Menu": 38,
-		"./setting/Menu.js": 38,
-		"./setting/Role": 39,
-		"./setting/Role.js": 39,
-		"./setting/UsersForRoles": 40,
-		"./setting/UsersForRoles.js": 40,
-		"./setting/Var": 41,
-		"./setting/Var.js": 41,
-		"./setting/index": 42,
-		"./setting/index.js": 42,
-		"./user/Info": 44,
-		"./user/Info.js": 44,
-		"./user/Info.less": 45,
-		"./user/List": 47,
-		"./user/List.js": 47,
-		"./user/LoginLog": 48,
-		"./user/LoginLog.js": 48,
-		"./user/index": 49,
-		"./user/index.js": 49
+		"./Login": 24,
+		"./Login.js": 24,
+		"./Login.less": 25,
+		"./Main": 27,
+		"./Main.js": 27,
+		"./Main.less": 28,
+		"./index": 30,
+		"./index.js": 30,
+		"./my/Info": 32,
+		"./my/Info.js": 32,
+		"./my/Info.less": 33,
+		"./my/index": 35,
+		"./my/index.js": 35,
+		"./project/Project": 37,
+		"./project/Project.js": 37,
+		"./project/ProjectBug": 38,
+		"./project/ProjectBug.js": 38,
+		"./project/index": 39,
+		"./project/index.js": 39,
+		"./setting/Base": 41,
+		"./setting/Base.js": 41,
+		"./setting/Config": 42,
+		"./setting/Config.js": 42,
+		"./setting/Menu": 43,
+		"./setting/Menu.js": 43,
+		"./setting/Role": 44,
+		"./setting/Role.js": 44,
+		"./setting/UsersForRoles": 45,
+		"./setting/UsersForRoles.js": 45,
+		"./setting/Var": 46,
+		"./setting/Var.js": 46,
+		"./setting/index": 47,
+		"./setting/index.js": 47,
+		"./user/Info": 49,
+		"./user/Info.js": 49,
+		"./user/Info.less": 50,
+		"./user/List": 52,
+		"./user/List.js": 52,
+		"./user/LoginLog": 53,
+		"./user/LoginLog.js": 53,
+		"./user/index": 54,
+		"./user/index.js": 54
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -1930,11 +1978,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 29;
+	webpackContext.id = 31;
 
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(5);
@@ -1955,8 +2003,6 @@
 			this.__loadUserInfo();
 		},
 		__doSuccess: function __doSuccess() {
-			zn.modal.close();
-			zn.toast.success('修改成功');
 			this.__loadUserInfo();
 		},
 		__onEdit: function __onEdit(data) {
@@ -1968,7 +2014,6 @@
 					merge: 'updates',
 					value: this.state.info,
 					onSubmitSuccess: this.__doSuccess,
-					btns: [{ text: '修改', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
 					items: this.state.formItems })
 			});
 		},
@@ -2008,10 +2053,14 @@
 			);
 		},
 		render: function render() {
+			if (!this.state.info) {
+				return React.createElement(zn.react.DataLoader, { content: '\u6B63\u5728\u52A0\u8F7D\u4E2D...', loader: 'timer' });
+			}
 			return React.createElement(
 				zn.react.Page,
-				{ loading: !this.state.info, title: this.state.info ? this.state.info.name : '加载中...', icon: 'fa-newspaper-o', toolbarItems: this.state.toolbarItems },
-				this.state.info && React.createElement(
+				{ className: '', title: this.state.info.name, icon: 'fa-newspaper-o',
+					toolbarItems: this.state.toolbarItems },
+				React.createElement(
 					'div',
 					{ className: 'user-info' },
 					React.createElement(
@@ -2080,20 +2129,27 @@
 	});
 
 /***/ }),
-/* 31 */
+/* 33 */
+/***/ (function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 34 */,
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	module.exports = zn.arrayValueToObject(['Info'], function (value, index) {
-	    return __webpack_require__(32)("./" + value + '.js');
+	    return __webpack_require__(36)("./" + value + '.js');
 	});
 
 /***/ }),
-/* 32 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./Info.js": 30,
-		"./index.js": 31
+		"./Info.js": 32,
+		"./index.js": 35
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -2106,18 +2162,18 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 32;
+	webpackContext.id = 36;
 
 
 /***/ }),
-/* 33 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var React = __webpack_require__(5);
 	var TreeModelView = __webpack_require__(13);
-	var ProjectBug = __webpack_require__(34);
+	var ProjectBug = __webpack_require__(38);
 
 	module.exports = React.createClass({
 		displayName: 'exports',
@@ -2160,7 +2216,7 @@
 	});
 
 /***/ }),
-/* 34 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(5);
@@ -2229,7 +2285,7 @@
 			switch (columnIndex) {
 				case 0:
 					return React.createElement(zn.react.ListView, {
-						className: 'rt-flex',
+						className: 'zr-flex',
 						data: [{ text: '删除', icon: 'fa-remove' }, { text: '修改', icon: 'fa-edit' }],
 						itemRender: function itemRender(item, index) {
 							return React.createElement('i', { title: item.text, className: 'fa ' + item.icon, style: item.style });
@@ -2356,21 +2412,21 @@
 	});
 
 /***/ }),
-/* 35 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	module.exports = zn.arrayValueToObject(['Project'], function (value, index) {
-	    return __webpack_require__(36)("./" + value + '.js');
+	    return __webpack_require__(40)("./" + value + '.js');
 	});
 
 /***/ }),
-/* 36 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./Project.js": 33,
-		"./ProjectBug.js": 34,
-		"./index.js": 35
+		"./Project.js": 37,
+		"./ProjectBug.js": 38,
+		"./index.js": 39
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -2383,25 +2439,20 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 36;
+	webpackContext.id = 40;
 
 
 /***/ }),
-/* 37 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(5);
 	module.exports = React.createClass({
 		displayName: 'exports',
 
-		getDefaultProps: function getDefaultProps() {
-			return {
-				_id: 'zn.plugin.admin.base',
-				title: '参数设置'
-			};
-		},
 		getInitialState: function getInitialState() {
 			return {
+				_id: this.props.request.search._id || 'zn.plugin.admin.base',
 				items: null
 			};
 		},
@@ -2410,7 +2461,7 @@
 		},
 		__getData: function __getData() {
 			zn.http.post('/zn.plugin.admin/config/selectBy_id', {
-				_id: this.props._id
+				_id: this.state._id
 			}).then(function (data) {
 				var _items = [],
 				    _item = null;
@@ -2434,7 +2485,7 @@
 		render: function render() {
 			return React.createElement(
 				zn.react.Page,
-				{ loading: !this.state.items, title: this.props.title },
+				{ loading: !this.state.items, title: '参数设置: ' + this.state._id },
 				React.createElement(
 					'div',
 					{ style: { backgroundColor: '#FFF' } },
@@ -2452,7 +2503,121 @@
 	});
 
 /***/ }),
-/* 38 */
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: 'exports',
+
+		getDefaultProps: function getDefaultProps() {
+			return {
+				model: 'ZNPluginAdminConfig'
+			};
+		},
+		getInitialState: function getInitialState() {
+			return {
+				data: zn.store.post('/zn.plugin.admin/model/paging', {
+					model: this.props.model
+				}),
+				items: [{ title: '_id', name: '_id', width: 200 }, { title: '_title', name: '_title', width: 200 }, { title: '_key', name: '_key', width: 140 }, { title: '_value', name: '_value', width: 250 }, { title: 'ref_id', name: 'ref_id', width: 80 }, { title: 'var_id', name: 'var_id', width: 80 }, { title: 'InputType', name: 'input_type', width: 120 }, { title: 'DataType', name: 'data_type', width: 100 }, { title: 'RichValue', name: '_rich_value' }],
+				formItems: [{ title: '_id', name: '_id', type: 'AutoComplete', data: zn.store.get('/zn.plugin.admin/config/get_ids'), required: true, error: '_id必填' }, { title: '_title', name: '_title', type: 'Input' }, { title: '_key', name: '_key', type: 'Input' }, { title: '_value', name: '_value', type: 'Input' }, { title: 'ref_id', name: 'ref_id', type: 'Input' }, { title: 'var_id', name: 'var_id', type: 'Input' }, { title: 'InputType', name: 'input_type', type: 'Select', data: ['Input', 'ImageUploader', 'FileUploader', 'Textarea', 'Richarea'] }, { title: 'DataType', name: 'data_type', type: 'Input' }, { title: 'RichValue', name: '_rich_value', type: 'Textarea' }],
+				toolbarItems: [{ text: '添加', name: 'add', icon: 'fa-plus', style: { marginRight: 5 } }, { text: '删除', name: 'remove', status: 'danger', icon: 'fa-remove', style: { marginRight: 5 } }]
+			};
+		},
+		__doSuccess: function __doSuccess() {
+			this.state.data.refresh();
+		},
+		__addItem: function __addItem() {
+			zn.dialog({
+				title: '新增',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/insert',
+					merge: 'values',
+					exts: { model: this.props.model },
+					onSubmitSuccess: this.__doSuccess,
+					items: this.state.formItems })
+			});
+		},
+		__updateItem: function __updateItem(data) {
+			zn.dialog({
+				title: '更新',
+				content: React.createElement(zn.react.Form, {
+					action: '/zn.plugin.admin/model/update',
+					exts: { model: this.props.model, where: { id: data.id } },
+					merge: 'updates',
+					value: data,
+					onSubmitSuccess: this.__doSuccess,
+					items: this.state.formItems })
+			});
+		},
+		__removeItems: function __removeItems() {
+			var _self = this,
+			    _values = this.refs.table.getValue();
+			if (_values && _values.length) {
+				zn.confirm('确认删除这' + _values.length + '个值吗？', '提示', function () {
+					zn.http.post('/zn.plugin.admin/model/delete', {
+						model: this.props.model,
+						where: "id in (" + _values.join(',') + ")"
+					}).then(function () {
+						zn.toast.success('删除成功');
+						_self.state.data.refresh();
+					}, function (data) {
+						zn.toast.error('删除失败: ' + data.result);
+					});
+				}.bind(this));
+			} else {
+				zn.toast.warning('请先选择要删除的用户');
+			}
+		},
+		__onToolbarClick: function __onToolbarClick(item) {
+			switch (item.name) {
+				case 'add':
+					this.__addItem();
+					break;
+				case 'remove':
+					this.__removeItems();
+					break;
+			}
+		},
+		__onTableColumnRender: function __onTableColumnRender(rowIndex, columnIndex, data, item, value) {
+			var _this = this;
+
+			switch (columnIndex) {
+				case 1:
+					return React.createElement(
+						'div',
+						null,
+						React.createElement('i', { className: 'fa fa-edit', onClick: function onClick() {
+								return _this.__updateItem(data);
+							}, style: { padding: 5 } }),
+						React.createElement(
+							'a',
+							{ href: '#' + zn.react.session.fixPath('/znpluginadmin.setting.base') + '?_id=' + data._id },
+							value
+						)
+					);
+			}
+		},
+		render: function render() {
+			return React.createElement(
+				zn.react.Page,
+				{ title: '\u7CFB\u7EDF\u53C2\u6570\u914D\u7F6E', toolbarItems: this.state.toolbarItems, onToolbarClick: this.__onToolbarClick },
+				React.createElement(zn.react.PagerView, {
+					ref: 'table',
+					view: 'Table',
+					enableFilter: true,
+					checkbox: 50,
+					showHeader: true,
+					columnRender: this.__onTableColumnRender,
+					data: this.state.data,
+					items: this.state.items })
+			);
+		}
+	});
+
+/***/ }),
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -2494,7 +2659,7 @@
 				zn.react.ActivityLayout,
 				{ direction: 'top-bottoom', begin: 40, barWidth: 3 },
 				React.createElement(zn.react.ListView, {
-					className: 'rt-list-view-tab',
+					className: 'zr-list-view-tab',
 					fireIndex: 0,
 					onClick: this.__onListViewItemClick,
 					itemRender: function itemRender(item, index) {
@@ -2534,7 +2699,7 @@
 	});
 
 /***/ }),
-/* 39 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -2542,7 +2707,7 @@
 	var React = __webpack_require__(5);
 
 	var TreeModelView = __webpack_require__(13);
-	var UsersForRoles = __webpack_require__(40);
+	var UsersForRoles = __webpack_require__(45);
 	module.exports = React.createClass({
 		displayName: 'exports',
 
@@ -2591,7 +2756,7 @@
 	});
 
 /***/ }),
-/* 40 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(5);
@@ -2665,7 +2830,7 @@
 		render: function render() {
 			return React.createElement(zn.react.PagerView, {
 				view: 'ListView',
-				className: 'rt-list-view-border',
+				className: 'zr-list-view-border',
 				textKey: 'name',
 				valueKey: 'id',
 				selectMode: 'none',
@@ -2675,7 +2840,7 @@
 	});
 
 /***/ }),
-/* 41 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -2743,24 +2908,25 @@
 	});
 
 /***/ }),
-/* 42 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = zn.arrayValueToObject(['Base', 'Menu', 'Role', 'Var', 'UsersForRoles'], function (value, index) {
-	    return __webpack_require__(43)("./" + value + '.js');
+	module.exports = zn.arrayValueToObject(['Base', 'Config', 'Menu', 'Role', 'Var', 'UsersForRoles'], function (value, index) {
+	    return __webpack_require__(48)("./" + value + '.js');
 	});
 
 /***/ }),
-/* 43 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./Base.js": 37,
-		"./Menu.js": 38,
-		"./Role.js": 39,
-		"./UsersForRoles.js": 40,
-		"./Var.js": 41,
-		"./index.js": 42
+		"./Base.js": 41,
+		"./Config.js": 42,
+		"./Menu.js": 43,
+		"./Role.js": 44,
+		"./UsersForRoles.js": 45,
+		"./Var.js": 46,
+		"./index.js": 47
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -2773,11 +2939,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 43;
+	webpackContext.id = 48;
 
 
 /***/ }),
-/* 44 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(5);
@@ -2827,9 +2993,12 @@
 			);
 		},
 		render: function render() {
+			if (!this.state.info) {
+				return React.createElement(zn.react.DataLoader, { content: '\u6B63\u5728\u52A0\u8F7D\u4E2D...', loader: 'timer' });
+			}
 			return React.createElement(
 				zn.react.Page,
-				{ loading: !this.state.info, title: this.state.info.name, icon: 'fa-newspaper-o', toolbarItems: this.state.toolbarItems },
+				{ title: this.state.info.name, icon: 'fa-newspaper-o', toolbarItems: this.state.toolbarItems },
 				React.createElement(
 					'div',
 					{ className: 'zn-plugin-admin-user-info' },
@@ -2898,14 +3067,14 @@
 	});
 
 /***/ }),
-/* 45 */
+/* 50 */
 /***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 46 */,
-/* 47 */
+/* 51 */,
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(5);
@@ -2928,8 +3097,6 @@
 			};
 		},
 		__doSuccess: function __doSuccess() {
-			zn.modal.close();
-			zn.toast.success('操作成功！');
 			this.state.data.refresh();
 		},
 		__addItem: function __addItem() {
@@ -2940,7 +3107,6 @@
 					merge: 'values',
 					exts: { model: this.props.model },
 					onSubmitSuccess: this.__doSuccess,
-					btns: [{ text: '新增用户', icon: 'fa-plus', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
 					items: this.state.formItems })
 			});
 		},
@@ -2953,7 +3119,6 @@
 					merge: 'updates',
 					data: data,
 					onSubmitSuccess: this.__doSuccess,
-					btns: [{ text: '更新', icon: 'fa-edit', type: 'submit', float: 'right', style: { marginRight: 0 } }, { text: '取消', type: 'cancle', status: 'danger', float: 'right' }],
 					items: this.state.formItems })
 			});
 		},
@@ -2986,10 +3151,6 @@
 					break;
 			}
 		},
-		__onEditItem: function __onEditItem(event, item) {
-			event.stopPropagation();
-			this.__updateItem(item);
-		},
 		__onTableColumnRender: function __onTableColumnRender(rowIndex, columnIndex, data, item, value) {
 			switch (columnIndex) {
 				case 1:
@@ -3011,7 +3172,6 @@
 					checkbox: 50,
 					showHeader: true,
 					columnRender: this.__onTableColumnRender,
-					onTableRowClick: this.__onTableRowClick,
 					data: this.state.data,
 					items: this.state.items })
 			);
@@ -3019,7 +3179,7 @@
 	});
 
 /***/ }),
-/* 48 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(5);
@@ -3058,22 +3218,22 @@
 	});
 
 /***/ }),
-/* 49 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	module.exports = zn.arrayValueToObject(['Info', 'List', 'LoginLog'], function (value, index) {
-	    return __webpack_require__(50)("./" + value + '.js');
+	    return __webpack_require__(55)("./" + value + '.js');
 	});
 
 /***/ }),
-/* 50 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./Info.js": 44,
-		"./List.js": 47,
-		"./LoginLog.js": 48,
-		"./index.js": 49
+		"./Info.js": 49,
+		"./List.js": 52,
+		"./LoginLog.js": 53,
+		"./index.js": 54
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -3086,32 +3246,102 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 50;
+	webpackContext.id = 55;
 
 
 /***/ }),
-/* 51 */
-/***/ (function(module, exports) {
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
 
-	// removed by extract-text-webpack-plugin
+	var React = __webpack_require__(5);
+	module.exports = React.createClass({
+		displayName: "exports",
+
+		getDefaultProps: function getDefaultProps() {
+			return {};
+		},
+		getInitialState: function getInitialState() {
+			return {};
+		},
+		componentDidMount: function componentDidMount() {},
+		__renderItem: function __renderItem(item, index) {
+			return React.createElement(
+				"li",
+				{ className: "menu-item" },
+				React.createElement(
+					"div",
+					{ className: "item-title" },
+					React.createElement("i", { className: "fa " + item.icon }),
+					item.zn_title
+				),
+				!!item.children && !!item.children.length && this.__renderChildren(item.children)
+			);
+		},
+		__renderChildren: function __renderChildren(children) {
+			return React.createElement(
+				"ul",
+				{ className: "sub-menu-list" },
+				children.map(function (item, index) {
+					var _this = this;
+
+					return React.createElement(
+						"li",
+						{ className: zn.react.session.isPath(item.url) ? 'active-item' : '', key: index, onClick: function onClick() {
+								return _this.__onSubItemClick(item, index);
+							} },
+						React.createElement(
+							"div",
+							{ className: "item-title" },
+							React.createElement("i", { className: "fa " + item.icon }),
+							item.zn_title
+						)
+					);
+				}.bind(this))
+			);
+		},
+		__onSubItemClick: function __onSubItemClick(item, index) {
+			if (item.url) {
+				zn.react.session.relativeJump(item.url);
+			}
+		},
+		render: function render() {
+			return React.createElement(
+				"div",
+				{ className: "zn-plugin-admin-widget-navigation-bar" },
+				React.createElement(
+					"ul",
+					{ className: "menu-list" },
+					this.props.data.map(function (item, index) {
+						return this.__renderItem(item, index);
+					}.bind(this))
+				)
+			);
+		}
+	});
 
 /***/ }),
-/* 52 */,
-/* 53 */
-/***/ (function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 54 */,
-/* 55 */
-/***/ (function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 56 */,
 /* 57 */
+/***/ (function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 58 */,
+/* 59 */
+/***/ (function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 60 */,
+/* 61 */
+/***/ (function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 62 */,
+/* 63 */
 /***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

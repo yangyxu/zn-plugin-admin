@@ -1,13 +1,8 @@
 var React = require('react');
 module.exports = React.createClass({
-	getDefaultProps: function () {
-		return {
-			_id: 'zn.plugin.admin.base',
-			title: '参数设置'
-		};
-	},
 	getInitialState: function (){
 		return {
+			_id: this.props.request.search._id || 'zn.plugin.admin.base',
 			items: null
 		}
 	},
@@ -16,7 +11,7 @@ module.exports = React.createClass({
 	},
 	__getData: function (){
 		zn.http.post('/zn.plugin.admin/config/selectBy_id', {
-			_id: this.props._id
+			_id: this.state._id
 		}).then(function (data){
 			var _items = [],
 				_item = null;
@@ -39,7 +34,7 @@ module.exports = React.createClass({
 	},
 	render:function(){
 		return (
-			<zn.react.Page loading={!this.state.items} title={this.props.title} >
+			<zn.react.Page loading={!this.state.items} title={'参数设置: ' + this.state._id} >
 				<div style={{ backgroundColor: '#FFF' }}>
 				{
 					this.state.items && <zn.react.Form

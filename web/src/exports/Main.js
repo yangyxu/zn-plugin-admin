@@ -71,6 +71,7 @@ var _exports = React.createClass({
 		if(!this.state.base){
 			return <zn.react.DataLoader content="正在加载中..." loader="timer" />;
 		}
+		
 		return (
 			<div className="zn-plugin-admin-main">
 				<img className="background-image" src={this.state.base.main_background_image} />
@@ -106,7 +107,7 @@ var _exports = React.createClass({
 							<NavigationBar data={this.state.menus} />
 						</div>
 						<div className="page-view">
-							{this.props.view && <this.props.view {...this.props.request.search} />}
+							{this.props.view && <this.props.view request={this.props.request} />}
 						</div>
 					</div>
 				</div>
