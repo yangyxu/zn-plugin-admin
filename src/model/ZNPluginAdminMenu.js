@@ -5,7 +5,6 @@ zn.define(function () {
     return zn.Model("zn_plugin_admin_menu", {
         mixins: [
             model.Base,
-            model.Tag,
             model.Tree,
             model.Rights
         ],
@@ -13,22 +12,27 @@ zn.define(function () {
             icon: {
                 value: null,
                 type: ['varchar', 50],
-                default: ''
+                default: '',
+                title: '图标',
+                inputType: ''
             },
             img: {
                 value: null,
                 type: ['varchar', 200],
-                default: ''
+                default: '',
+                title: '图片'
             },
             url: {
                 value: null,
                 type: ['varchar', 200],
-                default: ''
+                default: '',
+                title: '链接'
             },
             path: {
                 value: null,
                 type: ['varchar', 200],
-                default: ''
+                default: '',
+                title: '路径'
             }
         }
     });

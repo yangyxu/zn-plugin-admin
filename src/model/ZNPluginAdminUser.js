@@ -71,6 +71,12 @@ zn.define(['node:chinese-to-pinyin'], function (pinyin) {
                 convert: 'zn_plugin_admin_convert_roles({})',
                 default: ','
             },
+            agents: {
+                value: null,
+                type: ['varchar', 500],
+                convert: 'zn_plugin_admin_convert_users({})',
+                default: ','
+            },
             email: {
                 value: null,
                 type: ['varchar', 50],

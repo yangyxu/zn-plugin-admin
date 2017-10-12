@@ -5,7 +5,6 @@ zn.define(function () {
     return zn.Model("zn_plugin_admin_project", {
         mixins: [
             model.Base,
-            model.Tag,
             model.Tree,
             model.Rights
         ],

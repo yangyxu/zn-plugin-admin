@@ -35,14 +35,14 @@ module.exports = React.createClass({
 	render:function(){
 		return (
 			<zn.react.Page loading={!this.state.items} title={'参数设置: ' + this.state._id} >
-				<div style={{ backgroundColor: '#FFF' }}>
+				<div style={{ backgroundColor: '#FFF', padding: 5 }}>
 				{
 					this.state.items && <zn.react.Form
 									items={this.state.items}
 									action="/zn.plugin.admin/config/updateBy_id"
 									merge="updates"
 									exts={{
-										_id: this.props._id
+										_id: this.state._id
 									}}
 									/>
 				}

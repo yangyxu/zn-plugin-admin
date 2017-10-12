@@ -12,18 +12,22 @@
     },
     {
         "zn_tree_pid": 2,
-        "zn_title": "行政部"
+        "zn_title": "行政部",
+        "type": 1
     },
     {
         "zn_tree_pid": 3,
-        "zn_title": "行政部"
+        "zn_title": "行政部",
+        "type": 1
     },
     {
         "zn_tree_pid": 3,
-        "zn_title": "技术部"
+        "zn_title": "技术部",
+        "type": 1
     },
     {
         "zn_tree_pid": 3,
-        "zn_title": "财务部"
+        "zn_title": "财务部",
+        "type": 1
     }
 ]

@@ -28,7 +28,7 @@ module.exports = React.createClass({
 				{ title: '_value', name: '_value', type: 'Input' },
 				{ title: 'ref_id', name: 'ref_id', type: 'Input' },
 				{ title: 'var_id', name: 'var_id', type: 'Input' },
-				{ title: 'InputType', name: 'input_type', type: 'Select', data: ['Input', 'ImageUploader', 'FileUploader', 'Textarea', 'Richarea'] },
+				{ title: 'InputType', name: 'input_type', type: 'Menu', data: ['Input', 'ImageUploader', 'FileUploader', 'Textarea', 'RichEditor'] },
 				{ title: 'DataType', name: 'data_type', type: 'Input' },
 				{ title: 'RichValue', name: '_rich_value', type: 'Textarea' }
 			],

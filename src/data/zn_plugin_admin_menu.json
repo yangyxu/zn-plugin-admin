@@ -36,8 +36,14 @@
     },
     {
         "zn_tree_pid": 3,
-        "zn_title": "系统配置",
-        "icon": "fa-gears",
+        "zn_title": "基础配置",
+        "icon": "fa-gear",
         "url": "/znpluginadmin.setting.base"
+    },
+    {
+        "zn_tree_pid": 3,
+        "zn_title": "配置管理",
+        "icon": "fa-gears",
+        "url": "/znpluginadmin.setting.config"
     }
 ]

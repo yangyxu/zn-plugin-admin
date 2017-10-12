@@ -1,6 +1,6 @@
 var React = require('react');
-var NavigationBar = require('../widget/NavigationBar');
-var UserSessionInfo = require('../widget/UserSessionInfo');
+var NavigationBar = require('../component/basic/NavigationBar');
+var UserSessionInfo = require('../component/basic/UserSessionInfo');
 var _exports = React.createClass({
 	getInitialState:function(){
 		return {
@@ -46,9 +46,14 @@ var _exports = React.createClass({
 	},
 	__loadUserRights: function (){
 		zn.http.get('/zn.plugin.admin/user/getUserRightsMenus').then(function (data){
-			this.setState({
-				menus: data.result
-			});
+			if(data.status == 200){
+				this.setState({
+					menus: data.result
+				});
+			}else {
+				zn.notification.error('Session失效请重新登录, 谢谢！');
+				zn.react.session.doHome();
+			}
 		}.bind(this));
 	},
 	__onSessionClick: function (){
@@ -71,7 +76,7 @@ var _exports = React.createClass({
 		if(!this.state.base){
 			return <zn.react.DataLoader content="正在加载中..." loader="timer" />;
 		}
-		
+
 		return (
 			<div className="zn-plugin-admin-main">
 				<img className="background-image" src={this.state.base.main_background_image} />

@@ -133,26 +133,22 @@ zn.define(function () {
                     });
                 }
             },
-            selectAllChildByPid: {
+            orderTreeNode: {
                 method: 'GET/POST',
                 argv: {
                     model: null,
-                    pid: null
+                    id: null,
+                    order: 'up'
                 },
                 value: function (request, response, chain){
                     var _values = request.getValue(),
-                        _collection = this.collection(_values.model),
-                        _pid = _values.pid;
-                    _values.where = [
-                        "locate('," + _pid + ",', zn_tree_parent_path)<>0"
-                    ];
-
-                    if(_collection){
-                        _collection.select(_values)
-                                    .then(function(data){
+                        _collection = this.collection(_values.model);
+                    if(_collection && _collection.orderTreeNode){
+                        _collection.orderTreeNode(request.getValue('id'), request.getValue('order'))
+                                    .then(function (data){
                                         response.success(data);
-                                    }, function (data){
-                                        response.error(data);
+                                    }, function (err){
+                                        response.error(err);
                                     });
                     }else {
                         response.error('Model is not exist!');
@@ -162,20 +158,44 @@ zn.define(function () {
             getAllByPid: {
                 method: 'GET/POST',
                 argv: {
+                    model: null,
+                    pid: null,
+                    parse: 1
+                },
+                value: function (request, response, chain){
+                    var _values = request.getValue(),
+                        _collection = this.collection(_values.model);
+                    _values.where = "locate(',{0},', zn_tree_parent_path)<>0".format(_values.pid);
+                    _values.order = { zn_tree_order: 'asc' };
+                    if(_collection){
+                        _collection.select(_values)
+                                    .then(function (data){
+                                        response.success(request.getInt('parse')?zn.data.arrayToTree(data, { pid: 'zn_tree_pid' }):data);
+                                    }, function (err){
+                                        response.error(err);
+                                    });
+                    }else {
+                        response.error('Model is not exist!');
+                    }
+                }
+            },
+            getByPid: {
+                method: 'GET/POST',
+                argv: {
                     pid: null,
                     fields: ''
                 },
                 value: function (request, response, chain){
                     var _values = request.getValue(),
                         _collection = this.collection(_values.model);
-                    _values.where = "locate(',{0},', zn_tree_parent_path)<>0".format(_values.pid);
+                    _values.where = "zn_tree_pid={0}".format(_values.pid);
                     _values.order = {
-                        treeOrder: 'asc'
+                        zn_tree_order: 'asc'
                     }
                     if(_collection){
                         _collection.select(_values)
                                     .then(function (data){
-                                        response.success(zn.data.arrayToTree(data));
+                                        response.success(data);
                                     }, function (err){
                                         response.error(err);
                                     });
@@ -187,8 +207,7 @@ zn.define(function () {
             selectOne: {
                 method: 'GET/POST',
                 argv: {
-                    model: null,
-                    fields: '*',
+                    model: null
                 },
                 value: function (request, response, chain){
                     var _values = request.getValue(),

@@ -5,7 +5,7 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
             logout: {
                 method: 'GET/POST',
                 value: function (request, response, chain){
-                    var _user = request.session.getItem('@AdminUser');
+                    var _user = request.getSession();
                     if(_user){
                         this.collection('ZNPluginAdminUserLog').insert({
                             user_id: _user.id,
@@ -28,39 +28,43 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                     password: null
                 },
                 value: function (request, response, chain){
-                    this.collection('ZNPluginAdminUser').selectOne({
-                        where: request.getValue()
-                    }).then(function (user){
-                        if(user){
-                            request.session.setItem('@AdminUser', user);
-                            response.success(user);
-                            this.collection('ZNPluginAdminUser').update({
-                                updates: {
-                                    last_login_time: '{now()}'
-                                },
-                                where: {
-                                    id: user.id
-                                }
-                            });
-                        } else {
-                            response.error('用户名或密码不对');
-                        }
-                    }.bind(this), function (err){
-                        response.error(JSON.stringify(err));
-                    });
+                    var _user = null;
+                    this.beginTransaction()
+                        .query("select * from zn_plugin_admin_user where (name='{0}' or email='{0}') and password='{1}';".format(request.getValue('name'), request.getValue('password')))
+                        .query('update login time', function (sql, rows){
+                            if(rows.length){
+                                _user = rows[0];
+                                return "update zn_plugin_admin_user set last_login_time=now() where id={0};".format(_user.id);
+                            }else {
+                                return response.error('用户名或密码错误'), -1;
+                            }
+                        }, function (err){
+                            if(err){
+                                response.error(err);
+                            }else {
+                                _user.password = null;
+                                delete _user.password;
+                                request.setSession(_user);
+                                response.success(_user);
+                            }
+                        }).commit();
                 }
             },
             getUserRightsMenus: {
                 method: 'GET/POST',
                 value: function (request, response, chain){
                     var _pid = 2;
+                    if(!!!request.getSessionValueByKey('id')){
+                        return response.error('Session过期, 请重新登录!');
+                    }
                     this.collection('ZNPluginAdminMenu').select({
                         fields: ['id', 'zn_tree_pid','zn_title','url','icon'],
                         order: {
                             zn_tree_order: 'asc'
                         },
                         where: [
-                            "locate('," + _pid + ",', zn_tree_parent_path)<>0"
+                            "locate('," + _pid + ",', zn_tree_parent_path)<>0",
+                            " and " + zn.sql.rights()
                         ]
                     }).then(function (data){
                         response.success(zn.data.arrayToTree(data, { pid: 'zn_tree_pid' }));
@@ -72,7 +76,7 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
             getSession: {
                 method: 'GET',
                 value: function (request, response, chain){
-                    response.success(request.session.getItem('@AdminUser'));
+                    response.success(request.getSession());
                 }
             },
             updateUser: {
