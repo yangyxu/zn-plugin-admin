@@ -99,7 +99,7 @@ module.exports = React.createClass({
 							}
 
 							return <li key={index} className={'user '+(_selected?'selected':'')} onClick={()=>this.__onUserClick(user)}>
-								<img className="avatar" src={zn.http.fixURL(user.avatar_img)} />
+								<img className="avatar" src={zn.http.fixURL(user.avatar_img)||'./images/DefaultAvatar.png'} />
 								<span className="name" dangerouslySetInnerHTML={{ __html: _name }} ></span>
 							</li>;
 						}.bind(this))
@@ -139,8 +139,10 @@ module.exports = React.createClass({
 						{ index: 0, text: '首字母', icon: 'fa-font' },
 						{ index: 1, text: '所属部门', icon: 'fa-sitemap' }
 					]} />
-				{this.__renderView()}
-				{this.__renderUsers()}
+				<div className="user-selector">
+					{this.__renderView()}
+					{this.__renderUsers()}
+				</div>
 			</div>
 		);
 	}

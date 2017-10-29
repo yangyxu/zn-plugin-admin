@@ -14,7 +14,7 @@ module.exports = React.createClass({
 					merge="updates"
 					action='/zn.plugin.admin/model/update'
 					exts={{model: this.props.model, where: { id: this.props.data.value }}}
-					value={this.props.data.data}
+					value={zn.store.post("/zn.plugin.admin/model/selectOne", { model: this.props.model, where: { id: this.props.data.value } })}
 					items={this.props.fields}
 					onSubmitSuccess={this.__onSubmitSuccess} />}
 			</div>

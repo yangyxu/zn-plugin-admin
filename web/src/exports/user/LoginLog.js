@@ -8,7 +8,10 @@ module.exports = React.createClass({
 	getInitialState: function () {
 		return {
 			data: zn.store.post('/zn.plugin.admin/model/paging', {
-				model: this.props.model
+				model: this.props.model,
+				where: {
+					user_id: this.props.request.search.userId
+				}
 			}),
 			items: [
 				{ title: '操作人', name: 'user_id_convert', width: 100 },

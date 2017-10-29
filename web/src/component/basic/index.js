@@ -1,4 +1,5 @@
 module.exports = zn.arrayValueToObject([
+    'FormDesigner',
     'LetterSelector',
     'ModelEditor',
     'NavigationBar',

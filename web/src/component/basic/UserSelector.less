@@ -1,18 +1,40 @@
 .zn-plugin-admin-user-selector{
+
+    .user-selector{
+        display: flex;
+        &>div{
+            margin: 3px 0px;
+            padding: 3px;
+            max-height: 240px;
+            box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+            overflow: auto;
+            &:first-child{
+                width: 180px !important;
+                margin-right: 3px;
+            }
+        }
+
+    }
+
     .user-view{
-        border-top: 1px dashed #e4e2e2;
+        flex: 1;
         .search-input{
             line-height: 20px !important;
         }
         .users{
             overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
             li{
                 padding: 2px 4px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 &.user{
                     position: relative;
-                    float: left;
                     cursor: pointer;
-                    margin: 5px 3px;
+                    margin: 3px;
                     border-radius: 2px;
                     border: 1px solid #f3f3f3;
                     text-align: center;
@@ -20,7 +42,9 @@
                     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
                     min-width: 28px;
                     .avatar{
-
+                        width: 16px;
+                        height: 16px;
+                        margin: 3px;
                     }
                     .name{
 

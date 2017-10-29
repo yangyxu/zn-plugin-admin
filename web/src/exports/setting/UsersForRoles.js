@@ -3,7 +3,8 @@ module.exports = React.createClass({
 	getInitialState: function () {
 		return {
 			data: zn.store.post('/zn.plugin.admin/model/paging', {
-				model: 'ZNPluginAdminUser'
+				model: 'ZNPluginAdminUser',
+				where: this.props.roleId ? "locate('," + this.props.roleId + ",',role_ids) <> 0" : null
 			})
 		}
 	},
@@ -16,25 +17,19 @@ module.exports = React.createClass({
 	},
 	__onUserClick: function (event, item, index){
 		event.stopPropagation();
-		zn.react.session.jump('/znpluginadmin.user.info', { userId: item.id });
+		zn.react.session.relativeJump('/znpluginadmin.user.infoedit', { userId: item.id });
 	},
 	__itemRender: function (item, index){
-		return <div className="user-item">
-			<img className="avatar" src={zn.http.fixURL(item.avatar_img)} />
-			<div className="details">
-				<span className="last-logintime">{item.last_login_time||'还未登陆'}</span>
-				<div className="name" onClick={(event)=>this.__onUserClick(event, item, index)}>{item.name}</div>
-				<div><i className="fa fa-clock-o" />创建时间：{item.zn_create_time}</div>
-				<div><i className="fa fa-envelope" />邮箱：{item.email}</div>
-				<div><i className="fa fa-phone" />手机号：{item.phone}</div>
-			</div>
+		return <div className="user">
+			<img className="avatar" src={item.avatar_img?zn.http.fixURL(item.avatar_img):"./images/DefaultAvatar.png"} />
+			<div className="name" onClick={(event)=>this.__onUserClick(event, item, index)}>{item.name}</div>
 		</div>;
 	},
 	render:function(){
 		return (
 			<zn.react.PagerView
 				view="ListView"
-				className="zr-list-view-border"
+				className="zn-plugin-admin-users-for-roles"
 				textKey="name"
 				valueKey="id"
 				selectMode="none"

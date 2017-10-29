@@ -1,0 +1,36 @@
+.zn-plugin-admin-users-for-roles{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .content-view{
+        overflow: unset;
+    }
+    .user{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        &>*{
+            transition: all ease-in 200ms;
+        }
+        .avatar{
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+        }
+        .name{
+            font-size: 14px;
+            line-height: 30px;
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+        &:hover{
+            font-weight: bold;
+            color: #3498db;
+            .avatar{
+                box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+            }
+        }
+    }
+}

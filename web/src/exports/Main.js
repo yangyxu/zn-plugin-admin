@@ -71,6 +71,14 @@ var _exports = React.createClass({
 			});
 		});
 	},
+	__onMenuClick: function (){
+		zn.modal.open(<NavigationBar onMenuItemClick={()=>zn.modal.close()} style={{backgroundColor: '#000', overflow:'auto'}} data={this.state.menus} />, {
+			modalStyle: {overflow:'auto'},
+			className: 'modal-left',
+			isMode: true,
+			removeSelf: false
+		});
+	},
 	render:function(){
 		if(!zn.react.session.validate()){ return false; }
 		if(!this.state.base){
@@ -83,20 +91,26 @@ var _exports = React.createClass({
 				<div className="section-head">
 					<div className="warp">
 						<div className="head-left">
-							<img className="company-logo" src={this.state.base.company_logo} />
-							<div className="company-title">{this.state.base.company_title}</div>
+							<div className="wap">
+								<i onClick={this.__onMenuClick} className="fa fa-bars" />
+								<img className="company-logo" src={this.state.base.company_logo} />
+							</div>
+							<div className="web">
+								<img className="company-logo" src={this.state.base.company_logo} />
+								<div className="company-title">{this.state.base.company_title}</div>
+							</div>
 						</div>
 						<div className="head-right">
 							<ul className="link-nav">
 								<li><a href={this.state.base.company_website}>官网</a></li>
 								<li><a href={this.state.base.company_website}>下载</a></li>
 							</ul>
-							<div className="user-session" onClick={this.__onSessionClick}>
-								<figure className="avatar">
-									<img src={zn.http.fixURL(zn.react.session.json().avatar_img)||'./images/DefaultAvatar.png'} />
+							<div className="user-session" >
+								<figure className="avatar" onClick={()=>zn.react.session.relativeJump('/znpluginadmin.user.info')}>
+									<img data-tooltip="查看我的个人信息" src={zn.http.fixURL(zn.react.session.json().avatar_img)||'./images/DefaultAvatar.png'} />
 								</figure>
 								<span className="name">{zn.react.session.json().name}</span>
-								<i className="fa fa-angle-down" />
+								<i className="fa fa-angle-down" onClick={this.__onSessionClick} />
 							</div>
 							<div className="icons">
 								<i onClick={this.__onMessage} className="fa fa-comment-o" title="消息" />
@@ -118,7 +132,7 @@ var _exports = React.createClass({
 				</div>
 				<div className="section-foot">
 					<div className="warp">
-						<div className="TM">{this.state.base.company_tm}</div>
+						<div className="TM"><a href="http://www.youyangit.com"><img src="./images/youyangit-logo.png" />上海佑洋信息科技有限公司</a> 提供技术支持</div>
 					</div>
 				</div>
 			</div>

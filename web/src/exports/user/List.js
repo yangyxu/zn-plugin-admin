@@ -11,13 +11,16 @@ module.exports = React.createClass({
 				model: this.props.model
 			}),
 			items: [
-				{ title: '用户名', name: 'name', width: 80 },
-				{ title: '邮箱', name: 'email', width: 200 },
+				{ title: '用户名', name: 'name', width: 120 },
+				{ title: '邮箱', name: 'email', width: 140 },
 				{ title: '手机号', name: 'phone', width: 120 },
+				{ title: '角色', name: 'role_ids_convert', width: 120 },
+				{ title: '代理人', name: 'agents_convert', width: 120 },
 				{ title: '地址', name: 'address', width: 200 },
 				{ title: '说明', name: 'zn_note' }
 			],
 			formItems: [
+				{ title: '头像', name: 'avatar_img', type: 'ImageUploader' },
 				{ title: '用户名', name: 'name', type: 'Input', required: true, error: '用户名必填项!' },
 				{ title: '邮箱', name: 'email', type: 'Input' },
 				{ title: '手机号', name: 'phone', type: 'Input' },
@@ -48,10 +51,10 @@ module.exports = React.createClass({
 		zn.dialog({
 			title: '更新用户信息',
 			content: <zn.react.Form
+				merge="updates"
 				action='/zn.plugin.admin/model/update'
 				exts={{ model: this.props.model, where: {id: data.id} }}
-				merge="updates"
-				data={data}
+				value={zn.store.post('/zn.plugin.admin/model/selectOne', { model: this.props.model, where: {id: data.id} })}
 				onSubmitSuccess={this.__doSuccess}
 				items={this.state.formItems} />
 		});
@@ -88,7 +91,11 @@ module.exports = React.createClass({
 	__onTableColumnRender: function (rowIndex, columnIndex, data, item, value){
 		switch (columnIndex) {
 			case 1:
-				return <a href={'#'+zn.react.session.fixPath('/znpluginadmin.user.info')+'?userId=' + data.id}>{value}</a>;
+				return <div style={{ display: 'flex', alignItems: 'center' }}>
+					<i onClick={()=>this.__updateItem(data)} className="fa fa-edit zr-padding-3" />
+					{data.avatar_img && <img className="avatar" style={{ width: 16, height: 16, margin: 5, borderRadius: 16 }} src={data.avatar_img} />}
+					<a href={'#'+zn.react.session.fixPath('/znpluginadmin.user.infoedit')+'?userId=' + data.id}>{value}</a>
+				</div>;
 		}
 	},
 	render:function(){

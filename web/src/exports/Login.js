@@ -121,7 +121,7 @@ var exports = React.createClass({
 				</div>
 				<div className="section-foot">
 					<div className="warp">
-						<div className="TM">{this.state.base.company_tm}</div>
+						<div className="TM"><a href="http://www.youyangit.com"><img src="./images/youyangit-logo.png" />上海佑洋信息科技有限公司</a> 提供技术支持</div>
 					</div>
 				</div>
 			</div>

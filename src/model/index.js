@@ -1,6 +1,8 @@
 zn.define([
     './ZNPluginAdminConfig',
     './ZNPluginAdminMenu',
+    './ZNPluginAdminMenuTable',
+    './ZNPluginAdminMenuTableField',
     './ZNPluginAdminProject',
     './ZNPluginAdminProjectBug',
     './ZNPluginAdminRole',

@@ -117,7 +117,7 @@ returns int
 begin
 	declare _index int default 0;
 	declare _split int default 0;
-	declare _roleId int default 0;
+	declare _roleId varchar(10) default '';
 	declare _len int default 0;
 	set _index = locate($userId, $users);
 	if _index > 0 then

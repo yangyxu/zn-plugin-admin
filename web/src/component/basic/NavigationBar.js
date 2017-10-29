@@ -23,12 +23,13 @@ module.exports = React.createClass({
 	},
 	__onSubItemClick: function (item, index){
 		if(item.url){
+			this.props.onMenuItemClick && this.props.onMenuItemClick(item, index);
 			zn.react.session.relativeJump(item.url);
 		}
 	},
 	render:function(){
 		return (
-			<div className="zn-plugin-admin-navigation-bar">
+			<div className="zn-plugin-admin-navigation-bar" style={this.props.style}>
 				<ul className="menu-list">
 					{
 						this.props.data.map(function (item, index){

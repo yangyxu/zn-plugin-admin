@@ -1,0 +1,52 @@
+.zn-plugin-admin-dashboard {
+    padding: 15px;
+    .info-form{
+        display: flex;
+        flex-direction: row;
+        padding: 8px;
+        /*border: 2px dashed #e6e6e6;*/
+        border-radius: 3px;
+        background-color: #FFF;
+        margin: 10px 0px;
+        position: relative;
+        min-height: 64px;
+        .avatar{
+            border-radius: 5px;
+            width: 64px;
+            height: 64px;
+            margin-top: 30px;
+            margin-left: 10px;
+        }
+        .details{
+            position: relative;
+            flex: 1;
+            margin: 20px;
+            .last-logintime{
+                position: absolute;
+                border: 1px solid #494d50;
+                border-radius: 3px;
+                padding: 0px 5px;
+                font-size: 10px;
+                top: -20px;
+                right: -20px;
+                cursor: pointer;
+                &:hover{
+                    background-color: #494d50;
+                    color: #FFF;
+                }
+            }
+            .name{
+                font-size: 22px;
+                font-weight: bold;
+            }
+            .item{
+                line-height: 30px;
+                .fa{
+                    padding: 3px;
+                    width: 20px;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}

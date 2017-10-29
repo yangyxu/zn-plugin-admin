@@ -86,16 +86,37 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                     userId: null
                 },
                 value: function (request, response, chain){
-                    this.collection('ZNPluginAdminUser').update({
-                        updates: request.getValue('data'),
-                        where: {
+                    this.collection('ZNPluginAdminUser')
+                        .update(request.getValue('data'), {
                             id: request.getValue('userId')
-                        }
-                    }).then(function (){
-                        response.success('update success');
-                    }, function (err){
-                        response.error(err);
-                    });
+                        }).then(function (){
+                            response.success('update success');
+                        }, function (err){
+                            response.error(err);
+                        });
+                }
+            },
+            getUserAvatar: {
+                method: 'GET/POST',
+                argv: {
+                    userId: null
+                },
+                value: function (request, response, chain){
+                    this.beginTransaction()
+                        .query(zn.sql.select({
+                            table: "zn_plugin_admin_user",
+                            fields: 'avatar_img',
+                            where: {
+                                id: request.getValue('userId')
+                            }
+                        }), null, function (err, rows){
+                            if(err){
+                                response.error('未查到该用户');
+                            }else {
+                                response.success(_user);
+                            }
+                        })
+                        .commit();
                 }
             },
             findUserById: {
@@ -104,15 +125,38 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                     userId: null
                 },
                 value: function (request, response, chain){
-                    this.collection('ZNPluginAdminUser').select({
-                        where: {
-                            id: request.getValue('userId')
-                        }
-                    }).then(function (data){
-                        response.success(data[0]);
-                    }, function (err){
-                        response.error(err);
-                    });
+                    var _user = null;
+                    this.beginTransaction()
+                        .query(zn.sql.select({
+                            table: "zn_plugin_admin_user",
+                            fields: 'id, name, agents, zn_plugin_admin_convert_users(agents) as agents_convert, role_ids, pin_yin, pin_yin_first_char, first_char, email, phone, address, avatar_img, last_login_time, zn_create_time',
+                            where: {
+                                id: request.getValue('userId')
+                            }
+                        }))
+                        .query("select role info", function (sql, rows){
+                            if(rows.length){
+                                _user = rows[0];
+                                var _roleId = _user.role_ids;
+                                if(_roleId[0] == ','){
+                                    _roleId = '0' + _roleId;
+                                }
+                                if(_roleId[_roleId.length-1] == ','){
+                                    _roleId = _roleId + '0';
+                                }
+                                return "select type, zn_title from zn_plugin_admin_role where id in (" + _roleId + ")";
+                            }else {
+                                return response.error('未查到该用户'), false;
+                            }
+                        }, function (err, rows){
+                            if(err){
+                                response.error('未查到该用户');
+                            }else {
+                                _user.roles = rows;
+                                response.success(_user);
+                            }
+                        })
+                        .commit();
                 }
             }
         }

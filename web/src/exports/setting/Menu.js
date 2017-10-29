@@ -1,45 +1,44 @@
 var React = require('react');
 var TreeModelView = require('../../component/model/TreeModelView');
 var ModelEditor = require('../../component/basic/ModelEditor');
-var VarPanel = React.createClass({
+var FormDesigner = require('../../component/basic/FormDesigner');
+
+var MenuInfo = React.createClass({
 	getInitialState: function (){
 		return {
-			typeIndex: 0
-		}
-	},
-	__onListViewItemClick: function (event, item, index){
-		this.setState({typeIndex: index});
+			currIndex: 0
+		};
 	},
 	__renderBody: function (){
-		console.log(this.props);
-		return <ModelEditor  />;
-		/*
-		switch (this.state.typeIndex) {
+		switch (this.state.currIndex) {
 			case 0:
-				return <RightsSetting model={_treeModel.props.model} id={_treeModel.state.currItem?_treeModel.state.currItem.props.data.id:null}  />;
+				return <ModelEditor {...this.props}/>;
 			case 1:
-				if(_treeModel.state.currItem){
-					return <Var menuId={_treeModel.state.currItem.props.data.id} pid={2} />
-				}else {
-					return <div style={{textAlign:'center'}}>请先选中菜单</div>;
-				}
-		}*/
+				return <div style={{textAlign:'center'}}>还在开发中...</div>;
+			case 2:
+				return <FormDesigner menuId={this.props.data.value} />;
+		}
 	},
 	render: function (){
-		return this.__renderBody();
 		return (
-			<zn.react.ActivityLayout direction="top-bottoom" begin={40} barWidth={3}>
+			<div className="zr-flex-layout">
 				<zn.react.ListView
-					className="zr-list-view-tab"
-					fireIndex={0}
-					onClick={this.__onListViewItemClick}
-					itemRender={(item, index)=>{ return <span><i style={{marginRight:5}} className={'fa ' + item.icon} />{item.text}</span>;}}
+					className="layout-header zr-tab-ios"
+					style={{margin: 5}}
+					selectMode="radio"
+					textKey="text"
+					valueKey="index"
+					onClick={(value)=>this.setState({ currIndex: value.item.index })}
+					value={this.state.currIndex}
 					data={[
-						{ text: '权限设置', icon: 'fa-yelp' },
-						{ text: '资源管理', icon: 'fa-table' }
+						{ index: 0, text: '基本信息', icon: 'fa-list-alt' },
+						{ index: 1, text: '资源管理', icon: 'fa-table' },
+						{ index: 2, text: '表单定义', icon: 'fa-server' }
 					]} />
-				{this.__renderBody()}
-			</zn.react.ActivityLayout>
+				<div className="layout-body">
+					{this.__renderBody()}
+				</div>
+			</div>
 		);
 	}
 });
@@ -79,11 +78,15 @@ module.exports = React.createClass({
 		};
 	},
 	__rightRender: function (data){
-		return <VarPanel {...data} />;
+		if(!data.data.zn_tree_type){
+			return null;
+		}
+
+		return <MenuInfo {...this.props} data={data} />;
 	},
 	render:function(){
 		return (
-			<TreeModelView {...this.props}/>
+			<TreeModelView {...this.props} rightRender={this.__rightRender} />
 		);
 	}
 });

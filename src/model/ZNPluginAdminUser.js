@@ -25,9 +25,9 @@ zn.define(['node:chinese-to-pinyin'], function (pinyin) {
             pin_yin: {
                 value: null,
                 type: ['varchar', 20],
-                get: function (){
-                    if(this.get('name')){
-                        return pinyin(this.get('name'), { noTone: true, filterChinese: true });
+                get: function (name, prop, values){
+                    if(values.name){
+                        return pinyin(values.name, { noTone: true, filterChinese: true });
                     }else {
                         return '';
                     }
@@ -36,10 +36,10 @@ zn.define(['node:chinese-to-pinyin'], function (pinyin) {
             pin_yin_first_char: {
                 value: null,
                 type: ['varchar', 20],
-                get: function (){
-                    if(this.get('name')){
+                get: function (name, prop, values){
+                    if(values.name){
                         var _firsts = [];
-                        zn.each(pinyin(this.get('name'), {
+                        zn.each(pinyin(values.name, {
                             noTone: true,
                             filterChinese: true
                         }).split(' '), function (value, index){
@@ -55,9 +55,9 @@ zn.define(['node:chinese-to-pinyin'], function (pinyin) {
             first_char: {
                 value: null,
                 type: ['varchar', 2],
-                get: function (){
-                    if(this.get('name')){
-                        return pinyin(this.get('name'), {
+                get: function (name, prop, values){
+                    if(values.name){
+                        return pinyin(values.name, {
                             noTone: true, filterChinese: true
                         })[0].toUpperCase();
                     }else {

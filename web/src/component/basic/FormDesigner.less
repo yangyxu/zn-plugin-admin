@@ -1,0 +1,102 @@
+.admin-button{
+    text-align: center;
+    cursor: pointer;
+    transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #FFF;
+    margin: 10px;
+    padding: 3px;
+    color: #ee6723;
+    border-radius: 4px;
+    &:hover{
+        box-shadow: 0 2px 6px 0 rgba(87, 71, 81, 0.2);
+        opacity: 0.9;
+    }
+}
+
+.zn-plugin-admin-form-designer{
+
+    .deputy-tables{
+        padding: 5px 0px;
+        .title{
+            text-align: center;
+            border-top: 1px solid rgba(165, 165, 165, 0.8);
+            margin-top: 10px;
+            span{
+                position: relative;
+                top: -12px;
+                background-color: #FFF;
+                border-radius: 2px;
+                z-index: 1;
+                padding: 5px 10px;
+            }
+        }
+    }
+
+    .table{
+        background-color: #FFF;
+        border-radius: 4px;
+        padding: 10px;
+        margin: 5px;
+        .table-info{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0px;
+            color: #716f6f;
+            border-bottom: 1px solid rgba(188, 181, 185, 0.7);
+            .name{
+                padding: 2px 8px;
+                .fa{
+                    padding: 5px;
+                    cursor: pointer;
+                    &:hover{
+                        color: #f0ad4e;
+                    }
+                }
+            }
+            .time{
+                font-weight: 200;
+                font-size: 12px;
+            }
+        }
+
+        .table-fields{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 3px;
+            .table-field{
+                margin: 3px;
+                padding: 4px;
+                font-size: 13px;
+                border-radius: 3px;
+                background-color: #ece9e9;
+                &:hover{
+                    background-color: #ccc4c4;
+                }
+                .name{
+                    padding: 0px 10px;
+                }
+                .fa{
+                    width: 16px;
+                    padding: 3px;
+                    cursor: pointer;
+                    text-align: center;
+                    &:hover{
+                        color: #ea706c;
+                    }
+                }
+            }
+        }
+        .toolbar{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 5px 0px;
+            div{
+                display: flex;
+            }
+        }
+    }
+}
