@@ -41,7 +41,7 @@ module.exports = React.createClass({
 	},
 	render:function(){
 		return (
-			<zn.react.Page className="zn-plugin-admin-tree-model-view" title={this.props.title} >
+			<zn.react.Page className="zn-plugin-admin-tree-model-view" {...this.props} >
 				<div className="zr-flex-layout zn-plugin-admin-master-slave-flex-layout row">
 					<div className="layout-header" style={{minWidth: 200}}>
 						<TreeEditor

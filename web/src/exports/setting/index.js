@@ -2,6 +2,7 @@ module.exports = zn.arrayValueToObject([
     'Base',
     'Config',
     'Menu',
+    'MenuPage',
     'Role',
     'Var',
     'UsersForRoles'

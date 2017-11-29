@@ -74,7 +74,7 @@ module.exports = React.createClass({
 							<div className="item"><i className="fa fa-envelope" />邮箱：{this.state.info.email}</div>
 							<div className="item"><i className="fa fa-phone" />电话：{this.state.info.phone}</div>
 							{this.state.isSelf && <div className="item"><i className="fa fa-users" />代理人：{this.state.info.agents_convert}</div>}
-							<div className="item">{this.state.info.zn_note}</div>
+							{this.state.info.zn_note && <div className="item">{this.state.info.zn_note}</div>}
 						</div>
 					</div>
 					<zn.react.Card title="部门及角色">

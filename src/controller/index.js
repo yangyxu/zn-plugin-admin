@@ -6,6 +6,7 @@ zn.define([
     './Model',
     './Project',
     './Role',
+    './Table',
     './User',
     './Var'
 ]);

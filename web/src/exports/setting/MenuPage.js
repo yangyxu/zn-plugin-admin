@@ -1,23 +1,18 @@
 var React = require('react');
 module.exports = React.createClass({
-	getDefaultProps: function () {
-		return {
-			model: 'ZNPluginAdminUser'
-		};
-	},
 	getInitialState: function () {
 		return {
-			data: zn.store.post('/zn.plugin.admin/model/paging', {
-				model: this.props.model
+			data: zn.store.post('/zn.plugin.admin/menu/paging', {
+				menu: this.props.request.search.menu
 			}),
 			items: [
-				{ title: '用户名', name: 'name', width: 120, filter: { type: 'Input', opts: ['like'] } },
-				{ title: '邮箱', name: 'email', width: 140, filter: { type: 'Input', opts: ['like'] } },
-				{ title: '手机号', name: 'phone', width: 120, filter: { type: 'Input', opts: ['like'] } },
+				{ title: '用户名', name: 'name', width: 120 },
+				{ title: '邮箱', name: 'email', width: 140 },
+				{ title: '手机号', name: 'phone', width: 120 },
 				{ title: '角色', name: 'role_ids_convert', width: 120 },
 				{ title: '代理人', name: 'agents_convert', width: 120 },
-				{ title: '地址', name: 'address', width: 200, filter: { type: 'Input', opts: ['like'] } },
-				{ title: '说明', name: 'zn_note', filter: { type: 'Input', opts: ['like'] } }
+				{ title: '地址', name: 'address', width: 200 },
+				{ title: '说明', name: 'zn_note' }
 			],
 			formItems: [
 				{ title: '头像', name: 'avatar_img', type: 'ImageUploader' },
@@ -32,6 +27,9 @@ module.exports = React.createClass({
 				{ text: '删除', name: 'remove', status: 'danger', icon: 'fa-remove', style: { marginRight: 5 } }
 			]
 		}
+	},
+	componentDidMount: function (){
+
 	},
 	__doSuccess: function (){
 		this.state.data.refresh();

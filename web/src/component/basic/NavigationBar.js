@@ -25,6 +25,17 @@ module.exports = React.createClass({
 		if(item.url){
 			this.props.onMenuItemClick && this.props.onMenuItemClick(item, index);
 			zn.react.session.relativeJump(item.url);
+		}else {
+			zn.http.get('/zn.plugin.admin/menu/getMenuPrimaryInfo?menuId=' + item.id)
+				.then(function (data){
+					if(data.status==200){
+						zn.react.session.relativeJump("/znpluginadmin.setting.menupage", { menu: item.id });
+					}else {
+						zn.notification.error(data.result);
+					}
+				}, function (){
+					zn.notification.error('请求出错');
+				});
 		}
 	},
 	render:function(){

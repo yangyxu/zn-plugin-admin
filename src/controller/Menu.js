@@ -2,6 +2,64 @@ zn.define(function () {
 
     return zn.Controller('menu',{
         methods: {
+            selectMenuTableRows: {
+                method: 'GET/POST',
+                argv: {
+                    menu: null
+                },
+                value: function (request, response, chain){
+                    var _menu = request.getValue('menu');
+                    this.beginTransaction()
+                        .query(zn.sql.select({
+                            table: 'zn_plugin_admin_menu_table',
+                            where: {
+                                menu_id: _menu,
+                                parent_id: 0,
+                                has_generated: 1
+                            }
+                        }) + zn.sql.select({
+                            table: 'zn_plugin_admin_menu_table_field',
+                            where: {
+                                menu_id: _menu
+                            }
+                        }))
+                        .query('select table data', function (sql, rows){
+                            //return ;
+                        }, function (err, rows){
+                            if(err||!!rows.length){
+                                response.error(err||"未查到主表信息");
+                            }else {
+                                response.success("查到主表信息");
+                            }
+                        }).commit();
+                }
+            },
+            getMenuPrimaryInfo: {
+                method: 'GET/POST',
+                argv: {
+                    menuId: null
+                },
+                value: function (request, response, chain){
+                    var _menuId = request.getValue('menuId');
+                    this.beginTransaction()
+                        .query('select table fields', function (sql, rows){
+                            return zn.sql.select({
+                                table: 'zn_plugin_admin_menu_table',
+                                where: {
+                                    parent_id: 0,
+                                    has_generated: 1,
+                                    menu_id: +_menuId
+                                }
+                            });
+                        }, function (err, rows){
+                            if(err||!rows.length){
+                                response.error(err||"未查到主表信息");
+                            }else {
+                                response.success("查到主表信息");
+                            }
+                        }).commit();
+                }
+            },
             getMenuForm: {
                 method: 'GET/POST',
                 argv: {
