@@ -13,7 +13,8 @@ module.exports = React.createClass({
 		return {
 			currIndex: 0,
 			search: '',
-			value: this.props.mulitable ? ',' : '',
+			loading: false,
+			value: this.props.mulitable ? ',' : 0,
 			users: []
 		};
 	},
@@ -21,23 +22,38 @@ module.exports = React.createClass({
 		this.__loadUsers();
 	},
 	__onLetterChange: function __onLetterChange(value) {
-		/*
-  this.__loadUsers({
-  	firstChar: value
-  });*/
+		this.setState({
+			loading: true
+		});
+		if (value.length > 2) {
+			zn.http.get('/zn.plugin.admin/user/findUsersByChars?chars=' + value).then(function (data) {
+				this.setState({
+					loading: false,
+					users: data.result
+				});
+			}.bind(this));
+		} else {
+			this.__loadUsers();
+		}
 	},
 	__onRoleChange: function __onRoleChange(value) {
-		/*
-  this.__loadUsers({
-  	role: value
-  });*/
+		this.setState({
+			loading: true
+		});
+		zn.http.get('/zn.plugin.admin/role/getRoleUsers?role=' + value.value).then(function (data) {
+			this.setState({
+				loading: false,
+				users: data.result
+			});
+		}.bind(this));
 	},
 	__loadUsers: function __loadUsers(where) {
-		zn.http.post('/zn.plugin.admin/model/select', {
-			model: 'ZNPluginAdminUser',
-			where: where || {}
-		}).then(function (data) {
+		this.setState({
+			loading: true
+		});
+		zn.http.post('/zn.plugin.admin/user/getAllUser').then(function (data) {
 			this.setState({
+				loading: false,
 				users: data.result
 			});
 		}.bind(this));
@@ -48,7 +64,7 @@ module.exports = React.createClass({
 		});
 	},
 	__onUserClick: function __onUserClick(user) {
-		var _id = user.id + ',';
+		var _id = user.value + ',';
 		if (this.props.mulitable) {
 			if (this.state.value.indexOf(',' + _id) == -1) {
 				this.state.value = this.state.value + _id;
@@ -56,13 +72,13 @@ module.exports = React.createClass({
 				this.state.value = this.state.value.replace(',' + _id, ',');
 			}
 		} else {
-			if (this.state.value == user.id) {
+			if (this.state.value == user.value) {
 				this.state.value = null;
 			} else {
-				this.state.value = user.id;
+				this.state.value = user.value;
 			}
 		}
-
+		this.props.onUserClick && this.props.onUserClick(user);
 		this.setValue(this.state.value);
 	},
 	__onUserCheckAll: function __onUserCheckAll(event, value) {
@@ -80,15 +96,15 @@ module.exports = React.createClass({
 			'div',
 			{ className: 'user-view' },
 			React.createElement(zn.react.Search, { onSearch: this.__onSearch }),
-			React.createElement(
+			!this.state.loading ? React.createElement(
 				'ul',
 				{ className: 'users' },
 				this.state.users.map(function (user, index) {
 					var _this = this;
 
 					var _selected = false,
-					    _userId = user.id,
-					    _name = user.name;
+					    _userId = user.value,
+					    _name = user.text;
 					if (_search && _name.indexOf(_search) == -1) {
 						return null;
 					} else {
@@ -109,7 +125,11 @@ module.exports = React.createClass({
 						{ key: index, className: 'user ' + (_selected ? 'selected' : ''), onClick: function onClick() {
 								return _this.__onUserClick(user);
 							} },
-						React.createElement('img', { className: 'avatar', src: zn.http.fixURL(user.avatar_img) || './images/DefaultAvatar.png' }),
+						user.avatar_img ? React.createElement('img', { className: 'avatar', src: zn.http.fixURL(user.avatar_img) || './images/DefaultAvatar.png' }) : React.createElement(
+							'span',
+							{ className: 'first-char' },
+							user.first_char
+						),
 						React.createElement('span', { className: 'name', dangerouslySetInnerHTML: { __html: _name } })
 					);
 				}.bind(this)),
@@ -118,7 +138,7 @@ module.exports = React.createClass({
 					null,
 					React.createElement(zn.react.Checkbox, { text: '\u5168\u9009', onChange: this.__onUserCheckAll })
 				)
-			)
+			) : React.createElement(zn.react.DataLoader, { content: '\u6B63\u5728\u52A0\u8F7D...', loader: 'timer' })
 		);
 	},
 	setValue: function setValue(value) {
@@ -127,6 +147,9 @@ module.exports = React.createClass({
 		});
 	},
 	getValue: function getValue() {
+		if (!this.props.mulitable && !this.state.value) {
+			return 0;
+		}
 		return this.state.value;
 	},
 	__renderView: function __renderView() {
@@ -134,7 +157,7 @@ module.exports = React.createClass({
 			case 0:
 				return React.createElement(LetterSelector, { onChange: this.__onLetterChange });
 			case 1:
-				return React.createElement(RoleSelector, { onChange: this.__onRoleChange });
+				return React.createElement(RoleSelector, { checkboxEnabled: false, onChange: this.__onRoleChange });
 		}
 	},
 	render: function render() {

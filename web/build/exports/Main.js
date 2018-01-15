@@ -83,6 +83,33 @@ var _exports = React.createClass({
 			removeSelf: false
 		});
 	},
+	__onCompanyClick: function __onCompanyClick() {
+		zn.react.session.relativeJump('/znpluginadmin.my.dashboard');
+	},
+	__onUserClick: function __onUserClick(user) {
+		zn.preloader.open({ content: '账号切换中...' });
+		zn.http.post("/zn.plugin.admin/user/exchange", {
+			uid: user.value
+		}).then(function (data) {
+			if (data.status == 200) {
+				zn.react.session.doMain(data.result);
+				window.location.reload();
+			} else {
+				zn.notification.error('登录失败： ' + data.result);
+			}
+			zn.preloader.close();
+		}, function (err) {
+			zn.notification.error('登录失败： ' + err.message);
+			zn.preloader.close();
+		});
+	},
+	__onExchangeAccount: function __onExchangeAccount() {
+		zn.dialog({
+			title: '账号快速切换',
+			content: React.createElement(zn.plugin.admin.UserSelector, {
+				onUserClick: this.__onUserClick })
+		});
+	},
 	render: function render() {
 		if (!zn.react.session.validate()) {
 			return false;
@@ -108,11 +135,11 @@ var _exports = React.createClass({
 							'div',
 							{ className: 'wap' },
 							React.createElement('i', { onClick: this.__onMenuClick, className: 'fa fa-bars' }),
-							React.createElement('img', { className: 'company-logo', src: this.state.base.company_logo })
+							React.createElement('img', { className: 'company-logo', title: '\u8DF3\u8F6C\u4E3B\u9875\u9762', onClick: this.__onCompanyClick, src: this.state.base.company_logo })
 						),
 						React.createElement(
 							'div',
-							{ className: 'web' },
+							{ className: 'web', title: '\u8DF3\u8F6C\u4E3B\u9875\u9762', onClick: this.__onCompanyClick },
 							React.createElement('img', { className: 'company-logo', src: this.state.base.company_logo }),
 							React.createElement(
 								'div',
@@ -127,22 +154,14 @@ var _exports = React.createClass({
 						React.createElement(
 							'ul',
 							{ className: 'link-nav' },
-							React.createElement(
+							zn.DEBUG && React.createElement(
 								'li',
-								null,
+								{ onClick: this.__onExchangeAccount },
 								React.createElement(
-									'a',
-									{ href: this.state.base.company_website },
-									'\u5B98\u7F51'
-								)
-							),
-							React.createElement(
-								'li',
-								null,
-								React.createElement(
-									'a',
-									{ href: this.state.base.company_website },
-									'\u4E0B\u8F7D'
+									'span',
+									null,
+									React.createElement('i', { className: 'fa fa-exchange zr-padding-3' }),
+									'\u8D26\u53F7\u5FEB\u901F\u5207\u6362'
 								)
 							)
 						),

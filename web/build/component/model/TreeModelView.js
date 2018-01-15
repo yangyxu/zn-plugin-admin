@@ -50,7 +50,7 @@ module.exports = React.createClass({
 	render: function render() {
 		return React.createElement(
 			zn.react.Page,
-			{ className: 'zn-plugin-admin-tree-model-view', title: this.props.title },
+			_extends({ className: 'zn-plugin-admin-tree-model-view' }, this.props),
 			React.createElement(
 				'div',
 				{ className: 'zr-flex-layout zn-plugin-admin-master-slave-flex-layout row' },

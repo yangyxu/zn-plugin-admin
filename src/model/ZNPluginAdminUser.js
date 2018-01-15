@@ -12,6 +12,11 @@ zn.define(['node:chinese-to-pinyin'], function (pinyin) {
                 type: ['varchar', 100],
                 default: ''
             },
+            zn_plugin_wechat_open_id: {
+                value: null,
+                type: ['varchar', 100],
+                default: ''
+            },
             name: {
                 value: null,
                 type: ['varchar', 100],
@@ -20,7 +25,7 @@ zn.define(['node:chinese-to-pinyin'], function (pinyin) {
             password: {
                 value: null,
                 type: ['varchar', 100],
-                default: '123456'
+                default: ''
             },
             pin_yin: {
                 value: null,
@@ -96,6 +101,11 @@ zn.define(['node:chinese-to-pinyin'], function (pinyin) {
                 value: null,
                 type: ['varchar', 250],
                 default: ''
+            },
+            attachments: {
+                value: null,
+                type: ['varchar', 5000],
+                default: ','
             },
             last_login_time: {
                 value: null,

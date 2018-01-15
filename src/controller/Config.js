@@ -76,6 +76,58 @@ zn.define(['node:fs'], function (node_fs) {
                             response.error(err);
                         });
                 }
+            },
+            updateById: {
+                method: 'GET/POST',
+                argv: {
+                    id: null,
+                    updates: null
+                },
+                value: function (request, response, chain){
+                    return this.collection('ZNPluginAdminConfig')
+                                .update(request.getValue('updates'), {
+                                    id: request.getValue('id')
+                                })
+                                .then(function (data){
+                                    response.success('保存成功');
+                                }, function (err){
+                                    response.error(err);
+                                });
+                }
+            },
+            deleteBy_id: {
+                method: 'GET/POST',
+                argv: {
+                    _id: null
+                },
+                value: function (request, response, chain){
+                    return this.collection('ZNPluginAdminConfig')
+                                .delete({
+                                    _id: request.getValue('_id')
+                                })
+                                .then(function (data){
+                                    response.success('删除成功');
+                                }, function (err){
+                                    response.error(err);
+                                });
+                }
+            },
+            deleteById: {
+                method: 'GET/POST',
+                argv: {
+                    id: null
+                },
+                value: function (request, response, chain){
+                    return this.collection('ZNPluginAdminConfig')
+                                .delete({
+                                    id: request.getValue('id')
+                                })
+                                .then(function (data){
+                                    response.success('删除成功');
+                                }, function (err){
+                                    response.error(err);
+                                });
+                }
             }
         }
     });

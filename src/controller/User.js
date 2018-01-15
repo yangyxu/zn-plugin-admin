@@ -50,6 +50,34 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                         }).commit();
                 }
             },
+            exchange: {
+                method: 'GET/POST',
+                argv: {
+                    uid: null
+                },
+                value: function (request, response, chain){
+                    var _user = null;
+                    this.beginTransaction()
+                        .query("select * from zn_plugin_admin_user where id={0};".format(request.getValue('uid')))
+                        .query('update login time', function (sql, rows){
+                            if(rows.length){
+                                _user = rows[0];
+                                return "update zn_plugin_admin_user set last_login_time=now() where id={0};".format(_user.id);
+                            }else {
+                                return response.error('用户名或密码错误'), -1;
+                            }
+                        }, function (err){
+                            if(err){
+                                response.error(err);
+                            }else {
+                                _user.password = null;
+                                delete _user.password;
+                                request.setSession(_user);
+                                response.success(_user);
+                            }
+                        }).commit();
+                }
+            },
             getUserRightsMenus: {
                 method: 'GET/POST',
                 value: function (request, response, chain){
@@ -119,6 +147,24 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                         .commit();
                 }
             },
+            getAllUser: {
+                method: 'GET/POST',
+                value: function (request, response, chain){
+                    this.beginTransaction()
+                        .query(zn.sql.select({
+                            table: "zn_plugin_admin_user",
+                            fields: 'id as value, name as text, first_char, avatar_img',
+                            where: 'zn_deleted=0'
+                        }), null, function (err, rows){
+                            if(err){
+                                response.error(err);
+                            }else {
+                                response.success(rows);
+                            }
+                        })
+                        .commit();
+                }
+            },
             findUserById: {
                 method: 'GET/POST',
                 argv: {
@@ -154,6 +200,33 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                             }else {
                                 _user.roles = rows;
                                 response.success(_user);
+                            }
+                        })
+                        .commit();
+                }
+            },
+            findUsersByChars: {
+                method: 'GET/POST',
+                argv: {
+                    chars: null
+                },
+                value: function (request, response, chain){
+                    var _chars = request.getValue("chars").split(','), _temps = [];
+                    _chars.map(function (char){
+                        if(char){
+                            _temps.push("'"+char+"'");
+                        }
+                    });
+                    this.beginTransaction()
+                        .query(zn.sql.select({
+                            table: "zn_plugin_admin_user",
+                            fields: 'id as value, name as text, avatar_img, first_char',
+                            where: "first_char in ("+_temps.join(',')+")"
+                        }), null, function (err, rows){
+                            if(err){
+                                response.error(err);
+                            }else {
+                                response.success(rows);
                             }
                         })
                         .commit();
