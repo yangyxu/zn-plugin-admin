@@ -14,7 +14,7 @@ module.exports = React.createClass({
 			userId: _id,
 			isSelf: _isSelf,
 			info: null,
-			formItems: [{ title: '头像', name: 'avatar_img', type: 'ImageUploader' }, { title: '用户名', name: 'name', type: 'Label' }, { title: '密码', name: 'password', type: 'Input', attrs: { type: 'password' } }, { title: '代理人', type: zn.plugin.admin.UserSelector, mulitable: true, name: 'agents' }, { title: '邮箱', name: 'email', type: 'Input' }, { title: '手机号', name: 'phone', type: 'Input' }, { title: '地址', name: 'address', type: 'Input' }, { title: '备注', name: 'zn_note', type: 'Textarea' }],
+			formItems: [{ title: '头像', name: 'avatar_img', type: 'ImageUploader' }, { title: '用户名', name: 'name', type: 'Label' }, { title: '密码', name: 'password', type: 'Input', attrs: { type: 'password' } }, { title: '代理人', type: zn.plugin.admin.UserSelector, mulitable: true, name: 'agents' }, { title: '邮箱', name: 'email', type: 'Input' }, { title: 'QQ', name: 'qq', type: 'Input' }, { title: '微信号', name: 'wechat', type: 'Input' }, { title: '手机号', name: 'phone', required: true, type: 'Input' }, { title: '地址', name: 'address', type: 'Input' }, { title: '备注', name: 'zn_note', type: 'Textarea' }],
 			data: zn.store.post('/zn.plugin.admin/model/select', { model: 'ZNPluginAdminRole', where: { zn_tree_pid: 0 } })
 		};
 	},
@@ -88,16 +88,30 @@ module.exports = React.createClass({
 						React.createElement(
 							'div',
 							{ className: 'item' },
-							React.createElement('i', { className: 'fa fa-envelope' }),
-							'\u90AE\u7BB1\uFF1A',
-							this.state.info.email
+							React.createElement('i', { className: 'fa fa-phone' }),
+							'\u7535\u8BDD\uFF1A',
+							this.state.info.phone
 						),
 						React.createElement(
 							'div',
 							{ className: 'item' },
-							React.createElement('i', { className: 'fa fa-phone' }),
-							'\u7535\u8BDD\uFF1A',
-							this.state.info.phone
+							React.createElement('i', { className: 'fa fa-qq' }),
+							'QQ\u53F7\uFF1A',
+							this.state.info.qq
+						),
+						React.createElement(
+							'div',
+							{ className: 'item' },
+							React.createElement('i', { className: 'fa fa-weixin' }),
+							'\u5FAE\u4FE1\u53F7\uFF1A',
+							this.state.info.wechat
+						),
+						React.createElement(
+							'div',
+							{ className: 'item' },
+							React.createElement('i', { className: 'fa fa-envelope' }),
+							'\u90AE\u7BB1\uFF1A',
+							this.state.info.email
 						),
 						this.state.isSelf && React.createElement(
 							'div',

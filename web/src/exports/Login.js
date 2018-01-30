@@ -1,4 +1,5 @@
 var React = require('react');
+var QRCode = require('qrcode.react');
 var exports = React.createClass({
 	getInitialState: function (){
 		return {
@@ -21,6 +22,7 @@ var exports = React.createClass({
 					_base.login_background_image = zn.http.fixURL(_base.login_background_image);
 					_base.main_background_image = zn.http.fixURL(_base.main_background_image);
 				}
+				window.document.title = _base.company_title;
 				this.setState({
 					base: _base
 				});
@@ -93,11 +95,20 @@ var exports = React.createClass({
 				<div className="section-body zr-scroll-webkit">
 					<div className="warp" style={{width: 640}}>
 						<div className="intro">
-							<div className="qr">
-								<div style={{fontSize:20,margin: 10}}>手机客户端</div>
-								{this.state.base.client_qr_image && <img className="qr-image" src={this.state.base.client_qr_image} />}
-								<span>扫一扫立即下载</span>
-							</div>
+							{
+								this.state.base.client_qr_image && <div className="qr">
+									<div style={{fontSize:20,margin: 10}}>手机客户端</div>
+									<img className="qr-image" src={this.state.base.client_qr_image} />
+									<span>扫一扫立即下载</span>
+								</div>
+							}
+							{
+								zn.plugin.wechat && <div className="qr">
+									<div style={{fontSize:20,margin: 10}}>微信扫一扫</div>
+									<QRCode value={window.location.origin + window.location.pathname + "#/znpluginwechat.adminuserloginwithqrcode"} />
+									<span>登录/注册</span>
+								</div>
+							}
 						</div>
 						<div className="form-dialog">
 							<form className="form">

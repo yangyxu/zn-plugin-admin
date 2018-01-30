@@ -2,7 +2,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var React = require('react');
 var TreeModelView = require('../../component/model/TreeModelView');
-var ModelEditor = require('../../component/basic/ModelEditor');
 module.exports = React.createClass({
 	displayName: 'exports',
 

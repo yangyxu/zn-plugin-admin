@@ -24,6 +24,7 @@ var _exports = React.createClass({
 					_base.login_background_image = zn.http.fixURL(_base.login_background_image);
 					_base.main_background_image = zn.http.fixURL(_base.main_background_image);
 				}
+				window.document.title = _base.company_title;
 				this.setState({
 					base: _base
 				});

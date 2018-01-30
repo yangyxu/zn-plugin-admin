@@ -1,4 +1,5 @@
 var React = require('react');
+var QRCode = require('qrcode.react');
 var _exports = React.createClass({
 	displayName: 'exports',
 
@@ -23,6 +24,7 @@ var _exports = React.createClass({
 					_base.login_background_image = zn.http.fixURL(_base.login_background_image);
 					_base.main_background_image = zn.http.fixURL(_base.main_background_image);
 				}
+				window.document.title = _base.company_title;
 				this.setState({
 					base: _base
 				});
@@ -128,7 +130,7 @@ var _exports = React.createClass({
 					React.createElement(
 						'div',
 						{ className: 'intro' },
-						React.createElement(
+						this.state.base.client_qr_image && React.createElement(
 							'div',
 							{ className: 'qr' },
 							React.createElement(
@@ -136,11 +138,26 @@ var _exports = React.createClass({
 								{ style: { fontSize: 20, margin: 10 } },
 								'\u624B\u673A\u5BA2\u6237\u7AEF'
 							),
-							this.state.base.client_qr_image && React.createElement('img', { className: 'qr-image', src: this.state.base.client_qr_image }),
+							React.createElement('img', { className: 'qr-image', src: this.state.base.client_qr_image }),
 							React.createElement(
 								'span',
 								null,
 								'\u626B\u4E00\u626B\u7ACB\u5373\u4E0B\u8F7D'
+							)
+						),
+						zn.plugin.wechat && React.createElement(
+							'div',
+							{ className: 'qr' },
+							React.createElement(
+								'div',
+								{ style: { fontSize: 20, margin: 10 } },
+								'\u5FAE\u4FE1\u626B\u4E00\u626B'
+							),
+							React.createElement(QRCode, { value: window.location.origin + window.location.pathname + "#/znpluginwechat.adminuserloginwithqrcode" }),
+							React.createElement(
+								'span',
+								null,
+								'\u767B\u5F55/\u6CE8\u518C'
 							)
 						)
 					),

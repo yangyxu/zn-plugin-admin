@@ -18,7 +18,9 @@ module.exports = React.createClass({
 				{ title: '密码', name: 'password', type: 'Input', attrs: { type: 'password' } },
 				{ title: '代理人', type: zn.plugin.admin.UserSelector, mulitable: true, name: 'agents' },
 				{ title: '邮箱', name: 'email', type: 'Input' },
-				{ title: '手机号', name: 'phone', type: 'Input' },
+				{ title: 'QQ', name: 'qq', type: 'Input' },
+				{ title: '微信号', name: 'wechat', type: 'Input' },
+				{ title: '手机号', name: 'phone', required: true, type: 'Input' },
 				{ title: '地址', name: 'address', type: 'Input' },
 				{ title: '备注', name: 'zn_note', type: 'Textarea' }
 			],
@@ -71,8 +73,10 @@ module.exports = React.createClass({
 						<div className="details">
 							{this.state.isSelf && <span onClick={this.__update} className="last-logintime"><i className="fa fa-edit zr-padding-3" />修改信息</span>}
 							<div className="name">{this.state.info.name}</div>
-							<div className="item"><i className="fa fa-envelope" />邮箱：{this.state.info.email}</div>
 							<div className="item"><i className="fa fa-phone" />电话：{this.state.info.phone}</div>
+							<div className="item"><i className="fa fa-qq" />QQ号：{this.state.info.qq}</div>
+							<div className="item"><i className="fa fa-weixin" />微信号：{this.state.info.wechat}</div>
+							<div className="item"><i className="fa fa-envelope" />邮箱：{this.state.info.email}</div>
 							{this.state.isSelf && <div className="item"><i className="fa fa-users" />代理人：{this.state.info.agents_convert}</div>}
 							{this.state.info.zn_note && <div className="item">{this.state.info.zn_note}</div>}
 						</div>

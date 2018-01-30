@@ -1,5 +1,7 @@
 zn.define(['node:chinese-to-pinyin'], function (pinyin) {
 
+    zn.util.pinyin = pinyin;
+
     var model = zn.db.common.model;
 
     return zn.Model("zn_plugin_admin_user", {
@@ -11,6 +13,16 @@ zn.define(['node:chinese-to-pinyin'], function (pinyin) {
                 value: null,
                 type: ['varchar', 100],
                 default: ''
+            },
+            status: {
+                value: null,
+                type: ['int', 11],
+                default: 0,
+                options: [ //0: 待审核, 1: 正常, -1: 已锁定
+                    { text: '待审核', value: 0 },
+                    { text: '正常', value: 1 },
+                    { text: '已锁定', value: -1 },
+                ]
             },
             zn_plugin_wechat_open_id: {
                 value: null,
@@ -83,6 +95,16 @@ zn.define(['node:chinese-to-pinyin'], function (pinyin) {
                 default: ','
             },
             email: {
+                value: null,
+                type: ['varchar', 50],
+                default: ''
+            },
+            qq: {
+                value: null,
+                type: ['varchar', 50],
+                default: ''
+            },
+            wechat: {
                 value: null,
                 type: ['varchar', 50],
                 default: ''

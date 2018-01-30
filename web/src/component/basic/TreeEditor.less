@@ -33,20 +33,23 @@
         }
     }
 
-    .item-content{
-        position: relative;
-        flex: 1;
-        &:hover{
-            .edit{
-                display: inline-block;
+    .zr-tree{
+        min-height: 150px;
+        .item-content{
+            position: relative;
+            flex: 1;
+            &:hover{
+                .edit{
+                    display: inline-block;
+                }
             }
-        }
-        .edit{
-            position: absolute;
-            right: 8px;
-            padding: 0px 6px;
-            cursor: pointer;
-            display: none;
+            .edit{
+                position: absolute;
+                right: 8px;
+                padding: 0px 6px;
+                cursor: pointer;
+                display: none;
+            }
         }
     }
 }

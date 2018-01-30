@@ -1,6 +1,5 @@
 var React = require('react');
 var TreeModelView = require('../../component/model/TreeModelView');
-var ModelEditor = require('../../component/basic/ModelEditor');
 module.exports = React.createClass({
 	getDefaultProps: function () {
 		return {

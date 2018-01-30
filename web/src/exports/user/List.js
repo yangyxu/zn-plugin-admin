@@ -13,6 +13,8 @@ module.exports = React.createClass({
 			items: [
 				{ title: '用户名', name: 'name', width: 120, filter: { type: 'Input', opts: ['like'] } },
 				{ title: '邮箱', name: 'email', width: 140, filter: { type: 'Input', opts: ['like'] } },
+				{ title: 'QQ', name: 'qq', width: 120, filter: { type: 'Input', opts: ['like'] } },
+				{ title: '微信号', name: 'wechat', width: 120, filter: { type: 'Input', opts: ['like'] } },
 				{ title: '手机号', name: 'phone', width: 120, filter: { type: 'Input', opts: ['like'] } },
 				{ title: '角色', name: 'role_ids_convert', width: 120 },
 				{ title: '代理人', name: 'agents_convert', width: 120 },
@@ -23,7 +25,9 @@ module.exports = React.createClass({
 				{ title: '头像', name: 'avatar_img', type: 'ImageUploader' },
 				{ title: '用户名', name: 'name', type: 'Input', required: true, error: '用户名必填项!' },
 				{ title: '邮箱', name: 'email', type: 'Input' },
-				{ title: '手机号', name: 'phone', type: 'Input' },
+				{ title: 'QQ', name: 'qq', type: 'Input' },
+				{ title: '微信号', name: 'wechat', type: 'Input' },
+				{ title: '手机号', name: 'phone', required: true, type: 'Input' },
 				{ title: '地址', name: 'address', type: 'Input' },
 				{ title: '说明', name: 'zn_note', type: 'Textarea' }
 			],
