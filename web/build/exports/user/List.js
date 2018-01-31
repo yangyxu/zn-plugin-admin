@@ -9,10 +9,12 @@ module.exports = React.createClass({
 	},
 	getInitialState: function getInitialState() {
 		return {
+			status: 1,
 			data: zn.store.post('/zn.plugin.admin/model/paging', {
-				model: this.props.model
+				model: this.props.model,
+				where: { status: 1 }
 			}),
-			items: [{ title: '用户名', name: 'name', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '邮箱', name: 'email', width: 140, filter: { type: 'Input', opts: ['like'] } }, { title: 'QQ', name: 'qq', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '微信号', name: 'wechat', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '手机号', name: 'phone', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '角色', name: 'role_ids_convert', width: 120 }, { title: '代理人', name: 'agents_convert', width: 120 }, { title: '地址', name: 'address', width: 200, filter: { type: 'Input', opts: ['like'] } }, { title: '说明', name: 'zn_note', filter: { type: 'Input', opts: ['like'] } }],
+			items: [{ title: '用户名', name: 'name', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '绑定微信', name: 'zn_plugin_wechat_open_id', width: 100 }, { title: '邮箱', name: 'email', width: 140, filter: { type: 'Input', opts: ['like'] } }, { title: 'QQ', name: 'qq', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '微信号', name: 'wechat', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '手机号', name: 'phone', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '角色', name: 'role_ids_convert', width: 120 }, { title: '代理人', name: 'agents_convert', width: 120 }, { title: '地址', name: 'address', width: 200, filter: { type: 'Input', opts: ['like'] } }, { title: '说明', name: 'zn_note', filter: { type: 'Input', opts: ['like'] } }],
 			formItems: [{ title: '头像', name: 'avatar_img', type: 'ImageUploader' }, { title: '用户名', name: 'name', type: 'Input', required: true, error: '用户名必填项!' }, { title: '邮箱', name: 'email', type: 'Input' }, { title: 'QQ', name: 'qq', type: 'Input' }, { title: '微信号', name: 'wechat', type: 'Input' }, { title: '手机号', name: 'phone', required: true, type: 'Input' }, { title: '地址', name: 'address', type: 'Input' }, { title: '说明', name: 'zn_note', type: 'Textarea' }],
 			toolbarItems: [{ text: '添加', name: 'add', icon: 'fa-plus', style: { marginRight: 5 } }, { text: '删除', name: 'remove', status: 'danger', icon: 'fa-remove', style: { marginRight: 5 } }]
 		};
@@ -75,8 +77,8 @@ module.exports = React.createClass({
 	__onTableColumnRender: function __onTableColumnRender(rowIndex, columnIndex, data, item, value) {
 		var _this = this;
 
-		switch (columnIndex) {
-			case 1:
+		switch (item.name) {
+			case 'name':
 				return React.createElement(
 					'div',
 					{ style: { display: 'flex', alignItems: 'center' } },
@@ -90,12 +92,41 @@ module.exports = React.createClass({
 						value
 					)
 				);
+			case 'zn_plugin_wechat_open_id':
+				if (value) {
+					return React.createElement(
+						'a',
+						{ 'data-tooltip': '\u67E5\u770B\u5FAE\u4FE1\u4FE1\u606F', style: { color: 'green', fontWeight: 'bold' } },
+						React.createElement('i', { className: 'fa fa-check zr-padding-3' }),
+						'\u5DF2\u7ED1\u5B9A'
+					);
+				} else {
+					return React.createElement(
+						'span',
+						null,
+						'\u672A\u7ED1\u5B9A'
+					);
+				}
 		}
+	},
+	__onStatusChange: function __onStatusChange(value) {
+		this.setState({ status: value.value });
+		this.state.data.extend({ where: { status: value.value } }).refresh();
 	},
 	render: function render() {
 		return React.createElement(
 			zn.react.Page,
-			{ title: '\u7CFB\u7EDF\u8D26\u6237\u7BA1\u7406', toolbarItems: this.state.toolbarItems, onToolbarClick: this.__onToolbarClick },
+			{
+				title: '\u7CFB\u7EDF\u8D26\u6237\u7BA1\u7406',
+				headerCenter: React.createElement(zn.react.ListView, {
+					className: 'zr-tab-ios',
+					selectMode: 'radio',
+					valueKey: 'status',
+					onClick: this.__onStatusChange,
+					value: this.state.status,
+					data: [{ status: 1, text: '正常' }, { status: 0, text: '待激活' }, { status: -1, text: '锁定' }] }),
+				toolbarItems: this.state.toolbarItems,
+				onToolbarClick: this.__onToolbarClick },
 			React.createElement(zn.react.PagerView, {
 				ref: 'table',
 				view: 'Table',

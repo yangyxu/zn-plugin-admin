@@ -60,6 +60,9 @@ var _exports = React.createClass({
 			_form['password'].focus();
 			return false;
 		}
+		zn.preloader.open({
+			content: '正在登陆中...'
+		});
 		zn.http.post("/zn.plugin.admin/user/login", {
 			name: _name,
 			password: _password
@@ -69,8 +72,10 @@ var _exports = React.createClass({
 			} else {
 				zn.notification.error('登录失败： ' + data.result);
 			}
+			zn.preloader.close();
 		}, function (err) {
-			zn.notification.error('登录失败： ' + err.message);
+			zn.notification.error("网络请求失败");
+			zn.preloader.close();
 		});
 	},
 	render: function render() {

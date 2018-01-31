@@ -71,8 +71,7 @@ module.exports = React.createClass({
 		}
 		return React.createElement(
 			zn.react.Page,
-			{ className: '', title: this.state.info.name, icon: 'fa-newspaper-o',
-				toolbarItems: this.state.toolbarItems },
+			{ title: this.state.info.name, toolbarItems: this.state.toolbarItems },
 			React.createElement(
 				'div',
 				{ className: 'user-info' },

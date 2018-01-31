@@ -71,7 +71,7 @@ module.exports = React.createClass({
 		}
 		return React.createElement(
 			zn.react.Page,
-			{ className: '', title: this.state.info.name, icon: 'fa-newspaper-o',
+			{ className: 'zn-plugin-admin-my-info', title: this.state.info.name,
 				toolbarItems: this.state.toolbarItems },
 			React.createElement(
 				'div',
@@ -114,6 +114,20 @@ module.exports = React.createClass({
 							React.createElement('i', { className: 'fa fa-phone' }),
 							'\u624B\u673A\u53F7\uFF1A',
 							this.state.info.phone
+						),
+						React.createElement(
+							'div',
+							null,
+							React.createElement('i', { className: 'fa fa-qq' }),
+							'QQ\u53F7\uFF1A',
+							this.state.info.qq
+						),
+						React.createElement(
+							'div',
+							null,
+							React.createElement('i', { className: 'fa fa-weixin' }),
+							'\u5FAE\u4FE1\u53F7\uFF1A',
+							this.state.info.wechat
 						),
 						React.createElement(
 							'div',

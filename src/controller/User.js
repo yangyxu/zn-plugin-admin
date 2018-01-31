@@ -30,13 +30,21 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                 value: function (request, response, chain){
                     var _user = null;
                     this.beginTransaction()
-                        .query("select * from zn_plugin_admin_user where (name='{0}' or email='{0}') and password='{1}';".format(request.getValue('name'), request.getValue('password')))
+                        .query("select * from zn_plugin_admin_user where (name='{0}' or email='{0}' or phone='{0}') and password='{1}';".format(request.getValue('name'), request.getValue('password')))
                         .query('update login time', function (sql, rows){
                             if(rows.length){
                                 _user = rows[0];
-                                return "update zn_plugin_admin_user set last_login_time=now() where id={0};".format(_user.id);
+                                if(_user.status==0){
+                                    return response.error('账户还未激活'), false;
+                                }
+                                if(_user.status==-1){
+                                    return response.error('账户被锁定, 请联系系统管理员'), false;
+                                }
+                                if(_user.status==1){
+                                    return "update zn_plugin_admin_user set last_login_time=now() where id={0};".format(_user.id);
+                                }
                             }else {
-                                return response.error('用户名或密码错误'), -1;
+                                return response.error('用户名或密码错误'), false;
                             }
                         }, function (err){
                             if(err){

@@ -7,11 +7,14 @@ module.exports = React.createClass({
 	},
 	getInitialState: function () {
 		return {
+			status: 1,
 			data: zn.store.post('/zn.plugin.admin/model/paging', {
-				model: this.props.model
+				model: this.props.model,
+				where: { status: 1 }
 			}),
 			items: [
 				{ title: '用户名', name: 'name', width: 120, filter: { type: 'Input', opts: ['like'] } },
+				{ title: '绑定微信', name: 'zn_plugin_wechat_open_id', width: 100 },
 				{ title: '邮箱', name: 'email', width: 140, filter: { type: 'Input', opts: ['like'] } },
 				{ title: 'QQ', name: 'qq', width: 120, filter: { type: 'Input', opts: ['like'] } },
 				{ title: '微信号', name: 'wechat', width: 120, filter: { type: 'Input', opts: ['like'] } },
@@ -93,18 +96,42 @@ module.exports = React.createClass({
 		}
 	},
 	__onTableColumnRender: function (rowIndex, columnIndex, data, item, value){
-		switch (columnIndex) {
-			case 1:
+		switch (item.name) {
+			case 'name':
 				return <div style={{ display: 'flex', alignItems: 'center' }}>
 					<i onClick={()=>this.__updateItem(data)} className="fa fa-edit zr-padding-3" />
 					{data.avatar_img && <img className="avatar" style={{ width: 16, height: 16, margin: 5, borderRadius: 16 }} src={data.avatar_img} />}
 					<a href={'#'+zn.react.session.fixPath('/znpluginadmin.user.infoedit')+'?userId=' + data.id}>{value}</a>
 				</div>;
+			case 'zn_plugin_wechat_open_id':
+				if(value){
+					return <a data-tooltip="查看微信信息" style={{color: 'green', fontWeight: 'bold'}}><i className="fa fa-check zr-padding-3" />已绑定</a>;
+				}else {
+					return <span>未绑定</span>;
+				}
 		}
+	},
+	__onStatusChange: function (value){
+		this.setState({ status: value.value });
+		this.state.data.extend({ where: { status: value.value } }).refresh();
 	},
 	render:function(){
 		return (
-			<zn.react.Page title="系统账户管理" toolbarItems={this.state.toolbarItems} onToolbarClick={this.__onToolbarClick}>
+			<zn.react.Page
+				title="系统账户管理"
+				headerCenter={<zn.react.ListView
+					className="zr-tab-ios"
+					selectMode="radio"
+					valueKey="status"
+					onClick={this.__onStatusChange}
+					value={this.state.status}
+					data={[
+						{ status: 1, text: '正常' },
+						{ status: 0, text: '待激活' },
+						{ status: -1, text: '锁定' }
+					]} />}
+				toolbarItems={this.state.toolbarItems}
+				onToolbarClick={this.__onToolbarClick}>
 				<zn.react.PagerView
 					ref="table"
 					view="Table"
