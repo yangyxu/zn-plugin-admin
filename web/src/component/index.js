@@ -4,4 +4,8 @@ var _exports = {};
     zn.overwrite(_exports, require(path));
 });
 
+_exports.getToken = function (){
+    return zn.react.session.jsonKeyValue("WEB_LOGIN_SESSION");
+}
+
 module.exports = _exports;

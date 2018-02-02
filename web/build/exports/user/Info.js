@@ -61,6 +61,7 @@ module.exports = React.createClass({
 		if (!this.state.info) {
 			return React.createElement(zn.react.DataLoader, { content: '\u6B63\u5728\u52A0\u8F7D\u4E2D...', loader: 'timer' });
 		}
+		console.log(zn.plugin.wechat.ZNPluginAdminUserWechatInfo);
 		return React.createElement(
 			zn.react.Page,
 			{ title: this.state.info.name, icon: 'fa-newspaper-o', toolbarItems: this.state.toolbarItems },
@@ -126,6 +127,11 @@ module.exports = React.createClass({
 							this.state.info.zn_note
 						)
 					)
+				),
+				zn.plugin.wechat.ZNPluginAdminUserWechatInfo && React.createElement(
+					zn.react.Card,
+					{ className: 'wechat-info', title: '\u5DF2\u7ED1\u5B9A\u5FAE\u4FE1' },
+					React.createElement(zn.plugin.wechat.ZNPluginAdminUserWechatInfo, { openid: this.state.info.zn_plugin_wechat_open_id })
 				),
 				React.createElement(
 					zn.react.Card,

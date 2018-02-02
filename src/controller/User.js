@@ -1,5 +1,10 @@
 zn.define(['node:chinese-to-pinyin'],function (pinyin) {
 
+    var getClientIP = function (req) {
+        return req.headers['x-real-ip'] || req.headers['x-forwarded-for'] ||
+            req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
+    }
+
     return zn.Controller('user',{
         methods: {
             logout: {
@@ -34,14 +39,19 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                         .query('update login time', function (sql, rows){
                             if(rows.length){
                                 _user = rows[0];
-                                if(_user.status==0){
-                                    return response.error('账户还未激活'), false;
-                                }
-                                if(_user.status==-1){
-                                    return response.error('账户被锁定, 请联系系统管理员'), false;
-                                }
-                                if(_user.status==1){
-                                    return "update zn_plugin_admin_user set last_login_time=now() where id={0};".format(_user.id);
+                                switch (_user.status) {
+                                    case 0:
+                                        return response.error('账户还未激活'), false;
+                                    case -1:
+                                        return response.error('账户被锁定, 请联系系统管理员'), false;
+                                    case 1:
+                                        return zn.sql.update({
+                                            table: 'zn_plugin_admin_user',
+                                            updates: 'last_login_time=now()',
+                                            where: { id: _user.id }
+                                        });
+                                    default:
+                                        return response.error('账户未知状态'), false;
                                 }
                             }else {
                                 return response.error('用户名或密码错误'), false;
@@ -183,7 +193,7 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                     this.beginTransaction()
                         .query(zn.sql.select({
                             table: "zn_plugin_admin_user",
-                            fields: 'id, name, agents, zn_plugin_admin_convert_users(agents) as agents_convert, role_ids, pin_yin, pin_yin_first_char, first_char, email, phone, address, avatar_img, last_login_time, zn_create_time',
+                            fields: 'id, name, zn_plugin_wechat_open_id, agents, zn_plugin_admin_convert_users(agents) as agents_convert, role_ids, pin_yin, pin_yin_first_char, first_char, email, qq, wechat, phone, address, avatar_img, last_login_time, zn_create_time',
                             where: {
                                 id: request.getValue('userId')
                             }

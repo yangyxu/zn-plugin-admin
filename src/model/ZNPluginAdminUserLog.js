@@ -12,6 +12,11 @@ zn.define(function () {
                 type: ['int', 11],
                 convert: 'zn_plugin_admin_convert_user({})'
             },
+            ip_address: {
+                value: null,
+                type: ['varchar', 10],
+                default: ''
+            },
             address: {
                 value: null,
                 type: ['varchar', 250],

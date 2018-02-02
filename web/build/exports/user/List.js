@@ -14,8 +14,8 @@ module.exports = React.createClass({
 				model: this.props.model,
 				where: { status: 1 }
 			}),
-			items: [{ title: '用户名', name: 'name', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '绑定微信', name: 'zn_plugin_wechat_open_id', width: 100 }, { title: '邮箱', name: 'email', width: 140, filter: { type: 'Input', opts: ['like'] } }, { title: 'QQ', name: 'qq', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '微信号', name: 'wechat', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '手机号', name: 'phone', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '角色', name: 'role_ids_convert', width: 120 }, { title: '代理人', name: 'agents_convert', width: 120 }, { title: '地址', name: 'address', width: 200, filter: { type: 'Input', opts: ['like'] } }, { title: '说明', name: 'zn_note', filter: { type: 'Input', opts: ['like'] } }],
-			formItems: [{ title: '头像', name: 'avatar_img', type: 'ImageUploader' }, { title: '用户名', name: 'name', type: 'Input', required: true, error: '用户名必填项!' }, { title: '邮箱', name: 'email', type: 'Input' }, { title: 'QQ', name: 'qq', type: 'Input' }, { title: '微信号', name: 'wechat', type: 'Input' }, { title: '手机号', name: 'phone', required: true, type: 'Input' }, { title: '地址', name: 'address', type: 'Input' }, { title: '说明', name: 'zn_note', type: 'Textarea' }],
+			items: [{ title: '用户名', name: 'name', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '状态', name: 'status', width: 60 }, { title: '绑定微信', name: 'zn_plugin_wechat_open_id', width: 100 }, { title: '邮箱', name: 'email', width: 140, filter: { type: 'Input', opts: ['like'] } }, { title: 'QQ', name: 'qq', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '微信号', name: 'wechat', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '手机号', name: 'phone', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '角色', name: 'role_ids_convert', width: 120 }, { title: '代理人', name: 'agents_convert', width: 120 }, { title: '地址', name: 'address', width: 200, filter: { type: 'Input', opts: ['like'] } }, { title: '说明', name: 'zn_note', filter: { type: 'Input', opts: ['like'] } }],
+			formItems: [{ title: '头像', name: 'avatar_img', type: 'ImageUploader' }, { title: '用户名', name: 'name', type: 'Input', required: true, error: '用户名必填项!' }, { title: '状态', name: 'status', type: 'Select', data: [{ text: '待激活', value: 0 }, { text: '正常', value: 1 }, { text: '已锁定', value: -1 }], required: true }, { title: '邮箱', name: 'email', type: 'Input' }, { title: 'QQ', name: 'qq', type: 'Input' }, { title: '微信号', name: 'wechat', type: 'Input' }, { title: '手机号', name: 'phone', required: true, type: 'Input' }, { title: '地址', name: 'address', type: 'Input' }, { title: '说明', name: 'zn_note', type: 'Textarea' }],
 			toolbarItems: [{ text: '添加', name: 'add', icon: 'fa-plus', style: { marginRight: 5 } }, { text: '删除', name: 'remove', status: 'danger', icon: 'fa-remove', style: { marginRight: 5 } }]
 		};
 	},
@@ -43,6 +43,12 @@ module.exports = React.createClass({
 				value: zn.store.post('/zn.plugin.admin/model/selectOne', { model: this.props.model, where: { id: data.id } }),
 				onSubmitSuccess: this.__doSuccess,
 				items: this.state.formItems })
+		});
+	},
+	__viewWechatUserInfo: function __viewWechatUserInfo(value) {
+		zn.dialog({
+			title: 'OPENID: ' + value,
+			content: React.createElement(zn.plugin.wechat.UserInfo, { openid: value })
 		});
 	},
 	__removeItems: function __removeItems() {
@@ -78,6 +84,27 @@ module.exports = React.createClass({
 		var _this = this;
 
 		switch (item.name) {
+			case 'status':
+				switch (value) {
+					case 0:
+						return React.createElement(
+							'span',
+							{ style: { color: '#1d18184d' } },
+							'\u5F85\u6FC0\u6D3B'
+						);
+					case 1:
+						return React.createElement(
+							'span',
+							{ style: { color: '#008000' } },
+							'\u6B63\u5E38'
+						);
+					case -1:
+						return React.createElement(
+							'span',
+							{ style: { color: '#d9534f' } },
+							'\u5DF2\u9501\u5B9A'
+						);
+				}
 			case 'name':
 				return React.createElement(
 					'div',
@@ -96,8 +123,10 @@ module.exports = React.createClass({
 				if (value) {
 					return React.createElement(
 						'a',
-						{ 'data-tooltip': '\u67E5\u770B\u5FAE\u4FE1\u4FE1\u606F', style: { color: 'green', fontWeight: 'bold' } },
-						React.createElement('i', { className: 'fa fa-check zr-padding-3' }),
+						{ onClick: function onClick() {
+								return _this.__viewWechatUserInfo(value);
+							}, 'data-tooltip': '\u67E5\u770B\u5FAE\u4FE1\u4FE1\u606F', style: { color: 'green', fontWeight: 'bold' } },
+						React.createElement('i', { className: 'fa fa-eye zr-padding-3' }),
 						'\u5DF2\u7ED1\u5B9A'
 					);
 				} else {
@@ -106,6 +135,14 @@ module.exports = React.createClass({
 						null,
 						'\u672A\u7ED1\u5B9A'
 					);
+				}
+			case 'qq':
+				if (value) {
+					return React.createElement('img', { 'data-tooltip': value, style: { cursor: 'point' }, border: '0', alt: '\u70B9\u51FB\u8FD9\u91CC\u53D1\u6D88\u606F',
+						onClick: function onClick() {
+							return window.open("http://b.qq.com/webc.htm?new=0&sid=" + value + "&o=www.kylinpop.com&q=7", '_blank', 'height=502, width=644,toolbar=no,scrollbars=no,menubar=no,status=no');
+						},
+						src: "http://wpa.qq.com/pa?p=1:" + value + ":1" });
 				}
 		}
 	},

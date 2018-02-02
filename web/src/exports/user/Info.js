@@ -65,6 +65,7 @@ module.exports = React.createClass({
 		if(!this.state.info){
 			return <zn.react.DataLoader content="正在加载中..." loader="timer" />;
 		}
+		console.log(zn.plugin.wechat.ZNPluginAdminUserWechatInfo);
 		return (
 			<zn.react.Page title={this.state.info.name} icon="fa-newspaper-o" toolbarItems={this.state.toolbarItems} >
 				<div className="zn-plugin-admin-user-info">
@@ -81,6 +82,11 @@ module.exports = React.createClass({
 							{this.state.info.zn_note && <div className="item">{this.state.info.zn_note}</div>}
 						</div>
 					</div>
+					{
+						(zn.plugin.wechat.ZNPluginAdminUserWechatInfo) && <zn.react.Card  className="wechat-info" title="已绑定微信">
+							<zn.plugin.wechat.ZNPluginAdminUserWechatInfo openid={this.state.info.zn_plugin_wechat_open_id} />
+						</zn.react.Card>
+					}
 					<zn.react.Card title="部门及角色">
 						<zn.plugin.admin.RoleSelector disabled={true} value={this.state.info.role_ids} />
 					</zn.react.Card>
