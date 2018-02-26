@@ -1,0 +1,142 @@
+.zn-plugin-admin-user-active{
+    position: absolute;
+    width:100%;
+    height:100%;
+    overflow: hidden;
+    top:0px;
+    left:0px;
+    .background-image{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    .warp{
+        width: 960px;
+        margin: 0 auto;
+        padding: 8px 0px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .section-head{
+        position: absolute;
+        width: 100%;
+        top: 0px;
+        height: 98px;
+        color: #FFF;
+        background-color: rgba(243, 243, 243, 0.3);
+        box-shadow: 0 6px 12px rgba(0,0,0,.175) !important;
+
+        /*box-shadow: 0 0 9px 0 rgba(0,0,0,.3);*/  //moz 网站解决方案
+
+        /*box-shadow: 0 1px 3px 0 rgba(0,37,55,.05);*/
+
+        .head-left{
+            display: flex;
+            align-items:flex-end;
+            .company-logo{
+                /*width: 68px;*/
+                height: 68px;
+                margin: 5px;
+            }
+            .company-title{
+                font-size: 28px;
+            }
+        }
+        .head-right{
+            .link-nav{
+                overflow: hidden;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                font-size: 18px;
+                li{
+                    padding: 3px;
+                    margin: 5px;
+                    a{
+                        color: #FFF;
+                        text-decoration: none;
+                        &:hover{
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .section-body{
+        position: absolute;
+        width: 100%;
+        top: 98px;
+        bottom: 98px;
+        padding: 50px 0px;
+        background-color: #fffc;
+
+    }
+
+    .section-foot{
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        bottom: 0px;
+        height: 98px;
+        color: #FFF;
+        background-color: rgba(243, 243, 243, 0.1);
+        .warp{
+            text-align: center;
+            justify-content: center;
+            a{
+                color: #c30d23;
+                text-decoration: none;
+                font-weight: bold;
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
+            img{
+                width: 16px;
+                height: 16px;
+                position: relative;
+                top: 2px;
+            }
+        }
+    }
+
+
+    @media (max-width: 780px) {
+        .warp {
+            padding: 2px !important;
+            width: 100% !important;
+        }
+        .section-head{
+
+            height: 40px;
+            .company-logo{
+                width: 24px !important;
+                height: 24px !important;
+            }
+            * {
+                font-size: 16px !important;
+            }
+        }
+        .section-body{
+            top: 40px;
+            bottom: 40px;
+            padding: 10px 0px;
+            .form-dialog{
+                width: 80%;
+            }
+            .warp{
+                flex-direction: column;
+            }
+        }
+        .section-foot{
+            height: 40px;
+        }
+    }
+}

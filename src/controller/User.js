@@ -68,6 +68,128 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                         }).commit();
                 }
             },
+            emailActive: {
+                method: 'GET/POST',
+                argv: {
+                    znid: null
+                },
+                value: function (request, response, chain){
+                    var _user = null,
+                        _self = this;
+                    this.beginTransaction()
+                        .query("select * from zn_plugin_admin_user where zn_id='{0}';".format(request.getValue('znid')))
+                        .query('update user password', function (sql, rows){
+                            if(rows.length){
+                                _user = rows[0];
+                                if(_user.password&&_user.status==1){
+                                    _user.actived = true;
+                                    return response.success(_user), false;
+                                }
+                                var _password = zn.util.randomNumbers(8);
+                                zn.plugin.admin.QQMailTransport.sendMail({
+                                    from: 'jimxyy@foxmail.com',
+                                    to: _user.email,
+                                    subject: '【腾麟传媒】系统账号激活通知',
+                                    html: '您好，' + _user.name +
+                                    ', <br /><br />欢迎使用腾麟广告安装系统管理平台, 账号：'+_user.email+', 密码：'+_password+'。请单击<a href="http://adinstall.service.kylinpop.com/web/www/admin.html#/zn.plugin.admin/login'+
+                                    _user.zn_id+'">登录</a>进行激活。<br /><br />系统管理员<br />上海腾麟文化传媒有限公司'
+                                }, function (error, info){
+                                    if (error) {
+                                        zn.error('邮件发送失败：' + error.message);
+                                    }else {
+                                        zn.error('邮件发送成功');
+                                    }
+                                });
+                                return zn.sql.update({
+                                    table: 'zn_plugin_admin_user',
+                                    updates: {
+                                        status:1,
+                                        password: _password
+                                    },
+                                    where: { id: _user.id }
+                                });
+                            }else {
+                                return response.error('为查找到用户'), false;
+                            }
+                        }, function (err){
+                            if(err){
+                                response.error(err);
+                            }else {
+                                response.success(_user);
+                            }
+                        }).commit();
+                }
+            },
+            active: {
+                method: 'GET/POST',
+                argv: {
+                    type: null,
+                    znid: null
+                },
+                value: function (request, response, chain){
+                    var _user = null,
+                        _self = this;
+                    var _type = request.getValue('type');
+                    this.beginTransaction()
+                        .query("select * from zn_plugin_admin_user where zn_id='{0}';".format(request.getValue('znid')))
+                        .query('update login time', function (sql, rows){
+                            if(rows.length){
+                                _user = rows[0];
+                                if(_type=='email'){
+                                    return zn.plugin.admin.QQMailTransport.sendMail({
+                                        from: 'jimxyy@foxmail.com',
+                                        to: _user.email,
+                                        subject: '【腾麟传媒】系统账号激活',
+                                        html: '您好，' + _user.name +
+                                        ', <br /><br />欢迎加入腾麟并使用腾麟广告安装系统管理平台, 您的账号还未激活。请单击<a href="http://adinstall.service.kylinpop.com/web/www/admin.html#/zn.plugin.admin/useractive?znid='+
+                                        _user.zn_id+'">激活链接</a>进行激活。<br /><br />系统管理员<br />上海腾麟文化传媒有限公司'
+                                    }, function (error, info){
+                                        if (error) {
+                                            zn.error('邮件发送失败：' + error.message);
+                                            response.error(error);
+                                        }else {
+                                            response.success(info);
+                                        }
+                                    }), false;
+                                } else if(_type=='sms' && zn.smsClient){
+                                    return zn.smsClient.sendSMS({
+                                        PhoneNumbers: _user.phone,
+                                        SignName: '腾麟传媒',
+                                        TemplateCode: 'SMS_125029840',
+                                        TemplateParam: '{"phone":"'+_user.phone+'", "password":"'+zn.util.randomNumbers(8)+'"}'
+                                    }).then(function (res) {
+                                        if (res.Code === 'OK') {
+                                            //处理返回参数
+                                            console.log(res);
+                                            _self.query(zn.sql.update({
+                                                table: 'zn_plugin_admin_user',
+                                                updates: { status: 1 },
+                                                where: {
+                                                    zn_id: request.getValue('znid')
+                                                }
+                                            }));
+                                            response.success('发送成功');
+                                        }else {
+                                            console.error(res);
+                                            response.error('发送失败');
+                                        }
+                                    }.bind(this), function (err) {
+                                        console.error(err);
+                                        response.error('发送失败');
+                                    }), false;
+                                }
+                            }else {
+                                return response.error('为查找到用户'), false;
+                            }
+                        }, function (err){
+                            if(err){
+                                response.error(err);
+                            }else {
+                                response.success("发送成功");
+                            }
+                        }).commit();
+                }
+            },
             exchange: {
                 method: 'GET/POST',
                 argv: {
@@ -82,7 +204,7 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                                 _user = rows[0];
                                 return "update zn_plugin_admin_user set last_login_time=now() where id={0};".format(_user.id);
                             }else {
-                                return response.error('用户名或密码错误'), -1;
+                                return response.error('用户名或密码错误'), false;
                             }
                         }, function (err){
                             if(err){

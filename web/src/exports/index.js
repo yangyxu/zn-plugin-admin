@@ -11,7 +11,7 @@ var _exports = {},
     }
 });
 
-['Login'].forEach(function (path){
+['Login', 'UserActive'].forEach(function (path){
     _path = './' + path;
     _exports[('/' + path).toLowerCase()] = require(_path);
 });

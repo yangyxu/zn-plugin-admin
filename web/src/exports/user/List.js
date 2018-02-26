@@ -14,16 +14,16 @@ module.exports = React.createClass({
 			}),
 			items: [
 				{ title: '用户名', name: 'name', width: 120, filter: { type: 'Input', opts: ['like'] } },
-				{ title: '状态', name: 'status', width: 60 },
+				{ title: '状态', name: 'status', width: 80 },
 				{ title: '绑定微信', name: 'zn_plugin_wechat_open_id', width: 100 },
-				{ title: '邮箱', name: 'email', width: 140, filter: { type: 'Input', opts: ['like'] } },
+				{ title: '邮箱', name: 'email', width: 180, filter: { type: 'Input', opts: ['like'] } },
 				{ title: 'QQ', name: 'qq', width: 120, filter: { type: 'Input', opts: ['like'] } },
 				{ title: '微信号', name: 'wechat', width: 120, filter: { type: 'Input', opts: ['like'] } },
 				{ title: '手机号', name: 'phone', width: 120, filter: { type: 'Input', opts: ['like'] } },
 				{ title: '角色', name: 'role_ids_convert', width: 120 },
 				{ title: '代理人', name: 'agents_convert', width: 120 },
 				{ title: '地址', name: 'address', width: 200, filter: { type: 'Input', opts: ['like'] } },
-				{ title: '说明', name: 'zn_note', filter: { type: 'Input', opts: ['like'] } }
+				{ title: '说明', name: 'zn_note' }
 			],
 			formItems: [
 				{ title: '头像', name: 'avatar_img', type: 'ImageUploader' },
@@ -33,10 +33,12 @@ module.exports = React.createClass({
 				{ title: 'QQ', name: 'qq', type: 'Input' },
 				{ title: '微信号', name: 'wechat', type: 'Input' },
 				{ title: '手机号', name: 'phone', required: true, type: 'Input' },
+				{ title: '部门/角色', type: zn.plugin.admin.RoleSelector, name: 'role_ids' },
 				{ title: '地址', name: 'address', type: 'Input' },
 				{ title: '说明', name: 'zn_note', type: 'Textarea' }
 			],
 			toolbarItems: [
+				//{ text: '一键重置密码', name: 'resetpassword', icon: 'fa-plus', style: { marginRight: 5 } },
 				{ text: '添加', name: 'add', icon: 'fa-plus', style: { marginRight: 5 } },
 				{ text: '删除', name: 'remove', status: 'danger', icon: 'fa-remove', style: { marginRight: 5 } }
 			]
@@ -103,12 +105,44 @@ module.exports = React.createClass({
 				break;
 		}
 	},
+	__onActiveUser: function (data, type, btn){
+		zn.modal.close();
+		zn.preloader.open({
+			title: '请求中...'
+		});
+		zn.http.post('/zn.plugin.admin/user/active', {
+			type: type,
+			znid: data.zn_id
+		}).then(function (data){
+			if(data.status==200){
+				zn.notification.success("发送成功");
+				if(type=='sms'){
+					this.state.data.refresh();
+				}
+			}else {
+				zn.notification.error("激活失败：" + data.result);
+			}
+			zn.preloader.close();
+		}.bind(this), function (){
+			zn.notification.error('网络请求失败');
+			zn.preloader.close();
+		});
+	},
+	__onActive: function (data){
+		zn.dialog({
+			title: "激活用户: " + data.name,
+			content: <div style={{padding: 20}}>
+				<zn.react.Button onClick={(props, btn)=>this.__onActiveUser(data, 'sms', btn)} text="手机短信激活" icon="fa-phone zr-padding-3" tooltip="系统直接以短信方式发送账号密码到手机上" />
+				<zn.react.Button onClick={(props, btn)=>this.__onActiveUser(data, 'email', btn)} text="邮箱激活" icon="fa-envelope zr-padding-3" tooltip="系统直接以邮件方式发送激活链接到邮箱中" status="warning" style={{ marginTop: 20 }} />
+			</div>
+		});
+	},
 	__onTableColumnRender: function (rowIndex, columnIndex, data, item, value){
 		switch (item.name) {
 			case 'status':
 				switch (value) {
 					case 0:
-						return <span style={{color: '#1d18184d'}}>待激活</span>;
+						return <span style={{color: '#1d18184d'}}><i onClick={()=>this.__onActive(data)} data-tooltip="点击激活用户" className="fa fa-eye zr-padding-3" />待激活</span>;
 					case 1:
 						return <span style={{color: '#008000'}}>正常</span>;
 					case -1:

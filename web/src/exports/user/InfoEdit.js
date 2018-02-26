@@ -52,7 +52,7 @@ module.exports = React.createClass({
 			return <zn.react.DataLoader content="正在加载中..." loader="timer" />;
 		}
 		return (
-			<zn.react.Page title={this.state.info.name} icon="fa-newspaper-o" toolbarItems={this.state.toolbarItems} >
+			<zn.react.Page title={this.state.info.name} toolbarItems={this.state.toolbarItems} >
 				<div className="zn-plugin-admin-user-info">
 					<div className="info-form user-item">
 						<img className="avatar" src={zn.http.fixURL(this.state.info.avatar_img)||'./images/DefaultAvatar.png'} />
@@ -62,6 +62,8 @@ module.exports = React.createClass({
 							<div className="item"><i className="fa fa-clock-o" />注册时间：{this.state.info.zn_create_time}</div>
 							<div className="item"><i className="fa fa-envelope" />邮箱：{this.state.info.email}</div>
 							<div className="item"><i className="fa fa-phone" />手机号：{this.state.info.phone}</div>
+							<div className="item"><i className="fa fa-wechat" />微信号：{this.state.info.wechat}</div>
+							<div className="item"><i className="fa fa-qq" />QQ号：{this.state.info.qq}</div>
 							<div className="item">{this.state.info.zn_note}</div>
 						</div>
 					</div>

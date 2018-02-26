@@ -2,6 +2,7 @@ zn.define([
     './Config',
     './Document',
     './Icon',
+    './Mail',
     './Menu',
     './Model',
     './Project',

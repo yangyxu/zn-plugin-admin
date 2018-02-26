@@ -14,9 +14,11 @@ module.exports = React.createClass({
 				model: this.props.model,
 				where: { status: 1 }
 			}),
-			items: [{ title: '用户名', name: 'name', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '状态', name: 'status', width: 60 }, { title: '绑定微信', name: 'zn_plugin_wechat_open_id', width: 100 }, { title: '邮箱', name: 'email', width: 140, filter: { type: 'Input', opts: ['like'] } }, { title: 'QQ', name: 'qq', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '微信号', name: 'wechat', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '手机号', name: 'phone', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '角色', name: 'role_ids_convert', width: 120 }, { title: '代理人', name: 'agents_convert', width: 120 }, { title: '地址', name: 'address', width: 200, filter: { type: 'Input', opts: ['like'] } }, { title: '说明', name: 'zn_note', filter: { type: 'Input', opts: ['like'] } }],
-			formItems: [{ title: '头像', name: 'avatar_img', type: 'ImageUploader' }, { title: '用户名', name: 'name', type: 'Input', required: true, error: '用户名必填项!' }, { title: '状态', name: 'status', type: 'Select', data: [{ text: '待激活', value: 0 }, { text: '正常', value: 1 }, { text: '已锁定', value: -1 }], required: true }, { title: '邮箱', name: 'email', type: 'Input' }, { title: 'QQ', name: 'qq', type: 'Input' }, { title: '微信号', name: 'wechat', type: 'Input' }, { title: '手机号', name: 'phone', required: true, type: 'Input' }, { title: '地址', name: 'address', type: 'Input' }, { title: '说明', name: 'zn_note', type: 'Textarea' }],
-			toolbarItems: [{ text: '添加', name: 'add', icon: 'fa-plus', style: { marginRight: 5 } }, { text: '删除', name: 'remove', status: 'danger', icon: 'fa-remove', style: { marginRight: 5 } }]
+			items: [{ title: '用户名', name: 'name', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '状态', name: 'status', width: 80 }, { title: '绑定微信', name: 'zn_plugin_wechat_open_id', width: 100 }, { title: '邮箱', name: 'email', width: 180, filter: { type: 'Input', opts: ['like'] } }, { title: 'QQ', name: 'qq', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '微信号', name: 'wechat', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '手机号', name: 'phone', width: 120, filter: { type: 'Input', opts: ['like'] } }, { title: '角色', name: 'role_ids_convert', width: 120 }, { title: '代理人', name: 'agents_convert', width: 120 }, { title: '地址', name: 'address', width: 200, filter: { type: 'Input', opts: ['like'] } }, { title: '说明', name: 'zn_note' }],
+			formItems: [{ title: '头像', name: 'avatar_img', type: 'ImageUploader' }, { title: '用户名', name: 'name', type: 'Input', required: true, error: '用户名必填项!' }, { title: '状态', name: 'status', type: 'Select', data: [{ text: '待激活', value: 0 }, { text: '正常', value: 1 }, { text: '已锁定', value: -1 }], required: true }, { title: '邮箱', name: 'email', type: 'Input' }, { title: 'QQ', name: 'qq', type: 'Input' }, { title: '微信号', name: 'wechat', type: 'Input' }, { title: '手机号', name: 'phone', required: true, type: 'Input' }, { title: '部门/角色', type: zn.plugin.admin.RoleSelector, name: 'role_ids' }, { title: '地址', name: 'address', type: 'Input' }, { title: '说明', name: 'zn_note', type: 'Textarea' }],
+			toolbarItems: [
+			//{ text: '一键重置密码', name: 'resetpassword', icon: 'fa-plus', style: { marginRight: 5 } },
+			{ text: '添加', name: 'add', icon: 'fa-plus', style: { marginRight: 5 } }, { text: '删除', name: 'remove', status: 'danger', icon: 'fa-remove', style: { marginRight: 5 } }]
 		};
 	},
 	__doSuccess: function __doSuccess() {
@@ -80,8 +82,48 @@ module.exports = React.createClass({
 				break;
 		}
 	},
-	__onTableColumnRender: function __onTableColumnRender(rowIndex, columnIndex, data, item, value) {
+	__onActiveUser: function __onActiveUser(data, type, btn) {
+		zn.modal.close();
+		zn.preloader.open({
+			title: '请求中...'
+		});
+		zn.http.post('/zn.plugin.admin/user/active', {
+			type: type,
+			znid: data.zn_id
+		}).then(function (data) {
+			if (data.status == 200) {
+				zn.notification.success("发送成功");
+				if (type == 'sms') {
+					this.state.data.refresh();
+				}
+			} else {
+				zn.notification.error("激活失败：" + data.result);
+			}
+			zn.preloader.close();
+		}.bind(this), function () {
+			zn.notification.error('网络请求失败');
+			zn.preloader.close();
+		});
+	},
+	__onActive: function __onActive(data) {
 		var _this = this;
+
+		zn.dialog({
+			title: "激活用户: " + data.name,
+			content: React.createElement(
+				'div',
+				{ style: { padding: 20 } },
+				React.createElement(zn.react.Button, { onClick: function onClick(props, btn) {
+						return _this.__onActiveUser(data, 'sms', btn);
+					}, text: '\u624B\u673A\u77ED\u4FE1\u6FC0\u6D3B', icon: 'fa-phone zr-padding-3', tooltip: '\u7CFB\u7EDF\u76F4\u63A5\u4EE5\u77ED\u4FE1\u65B9\u5F0F\u53D1\u9001\u8D26\u53F7\u5BC6\u7801\u5230\u624B\u673A\u4E0A' }),
+				React.createElement(zn.react.Button, { onClick: function onClick(props, btn) {
+						return _this.__onActiveUser(data, 'email', btn);
+					}, text: '\u90AE\u7BB1\u6FC0\u6D3B', icon: 'fa-envelope zr-padding-3', tooltip: '\u7CFB\u7EDF\u76F4\u63A5\u4EE5\u90AE\u4EF6\u65B9\u5F0F\u53D1\u9001\u6FC0\u6D3B\u94FE\u63A5\u5230\u90AE\u7BB1\u4E2D', status: 'warning', style: { marginTop: 20 } })
+			)
+		});
+	},
+	__onTableColumnRender: function __onTableColumnRender(rowIndex, columnIndex, data, item, value) {
+		var _this2 = this;
 
 		switch (item.name) {
 			case 'status':
@@ -90,6 +132,9 @@ module.exports = React.createClass({
 						return React.createElement(
 							'span',
 							{ style: { color: '#1d18184d' } },
+							React.createElement('i', { onClick: function onClick() {
+									return _this2.__onActive(data);
+								}, 'data-tooltip': '\u70B9\u51FB\u6FC0\u6D3B\u7528\u6237', className: 'fa fa-eye zr-padding-3' }),
 							'\u5F85\u6FC0\u6D3B'
 						);
 					case 1:
@@ -110,7 +155,7 @@ module.exports = React.createClass({
 					'div',
 					{ style: { display: 'flex', alignItems: 'center' } },
 					React.createElement('i', { onClick: function onClick() {
-							return _this.__updateItem(data);
+							return _this2.__updateItem(data);
 						}, className: 'fa fa-edit zr-padding-3' }),
 					data.avatar_img && React.createElement('img', { className: 'avatar', style: { width: 16, height: 16, margin: 5, borderRadius: 16 }, src: data.avatar_img }),
 					React.createElement(
@@ -124,7 +169,7 @@ module.exports = React.createClass({
 					return React.createElement(
 						'a',
 						{ onClick: function onClick() {
-								return _this.__viewWechatUserInfo(value);
+								return _this2.__viewWechatUserInfo(value);
 							}, 'data-tooltip': '\u67E5\u770B\u5FAE\u4FE1\u4FE1\u606F', style: { color: 'green', fontWeight: 'bold' } },
 						React.createElement('i', { className: 'fa fa-eye zr-padding-3' }),
 						'\u5DF2\u7ED1\u5B9A'

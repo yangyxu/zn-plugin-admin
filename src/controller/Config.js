@@ -1,7 +1,12 @@
-zn.define(['node:fs'], function (node_fs) {
+zn.define([
+    'node:fs'
+], function (node_fs) {
 
     return zn.Controller('config',{
         methods: {
+            init: function (){
+
+            },
             __select: function (_id){
                 return this.collection('ZNPluginAdminConfig')
                             .select({
