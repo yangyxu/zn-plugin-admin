@@ -14,23 +14,13 @@ zn.define(function () {
             },
             ip_address: {
                 value: null,
-                type: ['varchar', 10],
-                default: ''
-            },
-            address: {
-                value: null,
-                type: ['varchar', 250],
+                type: ['varchar', 20],
                 default: ''
             },
             type: {
                 value: null,
-                type: ['int', 11],
-                default: 0   //0: 登录， 1: 登出, 2: 系统内操作
-            },
-            _sql: {
-                value: null,
-                type: ['varchar', 250],
-                default: ''
+                type: ['varchar', 10],
+                default: ''   //login: 登录， logout: 登出, system: 系统内操作
             }
         }
     });

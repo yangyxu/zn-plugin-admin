@@ -19,7 +19,8 @@ var _exports = React.createClass({
 			return zn.notification.error('无效的激活链接');
 		}
 		zn.http.post("/zn.plugin.admin/user/emailActive", {
-			znid: _znid
+			znid: _znid,
+			url: encodeURIComponent(window.location.origin + window.location.pathname)
 		}).then(function (data) {
 			if (data.status == 200) {
 				this.setState({ user: data.result });

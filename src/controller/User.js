@@ -12,15 +12,24 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                 value: function (request, response, chain){
                     var _user = request.getSession();
                     if(_user){
-                        this.collection('ZNPluginAdminUserLog').insert({
-                            user_id: _user.id,
-                            type: 1
-                        }).then(function (){
-                            request.session.clear();
-                            response.success('注销成功');
-                        }, function (){
-                            response.error('注销失败');
-                        });
+                        this.beginTransaction()
+                            .query(zn.sql.insert({
+                                table: 'zn_plugin_admin_user_log',
+                                values: {
+                                    zn_id: zn.uuid(),
+                                    user_id: _user.id,
+                                    ip_address: getClientIP(request),
+                                    type: 'logout'
+                                }
+                            }), null, function (err){
+                                if(err){
+                                    response.error('注销失败');
+                                }else {
+                                    request.session.clear();
+                                    response.success('注销成功');
+                                }
+                            })
+                            .commit();
                     }else {
                         response.success('注销成功');
                     }
@@ -49,6 +58,14 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                                             table: 'zn_plugin_admin_user',
                                             updates: 'last_login_time=now()',
                                             where: { id: _user.id }
+                                        }) + zn.sql.insert({
+                                            table: 'zn_plugin_admin_user_log',
+                                            values: {
+                                                zn_id: zn.uuid(),
+                                                user_id: _user.id,
+                                                ip_address: getClientIP(request),
+                                                type: 'login'
+                                            }
                                         });
                                     default:
                                         return response.error('账户未知状态'), false;
@@ -71,16 +88,26 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
             emailActive: {
                 method: 'GET/POST',
                 argv: {
-                    znid: null
+                    znid: null,
+                    url: null
                 },
                 value: function (request, response, chain){
                     var _user = null,
-                        _self = this;
+                        _config = null,
+                        _self = this,
+                        _url = decodeURIComponent(request.getValue('url'));;
                     this.beginTransaction()
-                        .query("select * from zn_plugin_admin_user where zn_id='{0}';".format(request.getValue('znid')))
+                        .query(zn.sql.select({
+                            table: 'zn_plugin_admin_user',
+                            where: { zn_id: request.getValue('znid') }
+                        }) + zn.sql.select({
+                            table: 'zn_plugin_admin_config',
+                            where: {_key: 'company_title', _id: 'zn.plugin.admin.base'}
+                        }))
                         .query('update user password', function (sql, rows){
-                            if(rows.length){
-                                _user = rows[0];
+                            _user = rows[0][0];
+                            _config = rows[1][0];
+                            if(_user){
                                 if(_user.password&&_user.status==1){
                                     _user.actived = true;
                                     return response.success(_user), false;
@@ -89,10 +116,9 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                                 zn.plugin.admin.QQMailTransport.sendMail({
                                     from: 'jimxyy@foxmail.com',
                                     to: _user.email,
-                                    subject: '【腾麟传媒】系统账号激活通知',
+                                    subject: '【'+_config._value+'】系统账号激活通知',
                                     html: '您好，' + _user.name +
-                                    ', <br /><br />欢迎使用腾麟广告安装系统管理平台, 账号：'+_user.email+', 密码：'+_password+'。请单击<a href="http://adinstall.service.kylinpop.com/web/www/admin.html#/zn.plugin.admin/login'+
-                                    _user.zn_id+'">登录</a>进行激活。<br /><br />系统管理员<br />上海腾麟文化传媒有限公司'
+                                    ', <br /><br />欢迎使用<span style="color:#e27580;font-weight:bold;">'+_config._value+'</span>管理平台, 账号：'+_user.email+', 密码：'+_password+'。请单击<a href="' + _url + '#/zn.plugin.admin/login">登录</a>进行激活。<br /><br />系统管理员<br />'+_config._value
                                 }, function (error, info){
                                     if (error) {
                                         zn.error('邮件发送失败：' + error.message);
@@ -124,25 +150,35 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                 method: 'GET/POST',
                 argv: {
                     type: null,
+                    url: null,
                     znid: null
                 },
                 value: function (request, response, chain){
                     var _user = null,
-                        _self = this;
-                    var _type = request.getValue('type');
+                        _config = null,
+                        _self = this,
+                        _type = request.getValue('type'),
+                        _url = decodeURIComponent(request.getValue('url'));
                     this.beginTransaction()
-                        .query("select * from zn_plugin_admin_user where zn_id='{0}';".format(request.getValue('znid')))
+                        .query(zn.sql.select({
+                            table: 'zn_plugin_admin_user',
+                            where: { zn_id: request.getValue('znid') }
+                        }) + zn.sql.select({
+                            table: 'zn_plugin_admin_config',
+                            where: {_key: 'company_title', _id: 'zn.plugin.admin.base'}
+                        }))
                         .query('update login time', function (sql, rows){
-                            if(rows.length){
-                                _user = rows[0];
+                            _user = rows[0][0];
+                            _config = rows[1][0];
+                            if(_user){
                                 if(_type=='email'){
                                     return zn.plugin.admin.QQMailTransport.sendMail({
                                         from: 'jimxyy@foxmail.com',
                                         to: _user.email,
-                                        subject: '【腾麟传媒】系统账号激活',
+                                        subject: '【'+_config._value+'】系统账号激活',
                                         html: '您好，' + _user.name +
-                                        ', <br /><br />欢迎加入腾麟并使用腾麟广告安装系统管理平台, 您的账号还未激活。请单击<a href="http://adinstall.service.kylinpop.com/web/www/admin.html#/zn.plugin.admin/useractive?znid='+
-                                        _user.zn_id+'">激活链接</a>进行激活。<br /><br />系统管理员<br />上海腾麟文化传媒有限公司'
+                                        ', <br /><br />欢迎使用<span style="color:#e27580;font-weight:bold;">'+_config._value+'</span>系统管理平台, 您的账号还未激活。请单击<a href="' + _url + '#/zn.plugin.admin/useractive?znid='+
+                                        _user.zn_id+'">激活链接</a>进行激活。<br /><br />系统管理员<br />' + _config._value
                                     }, function (error, info){
                                         if (error) {
                                             zn.error('邮件发送失败：' + error.message);

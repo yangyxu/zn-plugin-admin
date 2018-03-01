@@ -89,6 +89,7 @@ module.exports = React.createClass({
 		});
 		zn.http.post('/zn.plugin.admin/user/active', {
 			type: type,
+			url: encodeURIComponent(window.location.origin + window.location.pathname),
 			znid: data.zn_id
 		}).then(function (data) {
 			if (data.status == 200) {
