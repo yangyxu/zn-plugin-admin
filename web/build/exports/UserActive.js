@@ -172,5 +172,4 @@ var _exports = React.createClass({
 	}
 });
 
-_exports.global = true;
 module.exports = _exports;

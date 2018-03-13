@@ -1,5 +1,6 @@
 module.exports = zn.arrayValueToObject([
-    'FontAwesomeIcons'
+    'FontAwesomeIcons',
+    'ColorPicker'
 ], function (value, index){
     return require('./'+value+'.js');
 });

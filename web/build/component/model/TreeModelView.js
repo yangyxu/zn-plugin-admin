@@ -56,7 +56,7 @@ module.exports = React.createClass({
 				{ className: 'zr-flex-layout zn-plugin-admin-master-slave-flex-layout row' },
 				React.createElement(
 					'div',
-					{ className: 'layout-header', style: { minWidth: 200, minHeight: 120 } },
+					{ className: 'layout-header', style: { minWidth: 200, minHeight: 132 } },
 					React.createElement(TreeEditor, _extends({}, this.props, {
 						contentRender: this.__itemContentRender,
 						onValueChange: this.__onTreeValueChange }))

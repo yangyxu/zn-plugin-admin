@@ -25,21 +25,25 @@ var _exports = React.createClass({
 					_base.main_background_image = zn.http.fixURL(_base.main_background_image);
 				}
 				window.document.title = _base.company_title;
-				this.setState({
-					base: _base
-				});
+				if(this.isMounted()){
+					this.setState({
+						base: _base
+					});
+				}
 			}else {
-				this.setState({
-					base: {
-				        "company_title": "上海佑洋信息科技有限公司",
-				        "company_logo": "./images/logo.png",
-				        "company_website": "http://www.youyangit.com",
-				        "company_tm": "上海佑洋信息科技有限公司 @2016 - @2017",
-				        "main": "/znpluginadmin.dashboard",
-				        "main_background_image": "./images/login_background/starry_sky_12.jpg",
-				        "login_background_image": "./images/login_background/starry_sky_11.jpg"
-				    }
-				});
+				if(this.isMounted()){
+					this.setState({
+						base: {
+					        "company_title": "上海佑洋信息科技有限公司",
+					        "company_logo": "./images/logo.png",
+					        "company_website": "http://www.youyangit.com",
+					        "company_tm": "上海佑洋信息科技有限公司 @2016 - @2017",
+					        "main": "/znpluginadmin.dashboard",
+					        "main_background_image": "./images/login_background/starry_sky_12.jpg",
+					        "login_background_image": "./images/login_background/starry_sky_11.jpg"
+					    }
+					});
+				}
 			}
 		}.bind(this), function (err){
 			zn.toast.error('获取基础信息失败： ' + err.message);
@@ -175,5 +179,4 @@ var _exports = React.createClass({
 	}
 });
 
-_exports.global = true;
 module.exports =_exports;
