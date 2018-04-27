@@ -1,37 +1,34 @@
 var React = require('react');
-module.exports = React.createClass({
-	displayName: "exports",
 
-	__renderItem: function __renderItem(item, index) {
-		return React.createElement(
-			"li",
-			{ className: "menu-item" },
-			React.createElement(
-				"div",
-				{ className: "item-title" },
-				React.createElement("i", { className: "fa " + item.icon }),
-				item.zn_title
-			),
-			!!item.children && !!item.children.length && this.__renderChildren(item.children)
-		);
+var MenuItem = React.createClass({
+	displayName: 'MenuItem',
+
+	getInitialState: function getInitialState() {
+		return {
+			active: false
+		};
 	},
 	__renderChildren: function __renderChildren(children) {
 		return React.createElement(
-			"ul",
-			{ className: "sub-menu-list" },
+			'ul',
+			{ className: 'sub-menu-list' },
 			children.map(function (item, index) {
 				var _this = this;
 
 				return React.createElement(
-					"li",
+					'li',
 					{ className: item.url && zn.react.session.containPath(item.url) ? 'active-item' : '', key: index, onClick: function onClick() {
 							return _this.__onSubItemClick(item, index);
 						} },
 					React.createElement(
-						"div",
-						{ className: "item-title" },
-						React.createElement("i", { className: "fa " + item.icon }),
-						item.zn_title
+						'div',
+						{ className: 'item-title' },
+						React.createElement(
+							'div',
+							null,
+							React.createElement('i', { className: "fa " + item.icon }),
+							item.zn_title
+						)
 					)
 				);
 			}.bind(this))
@@ -54,15 +51,44 @@ module.exports = React.createClass({
 		}
 	},
 	render: function render() {
+		var _this2 = this;
+
+		var item = this.props.item;
 		return React.createElement(
-			"div",
-			{ className: "zn-plugin-admin-navigation-bar", style: this.props.style },
+			'li',
+			{ className: 'menu-item', 'data-active': this.state.active },
 			React.createElement(
-				"ul",
-				{ className: "menu-list" },
-				this.props.data.map(function (item, index) {
-					return this.__renderItem(item, index);
-				}.bind(this))
+				'div',
+				{ className: 'item-title', onClick: function onClick() {
+						return _this2.setState({ active: !_this2.state.active });
+					} },
+				React.createElement(
+					'span',
+					null,
+					React.createElement('i', { className: "fa " + item.icon }),
+					item.zn_title
+				),
+				React.createElement('i', { className: "fa zr-padding-3 zn-fr " + (this.state.active ? 'fa-angle-down' : 'fa-angle-right') })
+			),
+			!!item.children && !!item.children.length && this.__renderChildren(item.children)
+		);
+	}
+});
+
+module.exports = React.createClass({
+	displayName: 'exports',
+
+	__renderItem: function __renderItem(item, index) {
+		return React.createElement(MenuItem, { onMenuItemClick: this.props.onMenuItemClick, item: item, index: index });
+	},
+	render: function render() {
+		return React.createElement(
+			'div',
+			{ className: zn.react.classname("zn-plugin-admin-navigation-bar", this.props.className), style: this.props.style },
+			React.createElement(
+				'ul',
+				{ className: 'menu-list' },
+				this.props.data.map(this.__renderItem)
 			)
 		);
 	}

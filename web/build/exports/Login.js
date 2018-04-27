@@ -116,11 +116,6 @@ var _exports = React.createClass({
 									{ href: this.state.base.company_website },
 									'\u5B98\u7F51'
 								)
-							),
-							React.createElement(
-								'li',
-								null,
-								'\u4E0B\u8F7D'
 							)
 						)
 					)
@@ -132,40 +127,7 @@ var _exports = React.createClass({
 				React.createElement(
 					'div',
 					{ className: 'warp', style: { width: 640 } },
-					React.createElement(
-						'div',
-						{ className: 'intro' },
-						this.state.base.client_qr_image && React.createElement(
-							'div',
-							{ className: 'qr' },
-							React.createElement(
-								'div',
-								{ style: { fontSize: 20, margin: 10 } },
-								'\u624B\u673A\u5BA2\u6237\u7AEF'
-							),
-							React.createElement('img', { className: 'qr-image', src: this.state.base.client_qr_image }),
-							React.createElement(
-								'span',
-								null,
-								'\u626B\u4E00\u626B\u7ACB\u5373\u4E0B\u8F7D'
-							)
-						),
-						zn.plugin.wechat && React.createElement(
-							'div',
-							{ className: 'qr' },
-							React.createElement(
-								'div',
-								{ style: { fontSize: 20, margin: 10 } },
-								'\u5FAE\u4FE1\u626B\u4E00\u626B'
-							),
-							React.createElement(QRCode, { value: window.location.origin + window.location.pathname + "#/znpluginwechat.adminuserloginwithqrcode" }),
-							React.createElement(
-								'span',
-								null,
-								'\u767B\u5F55/\u6CE8\u518C'
-							)
-						)
-					),
+					React.createElement('div', { className: 'intro' }),
 					React.createElement(
 						'div',
 						{ className: 'form-dialog' },
@@ -188,21 +150,6 @@ var _exports = React.createClass({
 								{ className: 'form-item' },
 								React.createElement('i', { className: 'fa fa-lock' }),
 								React.createElement('input', { name: 'password', type: 'password', placeholder: '\u5BC6\u7801', required: true })
-							),
-							React.createElement(
-								'div',
-								{ className: 'form-tips' },
-								React.createElement(
-									'label',
-									null,
-									React.createElement('input', { type: 'checkbox' }),
-									'\u8BB0\u4F4F\u5BC6\u7801'
-								),
-								React.createElement(
-									'label',
-									null,
-									'\u5FD8\u8BB0\u5BC6\u7801'
-								)
 							),
 							React.createElement(
 								'button',

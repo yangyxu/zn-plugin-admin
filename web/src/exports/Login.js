@@ -92,7 +92,11 @@ var exports = React.createClass({
 						<div className="head-right">
 							<ul className="link-nav">
 								<li><a href={this.state.base.company_website}>官网</a></li>
-								<li>下载</li>
+								{
+									/*
+									<li>下载</li>
+									*/
+								}
 							</ul>
 						</div>
 					</div>
@@ -101,18 +105,22 @@ var exports = React.createClass({
 					<div className="warp" style={{width: 640}}>
 						<div className="intro">
 							{
-								this.state.base.client_qr_image && <div className="qr">
-									<div style={{fontSize:20,margin: 10}}>手机客户端</div>
-									<img className="qr-image" src={this.state.base.client_qr_image} />
-									<span>扫一扫立即下载</span>
-								</div>
-							}
-							{
-								zn.plugin.wechat && <div className="qr">
-									<div style={{fontSize:20,margin: 10}}>微信扫一扫</div>
-									<QRCode value={window.location.origin + window.location.pathname + "#/znpluginwechat.adminuserloginwithqrcode"} />
-									<span>登录/注册</span>
-								</div>
+								/*
+								{
+									this.state.base.client_qr_image && <div className="qr">
+										<div style={{fontSize:20,margin: 10}}>手机客户端</div>
+										<img className="qr-image" src={this.state.base.client_qr_image} />
+										<span>扫一扫立即下载</span>
+									</div>
+								}
+								{
+									zn.plugin.wechat && <div className="qr">
+										<div style={{fontSize:20,margin: 10}}>微信扫一扫</div>
+										<QRCode value={window.location.origin + window.location.pathname + "#/znpluginwechat.adminuserloginwithqrcode"} />
+										<span>登录/注册</span>
+									</div>
+								}
+								*/
 							}
 						</div>
 						<div className="form-dialog">
@@ -126,10 +134,14 @@ var exports = React.createClass({
 									<i className="fa fa-lock" />
 									<input name="password" type="password" placeholder="密码" required={true} />
 								</div>
-								<div className="form-tips">
-									<label><input type="checkbox" />记住密码</label>
-									<label>忘记密码</label>
-								</div>
+								{
+									/*
+									<div className="form-tips">
+										<label><input type="checkbox" />记住密码</label>
+										<label>忘记密码</label>
+									</div>
+									*/
+								}
 								<button onClick={this.__onLogin} className="btn-login">登 录</button>
 							</form>
 						</div>

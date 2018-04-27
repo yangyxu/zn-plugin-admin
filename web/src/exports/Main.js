@@ -85,7 +85,7 @@ var _exports = React.createClass({
 		});
 	},
 	__onCompanyClick: function (){
-		zn.react.session.relativeJump('/znpluginadmin.my.dashboard');
+		zn.react.session.doMain();
 	},
 	__onUserClick: function (user){
 		zn.preloader.open({content:'账号切换中...'});

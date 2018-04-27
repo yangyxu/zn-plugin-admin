@@ -1,12 +1,10 @@
 var React = require('react');
-module.exports = React.createClass({
-	__renderItem: function (item, index){
-		return (
-			<li className="menu-item">
-				<div className="item-title"><i className={"fa " + item.icon} />{item.zn_title}</div>
-				{ !!item.children && !!item.children.length && this.__renderChildren(item.children)}
-			</li>
-		);
+
+var MenuItem = React.createClass({
+	getInitialState: function (){
+		return {
+			active: false
+		}
 	},
 	__renderChildren: function (children){
 		return (
@@ -14,7 +12,7 @@ module.exports = React.createClass({
 				{
 					children.map(function (item, index){
 						return <li className={(item.url && zn.react.session.containPath(item.url))?'active-item':''} key={index} onClick={()=>this.__onSubItemClick(item, index)}>
-							<div className="item-title"><i className={"fa " + item.icon} />{item.zn_title}</div>
+							<div className="item-title"><div><i className={"fa " + item.icon} />{item.zn_title}</div></div>
 						</li>;
 					}.bind(this))
 				}
@@ -38,14 +36,30 @@ module.exports = React.createClass({
 				});
 		}
 	},
+	render: function (){
+		var item = this.props.item;
+		return (
+			<li className="menu-item" data-active={this.state.active}>
+				<div className="item-title" onClick={()=>this.setState({ active: !this.state.active })}>
+					<span><i className={"fa " + item.icon} />{item.zn_title}</span>
+					<i className={"fa zr-padding-3 zn-fr " + (this.state.active?'fa-angle-down':'fa-angle-right')} />
+				</div>
+				{ !!item.children && !!item.children.length && this.__renderChildren(item.children)}
+			</li>
+		);
+	}
+});
+
+module.exports = React.createClass({
+	__renderItem: function (item, index){
+		return <MenuItem onMenuItemClick={this.props.onMenuItemClick} item={item} index={index} />;
+	},
 	render:function(){
 		return (
-			<div className="zn-plugin-admin-navigation-bar" style={this.props.style}>
+			<div className={zn.react.classname("zn-plugin-admin-navigation-bar", this.props.className)} style={this.props.style}>
 				<ul className="menu-list">
 					{
-						this.props.data.map(function (item, index){
-							return this.__renderItem(item, index);
-						}.bind(this))
+						this.props.data.map(this.__renderItem)
 					}
 				</ul>
 			</div>
