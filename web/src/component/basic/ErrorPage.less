@@ -1,0 +1,58 @@
+.zn-plugin-admin-error-page{
+    --font-color: #434343;
+    --compact-font-color: #434343;
+    --blue-color: rgb(0, 122, 255);
+    --horizontal-padding: 32px;
+    --compact-horizontal-padding: 20px;
+    --border-radius: 6px;
+    --ios-border-radius: 10px;
+    --title-color: #444;
+    --icon-element-color: #dc143c;
+
+    font-size: 13px;
+    background: linear-gradient(30deg, #dfdfdf 0%, #fafafb 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    cursor: default;
+    -webkit-user-select: none;
+    .alert{
+        background-color: white;
+        min-width: 320px;
+        max-width: 672px;
+        position: relative;
+        margin: 0 auto;
+        padding-top: 28px;
+        border-radius: var(--border-radius);
+        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.14);
+        h1{
+            font-size: 2em;
+            font-weight: 700;
+            line-height: 30px;
+            padding: 0 var(--horizontal-padding);
+            margin-bottom: -6px;
+            .l12n{
+                overflow: hidden;
+                color: var(--title-color);
+                padding-top: 3px;
+            }
+        }
+        .alert-body {
+            margin: 21px 0 0 0;
+            padding-left: var(--horizontal-padding);
+            padding-right: var(--horizontal-padding);
+            padding-bottom: 24px;
+            color: var(--font-color);
+        }
+        .details{
+            padding: 22px var(--horizontal-padding) 10px var(--horizontal-padding);
+            border-top: 1px solid rgb(217, 217, 217);
+            color: var(--font-color);
+            background-color: rgb(243, 243, 243);
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            .details-text{
+
+            }
+        }
+    }
+}

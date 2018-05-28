@@ -3,7 +3,7 @@ var React = require('react');
 var MenuItem = React.createClass({
 	getInitialState: function (){
 		return {
-			active: false
+			active: true
 		}
 	},
 	__renderChildren: function (children){
@@ -12,7 +12,7 @@ var MenuItem = React.createClass({
 				{
 					children.map(function (item, index){
 						return <li className={(item.url && zn.react.session.containPath(item.url))?'active-item':''} key={index} onClick={()=>this.__onSubItemClick(item, index)}>
-							<div className="item-title"><div><i className={"fa " + item.icon} />{item.zn_title}</div></div>
+							<div className="item-title"><div className="title"><i className={"fa " + item.icon} />{item.zn_title}</div></div>
 						</li>;
 					}.bind(this))
 				}
@@ -41,7 +41,7 @@ var MenuItem = React.createClass({
 		return (
 			<li className="menu-item" data-active={this.state.active}>
 				<div className="item-title" onClick={()=>this.setState({ active: !this.state.active })}>
-					<span><i className={"fa " + item.icon} />{item.zn_title}</span>
+					<span className="title"><i className={"fa " + item.icon} />{item.zn_title}</span>
 					<i className={"fa zr-padding-3 zn-fr " + (this.state.active?'fa-angle-down':'fa-angle-right')} />
 				</div>
 				{ !!item.children && !!item.children.length && this.__renderChildren(item.children)}

@@ -11,12 +11,12 @@ var _exports = {},
     }
 });
 
-['Login', 'UserActive'].forEach(function (path){
+['Login', 'Main', 'UserActive'].forEach(function (path){
     _path = './' + path;
-    _exports[('/' + path).toLowerCase()] = require(_path);
+    _exports[('/znpluginadmin.' + path).toLowerCase()] = require(_path);
 });
 
-_subs['/'] = require('./Main.js');
-_exports['/main'] = _subs;
+//_subs['/'] = require('./Main.js');
+//_exports['/main'] = _subs;
 
-module.exports = _exports;
+module.exports = [_subs, _exports];

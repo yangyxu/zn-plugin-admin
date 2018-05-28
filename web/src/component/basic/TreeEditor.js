@@ -25,7 +25,8 @@ module.exports = React.createClass({
 				{ tooltip: '删除当前项', value: 'delete', icon: 'fa-remove' },
 				{ tooltip: '编辑当前项', value: 'edit', icon: 'fa-edit' },
 				{ tooltip: '上移当前项', value: 'up', icon: 'fa-angle-up' },
-				{ tooltip: '下移当前项', value: 'down', icon: 'fa-angle-down' }
+				{ tooltip: '下移当前项', value: 'down', icon: 'fa-angle-down' },
+				{ tooltip: '移动到', value: 'moveTo', icon: 'fa-retweet' }
 			]
 		}
 	},
@@ -105,6 +106,31 @@ module.exports = React.createClass({
 			});
 		}.bind(this));
 	},
+	__onDataItemClick: function (curr, click, treeColumn){
+		if(curr.id == click.id){
+			return zn.notification.warning('目标节点不能跟原始节点一样'), false;
+		}
+		//zn.dialog.close();
+		zn.preloader.open("正在提交中...");
+		zn.http.post('/zn.plugin.admin/model/moveTreeNode', {
+			model: this.props.model,
+			source: curr.id,
+			target: click.id
+		}).then(function (data){
+			treeColumn.props.parent.refresh();
+			zn.notification.success('移动成功！');
+			zn.preloader.close();
+		}.bind(this), function (data){
+			zn.notification.error('移动出错: ' + data.result);
+			zn.preloader.close();
+		});
+	},
+	moveTreeColumn: function (curr, treeColumn){
+		zn.dialog({
+			title: "移动节点",
+			content: <zn.react.Tree data={this.state.data} onItemClick={(data)=>this.__onDataItemClick(curr, data, treeColumn)} contentRender={this.__itemContentRender} />
+		});
+	},
 	__onToolbarClick: function (item){
 		switch (item.value) {
 			case 'addMain':
@@ -124,6 +150,9 @@ module.exports = React.createClass({
 				break;
 			case 'delete':
 				this.deleteTreeColumn(this.state.currData, this.state.treeColumn);
+				break;
+			case 'moveTo':
+				this.moveTreeColumn(this.state.currData, this.state.treeColumn);
 				break;
 		}
 	},

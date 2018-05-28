@@ -155,6 +155,28 @@ zn.define(function () {
                     }
                 }
             },
+            moveTreeNode: {
+                method: 'GET/POST',
+                argv: {
+                    model: null,
+                    source: null,
+                    target: null
+                },
+                value: function (request, response, chain){
+                    var _values = request.getValue(),
+                        _collection = this.collection(_values.model);
+                    if(_collection && _collection.moveTreeNode){
+                        _collection.moveTreeNode(request.getValue('source'), request.getValue('target'))
+                                    .then(function (data){
+                                        response.success(data);
+                                    }, function (err){
+                                        response.error(err);
+                                    });
+                    }else {
+                        response.error('Model is not exist!');
+                    }
+                }
+            },
             getAllByPid: {
                 method: 'GET/POST',
                 argv: {

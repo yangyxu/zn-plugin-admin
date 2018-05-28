@@ -1,6 +1,7 @@
 var React = require('react');
 module.exports = React.createClass({
 	__onSubmitSuccess: function (){
+		zn.notification.success("编辑成功");
 		if(this.props.data.treeitem.parent){
 			this.props.data.treeitem.parent.refresh();
 		}else {
