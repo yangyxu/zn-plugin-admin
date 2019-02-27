@@ -1,3 +1,4 @@
+require('./UsersForRoles.less');
 var React = require('react');
 module.exports = React.createClass({
 	getInitialState: function () {

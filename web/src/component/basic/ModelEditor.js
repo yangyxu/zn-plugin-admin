@@ -1,3 +1,4 @@
+require('./ModelEditor.less');
 var React = require('react');
 module.exports = React.createClass({
 	__onSubmitSuccess: function (){

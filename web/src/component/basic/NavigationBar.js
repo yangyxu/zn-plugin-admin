@@ -1,3 +1,4 @@
+require('./NavigationBar.less');
 var React = require('react');
 
 var MenuItem = React.createClass({

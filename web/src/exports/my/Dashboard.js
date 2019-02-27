@@ -1,3 +1,4 @@
+require('./Dashboard.less');
 var React = require('react');
 
 module.exports = React.createClass({

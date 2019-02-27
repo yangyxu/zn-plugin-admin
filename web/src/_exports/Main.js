@@ -1,3 +1,4 @@
+require('./Main.less');
 var React = require('react');
 var NavigationBar = require('../component/basic/NavigationBar');
 var UserSessionInfo = require('../component/basic/UserSessionInfo');

@@ -1,3 +1,4 @@
+require('./ConfigManager.less');
 var React = require('react');
 var Config = React.createClass({
 	getInitialState: function (){

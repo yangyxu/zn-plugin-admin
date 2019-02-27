@@ -1,3 +1,4 @@
+require('./Info.less');
 var React = require('react');
 
 module.exports = React.createClass({
@@ -65,7 +66,6 @@ module.exports = React.createClass({
 		if(!this.state.info){
 			return <zn.react.DataLoader content="正在加载中..." loader="timer" />;
 		}
-		console.log(zn.plugin.wechat.ZNPluginAdminUserWechatInfo);
 		return (
 			<zn.react.Page title={this.state.info.name} icon="fa-newspaper-o" toolbarItems={this.state.toolbarItems} >
 				<div className="zn-plugin-admin-user-info">
@@ -83,7 +83,7 @@ module.exports = React.createClass({
 						</div>
 					</div>
 					{
-						(zn.plugin.wechat.ZNPluginAdminUserWechatInfo) && <zn.react.Card  className="wechat-info" title="已绑定微信">
+						(zn.plugin.wechat && zn.plugin.wechat.ZNPluginAdminUserWechatInfo) && <zn.react.Card  className="wechat-info" title="已绑定微信">
 							<zn.plugin.wechat.ZNPluginAdminUserWechatInfo openid={this.state.info.zn_plugin_wechat_open_id} />
 						</zn.react.Card>
 					}

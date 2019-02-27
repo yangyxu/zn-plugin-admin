@@ -1,5 +1,6 @@
+require('./UserActive.less');
 var React = require('react');
-var QRCode = require('qrcode.react');
+//var QRCode = require('qrcode.react');
 var exports = React.createClass({
 	getInitialState: function (){
 		return {

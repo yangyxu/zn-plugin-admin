@@ -1,3 +1,4 @@
+require('./LetterSelector.less');
 var React = require('react');
 var CHARS = zn.char.getUppercaseLetters();
 

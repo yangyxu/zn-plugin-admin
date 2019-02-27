@@ -3,18 +3,20 @@ var _exports = {},
     _path = null,
     _export = null;
 
-['devtool', 'my', 'project','setting','user'].forEach(function (path){
-    _path = './' + path + '/index.js';
+var _data = ['devtool', 'my', 'project','setting','user'];
+for(var i = 0, _len = _data.length; i < _len; i++){
+    _path = './' + _data[i] + '/index.js';
     _export = require(_path);
     for(var key in _export){
         _subs[('/znpluginadmin.' + path + '.' + key).toLowerCase()] = _export[key];
     }
-});
+}
+
 
 ['Login'].forEach(function (path){
     _path = './' + path;
     _exports[('/' + path).toLowerCase()] = require(_path);
-});
+}.bind(this));
 
 _subs['/'] = require('./Main.js');
 _exports['/main'] = _subs;

@@ -1,3 +1,4 @@
+require('./RoleSelector.less');
 var React = require('react');
 var TreeSelector = require('./TreeSelector');
 module.exports = React.createClass({

@@ -1,3 +1,4 @@
+require('./UserList.less');
 var React = require('react');
 var LetterSelector = require('./LetterSelector.js');
 var RoleSelector = require('./RoleSelector.js');

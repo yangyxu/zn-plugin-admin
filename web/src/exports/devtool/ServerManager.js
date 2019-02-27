@@ -1,3 +1,4 @@
+require('./ServerManager.less');
 var React = require('react');
 
 var API = React.createClass({

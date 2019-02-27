@@ -1,3 +1,3 @@
 zn.plugin.admin = require('./component/index.js');
-zn.deepEachObject({}, function (value){ return require(value); });
+require('./style/index.js');
 module.exports = require('./exports/index.js');

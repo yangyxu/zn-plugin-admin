@@ -1,3 +1,4 @@
+require('./Login.less');
 var React = require('react');
 var exports = React.createClass({
 	getInitialState: function (){

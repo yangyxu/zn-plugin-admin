@@ -1,3 +1,4 @@
+require('./ColorPicker.less');
 var React = require('react');
 var ChromePicker = require('react-color').ChromePicker;
 module.exports = React.createClass({
