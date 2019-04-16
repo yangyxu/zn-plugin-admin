@@ -1297,7 +1297,7 @@ __webpack_require__(116);
 
 var React = __webpack_require__(0);
 
-var CHARS = zn.char.getUppercaseLetters();
+var CHARS = zn["char"].getUppercaseLetters();
 module.exports = React.createClass({
   displayName: "exports",
   getDefaultProps: function getDefaultProps() {
@@ -4296,14 +4296,14 @@ module.exports = React.createClass({
           text: '添加',
           icon: 'fa-plus',
           type: 'submit',
-          float: 'right',
+          "float": 'right',
           style: {
             marginRight: 0
           }
         }, {
           text: '取消',
           type: 'cancle',
-          float: 'right',
+          "float": 'right',
           status: 'danger'
         }],
         items: this.props.formItems
@@ -4325,7 +4325,7 @@ module.exports = React.createClass({
           text: '修改',
           icon: 'fa-edit',
           type: 'submit',
-          float: 'right',
+          "float": 'right',
           style: {
             marginRight: 0
           }
@@ -4333,7 +4333,7 @@ module.exports = React.createClass({
           text: '取消',
           type: 'cancle',
           status: 'danger',
-          float: 'right'
+          "float": 'right'
         }],
         items: this.props.formItems
       })
@@ -4731,7 +4731,7 @@ module.exports = React.createClass({
           text: '添加',
           icon: 'fa-plus',
           type: 'submit',
-          float: 'right',
+          "float": 'right',
           style: {
             marginRight: 0
           }
@@ -4739,7 +4739,7 @@ module.exports = React.createClass({
           text: '取消',
           type: 'cancle',
           status: 'danger',
-          float: 'right'
+          "float": 'right'
         }],
         items: this.state.formItems
       })
@@ -16933,7 +16933,7 @@ module.exports = React.createClass({
           text: '新建项目',
           icon: 'fa-plus',
           type: 'submit',
-          float: 'right',
+          "float": 'right',
           style: {
             marginRight: 0
           }
@@ -16941,7 +16941,7 @@ module.exports = React.createClass({
           text: '取消',
           type: 'cancle',
           status: 'danger',
-          float: 'right'
+          "float": 'right'
         }],
         items: this.props.insertInputs
       })
@@ -16964,7 +16964,7 @@ module.exports = React.createClass({
           text: '更新',
           icon: 'fa-edit',
           type: 'submit',
-          float: 'right',
+          "float": 'right',
           style: {
             marginRight: 0
           }
@@ -16972,7 +16972,7 @@ module.exports = React.createClass({
           text: '取消',
           type: 'cancle',
           status: 'danger',
-          float: 'right'
+          "float": 'right'
         }],
         items: this.props.updateInputs
       })
@@ -17019,7 +17019,7 @@ module.exports = React.createClass({
       begin: 35,
       barWidth: 3
     }, React.createElement(zn.react.ButtonGroup, {
-      float: "right",
+      "float": "right",
       items: this.state.toolbarItems,
       onClick: this.__onToolbarClick
     }), React.createElement(zn.react.PagerView, {
@@ -17119,7 +17119,7 @@ module.exports = React.createClass({
           text: '添加',
           icon: 'fa-plus',
           type: 'submit',
-          float: 'right',
+          "float": 'right',
           style: {
             marginRight: 0
           }
@@ -17127,7 +17127,7 @@ module.exports = React.createClass({
           text: '取消',
           type: 'cancle',
           status: 'danger',
-          float: 'right'
+          "float": 'right'
         }],
         items: [{
           name: 'title',
@@ -17157,7 +17157,7 @@ module.exports = React.createClass({
           text: '添加',
           icon: 'fa-plus',
           type: 'submit',
-          float: 'right',
+          "float": 'right',
           style: {
             marginRight: 0
           }
@@ -17165,7 +17165,7 @@ module.exports = React.createClass({
           text: '取消',
           type: 'cancle',
           status: 'danger',
-          float: 'right'
+          "float": 'right'
         }],
         items: [{
           name: 'title',
@@ -17217,7 +17217,7 @@ module.exports = React.createClass({
       begin: 35,
       barWidth: 3
     }, React.createElement(zn.react.ButtonGroup, {
-      float: "right",
+      "float": "right",
       items: this.state.toolbarItems,
       onClick: this.__onToolbarClick
     }), React.createElement(zn.react.PagerView, {
@@ -17288,7 +17288,7 @@ module.exports = React.createClass({
           text: '添加',
           icon: 'fa-plus',
           type: 'submit',
-          float: 'right',
+          "float": 'right',
           style: {
             marginRight: 0
           }
@@ -17296,7 +17296,7 @@ module.exports = React.createClass({
           text: '取消',
           type: 'cancle',
           status: 'danger',
-          float: 'right'
+          "float": 'right'
         }],
         items: this.props.formItems
       })
@@ -17351,7 +17351,7 @@ module.exports = React.createClass({
           text: '更新',
           icon: 'fa-edit',
           type: 'submit',
-          float: 'right',
+          "float": 'right',
           style: {
             marginRight: 0
           }
@@ -17359,7 +17359,7 @@ module.exports = React.createClass({
           text: '取消',
           type: 'cancle',
           status: 'danger',
-          float: 'right'
+          "float": 'right'
         }],
         items: this.props.formItems
       })
@@ -17530,7 +17530,7 @@ var API = React.createClass({
           onClick: function onClick() {
             return _this.__submit();
           },
-          float: "right",
+          "float": "right",
           text: "\u53D1\u9001\u8BF7\u6C42"
         });
       }
@@ -17836,7 +17836,7 @@ var API = React.createClass({
           onClick: function onClick() {
             return _this.__submit();
           },
-          float: "right",
+          "float": "right",
           text: "\u53D1\u9001\u8BF7\u6C42"
         });
       }
@@ -18816,7 +18816,7 @@ var Config = React.createClass({
           onClick: function onClick() {
             return _this.__submit();
           },
-          float: "right",
+          "float": "right",
           text: "\u53D1\u9001\u8BF7\u6C42"
         });
       }

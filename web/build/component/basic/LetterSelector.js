@@ -4,7 +4,7 @@ require('./LetterSelector.less');
 
 var React = require('react');
 
-var CHARS = zn.char.getUppercaseLetters();
+var CHARS = zn["char"].getUppercaseLetters();
 module.exports = React.createClass({
   displayName: "exports",
   getDefaultProps: function getDefaultProps() {

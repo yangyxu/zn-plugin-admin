@@ -57,14 +57,14 @@ module.exports = React.createClass({
           text: '添加',
           icon: 'fa-plus',
           type: 'submit',
-          float: 'right',
+          "float": 'right',
           style: {
             marginRight: 0
           }
         }, {
           text: '取消',
           type: 'cancle',
-          float: 'right',
+          "float": 'right',
           status: 'danger'
         }],
         items: this.props.formItems
@@ -86,7 +86,7 @@ module.exports = React.createClass({
           text: '修改',
           icon: 'fa-edit',
           type: 'submit',
-          float: 'right',
+          "float": 'right',
           style: {
             marginRight: 0
           }
@@ -94,7 +94,7 @@ module.exports = React.createClass({
           text: '取消',
           type: 'cancle',
           status: 'danger',
-          float: 'right'
+          "float": 'right'
         }],
         items: this.props.formItems
       })

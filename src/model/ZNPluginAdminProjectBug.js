@@ -1,12 +1,10 @@
 zn.define(function () {
 
-    var model = zn.db.common.model;
-
     return zn.Model("zn_plugin_admin_project_bug", {
         mixins: [
-            model.Base,
-            model.Tag,
-            model.Rights
+            zn.db.common.model.Base,
+            zn.db.common.model.Tag,
+            zn.db.common.model.Rights
         ],
         properties: {
             project_id: {

@@ -55,7 +55,7 @@ module.exports = React.createClass({
           text: '新建项目',
           icon: 'fa-plus',
           type: 'submit',
-          float: 'right',
+          "float": 'right',
           style: {
             marginRight: 0
           }
@@ -63,7 +63,7 @@ module.exports = React.createClass({
           text: '取消',
           type: 'cancle',
           status: 'danger',
-          float: 'right'
+          "float": 'right'
         }],
         items: this.props.insertInputs
       })
@@ -86,7 +86,7 @@ module.exports = React.createClass({
           text: '更新',
           icon: 'fa-edit',
           type: 'submit',
-          float: 'right',
+          "float": 'right',
           style: {
             marginRight: 0
           }
@@ -94,7 +94,7 @@ module.exports = React.createClass({
           text: '取消',
           type: 'cancle',
           status: 'danger',
-          float: 'right'
+          "float": 'right'
         }],
         items: this.props.updateInputs
       })
@@ -141,7 +141,7 @@ module.exports = React.createClass({
       begin: 35,
       barWidth: 3
     }, React.createElement(zn.react.ButtonGroup, {
-      float: "right",
+      "float": "right",
       items: this.state.toolbarItems,
       onClick: this.__onToolbarClick
     }), React.createElement(zn.react.PagerView, {

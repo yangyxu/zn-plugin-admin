@@ -47,7 +47,7 @@ var Config = React.createClass({
           onClick: function onClick() {
             return _this.__submit();
           },
-          float: "right",
+          "float": "right",
           text: "\u53D1\u9001\u8BF7\u6C42"
         });
       }

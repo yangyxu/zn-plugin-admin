@@ -1,10 +1,8 @@
 zn.define(function () {
 
-    var model = zn.db.common.model;
-
     return zn.Model("zn_plugin_admin_user_log", {
         mixins: [
-            model.Base
+            zn.db.common.model.Base
         ],
         properties: {
             user_id: {

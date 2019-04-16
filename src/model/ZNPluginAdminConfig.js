@@ -1,11 +1,9 @@
 zn.define(function () {
 
-    var model = zn.db.common.model;
-
     return zn.Model("zn_plugin_admin_config", {
         mixins: [
-            model.Base,
-            model.Rights
+            zn.db.common.model.Base,
+            zn.db.common.model.Rights
         ],
         properties: {
             _id: {
@@ -28,7 +26,7 @@ zn.define(function () {
                 type: ['varchar', 2000],
                 default: ''
             },
-            _rich_value: {
+            _data: {
                 value: null,
                 type: ['longtext']
             },
