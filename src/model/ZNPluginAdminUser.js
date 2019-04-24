@@ -1,8 +1,10 @@
 zn.define(['node:chinese-to-pinyin'], function (pinyin) {
 
+    var model = zn.db.common.model;
+
     return zn.Model("zn_plugin_admin_user", {
         mixins: [
-            zn.db.common.model.Base
+            model.Base
         ],
         properties: {
             _id: {
@@ -125,6 +127,7 @@ zn.define(['node:chinese-to-pinyin'], function (pinyin) {
                 type: ['varchar', 5000],
                 default: ','
             },
+            /*
             login_times: {
                 value: null,
                 type: ['int', 11],
@@ -140,7 +143,7 @@ zn.define(['node:chinese-to-pinyin'], function (pinyin) {
                 type: ['datetime'],
                 format: "date_format({},'%Y-%c-%d %h:%i:%s')",
                 default: null
-            },
+            },*/
             last_login_time: {
                 value: null,
                 type: ['datetime'],

@@ -1,10 +1,12 @@
 zn.define(function () {
 
+    var model = zn.db.common.model;
+
     return zn.Model("zn_plugin_admin_project", {
         mixins: [
-            zn.db.common.model.Base,
-            zn.db.common.model.Tree,
-            zn.db.common.model.Rights
+            model.Base,
+            model.Tree,
+            model.Rights
         ],
         properties: {
             type: {

@@ -1,11 +1,13 @@
 zn.define(function () {
 
+    var model = zn.db.common.model;
+
     return zn.Model("zn_plugin_admin_var", {
         mixins: [
-            zn.db.common.model.Base,
-            zn.db.common.model.Tag,
-            zn.db.common.model.Tree,
-            zn.db.common.model.Rights
+            model.Base,
+            model.Tag,
+            model.Tree,
+            model.Rights
         ],
         properties: {
             _id: {
@@ -23,7 +25,7 @@ zn.define(function () {
                 type: ['varchar', 2000],
                 default: ''
             },
-            zn_plugin_admin_menu_id: {
+            menu_id: {
                 value: null,
                 type: ['int', 11],
                 default: 0

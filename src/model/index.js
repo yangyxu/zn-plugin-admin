@@ -1,12 +1,5 @@
 zn.define([
-    './Group',
-    './GroupCompany',
-    './GroupRef',
     './ZNPluginAdminConfig',
-    './ZNPluginAdminGroup',
-    './ZNPluginAdminGroupType',
-    './ZNPluginAdminGroupTypeTable',
-    './ZNPluginAdminGroupTypeTableField',
     './ZNPluginAdminMenu',
     './ZNPluginAdminMenuTable',
     './ZNPluginAdminMenuTableField',
@@ -15,6 +8,5 @@ zn.define([
     './ZNPluginAdminRole',
     './ZNPluginAdminUser',
     './ZNPluginAdminUserLog',
-    './ZNPluginAdminUserMessage',
     './ZNPluginAdminVar'
 ]);

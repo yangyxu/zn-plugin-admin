@@ -234,13 +234,7 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                 value: function (request, response, chain){
                     var _user = null;
                     this.beginTransaction()
-                        .query(zn.sql.select({
-                            table: 'zn_plugin_admin_user',
-                            fields: '*',
-                            where: {
-                                id: request.getValue('uid')
-                            }
-                        }))
+                        .query("select * from zn_plugin_admin_user where id={0};".format(request.getValue('uid')))
                         .query('update login time', function (sql, rows){
                             if(rows.length){
                                 _user = rows[0];
