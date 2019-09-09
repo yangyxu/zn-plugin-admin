@@ -20158,7 +20158,7 @@ module.exports = React.createClass({
       className: "item"
     }, this.state.info.zn_note))), zn.plugin.wechat && zn.plugin.wechat.ZNPluginAdminUserWechatInfo && React.createElement(zn.react.Card, {
       className: "wechat-info",
-      title: "\u5DF2\u7ED1\u5B9A\u5FAE\u4FE1"
+      title: "\u5FAE\u4FE1\u7ED1\u5B9A\u53CA\u67E5\u770B"
     }, React.createElement(zn.plugin.wechat.ZNPluginAdminUserWechatInfo, {
       openid: this.state.info.zn_plugin_wechat_open_id
     })), React.createElement(zn.react.Card, {
@@ -20977,10 +20977,8 @@ var exports = React.createClass({
     }, React.createElement("div", {
       className: "TM"
     }, React.createElement("a", {
-      href: "http://www.youyangit.com"
-    }, React.createElement("img", {
-      src: "./images/youyangit-logo.png"
-    }), "\u4E0A\u6D77\u4F51\u6D0B\u4FE1\u606F\u79D1\u6280\u6709\u9650\u516C\u53F8"), " \u63D0\u4F9B\u6280\u672F\u652F\u6301"))));
+      href: ""
+    }, "\u4E0A\u6D77\u4F51\u6D0B\u4FE1\u606F\u79D1\u6280\u6709\u9650\u516C\u53F8"), " \u63D0\u4F9B\u6280\u672F\u652F\u6301"))));
   }
 });
 module.exports = exports;
@@ -21233,10 +21231,8 @@ var _exports = React.createClass({
     }, React.createElement("div", {
       className: "TM"
     }, React.createElement("a", {
-      href: "http://www.youyangit.com"
-    }, React.createElement("img", {
-      src: "./images/youyangit-logo.png"
-    }), "\u4E0A\u6D77\u4F51\u6D0B\u4FE1\u606F\u79D1\u6280\u6709\u9650\u516C\u53F8"), " \u63D0\u4F9B\u6280\u672F\u652F\u6301"))));
+      href: ""
+    }, "\u4E0A\u6D77\u4F51\u6D0B\u4FE1\u606F\u79D1\u6280\u6709\u9650\u516C\u53F8"), " \u63D0\u4F9B\u6280\u672F\u652F\u6301"))));
   }
 });
 

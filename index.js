@@ -1,2 +1,8 @@
 require('./web/dist/index.css');
-module.exports = Object.values(require('./web/dist/index.js'));
+var _exports = require('./web/dist/index.js'),
+    _values = [];
+    
+for(var key in _exports) {
+    _values.push(_exports[key]);
+}
+module.exports = _values;

@@ -83,7 +83,7 @@ module.exports = React.createClass({
 						</div>
 					</div>
 					{
-						(zn.plugin.wechat && zn.plugin.wechat.ZNPluginAdminUserWechatInfo) && <zn.react.Card  className="wechat-info" title="已绑定微信">
+						(zn.plugin.wechat && zn.plugin.wechat.ZNPluginAdminUserWechatInfo) && <zn.react.Card  className="wechat-info" title="微信绑定及查看">
 							<zn.plugin.wechat.ZNPluginAdminUserWechatInfo openid={this.state.info.zn_plugin_wechat_open_id} />
 						</zn.react.Card>
 					}

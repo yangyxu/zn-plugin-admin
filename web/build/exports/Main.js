@@ -238,10 +238,8 @@ var _exports = React.createClass({
     }, React.createElement("div", {
       className: "TM"
     }, React.createElement("a", {
-      href: "http://www.youyangit.com"
-    }, React.createElement("img", {
-      src: "./images/youyangit-logo.png"
-    }), "\u4E0A\u6D77\u4F51\u6D0B\u4FE1\u606F\u79D1\u6280\u6709\u9650\u516C\u53F8"), " \u63D0\u4F9B\u6280\u672F\u652F\u6301"))));
+      href: ""
+    }, "\u4E0A\u6D77\u4F51\u6D0B\u4FE1\u606F\u79D1\u6280\u6709\u9650\u516C\u53F8"), " \u63D0\u4F9B\u6280\u672F\u652F\u6301"))));
   }
 });
 

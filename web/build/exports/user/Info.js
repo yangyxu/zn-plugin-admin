@@ -178,7 +178,7 @@ module.exports = React.createClass({
       className: "item"
     }, this.state.info.zn_note))), zn.plugin.wechat && zn.plugin.wechat.ZNPluginAdminUserWechatInfo && React.createElement(zn.react.Card, {
       className: "wechat-info",
-      title: "\u5DF2\u7ED1\u5B9A\u5FAE\u4FE1"
+      title: "\u5FAE\u4FE1\u7ED1\u5B9A\u53CA\u67E5\u770B"
     }, React.createElement(zn.plugin.wechat.ZNPluginAdminUserWechatInfo, {
       openid: this.state.info.zn_plugin_wechat_open_id
     })), React.createElement(zn.react.Card, {
