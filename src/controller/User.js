@@ -300,6 +300,39 @@ zn.define(['node:chinese-to-pinyin'],function (pinyin) {
                         });
                 }
             },
+            addUser: {
+                method: 'GET/POST',
+                argv: {
+                    values: null
+                },
+                value: function (request, response, chain){
+                    var _data = request.getValue('values');
+                    _data.name = _data.name.trim();
+                    this.beginTransaction()
+                        .query(zn.sql.select({
+                            table: "zn_plugin_admin_user",
+                            fields: 'id',
+                            where: "name='" + _data.name + "'"
+                        }))
+                        .query('insert user', function (sql, data){
+                            if(data[0]){
+                                return response.error('用户名已经存在, 请重新输入'), false;
+                            }else{
+                                return zn.sql.insert({
+                                    table: 'zn_plugin_admin_user',
+                                    values: _data
+                                });
+                            }
+                        }, function (err, rows){
+                            if(err){
+                                response.error(err.message);
+                            }else {
+                                response.success(rows);
+                            }
+                        })
+                        .commit();
+                }
+            },
             getUserAvatar: {
                 method: 'GET/POST',
                 argv: {

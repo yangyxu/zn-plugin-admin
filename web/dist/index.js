@@ -20481,7 +20481,7 @@ module.exports = React.createClass({
     zn.dialog({
       title: '新增用户',
       content: React.createElement(zn.react.Form, {
-        action: "/zn.plugin.admin/model/insert",
+        action: "/zn.plugin.admin/user/addUser",
         merge: "values",
         exts: {
           model: this.props.model
@@ -20510,7 +20510,61 @@ module.exports = React.createClass({
           }
         }),
         onSubmitSuccess: this.__doSuccess,
-        items: this.state.formItems
+        items: [{
+          title: '头像',
+          name: 'avatar_img',
+          type: 'ImageUploader'
+        }, {
+          title: '用户名',
+          name: 'name',
+          type: 'Label',
+          required: true,
+          error: '用户名必填项!'
+        }, {
+          title: '状态',
+          name: 'status',
+          type: 'Select',
+          data: [{
+            text: '待激活',
+            value: 0
+          }, {
+            text: '正常',
+            value: 1
+          }, {
+            text: '已锁定',
+            value: -1
+          }],
+          required: true
+        }, {
+          title: '邮箱',
+          name: 'email',
+          type: 'Input'
+        }, {
+          title: 'QQ',
+          name: 'qq',
+          type: 'Input'
+        }, {
+          title: '微信号',
+          name: 'wechat',
+          type: 'Input'
+        }, {
+          title: '手机号',
+          name: 'phone',
+          required: true,
+          type: 'Input'
+        }, {
+          title: '部门/角色',
+          type: zn.plugin.admin.RoleSelector,
+          name: 'role_ids'
+        }, {
+          title: '地址',
+          name: 'address',
+          type: 'Input'
+        }, {
+          title: '说明',
+          name: 'zn_note',
+          type: 'Textarea'
+        }]
       })
     });
   },

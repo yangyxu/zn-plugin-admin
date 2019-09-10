@@ -29,6 +29,7 @@ zn.define(['node:chinese-to-pinyin'], function (pinyin) {
             },
             name: {
                 value: null,
+                uniqued: true,
                 type: ['varchar', 100],
                 default: ''
             },
@@ -93,6 +94,7 @@ zn.define(['node:chinese-to-pinyin'], function (pinyin) {
                 default: ','
             },
             email: {
+                uniqued: true,
                 value: null,
                 type: ['varchar', 50],
                 default: ''
@@ -108,6 +110,7 @@ zn.define(['node:chinese-to-pinyin'], function (pinyin) {
                 default: ''
             },
             phone: {
+                uniqued: true,
                 value: null,
                 type: ['varchar', 20],
                 default: ''
