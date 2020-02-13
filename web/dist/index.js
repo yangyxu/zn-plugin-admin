@@ -386,7 +386,7 @@ module.exports = root;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.red = undefined;
+exports.red = exports.getContrastingColor = exports.isValidHex = exports.toState = exports.simpleCheckForValidColor = undefined;
 
 var _each = __webpack_require__(256);
 
@@ -398,71 +398,75 @@ var _tinycolor2 = _interopRequireDefault(_tinycolor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = {
-  simpleCheckForValidColor: function simpleCheckForValidColor(data) {
-    var keysToCheck = ['r', 'g', 'b', 'a', 'h', 's', 'l', 'v'];
-    var checked = 0;
-    var passed = 0;
-    (0, _each2.default)(keysToCheck, function (letter) {
-      if (data[letter]) {
-        checked += 1;
-        if (!isNaN(data[letter])) {
+var simpleCheckForValidColor = exports.simpleCheckForValidColor = function simpleCheckForValidColor(data) {
+  var keysToCheck = ['r', 'g', 'b', 'a', 'h', 's', 'l', 'v'];
+  var checked = 0;
+  var passed = 0;
+  (0, _each2.default)(keysToCheck, function (letter) {
+    if (data[letter]) {
+      checked += 1;
+      if (!isNaN(data[letter])) {
+        passed += 1;
+      }
+      if (letter === 's' || letter === 'l') {
+        var percentPatt = /^\d+%$/;
+        if (percentPatt.test(data[letter])) {
           passed += 1;
         }
-        if (letter === 's' || letter === 'l') {
-          var percentPatt = /^\d+%$/;
-          if (percentPatt.test(data[letter])) {
-            passed += 1;
-          }
-        }
       }
-    });
-    return checked === passed ? data : false;
-  },
-  toState: function toState(data, oldHue) {
-    var color = data.hex ? (0, _tinycolor2.default)(data.hex) : (0, _tinycolor2.default)(data);
-    var hsl = color.toHsl();
-    var hsv = color.toHsv();
-    var rgb = color.toRgb();
-    var hex = color.toHex();
-    if (hsl.s === 0) {
-      hsl.h = oldHue || 0;
-      hsv.h = oldHue || 0;
     }
-    var transparent = hex === '000000' && rgb.a === 0;
-
-    return {
-      hsl: hsl,
-      hex: transparent ? 'transparent' : '#' + hex,
-      rgb: rgb,
-      hsv: hsv,
-      oldHue: data.h || oldHue || hsl.h,
-      source: data.source
-    };
-  },
-  isValidHex: function isValidHex(hex) {
-    // disable hex4 and hex8
-    var lh = String(hex).charAt(0) === '#' ? 1 : 0;
-    return hex.length !== 4 + lh && hex.length < 7 + lh && (0, _tinycolor2.default)(hex).isValid();
-  },
-  getContrastingColor: function getContrastingColor(data) {
-    if (!data) {
-      return '#fff';
-    }
-    var col = this.toState(data);
-    if (col.hex === 'transparent') {
-      return 'rgba(0,0,0,0.4)';
-    }
-    var yiq = (col.rgb.r * 299 + col.rgb.g * 587 + col.rgb.b * 114) / 1000;
-    return yiq >= 128 ? '#000' : '#fff';
-  }
+  });
+  return checked === passed ? data : false;
 };
+
+var toState = exports.toState = function toState(data, oldHue) {
+  var color = data.hex ? (0, _tinycolor2.default)(data.hex) : (0, _tinycolor2.default)(data);
+  var hsl = color.toHsl();
+  var hsv = color.toHsv();
+  var rgb = color.toRgb();
+  var hex = color.toHex();
+  if (hsl.s === 0) {
+    hsl.h = oldHue || 0;
+    hsv.h = oldHue || 0;
+  }
+  var transparent = hex === '000000' && rgb.a === 0;
+
+  return {
+    hsl: hsl,
+    hex: transparent ? 'transparent' : '#' + hex,
+    rgb: rgb,
+    hsv: hsv,
+    oldHue: data.h || oldHue || hsl.h,
+    source: data.source
+  };
+};
+
+var isValidHex = exports.isValidHex = function isValidHex(hex) {
+  // disable hex4 and hex8
+  var lh = String(hex).charAt(0) === '#' ? 1 : 0;
+  return hex.length !== 4 + lh && hex.length < 7 + lh && (0, _tinycolor2.default)(hex).isValid();
+};
+
+var getContrastingColor = exports.getContrastingColor = function getContrastingColor(data) {
+  if (!data) {
+    return '#fff';
+  }
+  var col = toState(data);
+  if (col.hex === 'transparent') {
+    return 'rgba(0,0,0,0.4)';
+  }
+  var yiq = (col.rgb.r * 299 + col.rgb.g * 587 + col.rgb.b * 114) / 1000;
+  return yiq >= 128 ? '#000' : '#fff';
+};
+
 var red = exports.red = {
   hsl: { a: 1, h: 0, l: 0.5, s: 1 },
   hex: '#ff0000',
   rgb: { r: 255, g: 0, b: 0, a: 1 },
   hsv: { h: 0, s: 1, v: 1, a: 1 }
 };
+
+exports.default = exports;
 
 /***/ }),
 /* 9 */
@@ -3817,7 +3821,7 @@ module.exports = assignMergeValue;
 /***/ (function(module, exports) {
 
 /**
- * Gets the value at `key`, unless `key` is "__proto__".
+ * Gets the value at `key`, unless `key` is "__proto__" or "constructor".
  *
  * @private
  * @param {Object} object The object to query.
@@ -3825,6 +3829,10 @@ module.exports = assignMergeValue;
  * @returns {*} Returns the property value.
  */
 function safeGet(object, key) {
+  if (key === 'constructor' && typeof object[key] === 'function') {
+    return;
+  }
+
   if (key == '__proto__') {
     return;
   }
@@ -4014,6 +4022,7 @@ function debounce(func, wait, options) {
       }
       if (maxing) {
         // Handle invocations in a tight loop.
+        clearTimeout(timerId);
         timerId = setTimeout(timerExpired, wait);
         return invokeFunc(lastCallTime);
       }
@@ -4090,7 +4099,6 @@ var ColorWrap = exports.ColorWrap = function ColorWrap(Picker) {
         var isValidColor = _color2.default.simpleCheckForValidColor(data);
         if (isValidColor) {
           var colors = _color2.default.toState(data, data.h || _this.state.oldHue);
-          _this.setState(colors);
           _this.props.onSwatchHover && _this.props.onSwatchHover(colors, event);
         }
       };
@@ -4104,11 +4112,6 @@ var ColorWrap = exports.ColorWrap = function ColorWrap(Picker) {
     }
 
     _createClass(ColorPicker, [{
-      key: 'componentWillReceiveProps',
-      value: function componentWillReceiveProps(nextProps) {
-        this.setState(_extends({}, _color2.default.toState(nextProps.color, this.state.oldHue)));
-      }
-    }, {
       key: 'render',
       value: function render() {
         var optionalEvents = {};
@@ -4119,6 +4122,11 @@ var ColorWrap = exports.ColorWrap = function ColorWrap(Picker) {
         return _react2.default.createElement(Picker, _extends({}, this.props, this.state, {
           onChange: this.handleChange
         }, optionalEvents));
+      }
+    }], [{
+      key: 'getDerivedStateFromProps',
+      value: function getDerivedStateFromProps(nextProps, state) {
+        return _extends({}, _color2.default.toState(nextProps.color, state.oldHue));
       }
     }]);
 
@@ -8555,16 +8563,10 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
     value.forEach(function(subValue) {
       result.add(baseClone(subValue, bitmask, customizer, subValue, value, stack));
     });
-
-    return result;
-  }
-
-  if (isMap(value)) {
+  } else if (isMap(value)) {
     value.forEach(function(subValue, key) {
       result.set(key, baseClone(subValue, bitmask, customizer, key, value, stack));
     });
-
-    return result;
   }
 
   var keysFunc = isFull
@@ -9438,11 +9440,11 @@ var Alpha = exports.Alpha = function (_ref) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref2 = Alpha.__proto__ || Object.getPrototypeOf(Alpha)).call.apply(_ref2, [this].concat(args))), _this), _this.handleChange = function (e, skip) {
-      var change = alpha.calculateChange(e, skip, _this.props, _this.container);
-      change && _this.props.onChange && _this.props.onChange(change, e);
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref2 = Alpha.__proto__ || Object.getPrototypeOf(Alpha)).call.apply(_ref2, [this].concat(args))), _this), _this.handleChange = function (e) {
+      var change = alpha.calculateChange(e, _this.props.hsl, _this.props.direction, _this.props.a, _this.container);
+      change && typeof _this.props.onChange === 'function' && _this.props.onChange(change, e);
     }, _this.handleMouseDown = function (e) {
-      _this.handleChange(e, true);
+      _this.handleChange(e);
       window.addEventListener('mousemove', _this.handleChange);
       window.addEventListener('mouseup', _this.handleMouseUp);
     }, _this.handleMouseUp = function () {
@@ -9560,8 +9562,7 @@ exports.default = Alpha;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var calculateChange = exports.calculateChange = function calculateChange(e, skip, props, container) {
-  e.preventDefault();
+var calculateChange = exports.calculateChange = function calculateChange(e, hsl, direction, initialA, container) {
   var containerWidth = container.clientWidth;
   var containerHeight = container.clientHeight;
   var x = typeof e.pageX === 'number' ? e.pageX : e.touches[0].pageX;
@@ -9569,7 +9570,7 @@ var calculateChange = exports.calculateChange = function calculateChange(e, skip
   var left = x - (container.getBoundingClientRect().left + window.pageXOffset);
   var top = y - (container.getBoundingClientRect().top + window.pageYOffset);
 
-  if (props.direction === 'vertical') {
+  if (direction === 'vertical') {
     var a = void 0;
     if (top < 0) {
       a = 0;
@@ -9579,11 +9580,11 @@ var calculateChange = exports.calculateChange = function calculateChange(e, skip
       a = Math.round(top * 100 / containerHeight) / 100;
     }
 
-    if (props.hsl.a !== a) {
+    if (hsl.a !== a) {
       return {
-        h: props.hsl.h,
-        s: props.hsl.s,
-        l: props.hsl.l,
+        h: hsl.h,
+        s: hsl.s,
+        l: hsl.l,
         a: a,
         source: 'rgb'
       };
@@ -9598,11 +9599,11 @@ var calculateChange = exports.calculateChange = function calculateChange(e, skip
       _a = Math.round(left * 100 / containerWidth) / 100;
     }
 
-    if (props.a !== _a) {
+    if (initialA !== _a) {
       return {
-        h: props.hsl.h,
-        s: props.hsl.s,
-        l: props.hsl.l,
+        h: hsl.h,
+        s: hsl.s,
+        l: hsl.l,
         a: _a,
         source: 'rgb'
       };
@@ -9645,11 +9646,12 @@ var render = exports.render = function render(c1, c2, size, serverCanvas) {
 
 var get = exports.get = function get(c1, c2, size, serverCanvas) {
   var key = c1 + '-' + c2 + '-' + size + (serverCanvas ? '-server' : '');
-  var checkboard = render(c1, c2, size, serverCanvas);
 
   if (checkboardCache[key]) {
     return checkboardCache[key];
   }
+
+  var checkboard = render(c1, c2, size, serverCanvas);
   checkboardCache[key] = checkboard;
   return checkboard;
 };
@@ -9686,6 +9688,25 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var DEFAULT_ARROW_OFFSET = 1;
+
+var UP_KEY_CODE = 38;
+var DOWN_KEY_CODE = 40;
+var VALID_KEY_CODES = [UP_KEY_CODE, DOWN_KEY_CODE];
+var isValidKeyCode = function isValidKeyCode(keyCode) {
+  return VALID_KEY_CODES.indexOf(keyCode) > -1;
+};
+
+var getFormattedPercentage = function getFormattedPercentage(number) {
+  return number + '%';
+};
+var getNumberValue = function getNumberValue(value) {
+  return Number(String(value).replace(/%/g, ''));
+};
+var getIsPercentage = function getIsPercentage(value) {
+  return String(value).indexOf('%') > -1;
+};
+
 var EditableInput = exports.EditableInput = function (_ref) {
   _inherits(EditableInput, _ref);
 
@@ -9701,54 +9722,19 @@ var EditableInput = exports.EditableInput = function (_ref) {
     };
 
     _this.handleChange = function (e) {
-      if (_this.props.label) {
-        _this.props.onChange && _this.props.onChange(_defineProperty({}, _this.props.label, e.target.value), e);
-      } else {
-        _this.props.onChange && _this.props.onChange(e.target.value, e);
-      }
-
-      _this.setState({ value: e.target.value });
+      _this.setUpdatedValue(e.target.value, e);
     };
 
     _this.handleKeyDown = function (e) {
       // In case `e.target.value` is a percentage remove the `%` character
       // and update accordingly with a percentage
       // https://github.com/casesandberg/react-color/issues/383
-      var stringValue = String(e.target.value);
-      var isPercentage = stringValue.indexOf('%') > -1;
-      var number = Number(stringValue.replace(/%/g, ''));
-      if (!isNaN(number)) {
-        var amount = _this.props.arrowOffset || 1;
+      var value = getNumberValue(e.target.value);
+      if (!isNaN(value) && isValidKeyCode(e.keyCode)) {
+        var offset = _this.getArrowOffset();
+        var updatedValue = e.keyCode === UP_KEY_CODE ? value + offset : value - offset;
 
-        // Up
-        if (e.keyCode === 38) {
-          if (_this.props.label !== null) {
-            _this.props.onChange && _this.props.onChange(_defineProperty({}, _this.props.label, number + amount), e);
-          } else {
-            _this.props.onChange && _this.props.onChange(number + amount, e);
-          }
-
-          if (isPercentage) {
-            _this.setState({ value: number + amount + '%' });
-          } else {
-            _this.setState({ value: number + amount });
-          }
-        }
-
-        // Down
-        if (e.keyCode === 40) {
-          if (_this.props.label !== null) {
-            _this.props.onChange && _this.props.onChange(_defineProperty({}, _this.props.label, number - amount), e);
-          } else {
-            _this.props.onChange && _this.props.onChange(number - amount, e);
-          }
-
-          if (isPercentage) {
-            _this.setState({ value: number - amount + '%' });
-          } else {
-            _this.setState({ value: number - amount });
-          }
-        }
+        _this.setUpdatedValue(updatedValue, e);
       }
     };
 
@@ -9756,7 +9742,7 @@ var EditableInput = exports.EditableInput = function (_ref) {
       if (_this.props.dragLabel) {
         var newValue = Math.round(_this.props.value + e.movementX);
         if (newValue >= 0 && newValue <= _this.props.dragMax) {
-          _this.props.onChange && _this.props.onChange(_defineProperty({}, _this.props.label, newValue), e);
+          _this.props.onChange && _this.props.onChange(_this.getValueObjectWithLabel(newValue), e);
         }
       }
     };
@@ -9787,14 +9773,13 @@ var EditableInput = exports.EditableInput = function (_ref) {
   }
 
   _createClass(EditableInput, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      var input = this.input;
-      if (nextProps.value !== this.state.value) {
-        if (input === document.activeElement) {
-          this.setState({ blurValue: String(nextProps.value).toUpperCase() });
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (this.props.value !== this.state.value && (prevProps.value !== this.props.value || prevState.value !== this.state.value)) {
+        if (this.input === document.activeElement) {
+          this.setState({ blurValue: String(this.props.value).toUpperCase() });
         } else {
-          this.setState({ value: String(nextProps.value).toUpperCase(), blurValue: !this.state.blurValue && String(nextProps.value).toUpperCase() });
+          this.setState({ value: String(this.props.value).toUpperCase(), blurValue: !this.state.blurValue && String(this.props.value).toUpperCase() });
         }
       }
     }
@@ -9802,6 +9787,27 @@ var EditableInput = exports.EditableInput = function (_ref) {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       this.unbindEventListeners();
+    }
+  }, {
+    key: 'getValueObjectWithLabel',
+    value: function getValueObjectWithLabel(value) {
+      return _defineProperty({}, this.props.label, value);
+    }
+  }, {
+    key: 'getArrowOffset',
+    value: function getArrowOffset() {
+      return this.props.arrowOffset || DEFAULT_ARROW_OFFSET;
+    }
+  }, {
+    key: 'setUpdatedValue',
+    value: function setUpdatedValue(value, e) {
+      var onChangeValue = this.props.label ? this.getValueObjectWithLabel(value) : value;
+      this.props.onChange && this.props.onChange(onChangeValue, e);
+
+      var isPercentage = getIsPercentage(e.target.value);
+      this.setState({
+        value: isPercentage ? getFormattedPercentage(value) : value
+      });
     }
   }, {
     key: 'render',
@@ -9907,11 +9913,11 @@ var Hue = exports.Hue = function (_ref) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref2 = Hue.__proto__ || Object.getPrototypeOf(Hue)).call.apply(_ref2, [this].concat(args))), _this), _this.handleChange = function (e, skip) {
-      var change = hue.calculateChange(e, skip, _this.props, _this.container);
-      change && _this.props.onChange && _this.props.onChange(change, e);
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref2 = Hue.__proto__ || Object.getPrototypeOf(Hue)).call.apply(_ref2, [this].concat(args))), _this), _this.handleChange = function (e) {
+      var change = hue.calculateChange(e, _this.props.direction, _this.props.hsl, _this.container);
+      change && typeof _this.props.onChange === 'function' && _this.props.onChange(change, e);
     }, _this.handleMouseDown = function (e) {
-      _this.handleChange(e, true);
+      _this.handleChange(e);
       window.addEventListener('mousemove', _this.handleChange);
       window.addEventListener('mouseup', _this.handleMouseUp);
     }, _this.handleMouseUp = function () {
@@ -10019,8 +10025,7 @@ exports.default = Hue;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var calculateChange = exports.calculateChange = function calculateChange(e, skip, props, container) {
-  e.preventDefault();
+var calculateChange = exports.calculateChange = function calculateChange(e, direction, hsl, container) {
   var containerWidth = container.clientWidth;
   var containerHeight = container.clientHeight;
   var x = typeof e.pageX === 'number' ? e.pageX : e.touches[0].pageX;
@@ -10028,7 +10033,7 @@ var calculateChange = exports.calculateChange = function calculateChange(e, skip
   var left = x - (container.getBoundingClientRect().left + window.pageXOffset);
   var top = y - (container.getBoundingClientRect().top + window.pageYOffset);
 
-  if (props.direction === 'vertical') {
+  if (direction === 'vertical') {
     var h = void 0;
     if (top < 0) {
       h = 359;
@@ -10039,12 +10044,12 @@ var calculateChange = exports.calculateChange = function calculateChange(e, skip
       h = 360 * percent / 100;
     }
 
-    if (props.hsl.h !== h) {
+    if (hsl.h !== h) {
       return {
         h: h,
-        s: props.hsl.s,
-        l: props.hsl.l,
-        a: props.hsl.a,
+        s: hsl.s,
+        l: hsl.l,
+        a: hsl.a,
         source: 'rgb'
       };
     }
@@ -10059,12 +10064,12 @@ var calculateChange = exports.calculateChange = function calculateChange(e, skip
       _h = 360 * _percent / 100;
     }
 
-    if (props.hsl.h !== _h) {
+    if (hsl.h !== _h) {
       return {
         h: _h,
-        s: props.hsl.s,
-        l: props.hsl.l,
-        a: props.hsl.a,
+        s: hsl.s,
+        l: hsl.l,
+        a: hsl.a,
         source: 'rgb'
       };
     }
@@ -10315,8 +10320,8 @@ function baseMerge(object, source, srcIndex, customizer, stack) {
     return;
   }
   baseFor(source, function(srcValue, key) {
+    stack || (stack = new Stack);
     if (isObject(srcValue)) {
-      stack || (stack = new Stack);
       baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
     }
     else {
@@ -10854,12 +10859,12 @@ var Saturation = exports.Saturation = function (_ref) {
 
     var _this = _possibleConstructorReturn(this, (Saturation.__proto__ || Object.getPrototypeOf(Saturation)).call(this, props));
 
-    _this.handleChange = function (e, skip) {
-      _this.props.onChange && _this.throttle(_this.props.onChange, saturation.calculateChange(e, skip, _this.props, _this.container), e);
+    _this.handleChange = function (e) {
+      typeof _this.props.onChange === 'function' && _this.throttle(_this.props.onChange, saturation.calculateChange(e, _this.props.hsl, _this.container), e);
     };
 
     _this.handleMouseDown = function (e) {
-      _this.handleChange(e, true);
+      _this.handleChange(e);
       window.addEventListener('mousemove', _this.handleChange);
       window.addEventListener('mouseup', _this.handleMouseUp);
     };
@@ -11159,9 +11164,7 @@ module.exports = toNumber;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var calculateChange = exports.calculateChange = function calculateChange(e, skip, props, container) {
-  e.preventDefault();
-
+var calculateChange = exports.calculateChange = function calculateChange(e, hsl, container) {
   var _container$getBoundin = container.getBoundingClientRect(),
       containerWidth = _container$getBoundin.width,
       containerHeight = _container$getBoundin.height;
@@ -11175,20 +11178,22 @@ var calculateChange = exports.calculateChange = function calculateChange(e, skip
     left = 0;
   } else if (left > containerWidth) {
     left = containerWidth;
-  } else if (top < 0) {
+  }
+
+  if (top < 0) {
     top = 0;
   } else if (top > containerHeight) {
     top = containerHeight;
   }
 
-  var saturation = left * 100 / containerWidth;
-  var bright = -(top * 100 / containerHeight) + 100;
+  var saturation = left / containerWidth;
+  var bright = 1 - top / containerHeight;
 
   return {
-    h: props.hsl.h,
+    h: hsl.h,
     s: saturation,
     v: bright,
-    a: props.hsl.a,
+    a: hsl.a,
     source: 'rgb'
   };
 };
@@ -13124,7 +13129,8 @@ var _ChromePointerCircle2 = _interopRequireDefault(_ChromePointerCircle);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Chrome = exports.Chrome = function Chrome(_ref) {
-  var onChange = _ref.onChange,
+  var width = _ref.width,
+      onChange = _ref.onChange,
       disableAlpha = _ref.disableAlpha,
       rgb = _ref.rgb,
       hsl = _ref.hsl,
@@ -13134,16 +13140,17 @@ var Chrome = exports.Chrome = function Chrome(_ref) {
       _ref$styles = _ref.styles,
       passedStyles = _ref$styles === undefined ? {} : _ref$styles,
       _ref$className = _ref.className,
-      className = _ref$className === undefined ? '' : _ref$className;
+      className = _ref$className === undefined ? '' : _ref$className,
+      defaultView = _ref.defaultView;
 
   var styles = (0, _reactcss2.default)((0, _merge2.default)({
     'default': {
       picker: {
+        width: width,
         background: '#fff',
         borderRadius: '2px',
         boxShadow: '0 0 2px rgba(0,0,0,.3), 0 4px 8px rgba(0,0,0,.3)',
         boxSizing: 'initial',
-        width: '225px',
         fontFamily: 'Menlo'
       },
       saturation: {
@@ -13278,6 +13285,7 @@ var Chrome = exports.Chrome = function Chrome(_ref) {
         rgb: rgb,
         hsl: hsl,
         hex: hex,
+        view: defaultView,
         onChange: onChange,
         disableAlpha: disableAlpha
       })
@@ -13286,11 +13294,14 @@ var Chrome = exports.Chrome = function Chrome(_ref) {
 };
 
 Chrome.propTypes = {
+  width: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number]),
   disableAlpha: _propTypes2.default.bool,
-  styles: _propTypes2.default.object
+  styles: _propTypes2.default.object,
+  defaultView: _propTypes2.default.oneOf(["hex", "rgb", "hsl"])
 };
 
 Chrome.defaultProps = {
+  width: 225,
   disableAlpha: false,
   styles: {}
 };
@@ -13340,20 +13351,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ChromeFields = exports.ChromeFields = function (_React$Component) {
   _inherits(ChromeFields, _React$Component);
 
-  function ChromeFields() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
+  function ChromeFields(props) {
     _classCallCheck(this, ChromeFields);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    var _this = _possibleConstructorReturn(this, (ChromeFields.__proto__ || Object.getPrototypeOf(ChromeFields)).call(this));
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ChromeFields.__proto__ || Object.getPrototypeOf(ChromeFields)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      view: ''
-    }, _this.toggleViews = function () {
+    _this.toggleViews = function () {
       if (_this.state.view === 'hex') {
         _this.setState({ view: 'rgb' });
       } else if (_this.state.view === 'rgb') {
@@ -13365,7 +13368,9 @@ var ChromeFields = exports.ChromeFields = function (_React$Component) {
           _this.setState({ view: 'rgb' });
         }
       }
-    }, _this.handleChange = function (data, e) {
+    };
+
+    _this.handleChange = function (data, e) {
       if (data.hex) {
         _color2.default.isValidHex(data.hex) && _this.props.onChange({
           hex: data.hex,
@@ -13408,30 +13413,29 @@ var ChromeFields = exports.ChromeFields = function (_React$Component) {
           source: 'hsl'
         }, e);
       }
-    }, _this.showHighlight = function (e) {
+    };
+
+    _this.showHighlight = function (e) {
       e.currentTarget.style.background = '#eee';
-    }, _this.hideHighlight = function (e) {
+    };
+
+    _this.hideHighlight = function (e) {
       e.currentTarget.style.background = 'transparent';
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    };
+
+    if (props.hsl.a !== 1 && props.view === "hex") {
+      _this.state = {
+        view: "rgb"
+      };
+    } else {
+      _this.state = {
+        view: props.view
+      };
+    }
+    return _this;
   }
 
   _createClass(ChromeFields, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      if (this.props.hsl.a === 1 && this.state.view !== 'hex') {
-        this.setState({ view: 'hex' });
-      } else if (this.state.view !== 'rgb' && this.state.view !== 'hsl') {
-        this.setState({ view: 'rgb' });
-      }
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.hsl.a !== 1 && this.state.view === 'hex') {
-        this.setState({ view: 'rgb' });
-      }
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -13641,10 +13645,22 @@ var ChromeFields = exports.ChromeFields = function (_React$Component) {
         )
       );
     }
+  }], [{
+    key: 'getDerivedStateFromProps',
+    value: function getDerivedStateFromProps(nextProps, state) {
+      if (nextProps.hsl.a !== 1 && state.view === 'hex') {
+        return { view: 'rgb' };
+      }
+      return null;
+    }
   }]);
 
   return ChromeFields;
 }(_react2.default.Component);
+
+ChromeFields.defaultProps = {
+  view: "hex"
+};
 
 exports.default = ChromeFields;
 
@@ -14257,7 +14273,7 @@ var Github = exports.Github = function Github(_ref) {
     'hide-triangle': triangle === 'hide',
     'top-left-triangle': triangle === 'top-left',
     'top-right-triangle': triangle === 'top-right',
-    'bottom-left-triangle': triangle == 'bottom-left',
+    'bottom-left-triangle': triangle === 'bottom-left',
     'bottom-right-triangle': triangle === 'bottom-right'
   });
 
@@ -15233,7 +15249,7 @@ exports.default = PhotoshopPointerCircle;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.PhotoshopBotton = undefined;
+exports.PhotoshopButton = undefined;
 
 var _react = __webpack_require__(0);
 
@@ -15245,7 +15261,7 @@ var _reactcss2 = _interopRequireDefault(_reactcss);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var PhotoshopBotton = exports.PhotoshopBotton = function PhotoshopBotton(_ref) {
+var PhotoshopButton = exports.PhotoshopButton = function PhotoshopButton(_ref) {
   var onClick = _ref.onClick,
       label = _ref.label,
       children = _ref.children,
@@ -15281,7 +15297,7 @@ var PhotoshopBotton = exports.PhotoshopBotton = function PhotoshopBotton(_ref) {
   );
 };
 
-exports.default = PhotoshopBotton;
+exports.default = PhotoshopButton;
 
 /***/ }),
 /* 284 */
@@ -15911,7 +15927,7 @@ var Slider = exports.Slider = function Slider(_ref) {
 
   return _react2.default.createElement(
     'div',
-    { style: styles.wrap || '', className: 'slider-picker ' + className },
+    { style: styles.wrap || {}, className: 'slider-picker ' + className },
     _react2.default.createElement(
       'div',
       { style: styles.hue },
@@ -15987,6 +16003,9 @@ var SliderSwatches = exports.SliderSwatches = function SliderSwatches(_ref) {
     }
   });
 
+  // Acceptible difference in floating point equality
+  var epsilon = 0.1;
+
   return _react2.default.createElement(
     'div',
     { style: styles.swatches },
@@ -15996,7 +16015,7 @@ var SliderSwatches = exports.SliderSwatches = function SliderSwatches(_ref) {
       _react2.default.createElement(_SliderSwatch2.default, {
         hsl: hsl,
         offset: '.80',
-        active: Math.round(hsl.l * 100) / 100 === 0.80 && Math.round(hsl.s * 100) / 100 === 0.50,
+        active: Math.abs(hsl.l - 0.80) < epsilon && Math.abs(hsl.s - 0.50) < epsilon,
         onClick: onClick,
         first: true
       })
@@ -16007,7 +16026,7 @@ var SliderSwatches = exports.SliderSwatches = function SliderSwatches(_ref) {
       _react2.default.createElement(_SliderSwatch2.default, {
         hsl: hsl,
         offset: '.65',
-        active: Math.round(hsl.l * 100) / 100 === 0.65 && Math.round(hsl.s * 100) / 100 === 0.50,
+        active: Math.abs(hsl.l - 0.65) < epsilon && Math.abs(hsl.s - 0.50) < epsilon,
         onClick: onClick
       })
     ),
@@ -16017,7 +16036,7 @@ var SliderSwatches = exports.SliderSwatches = function SliderSwatches(_ref) {
       _react2.default.createElement(_SliderSwatch2.default, {
         hsl: hsl,
         offset: '.50',
-        active: Math.round(hsl.l * 100) / 100 === 0.50 && Math.round(hsl.s * 100) / 100 === 0.50,
+        active: Math.abs(hsl.l - 0.50) < epsilon && Math.abs(hsl.s - 0.50) < epsilon,
         onClick: onClick
       })
     ),
@@ -16027,7 +16046,7 @@ var SliderSwatches = exports.SliderSwatches = function SliderSwatches(_ref) {
       _react2.default.createElement(_SliderSwatch2.default, {
         hsl: hsl,
         offset: '.35',
-        active: Math.round(hsl.l * 100) / 100 === 0.35 && Math.round(hsl.s * 100) / 100 === 0.50,
+        active: Math.abs(hsl.l - 0.35) < epsilon && Math.abs(hsl.s - 0.50) < epsilon,
         onClick: onClick
       })
     ),
@@ -16037,7 +16056,7 @@ var SliderSwatches = exports.SliderSwatches = function SliderSwatches(_ref) {
       _react2.default.createElement(_SliderSwatch2.default, {
         hsl: hsl,
         offset: '.20',
-        active: Math.round(hsl.l * 100) / 100 === 0.20 && Math.round(hsl.s * 100) / 100 === 0.50,
+        active: Math.abs(hsl.l - 0.20) < epsilon && Math.abs(hsl.s - 0.50) < epsilon,
         onClick: onClick,
         last: true
       })
@@ -16703,6 +16722,7 @@ var Twitter = exports.Twitter = function Twitter(_ref) {
         '#'
       ),
       _react2.default.createElement(_common.EditableInput, {
+        label: null,
         style: { input: styles.input },
         value: hex.replace('#', ''),
         onChange: handleChange
@@ -18211,6 +18231,8 @@ module.exports = React.createClass({
     this.__loadUserInfo();
   },
   __doSuccess: function __doSuccess() {
+    zn.notification.success('修改成功');
+
     this.__loadUserInfo();
   },
   __onEdit: function __onEdit(data) {
@@ -20084,6 +20106,8 @@ module.exports = React.createClass({
     }), props.data.zn_title);
   },
   __update: function __update() {
+    var _this = this;
+
     zn.dialog({
       title: '修改信息',
       content: React.createElement(zn.react.Form, {
@@ -20101,7 +20125,11 @@ module.exports = React.createClass({
             id: this.state.userId
           }
         }),
-        onSubmitSuccess: this.__loadUserInfo,
+        onSubmitSuccess: function onSubmitSuccess() {
+          zn.notification.success('修改成功');
+
+          _this.__loadUserInfo();
+        },
         items: this.state.formItems
       })
     });
@@ -20824,6 +20852,9 @@ module.exports = React.createClass({
         model: this.props.model,
         where: {
           user_id: this.props.request.search.userId
+        },
+        order: {
+          zn_create_time: 'desc'
         }
       }),
       items: [{

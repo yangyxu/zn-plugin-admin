@@ -11,6 +11,9 @@ module.exports = React.createClass({
 				model: this.props.model,
 				where: {
 					user_id: this.props.request.search.userId
+				},
+				order: {
+					zn_create_time: 'desc'
 				}
 			}),
 			items: [

@@ -23,6 +23,7 @@ module.exports = React.createClass({
 		this.__loadUserInfo();
 	},
 	__doSuccess: function (){
+		zn.notification.success('修改成功');
 		this.__loadUserInfo();
 	},
 	__onEdit: function (data){

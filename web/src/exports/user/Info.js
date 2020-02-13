@@ -58,7 +58,10 @@ module.exports = React.createClass({
 				action='/zn.plugin.admin/model/update'
 				exts={{ model: 'ZNPluginAdminUser', where: { id: this.state.userId } }}
 				value={zn.store.post('/zn.plugin.admin/model/selectOne', { model: 'ZNPluginAdminUser', where: {id: this.state.userId } })}
-				onSubmitSuccess={this.__loadUserInfo}
+				onSubmitSuccess={()=>{
+					zn.notification.success('修改成功');
+					this.__loadUserInfo();
+				}}
 				items={this.state.formItems} />
 		});
 	},
