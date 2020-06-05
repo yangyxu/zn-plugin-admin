@@ -64,25 +64,25 @@ module.exports = React.createClass({
   },
   __rightRender: function __rightRender(tree) {
     var _currItem = tree.state.currItem;
-    return React.createElement(ProjectBug, {
+    return /*#__PURE__*/React.createElement(ProjectBug, {
       data: _currItem ? _currItem.props.data : null
     });
   },
   __itemContentRender: function __itemContentRender(item) {
     //console.log(item);
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       style: {
         display: 'inline-flex',
         lineHeight: '25px'
       }
-    }, React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "title"
-    }, item.data.zn_title), React.createElement("span", {
+    }, item.data.zn_title), /*#__PURE__*/React.createElement("span", {
       className: "version"
     }, "(", item.data.version, ")"));
   },
   render: function render() {
-    return React.createElement(TreeModelView, _extends({
+    return /*#__PURE__*/React.createElement(TreeModelView, _extends({
       itemContentRender: this.__itemContentRender
     }, this.props, {
       rightRender: this.__rightRender

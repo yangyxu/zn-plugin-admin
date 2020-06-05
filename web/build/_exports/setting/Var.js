@@ -59,7 +59,7 @@ module.exports = React.createClass({
         type: 'RichSelector',
         selector: zn.plugin.admin.FontAwesomeIcons,
         textRender: function textRender(text) {
-          return React.createElement("i", {
+          return /*#__PURE__*/React.createElement("i", {
             className: "fa " + text
           });
         },
@@ -111,14 +111,14 @@ module.exports = React.createClass({
 
     switch (_data.type) {
       case 1:
-        return React.createElement("span", null, React.createElement("i", {
+        return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
           title: "\u8FD9\u662F\u64CD\u4F5C\u6309\u94AE",
           className: "fa fa-hand-o-up",
           style: {
             margin: 5,
             color: '#0B72A5'
           }
-        }), React.createElement("i", {
+        }), /*#__PURE__*/React.createElement("i", {
           className: 'fa ' + _data.icon,
           style: {
             marginRight: 5
@@ -126,14 +126,14 @@ module.exports = React.createClass({
         }), _data.id + '、' + _data.zn_title);
 
       case 2:
-        return React.createElement("span", null, React.createElement("i", {
+        return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
           title: "\u8FD9\u662F\u9759\u6001\u5E38\u91CF",
           className: "fa fa-text-width",
           style: {
             margin: 5,
             color: '#d9534f'
           }
-        }), React.createElement("i", {
+        }), /*#__PURE__*/React.createElement("i", {
           className: 'fa ' + _data.icon,
           style: {
             marginRight: 5
@@ -141,13 +141,13 @@ module.exports = React.createClass({
         }), _data.id + '、' + _data.zn_title);
 
       case 3:
-        return React.createElement("span", null, React.createElement("i", {
+        return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
           title: "\u8FD9\u662F\u6807\u7B7E\u7C7B\u522B",
           className: "fa fa-tag",
           style: {
             margin: 5
           }
-        }), React.createElement("i", {
+        }), /*#__PURE__*/React.createElement("i", {
           className: 'fa ' + _data.icon,
           style: {
             marginRight: 5
@@ -156,7 +156,7 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement(TreeModelView, _extends({}, this.props, {
+    return /*#__PURE__*/React.createElement(TreeModelView, _extends({}, this.props, {
       where: {
         menu_id: this.props.menuId
       },

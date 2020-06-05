@@ -68,7 +68,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '添加项',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/insert",
         exts: {
           model: this.props.model
@@ -105,7 +105,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '修改项',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/update",
         exts: {
           model: this.props.model
@@ -174,15 +174,15 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement(zn.react.ActivityLayout, {
+    return /*#__PURE__*/React.createElement(zn.react.ActivityLayout, {
       direction: "top-bottoom",
       begin: 35,
       barWidth: 3
-    }, React.createElement(zn.react.ButtonGroup, {
+    }, /*#__PURE__*/React.createElement(zn.react.ButtonGroup, {
       "float": "right",
       items: this.state.toolbarItems,
       onClick: this.__onToolbarClick
-    }), React.createElement(zn.react.PagerView, {
+    }), /*#__PURE__*/React.createElement(zn.react.PagerView, {
       view: "Table",
       enableFilter: false,
       checkbox: 50,

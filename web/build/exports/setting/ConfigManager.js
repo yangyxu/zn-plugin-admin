@@ -31,9 +31,9 @@ var Config = React.createClass({
       }
 
       if (_items.length) {
-        return React.createElement(zn.react.Group, {
+        return /*#__PURE__*/React.createElement(zn.react.Group, {
           title: "\u8BF7\u6C42\u53C2\u6570"
-        }, React.createElement(zn.react.Form, {
+        }, /*#__PURE__*/React.createElement(zn.react.Form, {
           items: _items,
           buttons: [{
             text: '发送请求',
@@ -43,7 +43,7 @@ var Config = React.createClass({
           onSubmitBefore: this.__onFormSubmitBefore
         }));
       } else {
-        return React.createElement(zn.react.Button, {
+        return /*#__PURE__*/React.createElement(zn.react.Button, {
           onClick: function onClick() {
             return _this.__submit();
           },
@@ -57,9 +57,9 @@ var Config = React.createClass({
   },
   __renderData: function __renderData() {
     if (this.state.data) {
-      return React.createElement(zn.react.Group, {
+      return /*#__PURE__*/React.createElement(zn.react.Group, {
         title: "\u8FD4\u56DE\u7ED3\u679C"
-      }, React.createElement("code", {
+      }, /*#__PURE__*/React.createElement("code", {
         style: {
           padding: 5
         }
@@ -144,40 +144,40 @@ var Config = React.createClass({
     var _this2 = this;
 
     var _Input = zn.react[this.props.input_type];
-    return React.createElement("li", {
+    return /*#__PURE__*/React.createElement("li", {
       className: "api"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "info"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "i-header"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "head-left"
-    }, this.props.input_type && React.createElement("span", {
+    }, this.props.input_type && /*#__PURE__*/React.createElement("span", {
       className: "method"
-    }, this.props.input_type), React.createElement("span", null, this.props._key), React.createElement("i", {
+    }, this.props.input_type), /*#__PURE__*/React.createElement("span", null, this.props._key), /*#__PURE__*/React.createElement("i", {
       "data-tooltip": "\u590D\u5236\u94FE\u63A5",
       onClick: function onClick() {
         return zn.react.copyToClipboard(_this2.props._key);
       },
       className: "fa fa-clipboard zr-padding-3"
-    })), React.createElement("div", {
+    })), /*#__PURE__*/React.createElement("div", {
       className: "head-right"
-    }, React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       onClick: this.__onSave,
       className: "method"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-save zr-padding-3"
-    }), "\u4FDD\u5B58"), React.createElement("span", {
+    }), "\u4FDD\u5B58"), /*#__PURE__*/React.createElement("span", {
       onClick: this.__onEdit,
       className: "method"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-edit zr-padding-3"
-    }), "\u7F16\u8F91"), React.createElement("i", {
+    }), "\u7F16\u8F91"), /*#__PURE__*/React.createElement("i", {
       onClick: this.__onRemove,
       className: "fa fa-remove zr-padding-3"
-    }))), React.createElement("div", {
+    }))), /*#__PURE__*/React.createElement("div", {
       className: "i-body"
-    }, React.createElement(zn.react.FormItem, {
+    }, /*#__PURE__*/React.createElement(zn.react.FormItem, {
       type: _Input,
       title: this.props._title,
       value: this.props._value
@@ -254,18 +254,18 @@ module.exports = React.createClass({
     });
   },
   __renderConfigKey: function __renderConfigKey() {
-    return React.createElement("ul", {
+    return /*#__PURE__*/React.createElement("ul", {
       className: "apps"
     }, this.state.configKeys.map(function (key, index) {
       var _this3 = this;
 
-      return React.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         key: index,
         className: "app " + (this.state.key == key ? 'curr' : ''),
         onClick: function onClick() {
           return _this3.__onAppClick(key);
         }
-      }, React.createElement("a", null, key.text));
+      }, /*#__PURE__*/React.createElement("a", null, key.text));
     }.bind(this)));
   },
   __addArgument: function __addArgument() {
@@ -273,7 +273,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '添加参数',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/insert",
         merge: "values",
         exts: {
@@ -323,20 +323,20 @@ module.exports = React.createClass({
     });
   },
   __renderConfigs: function __renderConfigs() {
-    return React.createElement("div", null, this.state.key && React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", null, this.state.key && /*#__PURE__*/React.createElement("div", {
       style: {
         padding: 5
       }
-    }, React.createElement(zn.react.Button, {
+    }, /*#__PURE__*/React.createElement(zn.react.Button, {
       onClick: this.__addArgument,
       text: "\u6DFB\u52A0\u53C2\u6570",
       icon: "fa-plus"
-    })), React.createElement("ul", {
+    })), /*#__PURE__*/React.createElement("ul", {
       className: "apis"
     }, Object.keys(this.state.configs).map(function (key, index) {
       var _this5 = this;
 
-      return React.createElement(Config, _extends({
+      return /*#__PURE__*/React.createElement(Config, _extends({
         key: index
       }, this.state.configs[key], {
         onRemoveSuccess: function onRemoveSuccess() {
@@ -356,7 +356,7 @@ module.exports = React.createClass({
       case 'config.add':
         zn.dialog({
           title: '新增配置',
-          content: React.createElement(zn.react.Form, {
+          content: /*#__PURE__*/React.createElement(zn.react.Form, {
             action: "/zn.plugin.admin/model/insert",
             merge: "values",
             exts: {
@@ -439,19 +439,19 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       className: "zn-plugin-admin-setting-config-manager",
       title: "\u914D\u7F6E\u7BA1\u7406",
       toolbarItems: this.state.toolbarItems,
       onToolbarClick: this.__onToolbarClick
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "zr-flex-layout zn-plugin-admin-master-slave-flex-layout row"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "layout-header",
       style: {
         minWidth: 200
       }
-    }, this.__renderConfigKey()), React.createElement("div", {
+    }, this.__renderConfigKey()), /*#__PURE__*/React.createElement("div", {
       className: "layout-body"
     }, this.__renderConfigs())));
   }

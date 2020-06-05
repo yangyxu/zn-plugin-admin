@@ -16,9 +16,9 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-model-editor"
-    }, this.props.data && React.createElement(zn.react.Form, {
+    }, this.props.data && /*#__PURE__*/React.createElement(zn.react.Form, {
       merge: "updates",
       action: "/zn.plugin.admin/model/update",
       exts: {

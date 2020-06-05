@@ -94,77 +94,77 @@ var _exports = React.createClass({
   },
   render: function render() {
     if (!this.state.base) {
-      return React.createElement(zn.react.DataLoader, {
+      return /*#__PURE__*/React.createElement(zn.react.DataLoader, {
         content: "\u6B63\u5728\u52A0\u8F7D\u57FA\u7840\u4FE1\u606F...",
         loader: "timer"
       });
     }
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-login"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "background-image",
       src: this.state.base.login_background_image
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "section-head"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "head-left"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "company-logo",
       src: this.state.base.company_logo
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "company-title"
-    }, this.state.base.company_title)), React.createElement("div", {
+    }, this.state.base.company_title)), /*#__PURE__*/React.createElement("div", {
       className: "head-right"
-    }, React.createElement("ul", {
+    }, /*#__PURE__*/React.createElement("ul", {
       className: "link-nav"
-    }, React.createElement("li", null, React.createElement("a", {
+    }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
       href: this.state.base.company_website
-    }, "\u5B98\u7F51")))))), React.createElement("div", {
+    }, "\u5B98\u7F51")))))), /*#__PURE__*/React.createElement("div", {
       className: "section-body zr-scroll-webkit"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp",
       style: {
         width: 640
       }
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "intro"
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "form-dialog"
-    }, React.createElement("form", {
+    }, /*#__PURE__*/React.createElement("form", {
       className: "form"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "dialog-title"
-    }, "\u7528\u6237\u767B\u5F55"), React.createElement("div", {
+    }, "\u7528\u6237\u767B\u5F55"), /*#__PURE__*/React.createElement("div", {
       className: "form-item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-user"
-    }), React.createElement("input", {
+    }), /*#__PURE__*/React.createElement("input", {
       name: "name",
       type: "input",
       placeholder: "\u767B\u5F55\u7528\u6237\u540D",
       required: true
-    })), React.createElement("div", {
+    })), /*#__PURE__*/React.createElement("div", {
       className: "form-item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-lock"
-    }), React.createElement("input", {
+    }), /*#__PURE__*/React.createElement("input", {
       name: "password",
       type: "password",
       placeholder: "\u5BC6\u7801",
       required: true
-    })), React.createElement("button", {
+    })), /*#__PURE__*/React.createElement("button", {
       onClick: this.__onLogin,
       className: "btn-login"
-    }, "\u767B \u5F55"))))), React.createElement("div", {
+    }, "\u767B \u5F55"))))), /*#__PURE__*/React.createElement("div", {
       className: "section-foot"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "TM"
-    }, React.createElement("a", {
+    }, /*#__PURE__*/React.createElement("a", {
       href: ""
     }, "\u4E0A\u6D77\u4F51\u6D0B\u4FE1\u606F\u79D1\u6280\u6709\u9650\u516C\u53F8"), " \u63D0\u4F9B\u6280\u672F\u652F\u6301"))));
   }

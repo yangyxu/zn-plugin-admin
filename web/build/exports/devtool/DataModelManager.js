@@ -31,9 +31,9 @@ var API = React.createClass({
       }
 
       if (_items.length) {
-        return React.createElement(zn.react.Group, {
+        return /*#__PURE__*/React.createElement(zn.react.Group, {
           title: "\u8BF7\u6C42\u53C2\u6570"
-        }, React.createElement(zn.react.Form, {
+        }, /*#__PURE__*/React.createElement(zn.react.Form, {
           items: _items,
           buttons: [{
             text: '发送请求',
@@ -43,7 +43,7 @@ var API = React.createClass({
           onSubmitBefore: this.__onFormSubmitBefore
         }));
       } else {
-        return React.createElement(zn.react.Button, {
+        return /*#__PURE__*/React.createElement(zn.react.Button, {
           onClick: function onClick() {
             return _this.__submit();
           },
@@ -57,9 +57,9 @@ var API = React.createClass({
   },
   __renderData: function __renderData() {
     if (this.state.data) {
-      return React.createElement(zn.react.Group, {
+      return /*#__PURE__*/React.createElement(zn.react.Group, {
         title: "\u8FD4\u56DE\u7ED3\u679C"
-      }, React.createElement("code", {
+      }, /*#__PURE__*/React.createElement("code", {
         style: {
           padding: 5
         }
@@ -98,21 +98,21 @@ var API = React.createClass({
   render: function render() {
     var _this2 = this;
 
-    return React.createElement("li", {
+    return /*#__PURE__*/React.createElement("li", {
       className: "api"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "info"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "i-header"
-    }, this.props.method && React.createElement("span", {
+    }, this.props.method && /*#__PURE__*/React.createElement("span", {
       className: "method"
-    }, this.props.method), React.createElement("span", null, this.props.router), React.createElement("i", {
+    }, this.props.method), /*#__PURE__*/React.createElement("span", null, this.props.router), /*#__PURE__*/React.createElement("i", {
       "data-tooltip": "\u590D\u5236\u94FE\u63A5",
       onClick: function onClick() {
         return zn.react.copyToClipboard(_this2.props.router);
       },
       className: "fa fa-clipboard zr-padding-3"
-    })), React.createElement("div", {
+    })), /*#__PURE__*/React.createElement("div", {
       className: "i-body"
     }, this.__renderArgvForm(), this.__renderData())));
   }
@@ -177,25 +177,25 @@ module.exports = React.createClass({
     });
   },
   __renderApps: function __renderApps() {
-    return React.createElement("ul", {
+    return /*#__PURE__*/React.createElement("ul", {
       className: "apps"
     }, this.state.apps.map(function (app, index) {
       var _this3 = this;
 
-      return React.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         key: index,
         className: "app " + (this.state.app == app ? 'curr' : ''),
         onClick: function onClick() {
           return _this3.__onAppClick(app);
         }
-      }, React.createElement("a", null, app));
+      }, /*#__PURE__*/React.createElement("a", null, app));
     }.bind(this)));
   },
   __renderApis: function __renderApis() {
-    return React.createElement("ul", {
+    return /*#__PURE__*/React.createElement("ul", {
       className: "apis"
     }, this.state.apis.map(function (api, index) {
-      return React.createElement(API, _extends({
+      return /*#__PURE__*/React.createElement(API, _extends({
         key: index
       }, api));
     }.bind(this)));
@@ -244,19 +244,19 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       className: "zn-plugin-admin-devtool-server-manager",
       title: "\u670D\u52A1\u5668API\u7BA1\u7406",
       toolbarItems: this.state.toolbarItems,
       onToolbarClick: this.__onToolbarClick
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "zr-flex-layout zn-plugin-admin-master-slave-flex-layout row"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "layout-header",
       style: {
         minWidth: 200
       }
-    }, this.__renderApps()), React.createElement("div", {
+    }, this.__renderApps()), /*#__PURE__*/React.createElement("div", {
       className: "layout-body"
     }, this.__renderApis())));
   }

@@ -36,13 +36,13 @@ module.exports = React.createClass({
     };
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       toolbarItems: [{
         text: '导出'
       }],
       onToolbarClick: this.__onToolbarClick,
       title: "\u7CFB\u7EDF\u8D26\u6237\u767B\u5F55\u65E5\u5FD7"
-    }, React.createElement(zn.react.PagerView, {
+    }, /*#__PURE__*/React.createElement(zn.react.PagerView, {
       view: "Table",
       enableFilter: false,
       checkbox: 0,

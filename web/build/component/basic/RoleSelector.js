@@ -50,7 +50,7 @@ module.exports = React.createClass({
       _icon = 'fa-graduation-cap';
     }
 
-    return React.createElement("span", null, React.createElement("i", {
+    return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
       style: {
         margin: 5
       },
@@ -58,7 +58,7 @@ module.exports = React.createClass({
     }), data.zn_title);
   },
   render: function render() {
-    return React.createElement(TreeSelector, _extends({
+    return /*#__PURE__*/React.createElement(TreeSelector, _extends({
       ref: "treeselector"
     }, this.props, {
       model: "ZNPluginAdminRole",

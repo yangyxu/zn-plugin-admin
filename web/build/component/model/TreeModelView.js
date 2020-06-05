@@ -35,7 +35,7 @@ module.exports = React.createClass({
       if (_result) {
         return _result;
       } else {
-        return React.createElement(ModelEditor, _extends({}, this.props, {
+        return /*#__PURE__*/React.createElement(ModelEditor, _extends({}, this.props, {
           data: this.state.currItem
         }));
       }
@@ -45,7 +45,7 @@ module.exports = React.createClass({
       if (_result) {
         return _result;
       } else {
-        return React.createElement("div", {
+        return /*#__PURE__*/React.createElement("div", {
           className: "zr-center zr-empty-view"
         }, "\u8BF7\u9009\u62E9\u5DE6\u8FB9\u6570\u636E\u9879.");
       }
@@ -55,20 +55,20 @@ module.exports = React.createClass({
     return this.props.itemContentRender && this.props.itemContentRender(data, treeColumn, tree);
   },
   render: function render() {
-    return React.createElement(zn.react.Page, _extends({
+    return /*#__PURE__*/React.createElement(zn.react.Page, _extends({
       className: "zn-plugin-admin-tree-model-view"
-    }, this.props), React.createElement("div", {
+    }, this.props), /*#__PURE__*/React.createElement("div", {
       className: "zr-flex-layout zn-plugin-admin-master-slave-flex-layout row"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "layout-header",
       style: {
         minWidth: 200,
         minHeight: 132
       }
-    }, React.createElement(TreeEditor, _extends({}, this.props, {
+    }, /*#__PURE__*/React.createElement(TreeEditor, _extends({}, this.props, {
       contentRender: this.__itemContentRender,
       onValueChange: this.__onTreeValueChange
-    }))), React.createElement("div", {
+    }))), /*#__PURE__*/React.createElement("div", {
       className: "layout-body"
     }, this.__renderRight())));
   }

@@ -74,7 +74,7 @@ var _exports = React.createClass({
     }.bind(this));
   },
   __onSessionClick: function __onSessionClick() {
-    zn.modal.open(React.createElement(UserSessionInfo, null), {
+    zn.modal.open( /*#__PURE__*/React.createElement(UserSessionInfo, null), {
       modalStyle: {
         overflow: 'hidden'
       },
@@ -91,7 +91,7 @@ var _exports = React.createClass({
     });
   },
   __onMenuClick: function __onMenuClick() {
-    zn.modal.open(React.createElement(NavigationBar, {
+    zn.modal.open( /*#__PURE__*/React.createElement(NavigationBar, {
       onMenuItemClick: function onMenuItemClick() {
         return zn.modal.close();
       },
@@ -135,7 +135,7 @@ var _exports = React.createClass({
   __onExchangeAccount: function __onExchangeAccount() {
     zn.dialog({
       title: '账号快速切换',
-      content: React.createElement(zn.plugin.admin.UserSelector, {
+      content: /*#__PURE__*/React.createElement(zn.plugin.admin.UserSelector, {
         onUserClick: this.__onUserClick
       })
     });
@@ -146,98 +146,98 @@ var _exports = React.createClass({
     }
 
     if (!this.state.base) {
-      return React.createElement(zn.react.DataLoader, {
+      return /*#__PURE__*/React.createElement(zn.react.DataLoader, {
         content: "\u6B63\u5728\u52A0\u8F7D\u4E2D...",
         loader: "timer"
       });
     }
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-main"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "background-image",
       src: this.state.base.main_background_image
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "section-head"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "head-left"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "wap"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       onClick: this.__onMenuClick,
       className: "fa fa-bars"
-    }), React.createElement("img", {
+    }), /*#__PURE__*/React.createElement("img", {
       className: "company-logo",
       title: "\u8DF3\u8F6C\u4E3B\u9875\u9762",
       onClick: this.__onCompanyClick,
       src: this.state.base.company_logo
-    })), React.createElement("div", {
+    })), /*#__PURE__*/React.createElement("div", {
       className: "web",
       title: "\u8DF3\u8F6C\u4E3B\u9875\u9762",
       onClick: this.__onCompanyClick
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "company-logo",
       src: this.state.base.company_logo
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "company-title"
-    }, this.state.base.company_title))), React.createElement("div", {
+    }, this.state.base.company_title))), /*#__PURE__*/React.createElement("div", {
       className: "head-right"
-    }, React.createElement("ul", {
+    }, /*#__PURE__*/React.createElement("ul", {
       className: "link-nav"
-    }, zn.DEBUG && React.createElement("li", {
+    }, zn.DEBUG && /*#__PURE__*/React.createElement("li", {
       onClick: this.__onExchangeAccount
-    }, React.createElement("span", null, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-exchange zr-padding-3"
-    }), "\u8D26\u53F7\u5FEB\u901F\u5207\u6362"))), React.createElement("div", {
+    }), "\u8D26\u53F7\u5FEB\u901F\u5207\u6362"))), /*#__PURE__*/React.createElement("div", {
       className: "user-session"
-    }, React.createElement("figure", {
+    }, /*#__PURE__*/React.createElement("figure", {
       className: "avatar",
       onClick: function onClick() {
         return zn.react.session.relativeJump('/znpluginadmin.user.info');
       }
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       "data-tooltip": "\u67E5\u770B\u6211\u7684\u4E2A\u4EBA\u4FE1\u606F",
       src: zn.http.fixURL(zn.react.session.json().avatar_img) || './images/DefaultAvatar.png'
-    })), React.createElement("span", {
+    })), /*#__PURE__*/React.createElement("span", {
       className: "name"
-    }, zn.react.session.json().name), React.createElement("i", {
+    }, zn.react.session.json().name), /*#__PURE__*/React.createElement("i", {
       className: "fa fa-angle-down",
       onClick: this.__onSessionClick
-    })), React.createElement("div", {
+    })), /*#__PURE__*/React.createElement("div", {
       className: "icons"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       onClick: this.__onMessage,
       className: "fa fa-comment-o",
       title: "\u6D88\u606F"
-    }), React.createElement("i", {
+    }), /*#__PURE__*/React.createElement("i", {
       onClick: this.__onSetting,
       className: "fa fa-gear",
       title: "\u8BBE\u7F6E"
-    }), React.createElement("i", {
+    }), /*#__PURE__*/React.createElement("i", {
       onClick: this.__onSignOut,
       className: "sign-out fa fa-sign-out",
       title: "\u6CE8\u9500"
-    }))))), React.createElement("div", {
+    }))))), /*#__PURE__*/React.createElement("div", {
       className: "section-body"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp inner-content"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "navigation-view zr-scroll-webkit"
-    }, React.createElement(NavigationBar, {
+    }, /*#__PURE__*/React.createElement(NavigationBar, {
       data: this.state.menus
-    })), React.createElement("div", {
+    })), /*#__PURE__*/React.createElement("div", {
       className: "page-view"
-    }, this.props.view && React.createElement(this.props.view, {
+    }, this.props.view && /*#__PURE__*/React.createElement(this.props.view, {
       request: this.props.request
-    })))), React.createElement("div", {
+    })))), /*#__PURE__*/React.createElement("div", {
       className: "section-foot"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "TM"
-    }, React.createElement("a", {
+    }, /*#__PURE__*/React.createElement("a", {
       href: ""
     }, "\u4E0A\u6D77\u4F51\u6D0B\u4FE1\u606F\u79D1\u6280\u6709\u9650\u516C\u53F8"), " \u63D0\u4F9B\u6280\u672F\u652F\u6301"))));
   }

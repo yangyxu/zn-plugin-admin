@@ -30,12 +30,12 @@ module.exports = React.createClass({
   __itemRender: function __itemRender(item, index) {
     var _this = this;
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "user"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "avatar",
       src: item.avatar_img ? zn.http.fixURL(item.avatar_img) : "./images/DefaultAvatar.png"
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "name",
       onClick: function onClick(event) {
         return _this.__onUserClick(event, item, index);
@@ -43,7 +43,7 @@ module.exports = React.createClass({
     }, item.name));
   },
   render: function render() {
-    return React.createElement(zn.react.PagerView, {
+    return /*#__PURE__*/React.createElement(zn.react.PagerView, {
       view: "ListView",
       className: "zn-plugin-admin-users-for-roles",
       textKey: "name",

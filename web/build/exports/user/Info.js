@@ -96,7 +96,7 @@ module.exports = React.createClass({
       _icon = 'fa-graduation-cap';
     }
 
-    return React.createElement("span", null, React.createElement("i", {
+    return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
       style: {
         margin: 5
       },
@@ -104,9 +104,11 @@ module.exports = React.createClass({
     }), props.data.zn_title);
   },
   __update: function __update() {
+    var _this = this;
+
     zn.dialog({
       title: '修改信息',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "updates",
         action: "/zn.plugin.admin/model/update",
         exts: {
@@ -121,69 +123,73 @@ module.exports = React.createClass({
             id: this.state.userId
           }
         }),
-        onSubmitSuccess: this.__loadUserInfo,
+        onSubmitSuccess: function onSubmitSuccess() {
+          zn.notification.success('修改成功');
+
+          _this.__loadUserInfo();
+        },
         items: this.state.formItems
       })
     });
   },
   render: function render() {
     if (!this.state.info) {
-      return React.createElement(zn.react.DataLoader, {
+      return /*#__PURE__*/React.createElement(zn.react.DataLoader, {
         content: "\u6B63\u5728\u52A0\u8F7D\u4E2D...",
         loader: "timer"
       });
     }
 
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       title: this.state.info.name,
       icon: "fa-newspaper-o",
       toolbarItems: this.state.toolbarItems
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-user-info"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "info-form user-item"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "avatar",
       src: zn.http.fixURL(this.state.info.avatar_img) || './images/DefaultAvatar.png'
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "details"
-    }, this.state.isSelf && React.createElement("span", {
+    }, this.state.isSelf && /*#__PURE__*/React.createElement("span", {
       onClick: this.__update,
       className: "last-logintime"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-edit zr-padding-3"
-    }), "\u4FEE\u6539\u4FE1\u606F"), React.createElement("div", {
+    }), "\u4FEE\u6539\u4FE1\u606F"), /*#__PURE__*/React.createElement("div", {
       className: "name"
-    }, this.state.info.name), React.createElement("div", {
+    }, this.state.info.name), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-phone"
-    }), "\u7535\u8BDD\uFF1A", this.state.info.phone), React.createElement("div", {
+    }), "\u7535\u8BDD\uFF1A", this.state.info.phone), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-qq"
-    }), "QQ\u53F7\uFF1A", this.state.info.qq), React.createElement("div", {
+    }), "QQ\u53F7\uFF1A", this.state.info.qq), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-weixin"
-    }), "\u5FAE\u4FE1\u53F7\uFF1A", this.state.info.wechat), React.createElement("div", {
+    }), "\u5FAE\u4FE1\u53F7\uFF1A", this.state.info.wechat), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-envelope"
-    }), "\u90AE\u7BB1\uFF1A", this.state.info.email), this.state.isSelf && React.createElement("div", {
+    }), "\u90AE\u7BB1\uFF1A", this.state.info.email), this.state.isSelf && /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-users"
-    }), "\u4EE3\u7406\u4EBA\uFF1A", this.state.info.agents_convert), this.state.info.zn_note && React.createElement("div", {
+    }), "\u4EE3\u7406\u4EBA\uFF1A", this.state.info.agents_convert), this.state.info.zn_note && /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, this.state.info.zn_note))), zn.plugin.wechat && zn.plugin.wechat.ZNPluginAdminUserWechatInfo && React.createElement(zn.react.Card, {
+    }, this.state.info.zn_note))), zn.plugin.wechat && zn.plugin.wechat.ZNPluginAdminUserWechatInfo && /*#__PURE__*/React.createElement(zn.react.Card, {
       className: "wechat-info",
       title: "\u5FAE\u4FE1\u7ED1\u5B9A\u53CA\u67E5\u770B"
-    }, React.createElement(zn.plugin.wechat.ZNPluginAdminUserWechatInfo, {
+    }, /*#__PURE__*/React.createElement(zn.plugin.wechat.ZNPluginAdminUserWechatInfo, {
       openid: this.state.info.zn_plugin_wechat_open_id
-    })), React.createElement(zn.react.Card, {
+    })), /*#__PURE__*/React.createElement(zn.react.Card, {
       title: "\u90E8\u95E8\u53CA\u89D2\u8272"
-    }, React.createElement(zn.plugin.admin.RoleSelector, {
+    }, /*#__PURE__*/React.createElement(zn.plugin.admin.RoleSelector, {
       disabled: true,
       value: this.state.info.role_ids
     }))));

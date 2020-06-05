@@ -39,15 +39,15 @@ module.exports = React.createClass({
     }.bind(this));
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       loading: !this.state.items,
       title: '参数设置: ' + this.state._id
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       style: {
         backgroundColor: '#FFF',
         padding: 5
       }
-    }, this.state.items && React.createElement(zn.react.Form, {
+    }, this.state.items && /*#__PURE__*/React.createElement(zn.react.Form, {
       items: this.state.items,
       action: "/zn.plugin.admin/config/updateBy_id",
       merge: "updates",

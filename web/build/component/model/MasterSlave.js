@@ -41,7 +41,7 @@ module.exports = React.createClass({
   __addItem: function __addItem() {
     zn.dialog({
       title: '添加',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/insert",
         exts: {
           model: this.props.model
@@ -104,7 +104,7 @@ module.exports = React.createClass({
   __updateItem: function __updateItem(data) {
     zn.dialog({
       title: '更新项目信息',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/update",
         exts: {
           model: this.props.model
@@ -154,14 +154,14 @@ module.exports = React.createClass({
     });
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       toolbarItems: this.props.toolbarItems,
       onToolbarClick: this.__onToolbarClick,
       title: this.props.title
-    }, React.createElement(zn.react.ActivityLayout, {
+    }, /*#__PURE__*/React.createElement(zn.react.ActivityLayout, {
       direction: "left-right",
       begin: this.props.leftWidth || 250
-    }, React.createElement(zn.react.PagerView, {
+    }, /*#__PURE__*/React.createElement(zn.react.PagerView, {
       view: "ListView",
       className: "zr-list-view-border",
       textKey: "name",
@@ -172,8 +172,8 @@ module.exports = React.createClass({
       itemRender: this.props.itemRender,
       itemClassName: this.props.itemClassName,
       data: this.state.data
-    }), !!this.state.masterId ? React.createElement(Slave, _extends({}, this.props.slave, {
+    }), !!this.state.masterId ? /*#__PURE__*/React.createElement(Slave, _extends({}, this.props.slave, {
       masterId: this.state.masterId
-    })) : React.createElement("div", null, "\u8BF7\u9009\u62E9\u4E3B\u8868\u6570\u636E\u8BB0\u5F55")));
+    })) : /*#__PURE__*/React.createElement("div", null, "\u8BF7\u9009\u62E9\u4E3B\u8868\u6570\u636E\u8BB0\u5F55")));
   }
 });

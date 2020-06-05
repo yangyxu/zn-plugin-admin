@@ -78,62 +78,62 @@ var _exports = React.createClass({
   },
   render: function render() {
     if (!this.state.base) {
-      return React.createElement(zn.react.DataLoader, {
+      return /*#__PURE__*/React.createElement(zn.react.DataLoader, {
         content: "\u6B63\u5728\u52A0\u8F7D\u57FA\u7840\u4FE1\u606F...",
         loader: "timer"
       });
     }
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-user-active"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "background-image",
       src: this.state.base.login_background_image
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "section-head"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "head-left"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "company-logo",
       src: this.state.base.company_logo
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "company-title"
-    }, this.state.base.company_title)), React.createElement("div", {
+    }, this.state.base.company_title)), /*#__PURE__*/React.createElement("div", {
       className: "head-right"
-    }, React.createElement("ul", {
+    }, /*#__PURE__*/React.createElement("ul", {
       className: "link-nav"
-    }, React.createElement("li", null, React.createElement("a", {
+    }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
       href: this.state.base.company_website
-    }, "\u5B98\u7F51")), React.createElement("li", null, "\u4E0B\u8F7D"))))), React.createElement("div", {
+    }, "\u5B98\u7F51")), /*#__PURE__*/React.createElement("li", null, "\u4E0B\u8F7D"))))), /*#__PURE__*/React.createElement("div", {
       className: "section-body zr-scroll-webkit"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp",
       style: {
         width: 640,
         backgroundColor: '#FFF',
         padding: 20
       }
-    }, this.state.user ? React.createElement("div", {
+    }, this.state.user ? /*#__PURE__*/React.createElement("div", {
       style: {
         display: 'flex',
         flexDirection: 'column',
         width: '100%'
       }
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       style: {
         padding: 10
       }
-    }, "hi ", this.state.user.name), this.state.user.actived ? React.createElement("div", {
+    }, "hi ", this.state.user.name), this.state.user.actived ? /*#__PURE__*/React.createElement("div", {
       style: {
         padding: 10
       }
-    }, "\u60A8\u8D26\u53F7\u5DF2\u7ECF\u6FC0\u6D3B, \u8BF7\u52FF\u91CD\u590D\u64CD\u4F5C\u3002") : React.createElement("div", {
+    }, "\u60A8\u8D26\u53F7\u5DF2\u7ECF\u6FC0\u6D3B, \u8BF7\u52FF\u91CD\u590D\u64CD\u4F5C\u3002") : /*#__PURE__*/React.createElement("div", {
       style: {
         padding: 10
       }
-    }, "\u606D\u559C\u60A8, \u60A8\u7684\u8D26\u53F7\u6210\u529F\u6FC0\u6D3B\uFF0C\u7CFB\u7EDF\u5DF2\u628A\u767B\u5F55\u4FE1\u606F\u53D1\u9001\u5230\u60A8\u6FC0\u6D3B\u90AE\u7BB1(", this.state.user.email, ")\u3002"), React.createElement(zn.react.Button, {
+    }, "\u606D\u559C\u60A8, \u60A8\u7684\u8D26\u53F7\u6210\u529F\u6FC0\u6D3B\uFF0C\u7CFB\u7EDF\u5DF2\u628A\u767B\u5F55\u4FE1\u606F\u53D1\u9001\u5230\u60A8\u6FC0\u6D3B\u90AE\u7BB1(", this.state.user.email, ")\u3002"), /*#__PURE__*/React.createElement(zn.react.Button, {
       onClick: function onClick() {
         return zn.react.session.jump('/zn.plugin.admin/login');
       },
@@ -141,18 +141,18 @@ var _exports = React.createClass({
         margin: 10
       },
       text: "\u70B9\u51FB\u767B\u5F55"
-    })) : React.createElement("div", null, React.createElement(zn.react.DataLoader, {
+    })) : /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(zn.react.DataLoader, {
       content: "\u9A8C\u8BC1\u4E2D...",
       loader: "timer"
-    })))), React.createElement("div", {
+    })))), /*#__PURE__*/React.createElement("div", {
       className: "section-foot"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "TM"
-    }, React.createElement("a", {
+    }, /*#__PURE__*/React.createElement("a", {
       href: "http://www.youyangit.com"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       src: "./images/youyangit-logo.png"
     }), "\u4E0A\u6D77\u4F51\u6D0B\u4FE1\u606F\u79D1\u6280\u6709\u9650\u516C\u53F8"), " \u63D0\u4F9B\u6280\u672F\u652F\u6301"))));
   }

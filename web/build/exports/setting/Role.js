@@ -35,12 +35,12 @@ var Info = React.createClass({
           });
         }
 
-        return React.createElement(ModelEditor, _extends({}, this.props, {
+        return /*#__PURE__*/React.createElement(ModelEditor, _extends({}, this.props, {
           fields: _fields
         }));
 
       case 1:
-        return React.createElement(UsersForRoles, {
+        return /*#__PURE__*/React.createElement(UsersForRoles, {
           roleId: this.props.data.value
         });
     }
@@ -48,9 +48,9 @@ var Info = React.createClass({
   render: function render() {
     var _this = this;
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zr-flex-layout"
-    }, React.createElement(zn.react.ListView, {
+    }, /*#__PURE__*/React.createElement(zn.react.ListView, {
       className: "layout-header zr-tab-ios",
       style: {
         margin: 5
@@ -73,7 +73,7 @@ var Info = React.createClass({
         text: '用户列表',
         icon: 'fa-users'
       }]
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "layout-body"
     }, this.__renderBody()));
   }
@@ -121,7 +121,7 @@ module.exports = React.createClass({
       return null;
     }
 
-    return React.createElement(Info, _extends({}, this.props, {
+    return /*#__PURE__*/React.createElement(Info, _extends({}, this.props, {
       data: data
     }));
   },
@@ -130,10 +130,10 @@ module.exports = React.createClass({
 
     switch (_data.type) {
       case 0:
-        return React.createElement("span", null, _data.zn_title);
+        return /*#__PURE__*/React.createElement("span", null, _data.zn_title);
 
       case 1:
-        return React.createElement("span", null, React.createElement("i", {
+        return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
           title: "\u8FD9\u662F\u90E8\u95E8",
           className: "fa fa-sitemap",
           style: {
@@ -143,7 +143,7 @@ module.exports = React.createClass({
         }), _data.zn_title);
 
       case 2:
-        return React.createElement("span", null, React.createElement("i", {
+        return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
           title: "\u8FD9\u662F\u89D2\u8272",
           className: "fa fa-graduation-cap",
           style: {
@@ -153,7 +153,7 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement(TreeModelView, _extends({}, this.props, {
+    return /*#__PURE__*/React.createElement(TreeModelView, _extends({}, this.props, {
       rightRender: this.__rightRender,
       itemContentRender: this.__itemContentRender
     }));

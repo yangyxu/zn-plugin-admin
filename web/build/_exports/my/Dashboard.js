@@ -30,13 +30,13 @@ module.exports = React.createClass({
   },
   render: function render() {
     if (!this.state.info) {
-      return React.createElement(zn.react.DataLoader, {
+      return /*#__PURE__*/React.createElement(zn.react.DataLoader, {
         content: "\u6B63\u5728\u52A0\u8F7D\u4E2D...",
         loader: "timer"
       });
     }
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-my-dashboard"
     });
   }
