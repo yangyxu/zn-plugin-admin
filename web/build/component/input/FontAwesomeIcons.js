@@ -28,12 +28,12 @@ module.exports = React.createClass({
     this.props.onChange && this.props.onChange(item, item);
   },
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: zn.react.classname("zn-plugin-admin-font-awesome-icons", this.props.className)
     }, this.state.data.map(function (item, index) {
       var _this = this;
 
-      return React.createElement("i", {
+      return /*#__PURE__*/React.createElement("i", {
         onClick: function onClick() {
           return _this.__onIconClick(item, index);
         },

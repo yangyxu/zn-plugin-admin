@@ -49,7 +49,7 @@ module.exports = React.createClass({
     var _result = this.props.itemContentRender && this.props.itemContentRender(value, item);
 
     if (!_result) {
-      _result = React.createElement("span", null, value.icon && React.createElement("i", {
+      _result = /*#__PURE__*/React.createElement("span", null, value.icon && /*#__PURE__*/React.createElement("i", {
         style: {
           margin: 5
         },
@@ -66,7 +66,7 @@ module.exports = React.createClass({
     this.props.onValueChange && this.props.onValueChange(obj);
   },
   render: function render() {
-    return React.createElement(zn.react.Tree, _extends({
+    return /*#__PURE__*/React.createElement(zn.react.Tree, _extends({
       ref: "tree"
     }, this.props, {
       className: zn.react.classname("zn-plugin-admin-tree-selector", this.props.className),

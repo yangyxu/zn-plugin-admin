@@ -145,7 +145,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '创建表',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "values",
         action: "/zn.plugin.admin/model/insert",
         exts: {
@@ -167,7 +167,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '修改表信息',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "updates",
         action: "/zn.plugin.admin/model/update",
         exts: {
@@ -189,7 +189,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '创建字段',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "values",
         action: "/zn.plugin.admin/model/insert",
         exts: {
@@ -211,7 +211,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '修改字段',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "updates",
         action: "/zn.plugin.admin/model/update",
         exts: {
@@ -296,94 +296,94 @@ module.exports = React.createClass({
 
     var _isPrimary = !table.parent_id;
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "table"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "table-info"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: ""
-    }, React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "name"
-    }, (table.zn_title ? "【" + table.zn_title + "】" : '') + table.table_name, React.createElement("i", {
+    }, (table.zn_title ? "【" + table.zn_title + "】" : '') + table.table_name, /*#__PURE__*/React.createElement("i", {
       onClick: function onClick() {
         return _this5.__editTable(table);
       },
       "data-tooltip": "\u4FEE\u6539\u8868\u4FE1\u606F",
       className: "fa fa-edit"
-    })), _isPrimary && React.createElement("span", {
+    })), _isPrimary && /*#__PURE__*/React.createElement("span", {
       className: "zr-tag"
-    }, "\u4E3B\u8868(Primary Table)")), React.createElement("div", null, React.createElement("span", {
+    }, "\u4E3B\u8868(Primary Table)")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
       className: "time"
-    }, table.zn_create_time))), React.createElement("ul", {
+    }, table.zn_create_time))), /*#__PURE__*/React.createElement("ul", {
       className: "table-fields"
     }, table.fields.map(function (field) {
       var _this6 = this;
 
-      return React.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         className: "table-field"
-      }, React.createElement("span", {
+      }, /*#__PURE__*/React.createElement("span", {
         className: "name"
-      }, "[ ", field.type, " ] ", field.title, "(", field.name, ") "), React.createElement("i", {
+      }, "[ ", field.type, " ] ", field.title, "(", field.name, ") "), /*#__PURE__*/React.createElement("i", {
         onClick: function onClick() {
           return _this6.__editField(field);
         },
         "data-tooltip": "\u7F16\u8F91\u5B57\u6BB5",
         className: "fa fa-edit"
-      }), React.createElement("i", {
+      }), /*#__PURE__*/React.createElement("i", {
         onClick: function onClick() {
           return _this6.__deleteField(field);
         },
         "data-tooltip": "\u5220\u9664\u5B57\u6BB5",
         className: "fa fa-trash-o"
       }));
-    }.bind(this))), React.createElement("div", {
+    }.bind(this))), /*#__PURE__*/React.createElement("div", {
       className: "toolbar"
-    }, React.createElement("div", null, React.createElement(zn.react.Button, {
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(zn.react.Button, {
       onClick: function onClick() {
         return _this5.__createField(table.id);
       },
       text: "\u6DFB\u52A0\u5B57\u6BB5",
       className: "plain"
-    }), _isPrimary && React.createElement(zn.react.Button, {
+    }), _isPrimary && /*#__PURE__*/React.createElement(zn.react.Button, {
       onClick: function onClick() {
         return _this5.__createTable(table.id);
       },
       text: "\u6DFB\u52A0\u9644\u8868",
       className: "plain"
-    })), React.createElement("div", null, !!table.has_generated ? React.createElement("span", {
+    })), /*#__PURE__*/React.createElement("div", null, !!table.has_generated ? /*#__PURE__*/React.createElement("span", {
       onClick: function onClick() {
         return _this5.__onRegenerate(table);
       },
       "data-tooltip": "\u91CD\u65B0\u751F\u6210\u6570\u636E\u8868, \u9700\u6CE8\u610F(\u5DF2\u6709\u6570\u636E\u5C06\u88AB\u62B9\u6389).",
       className: "zr-tag hover primary"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-check zr-padding-3"
-    }), "\u5DF2\u751F\u6210") : React.createElement("span", {
+    }), "\u5DF2\u751F\u6210") : /*#__PURE__*/React.createElement("span", {
       onClick: function onClick() {
         return _this5.__onGenerate(table);
       },
       "data-tooltip": "\u751F\u6210\u6570\u636E\u8868",
       className: "zr-tag hover orangle"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-ban zr-padding-3"
     }), "\u672A\u751F\u6210"))));
   },
   __renderDeputyTables: function __renderDeputyTables() {
     var _len = this.state.deputyTables.length;
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "deputy-tables"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "title"
-    }, React.createElement("span", null, "\u9644\u8868(", _len, ")")), this.state.deputyTables.map(function (table) {
+    }, /*#__PURE__*/React.createElement("span", null, "\u9644\u8868(", _len, ")")), this.state.deputyTables.map(function (table) {
       return this.__renderTable(table);
     }.bind(this)));
   },
   render: function render() {
     var _this7 = this;
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-form-designer"
-    }, this.state.primaryTable ? this.__renderTable(this.state.primaryTable) : React.createElement("div", {
+    }, this.state.primaryTable ? this.__renderTable(this.state.primaryTable) : /*#__PURE__*/React.createElement("div", {
       className: "wf-button",
       onClick: function onClick() {
         return _this7.__createTable(0);

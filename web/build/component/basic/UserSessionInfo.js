@@ -14,7 +14,7 @@ module.exports = React.createClass({
   },
   componentDidMount: function componentDidMount() {},
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-user-session-info"
     });
   }

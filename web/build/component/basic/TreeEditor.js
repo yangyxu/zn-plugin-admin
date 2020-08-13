@@ -66,7 +66,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '编辑',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "updates",
         action: "/zn.plugin.admin/model/update",
         exts: {
@@ -101,7 +101,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: data ? '添加子项: ' + data.zn_title : '添加主项',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "values",
         action: "/zn.plugin.admin/model/insert",
         hiddens: _where,
@@ -178,7 +178,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: "移动节点",
-      content: React.createElement(zn.react.Tree, {
+      content: /*#__PURE__*/React.createElement(zn.react.Tree, {
         data: this.state.data,
         onItemClick: function onItemClick(data) {
           return _this.__onDataItemClick(curr, data, treeColumn);
@@ -224,11 +224,11 @@ module.exports = React.createClass({
     if (_result) {
       return _result;
     } else {
-      return React.createElement("div", {
+      return /*#__PURE__*/React.createElement("div", {
         className: "item-content"
-      }, data.icon && React.createElement(zn.react.Icon, {
+      }, data.icon && /*#__PURE__*/React.createElement(zn.react.Icon, {
         icon: data.icon
-      }), React.createElement("span", {
+      }), /*#__PURE__*/React.createElement("span", {
         "data-tooltip": data.id
       }, data.zn_title));
     }
@@ -240,33 +240,33 @@ module.exports = React.createClass({
     this.props.onItemClick && this.props.onItemClick(data, treeColumn, tree, event);
   },
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: zn.react.classname("zn-plugin-admin-tree-editor", this.props.className)
-    }, this.props.editable && React.createElement("div", {
+    }, this.props.editable && /*#__PURE__*/React.createElement("div", {
       className: "tool-bars"
     }, this.state.mainToolbarItems.map(function (item) {
       var _this2 = this;
 
-      return React.createElement("i", {
+      return /*#__PURE__*/React.createElement("i", {
         onClick: function onClick() {
           return _this2.__onToolbarClick(item);
         },
         "data-tooltip": item.tooltip,
         className: "fa " + item.icon
       });
-    }.bind(this)), React.createElement("i", {
+    }.bind(this)), /*#__PURE__*/React.createElement("i", {
       className: "separator"
     }), this.state.currData && this.state.subToolbarItems.map(function (item) {
       var _this3 = this;
 
-      return React.createElement("i", {
+      return /*#__PURE__*/React.createElement("i", {
         onClick: function onClick() {
           return _this3.__onToolbarClick(item);
         },
         "data-tooltip": item.tooltip,
         className: "fa " + item.icon
       });
-    }.bind(this))), React.createElement(zn.react.Tree, _extends({}, this.props, {
+    }.bind(this))), /*#__PURE__*/React.createElement(zn.react.Tree, _extends({}, this.props, {
       data: this.state.data,
       onItemClick: this.__onTreeItemClick,
       contentRender: this.__itemContentRender

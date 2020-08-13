@@ -46,21 +46,21 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-letter-selector"
-    }, React.createElement("ul", {
+    }, /*#__PURE__*/React.createElement("ul", {
       className: "tags"
     }, CHARS.map(function (item, index) {
       var _this = this;
 
-      return React.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         key: index,
         className: 'tag ' + (this.state.value.indexOf(item) != -1 ? 'selected' : ''),
         onClick: function onClick() {
           return _this.__onLetterClick(item);
         }
       }, item);
-    }.bind(this)), this.props.mulitable && React.createElement("li", null, React.createElement(zn.react.Checkbox, {
+    }.bind(this)), this.props.mulitable && /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(zn.react.Checkbox, {
       text: "\u5168\u9009",
       onChange: this.__onCheck
     }))));

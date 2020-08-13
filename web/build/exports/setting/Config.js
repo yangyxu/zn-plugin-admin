@@ -115,7 +115,7 @@ module.exports = React.createClass({
   __addItem: function __addItem() {
     zn.dialog({
       title: '新增',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/insert",
         merge: "values",
         exts: {
@@ -129,7 +129,7 @@ module.exports = React.createClass({
   __updateItem: function __updateItem(data) {
     zn.dialog({
       title: '更新',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/update",
         exts: {
           model: this.props.model,
@@ -183,7 +183,7 @@ module.exports = React.createClass({
 
     switch (columnIndex) {
       case 1:
-        return React.createElement("div", null, React.createElement("i", {
+        return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", {
           className: "fa fa-edit",
           onClick: function onClick() {
             return _this.__updateItem(data);
@@ -191,17 +191,17 @@ module.exports = React.createClass({
           style: {
             padding: 5
           }
-        }), React.createElement("a", {
+        }), /*#__PURE__*/React.createElement("a", {
           href: '#' + zn.react.session.fixPath('/znpluginadmin.setting.base') + '?_id=' + data._id
         }, value));
     }
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       title: "\u7CFB\u7EDF\u53C2\u6570\u914D\u7F6E",
       toolbarItems: this.state.toolbarItems,
       onToolbarClick: this.__onToolbarClick
-    }, React.createElement(zn.react.PagerView, {
+    }, /*#__PURE__*/React.createElement(zn.react.PagerView, {
       ref: "table",
       view: "Table",
       enableFilter: true,

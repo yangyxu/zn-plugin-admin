@@ -68,12 +68,14 @@ module.exports = React.createClass({
     this.__loadUserInfo();
   },
   __doSuccess: function __doSuccess() {
+    zn.notification.success('修改成功');
+
     this.__loadUserInfo();
   },
   __onEdit: function __onEdit(data) {
     zn.dialog({
       title: '修改个人信息',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/update",
         exts: {
           model: 'ZNPluginAdminUser',
@@ -118,7 +120,7 @@ module.exports = React.createClass({
       _icon = 'fa-graduation-cap';
     }
 
-    return React.createElement("span", null, React.createElement("i", {
+    return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
       style: {
         margin: 5
       },
@@ -127,42 +129,42 @@ module.exports = React.createClass({
   },
   render: function render() {
     if (!this.state.info) {
-      return React.createElement(zn.react.DataLoader, {
+      return /*#__PURE__*/React.createElement(zn.react.DataLoader, {
         content: "\u6B63\u5728\u52A0\u8F7D\u4E2D...",
         loader: "timer"
       });
     }
 
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       className: "zn-plugin-admin-my-info",
       title: this.state.info.name,
       toolbarItems: this.state.toolbarItems
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "user-info"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "info-form user-item"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "avatar",
       src: zn.http.fixURL(this.state.info.avatar_img) || './images/DefaultAvatar.png'
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "details"
-    }, React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "last-logintime"
-    }, "\u6700\u8FD1\u4E00\u6B21\u767B\u5F55\u65F6\u95F4\uFF1A", this.state.info.last_login_time || '还未登陆'), React.createElement("div", {
+    }, "\u6700\u8FD1\u4E00\u6B21\u767B\u5F55\u65F6\u95F4\uFF1A", this.state.info.last_login_time || '还未登陆'), /*#__PURE__*/React.createElement("div", {
       className: "name"
-    }, this.state.info.name), React.createElement("div", null, React.createElement("i", {
+    }, this.state.info.name), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-clock-o"
-    }), "\u521B\u5EFA\u65F6\u95F4\uFF1A", this.state.info.zn_create_time), React.createElement("div", null, React.createElement("i", {
+    }), "\u521B\u5EFA\u65F6\u95F4\uFF1A", this.state.info.zn_create_time), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-envelope"
-    }), "\u90AE\u7BB1\uFF1A", this.state.info.email), React.createElement("div", null, React.createElement("i", {
+    }), "\u90AE\u7BB1\uFF1A", this.state.info.email), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-phone"
-    }), "\u624B\u673A\u53F7\uFF1A", this.state.info.phone), React.createElement("div", null, React.createElement("i", {
+    }), "\u624B\u673A\u53F7\uFF1A", this.state.info.phone), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-qq"
-    }), "QQ\u53F7\uFF1A", this.state.info.qq), React.createElement("div", null, React.createElement("i", {
+    }), "QQ\u53F7\uFF1A", this.state.info.qq), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-weixin"
-    }), "\u5FAE\u4FE1\u53F7\uFF1A", this.state.info.wechat), React.createElement("div", null, this.state.info.zn_note))), React.createElement(zn.react.Card, {
+    }), "\u5FAE\u4FE1\u53F7\uFF1A", this.state.info.wechat), /*#__PURE__*/React.createElement("div", null, this.state.info.zn_note))), /*#__PURE__*/React.createElement(zn.react.Card, {
       title: "\u90E8\u95E8\u53CA\u89D2\u8272"
-    }, React.createElement(zn.react.TreeListView, {
+    }, /*#__PURE__*/React.createElement(zn.react.TreeListView, {
       disabled: true,
       cascade: false,
       enableCheckbox: true,

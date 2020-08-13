@@ -113,7 +113,7 @@ module.exports = React.createClass({
   __addItem: function __addItem() {
     zn.dialog({
       title: '新增用户',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/insert",
         merge: "values",
         exts: {
@@ -127,7 +127,7 @@ module.exports = React.createClass({
   __updateItem: function __updateItem(data) {
     zn.dialog({
       title: '更新用户信息',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "updates",
         action: "/zn.plugin.admin/model/update",
         exts: {
@@ -186,17 +186,17 @@ module.exports = React.createClass({
 
     switch (columnIndex) {
       case 1:
-        return React.createElement("div", {
+        return /*#__PURE__*/React.createElement("div", {
           style: {
             display: 'flex',
             alignItems: 'center'
           }
-        }, React.createElement("i", {
+        }, /*#__PURE__*/React.createElement("i", {
           onClick: function onClick() {
             return _this.__updateItem(data);
           },
           className: "fa fa-edit zr-padding-3"
-        }), data.avatar_img && React.createElement("img", {
+        }), data.avatar_img && /*#__PURE__*/React.createElement("img", {
           className: "avatar",
           style: {
             width: 16,
@@ -205,17 +205,17 @@ module.exports = React.createClass({
             borderRadius: 16
           },
           src: data.avatar_img
-        }), React.createElement("a", {
+        }), /*#__PURE__*/React.createElement("a", {
           href: '#' + zn.react.session.fixPath('/znpluginadmin.user.infoedit') + '?userId=' + data.id
         }, value));
     }
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       title: "\u7CFB\u7EDF\u8D26\u6237\u7BA1\u7406",
       toolbarItems: this.state.toolbarItems,
       onToolbarClick: this.__onToolbarClick
-    }, React.createElement(zn.react.PagerView, {
+    }, /*#__PURE__*/React.createElement(zn.react.PagerView, {
       ref: "table",
       view: "Table",
       enableFilter: true,

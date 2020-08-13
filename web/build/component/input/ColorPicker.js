@@ -31,9 +31,9 @@ module.exports = React.createClass({
     return this.state.value;
   },
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: zn.react.classname("zn-plugin-admin-color-picker", this.props.className)
-    }, React.createElement(ChromePicker, {
+    }, /*#__PURE__*/React.createElement(ChromePicker, {
       color: this.state.value,
       onChange: this.__onColorClick
     }));

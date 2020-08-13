@@ -101,11 +101,11 @@ module.exports = React.createClass({
     var _value = this.state.value,
         _search = this.state.search;
     this._users = [];
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "user-view"
-    }, React.createElement(zn.react.Search, {
+    }, /*#__PURE__*/React.createElement(zn.react.Search, {
       onSearch: this.__onSearch
-    }), !this.state.loading ? React.createElement("ul", {
+    }), !this.state.loading ? /*#__PURE__*/React.createElement("ul", {
       className: "users"
     }, this.state.users.map(function (user, index) {
       var _this = this;
@@ -130,27 +130,27 @@ module.exports = React.createClass({
         _selected = +_value === +_userId;
       }
 
-      return React.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         key: index,
         className: 'user ' + (_selected ? 'selected' : ''),
         onClick: function onClick() {
           return _this.__onUserClick(user);
         }
-      }, user.avatar_img ? React.createElement("img", {
+      }, user.avatar_img ? /*#__PURE__*/React.createElement("img", {
         className: "avatar",
         src: zn.http.fixURL(user.avatar_img) || './images/DefaultAvatar.png'
-      }) : React.createElement("span", {
+      }) : /*#__PURE__*/React.createElement("span", {
         className: "first-char"
-      }, user.first_char), React.createElement("span", {
+      }, user.first_char), /*#__PURE__*/React.createElement("span", {
         className: "name",
         dangerouslySetInnerHTML: {
           __html: _name
         }
       }));
-    }.bind(this)), this.props.mulitable && React.createElement("li", null, React.createElement(zn.react.Checkbox, {
+    }.bind(this)), this.props.mulitable && /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(zn.react.Checkbox, {
       text: "\u5168\u9009",
       onChange: this.__onUserCheckAll
-    }))) : React.createElement(zn.react.DataLoader, {
+    }))) : /*#__PURE__*/React.createElement(zn.react.DataLoader, {
       content: "\u6B63\u5728\u52A0\u8F7D...",
       loader: "timer"
     }));
@@ -170,12 +170,12 @@ module.exports = React.createClass({
   __renderView: function __renderView() {
     switch (this.state.currIndex) {
       case 0:
-        return React.createElement(LetterSelector, {
+        return /*#__PURE__*/React.createElement(LetterSelector, {
           onChange: this.__onLetterChange
         });
 
       case 1:
-        return React.createElement(RoleSelector, {
+        return /*#__PURE__*/React.createElement(RoleSelector, {
           checkboxEnabled: false,
           onChange: this.__onRoleChange
         });
@@ -184,9 +184,9 @@ module.exports = React.createClass({
   render: function render() {
     var _this2 = this;
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-user-selector"
-    }, React.createElement(zn.react.ListView, {
+    }, /*#__PURE__*/React.createElement(zn.react.ListView, {
       className: "zr-tab-ios",
       selectMode: "radio",
       textKey: "text",
@@ -206,7 +206,7 @@ module.exports = React.createClass({
         text: '所属部门',
         icon: 'fa-sitemap'
       }]
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "user-selector"
     }, this.__renderView(), this.__renderUsers()));
   }

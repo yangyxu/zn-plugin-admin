@@ -185,7 +185,7 @@ module.exports = React.createClass({
 
     switch (columnIndex) {
       case 0:
-        return React.createElement(zn.react.ListView, {
+        return /*#__PURE__*/React.createElement(zn.react.ListView, {
           className: "zr-flex",
           data: [{
             text: '删除',
@@ -195,7 +195,7 @@ module.exports = React.createClass({
             icon: 'fa-edit'
           }],
           itemRender: function itemRender(item, index) {
-            return React.createElement("i", {
+            return /*#__PURE__*/React.createElement("i", {
               title: item.text,
               className: 'fa ' + item.icon,
               style: item.style
@@ -207,7 +207,7 @@ module.exports = React.createClass({
         });
 
       case 1:
-        return React.createElement("a", {
+        return /*#__PURE__*/React.createElement("a", {
           style: {
             textDecoration: 'underline'
           },
@@ -219,24 +219,24 @@ module.exports = React.createClass({
       case 2:
         switch (+value) {
           case 0:
-            return React.createElement("span", null, "\u7B49\u5F85\u5904\u7406");
+            return /*#__PURE__*/React.createElement("span", null, "\u7B49\u5F85\u5904\u7406");
 
           case 1:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: 'yellow'
               }
             }, "\u5904\u7406\u4E2D");
 
           case 2:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: 'red'
               }
             }, "\u5DF2\u7ECF\u89E3\u51B3");
 
           case 3:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: 'red'
               }
@@ -248,17 +248,17 @@ module.exports = React.createClass({
       case 3:
         switch (+value) {
           case 1:
-            return React.createElement("span", null, "\u6B63\u5E38");
+            return /*#__PURE__*/React.createElement("span", null, "\u6B63\u5E38");
 
           case 2:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: '#F44336'
               }
             }, "\u7D27\u6025");
 
           case 3:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: 'red'
               }
@@ -271,7 +271,7 @@ module.exports = React.createClass({
   __updateItem: function __updateItem(data) {
     zn.dialog({
       title: '修改',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/update",
         exts: {
           model: this.props.model,
@@ -304,7 +304,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '添加',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/insert",
         exts: {
           model: this.props.model
@@ -341,12 +341,12 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       title: "\u95EE\u9898\u5217\u8868",
       icon: "fa-list-ul",
       onToolbarClick: this.__onToolbarClick,
       toolbarItems: this.state.toolbarItems
-    }, React.createElement(zn.react.PagerView, {
+    }, /*#__PURE__*/React.createElement(zn.react.PagerView, {
       view: "Table",
       checkbox: 0,
       enableFilter: true,

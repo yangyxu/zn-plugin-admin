@@ -20,17 +20,17 @@ var MenuInfo = React.createClass({
   __renderBody: function __renderBody() {
     switch (this.state.currIndex) {
       case 0:
-        return React.createElement(ModelEditor, this.props);
+        return /*#__PURE__*/React.createElement(ModelEditor, this.props);
 
       case 1:
-        return React.createElement("div", {
+        return /*#__PURE__*/React.createElement("div", {
           style: {
             textAlign: 'center'
           }
         }, "\u8FD8\u5728\u5F00\u53D1\u4E2D...");
 
       case 2:
-        return React.createElement(FormDesigner, {
+        return /*#__PURE__*/React.createElement(FormDesigner, {
           menuId: this.props.data.value
         });
     }
@@ -38,9 +38,9 @@ var MenuInfo = React.createClass({
   render: function render() {
     var _this = this;
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zr-flex-layout"
-    }, React.createElement(zn.react.ListView, {
+    }, /*#__PURE__*/React.createElement(zn.react.ListView, {
       className: "layout-header zr-tab-ios",
       style: {
         margin: 5
@@ -67,7 +67,7 @@ var MenuInfo = React.createClass({
         text: '表单定义',
         icon: 'fa-server'
       }]
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "layout-body"
     }, this.__renderBody()));
   }
@@ -110,7 +110,7 @@ module.exports = React.createClass({
         type: 'RichSelector',
         selector: zn.plugin.admin.FontAwesomeIcons,
         textRender: function textRender(text) {
-          return React.createElement("i", {
+          return /*#__PURE__*/React.createElement("i", {
             className: "fa " + text
           });
         },
@@ -151,12 +151,12 @@ module.exports = React.createClass({
       return null;
     }
 
-    return React.createElement(MenuInfo, _extends({}, this.state, {
+    return /*#__PURE__*/React.createElement(MenuInfo, _extends({}, this.state, {
       data: data
     }));
   },
   render: function render() {
-    return React.createElement(TreeModelView, _extends({}, this.state, {
+    return /*#__PURE__*/React.createElement(TreeModelView, _extends({}, this.state, {
       rightRender: this.__rightRender
     }));
   }

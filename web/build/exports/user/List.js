@@ -166,7 +166,7 @@ module.exports = React.createClass({
   __addItem: function __addItem() {
     zn.dialog({
       title: '新增用户',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/user/addUser",
         merge: "values",
         exts: {
@@ -180,7 +180,7 @@ module.exports = React.createClass({
   __updateItem: function __updateItem(data) {
     zn.dialog({
       title: '更新用户信息',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "updates",
         action: "/zn.plugin.admin/model/update",
         exts: {
@@ -257,7 +257,7 @@ module.exports = React.createClass({
   __viewWechatUserInfo: function __viewWechatUserInfo(value) {
     zn.dialog({
       title: 'OPENID: ' + value,
-      content: React.createElement(zn.plugin.wechat.UserInfo, {
+      content: /*#__PURE__*/React.createElement(zn.plugin.wechat.UserInfo, {
         openid: value
       })
     });
@@ -327,18 +327,18 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: "激活用户: " + data.name,
-      content: React.createElement("div", {
+      content: /*#__PURE__*/React.createElement("div", {
         style: {
           padding: 20
         }
-      }, React.createElement(zn.react.Button, {
+      }, /*#__PURE__*/React.createElement(zn.react.Button, {
         onClick: function onClick(props, btn) {
           return _this.__onActiveUser(data, 'sms', btn);
         },
         text: "\u624B\u673A\u77ED\u4FE1\u6FC0\u6D3B",
         icon: "fa-phone zr-padding-3",
         tooltip: "\u7CFB\u7EDF\u76F4\u63A5\u4EE5\u77ED\u4FE1\u65B9\u5F0F\u53D1\u9001\u8D26\u53F7\u5BC6\u7801\u5230\u624B\u673A\u4E0A"
-      }), React.createElement(zn.react.Button, {
+      }), /*#__PURE__*/React.createElement(zn.react.Button, {
         onClick: function onClick(props, btn) {
           return _this.__onActiveUser(data, 'email', btn);
         },
@@ -359,11 +359,11 @@ module.exports = React.createClass({
       case 'status':
         switch (value) {
           case 0:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: '#1d18184d'
               }
-            }, React.createElement("i", {
+            }, /*#__PURE__*/React.createElement("i", {
               onClick: function onClick() {
                 return _this2.__onActive(data);
               },
@@ -372,14 +372,14 @@ module.exports = React.createClass({
             }), "\u5F85\u6FC0\u6D3B");
 
           case 1:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: '#008000'
               }
             }, "\u6B63\u5E38");
 
           case -1:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: '#d9534f'
               }
@@ -387,17 +387,17 @@ module.exports = React.createClass({
         }
 
       case 'name':
-        return React.createElement("div", {
+        return /*#__PURE__*/React.createElement("div", {
           style: {
             display: 'flex',
             alignItems: 'center'
           }
-        }, React.createElement("i", {
+        }, /*#__PURE__*/React.createElement("i", {
           onClick: function onClick() {
             return _this2.__updateItem(data);
           },
           className: "fa fa-edit zr-padding-3"
-        }), data.avatar_img && React.createElement("img", {
+        }), data.avatar_img && /*#__PURE__*/React.createElement("img", {
           className: "avatar",
           style: {
             width: 16,
@@ -406,13 +406,13 @@ module.exports = React.createClass({
             borderRadius: 16
           },
           src: data.avatar_img
-        }), React.createElement("a", {
+        }), /*#__PURE__*/React.createElement("a", {
           href: '#' + zn.react.session.fixPath('/znpluginadmin.user.infoedit') + '?userId=' + data.id
         }, value));
 
       case 'zn_plugin_wechat_open_id':
         if (value) {
-          return React.createElement("a", {
+          return /*#__PURE__*/React.createElement("a", {
             onClick: function onClick() {
               return _this2.__viewWechatUserInfo(value);
             },
@@ -421,16 +421,16 @@ module.exports = React.createClass({
               color: 'green',
               fontWeight: 'bold'
             }
-          }, React.createElement("i", {
+          }, /*#__PURE__*/React.createElement("i", {
             className: "fa fa-eye zr-padding-3"
           }), "\u5DF2\u7ED1\u5B9A");
         } else {
-          return React.createElement("span", null, "\u672A\u7ED1\u5B9A");
+          return /*#__PURE__*/React.createElement("span", null, "\u672A\u7ED1\u5B9A");
         }
 
       case 'qq':
         if (value) {
-          return React.createElement("img", {
+          return /*#__PURE__*/React.createElement("img", {
             "data-tooltip": value,
             style: {
               cursor: 'point'
@@ -457,9 +457,9 @@ module.exports = React.createClass({
     }).refresh();
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       title: "\u7CFB\u7EDF\u8D26\u6237\u7BA1\u7406",
-      headerCenter: React.createElement(zn.react.ListView, {
+      headerCenter: /*#__PURE__*/React.createElement(zn.react.ListView, {
         className: "zr-tab-ios",
         selectMode: "radio",
         valueKey: "status",
@@ -478,7 +478,7 @@ module.exports = React.createClass({
       }),
       toolbarItems: this.state.toolbarItems,
       onToolbarClick: this.__onToolbarClick
-    }, React.createElement(zn.react.PagerView, {
+    }, /*#__PURE__*/React.createElement(zn.react.PagerView, {
       ref: "table",
       view: "Table",
       enableFilter: true,

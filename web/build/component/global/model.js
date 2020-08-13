@@ -23,7 +23,7 @@ module.exports = {
 
     zn.dialog({
       title: _argv.title,
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "values",
         action: "/zn.plugin.admin/model/insert",
         exts: zn.extend({
@@ -43,7 +43,7 @@ module.exports = {
 
     zn.dialog({
       title: _argv.title,
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "updates",
         action: "/zn.plugin.admin/model/update",
         exts: {

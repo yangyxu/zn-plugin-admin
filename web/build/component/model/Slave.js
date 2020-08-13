@@ -45,7 +45,7 @@ module.exports = React.createClass({
   __addItem: function __addItem(pid) {
     zn.dialog({
       title: '添加',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/insert",
         exts: {
           model: this.props.model
@@ -74,7 +74,7 @@ module.exports = React.createClass({
   __updateItem: function __updateItem(data) {
     zn.dialog({
       title: '修改信息',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/update",
         exts: {
           model: this.props.model
@@ -126,11 +126,11 @@ module.exports = React.createClass({
   render: function render() {
     var _this = this;
 
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       title: this.props.title,
       toolbarItems: this.props.toolbarItems,
       onToolbarClick: this.__onToolbarClick
-    }, React.createElement(zn.react.PagerView, {
+    }, /*#__PURE__*/React.createElement(zn.react.PagerView, {
       view: "ListView",
       className: "zr-list-view-border",
       ref: "listview",

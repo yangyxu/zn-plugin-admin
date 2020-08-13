@@ -378,6 +378,41 @@ module.exports = root;
 
 /***/ }),
 /* 8 */
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -467,41 +502,6 @@ var red = exports.red = {
 };
 
 exports.default = exports;
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return value != null && typeof value == 'object';
-}
-
-module.exports = isObjectLike;
-
 
 /***/ }),
 /* 10 */
@@ -841,7 +841,7 @@ module.exports = React.createClass({
       if (_result) {
         return _result;
       } else {
-        return React.createElement(ModelEditor, _extends({}, this.props, {
+        return /*#__PURE__*/React.createElement(ModelEditor, _extends({}, this.props, {
           data: this.state.currItem
         }));
       }
@@ -851,7 +851,7 @@ module.exports = React.createClass({
       if (_result) {
         return _result;
       } else {
-        return React.createElement("div", {
+        return /*#__PURE__*/React.createElement("div", {
           className: "zr-center zr-empty-view"
         }, "\u8BF7\u9009\u62E9\u5DE6\u8FB9\u6570\u636E\u9879.");
       }
@@ -861,20 +861,20 @@ module.exports = React.createClass({
     return this.props.itemContentRender && this.props.itemContentRender(data, treeColumn, tree);
   },
   render: function render() {
-    return React.createElement(zn.react.Page, _extends({
+    return /*#__PURE__*/React.createElement(zn.react.Page, _extends({
       className: "zn-plugin-admin-tree-model-view"
-    }, this.props), React.createElement("div", {
+    }, this.props), /*#__PURE__*/React.createElement("div", {
       className: "zr-flex-layout zn-plugin-admin-master-slave-flex-layout row"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "layout-header",
       style: {
         minWidth: 200,
         minHeight: 132
       }
-    }, React.createElement(TreeEditor, _extends({}, this.props, {
+    }, /*#__PURE__*/React.createElement(TreeEditor, _extends({}, this.props, {
       contentRender: this.__itemContentRender,
       onValueChange: this.__onTreeValueChange
-    }))), React.createElement("div", {
+    }))), /*#__PURE__*/React.createElement("div", {
       className: "layout-body"
     }, this.__renderRight())));
   }
@@ -900,9 +900,9 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-model-editor"
-    }, this.props.data && React.createElement(zn.react.Form, {
+    }, this.props.data && /*#__PURE__*/React.createElement(zn.react.Form, {
       merge: "updates",
       action: "/zn.plugin.admin/model/update",
       exts: {
@@ -1198,7 +1198,7 @@ module.exports = getTag;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(11),
-    isObjectLike = __webpack_require__(9);
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -1343,21 +1343,21 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-letter-selector"
-    }, React.createElement("ul", {
+    }, /*#__PURE__*/React.createElement("ul", {
       className: "tags"
     }, CHARS.map(function (item, index) {
       var _this = this;
 
-      return React.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         key: index,
         className: 'tag ' + (this.state.value.indexOf(item) != -1 ? 'selected' : ''),
         onClick: function onClick() {
           return _this.__onLetterClick(item);
         }
       }, item);
-    }.bind(this)), this.props.mulitable && React.createElement("li", null, React.createElement(zn.react.Checkbox, {
+    }.bind(this)), this.props.mulitable && /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(zn.react.Checkbox, {
       text: "\u5168\u9009",
       onChange: this.__onCheck
     }))));
@@ -1418,7 +1418,7 @@ module.exports = React.createClass({
       _icon = 'fa-graduation-cap';
     }
 
-    return React.createElement("span", null, React.createElement("i", {
+    return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
       style: {
         margin: 5
       },
@@ -1426,7 +1426,7 @@ module.exports = React.createClass({
     }), data.zn_title);
   },
   render: function render() {
-    return React.createElement(TreeSelector, _extends({
+    return /*#__PURE__*/React.createElement(TreeSelector, _extends({
       ref: "treeselector"
     }, this.props, {
       model: "ZNPluginAdminRole",
@@ -1485,7 +1485,7 @@ module.exports = forOwn;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsArguments = __webpack_require__(140),
-    isObjectLike = __webpack_require__(9);
+    isObjectLike = __webpack_require__(8);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -1978,6 +1978,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Checkboard = undefined;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
@@ -2000,7 +2002,8 @@ var Checkboard = exports.Checkboard = function Checkboard(_ref) {
       size = _ref.size,
       renderers = _ref.renderers,
       borderRadius = _ref.borderRadius,
-      boxShadow = _ref.boxShadow;
+      boxShadow = _ref.boxShadow,
+      children = _ref.children;
 
   var styles = (0, _reactcss2.default)({
     'default': {
@@ -2012,8 +2015,7 @@ var Checkboard = exports.Checkboard = function Checkboard(_ref) {
       }
     }
   });
-
-  return _react2.default.createElement('div', { style: styles.grid });
+  return (0, _react.isValidElement)(children) ? _react2.default.cloneElement(children, _extends({}, children.props, { style: _extends({}, children.props.style, styles.grid) })) : _react2.default.createElement('div', { style: styles.grid });
 };
 
 Checkboard.defaultProps = {
@@ -2190,7 +2192,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '创建表',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "values",
         action: "/zn.plugin.admin/model/insert",
         exts: {
@@ -2212,7 +2214,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '修改表信息',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "updates",
         action: "/zn.plugin.admin/model/update",
         exts: {
@@ -2234,7 +2236,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '创建字段',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "values",
         action: "/zn.plugin.admin/model/insert",
         exts: {
@@ -2256,7 +2258,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '修改字段',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "updates",
         action: "/zn.plugin.admin/model/update",
         exts: {
@@ -2341,94 +2343,94 @@ module.exports = React.createClass({
 
     var _isPrimary = !table.parent_id;
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "table"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "table-info"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: ""
-    }, React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "name"
-    }, (table.zn_title ? "【" + table.zn_title + "】" : '') + table.table_name, React.createElement("i", {
+    }, (table.zn_title ? "【" + table.zn_title + "】" : '') + table.table_name, /*#__PURE__*/React.createElement("i", {
       onClick: function onClick() {
         return _this5.__editTable(table);
       },
       "data-tooltip": "\u4FEE\u6539\u8868\u4FE1\u606F",
       className: "fa fa-edit"
-    })), _isPrimary && React.createElement("span", {
+    })), _isPrimary && /*#__PURE__*/React.createElement("span", {
       className: "zr-tag"
-    }, "\u4E3B\u8868(Primary Table)")), React.createElement("div", null, React.createElement("span", {
+    }, "\u4E3B\u8868(Primary Table)")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
       className: "time"
-    }, table.zn_create_time))), React.createElement("ul", {
+    }, table.zn_create_time))), /*#__PURE__*/React.createElement("ul", {
       className: "table-fields"
     }, table.fields.map(function (field) {
       var _this6 = this;
 
-      return React.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         className: "table-field"
-      }, React.createElement("span", {
+      }, /*#__PURE__*/React.createElement("span", {
         className: "name"
-      }, "[ ", field.type, " ] ", field.title, "(", field.name, ") "), React.createElement("i", {
+      }, "[ ", field.type, " ] ", field.title, "(", field.name, ") "), /*#__PURE__*/React.createElement("i", {
         onClick: function onClick() {
           return _this6.__editField(field);
         },
         "data-tooltip": "\u7F16\u8F91\u5B57\u6BB5",
         className: "fa fa-edit"
-      }), React.createElement("i", {
+      }), /*#__PURE__*/React.createElement("i", {
         onClick: function onClick() {
           return _this6.__deleteField(field);
         },
         "data-tooltip": "\u5220\u9664\u5B57\u6BB5",
         className: "fa fa-trash-o"
       }));
-    }.bind(this))), React.createElement("div", {
+    }.bind(this))), /*#__PURE__*/React.createElement("div", {
       className: "toolbar"
-    }, React.createElement("div", null, React.createElement(zn.react.Button, {
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(zn.react.Button, {
       onClick: function onClick() {
         return _this5.__createField(table.id);
       },
       text: "\u6DFB\u52A0\u5B57\u6BB5",
       className: "plain"
-    }), _isPrimary && React.createElement(zn.react.Button, {
+    }), _isPrimary && /*#__PURE__*/React.createElement(zn.react.Button, {
       onClick: function onClick() {
         return _this5.__createTable(table.id);
       },
       text: "\u6DFB\u52A0\u9644\u8868",
       className: "plain"
-    })), React.createElement("div", null, !!table.has_generated ? React.createElement("span", {
+    })), /*#__PURE__*/React.createElement("div", null, !!table.has_generated ? /*#__PURE__*/React.createElement("span", {
       onClick: function onClick() {
         return _this5.__onRegenerate(table);
       },
       "data-tooltip": "\u91CD\u65B0\u751F\u6210\u6570\u636E\u8868, \u9700\u6CE8\u610F(\u5DF2\u6709\u6570\u636E\u5C06\u88AB\u62B9\u6389).",
       className: "zr-tag hover primary"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-check zr-padding-3"
-    }), "\u5DF2\u751F\u6210") : React.createElement("span", {
+    }), "\u5DF2\u751F\u6210") : /*#__PURE__*/React.createElement("span", {
       onClick: function onClick() {
         return _this5.__onGenerate(table);
       },
       "data-tooltip": "\u751F\u6210\u6570\u636E\u8868",
       className: "zr-tag hover orangle"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-ban zr-padding-3"
     }), "\u672A\u751F\u6210"))));
   },
   __renderDeputyTables: function __renderDeputyTables() {
     var _len = this.state.deputyTables.length;
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "deputy-tables"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "title"
-    }, React.createElement("span", null, "\u9644\u8868(", _len, ")")), this.state.deputyTables.map(function (table) {
+    }, /*#__PURE__*/React.createElement("span", null, "\u9644\u8868(", _len, ")")), this.state.deputyTables.map(function (table) {
       return this.__renderTable(table);
     }.bind(this)));
   },
   render: function render() {
     var _this7 = this;
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-form-designer"
-    }, this.state.primaryTable ? this.__renderTable(this.state.primaryTable) : React.createElement("div", {
+    }, this.state.primaryTable ? this.__renderTable(this.state.primaryTable) : /*#__PURE__*/React.createElement("div", {
       className: "wf-button",
       onClick: function onClick() {
         return _this7.__createTable(0);
@@ -2453,22 +2455,22 @@ var MenuItem = React.createClass({
     };
   },
   __renderChildren: function __renderChildren(children) {
-    return React.createElement("ul", {
+    return /*#__PURE__*/React.createElement("ul", {
       className: "sub-menu-list"
     }, children.map(function (item, index) {
       var _this = this;
 
-      return React.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         className: item.url && zn.react.session.containPath(item.url) ? 'active-item' : '',
         key: index,
         onClick: function onClick() {
           return _this.__onSubItemClick(item, index);
         }
-      }, React.createElement("div", {
+      }, /*#__PURE__*/React.createElement("div", {
         className: "item-title"
-      }, React.createElement("div", {
+      }, /*#__PURE__*/React.createElement("div", {
         className: "title"
-      }, React.createElement("i", {
+      }, /*#__PURE__*/React.createElement("i", {
         className: "fa " + item.icon
       }), item.zn_title)));
     }.bind(this)));
@@ -2495,21 +2497,21 @@ var MenuItem = React.createClass({
     var _this2 = this;
 
     var item = this.props.item;
-    return React.createElement("li", {
+    return /*#__PURE__*/React.createElement("li", {
       className: "menu-item",
       "data-active": this.state.active
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "item-title",
       onClick: function onClick() {
         return _this2.setState({
           active: !_this2.state.active
         });
       }
-    }, React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "title"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa " + item.icon
-    }), item.zn_title), React.createElement("i", {
+    }), item.zn_title), /*#__PURE__*/React.createElement("i", {
       className: "fa zr-padding-3 zn-fr " + (this.state.active ? 'fa-angle-down' : 'fa-angle-right')
     })), !!item.children && !!item.children.length && this.__renderChildren(item.children));
   }
@@ -2517,17 +2519,17 @@ var MenuItem = React.createClass({
 module.exports = React.createClass({
   displayName: "exports",
   __renderItem: function __renderItem(item, index) {
-    return React.createElement(MenuItem, {
+    return /*#__PURE__*/React.createElement(MenuItem, {
       onMenuItemClick: this.props.onMenuItemClick,
       item: item,
       index: index
     });
   },
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: zn.react.classname("zn-plugin-admin-navigation-bar", this.props.className),
       style: this.props.style
-    }, React.createElement("ul", {
+    }, /*#__PURE__*/React.createElement("ul", {
       className: "menu-list"
     }, this.props.data.map(this.__renderItem)));
   }
@@ -2586,7 +2588,7 @@ module.exports = React.createClass({
     var _result = this.props.itemContentRender && this.props.itemContentRender(value, item);
 
     if (!_result) {
-      _result = React.createElement("span", null, value.icon && React.createElement("i", {
+      _result = /*#__PURE__*/React.createElement("span", null, value.icon && /*#__PURE__*/React.createElement("i", {
         style: {
           margin: 5
         },
@@ -2603,7 +2605,7 @@ module.exports = React.createClass({
     this.props.onValueChange && this.props.onValueChange(obj);
   },
   render: function render() {
-    return React.createElement(zn.react.Tree, _extends({
+    return /*#__PURE__*/React.createElement(zn.react.Tree, _extends({
       ref: "tree"
     }, this.props, {
       className: zn.react.classname("zn-plugin-admin-tree-selector", this.props.className),
@@ -2686,7 +2688,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '编辑',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "updates",
         action: "/zn.plugin.admin/model/update",
         exts: {
@@ -2721,7 +2723,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: data ? '添加子项: ' + data.zn_title : '添加主项',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "values",
         action: "/zn.plugin.admin/model/insert",
         hiddens: _where,
@@ -2798,7 +2800,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: "移动节点",
-      content: React.createElement(zn.react.Tree, {
+      content: /*#__PURE__*/React.createElement(zn.react.Tree, {
         data: this.state.data,
         onItemClick: function onItemClick(data) {
           return _this.__onDataItemClick(curr, data, treeColumn);
@@ -2844,11 +2846,11 @@ module.exports = React.createClass({
     if (_result) {
       return _result;
     } else {
-      return React.createElement("div", {
+      return /*#__PURE__*/React.createElement("div", {
         className: "item-content"
-      }, data.icon && React.createElement(zn.react.Icon, {
+      }, data.icon && /*#__PURE__*/React.createElement(zn.react.Icon, {
         icon: data.icon
-      }), React.createElement("span", {
+      }), /*#__PURE__*/React.createElement("span", {
         "data-tooltip": data.id
       }, data.zn_title));
     }
@@ -2860,33 +2862,33 @@ module.exports = React.createClass({
     this.props.onItemClick && this.props.onItemClick(data, treeColumn, tree, event);
   },
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: zn.react.classname("zn-plugin-admin-tree-editor", this.props.className)
-    }, this.props.editable && React.createElement("div", {
+    }, this.props.editable && /*#__PURE__*/React.createElement("div", {
       className: "tool-bars"
     }, this.state.mainToolbarItems.map(function (item) {
       var _this2 = this;
 
-      return React.createElement("i", {
+      return /*#__PURE__*/React.createElement("i", {
         onClick: function onClick() {
           return _this2.__onToolbarClick(item);
         },
         "data-tooltip": item.tooltip,
         className: "fa " + item.icon
       });
-    }.bind(this)), React.createElement("i", {
+    }.bind(this)), /*#__PURE__*/React.createElement("i", {
       className: "separator"
     }), this.state.currData && this.state.subToolbarItems.map(function (item) {
       var _this3 = this;
 
-      return React.createElement("i", {
+      return /*#__PURE__*/React.createElement("i", {
         onClick: function onClick() {
           return _this3.__onToolbarClick(item);
         },
         "data-tooltip": item.tooltip,
         className: "fa " + item.icon
       });
-    }.bind(this))), React.createElement(zn.react.Tree, _extends({}, this.props, {
+    }.bind(this))), /*#__PURE__*/React.createElement(zn.react.Tree, _extends({}, this.props, {
       data: this.state.data,
       onItemClick: this.__onTreeItemClick,
       contentRender: this.__itemContentRender
@@ -2912,7 +2914,7 @@ module.exports = React.createClass({
   },
   componentDidMount: function componentDidMount() {},
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-user-session-info"
     });
   }
@@ -3083,7 +3085,7 @@ module.exports = castFunction;
 
 var baseGetTag = __webpack_require__(11),
     getPrototype = __webpack_require__(43),
-    isObjectLike = __webpack_require__(9);
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var objectTag = '[object Object]';
@@ -3209,7 +3211,7 @@ module.exports = toSource;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsEqualDeep = __webpack_require__(174),
-    isObjectLike = __webpack_require__(9);
+    isObjectLike = __webpack_require__(8);
 
 /**
  * The base implementation of `_.isEqual` which supports partial comparisons
@@ -4064,7 +4066,7 @@ var _debounce = __webpack_require__(90);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _color = __webpack_require__(8);
+var _color = __webpack_require__(9);
 
 var _color2 = _interopRequireDefault(_color);
 
@@ -4240,7 +4242,7 @@ var black = "#000000";
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = zn.arrayValueToObject(['TreeModelView'], function (value, index) {
-  return __webpack_require__(300)("./" + value + ".js");
+  return __webpack_require__(301)("./" + value + ".js");
 });
 
 /***/ }),
@@ -4292,7 +4294,7 @@ module.exports = React.createClass({
   __addItem: function __addItem(pid) {
     zn.dialog({
       title: '添加',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/insert",
         exts: {
           model: this.props.model
@@ -4321,7 +4323,7 @@ module.exports = React.createClass({
   __updateItem: function __updateItem(data) {
     zn.dialog({
       title: '修改信息',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/update",
         exts: {
           model: this.props.model
@@ -4373,11 +4375,11 @@ module.exports = React.createClass({
   render: function render() {
     var _this = this;
 
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       title: this.props.title,
       toolbarItems: this.props.toolbarItems,
       onToolbarClick: this.__onToolbarClick
-    }, React.createElement(zn.react.PagerView, {
+    }, /*#__PURE__*/React.createElement(zn.react.PagerView, {
       view: "ListView",
       className: "zr-list-view-border",
       ref: "listview",
@@ -4398,7 +4400,7 @@ module.exports = React.createClass({
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = zn.arrayValueToObject(['DataModelManager', 'PageDebugger', 'ServerManager'], function (value, index) {
-  return __webpack_require__(305)("./" + value + ".js");
+  return __webpack_require__(306)("./" + value + ".js");
 });
 
 /***/ }),
@@ -4406,7 +4408,7 @@ module.exports = zn.arrayValueToObject(['DataModelManager', 'PageDebugger', 'Ser
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = zn.arrayValueToObject(['Dashboard', 'Info'], function (value, index) {
-  return __webpack_require__(311)("./" + value + ".js");
+  return __webpack_require__(312)("./" + value + ".js");
 });
 
 /***/ }),
@@ -4414,7 +4416,7 @@ module.exports = zn.arrayValueToObject(['Dashboard', 'Info'], function (value, i
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = zn.arrayValueToObject(['Project'], function (value, index) {
-  return __webpack_require__(316)("./" + value + ".js");
+  return __webpack_require__(317)("./" + value + ".js");
 });
 
 /***/ }),
@@ -4606,7 +4608,7 @@ module.exports = React.createClass({
 
     switch (columnIndex) {
       case 0:
-        return React.createElement(zn.react.ListView, {
+        return /*#__PURE__*/React.createElement(zn.react.ListView, {
           className: "zr-flex",
           data: [{
             text: '删除',
@@ -4616,7 +4618,7 @@ module.exports = React.createClass({
             icon: 'fa-edit'
           }],
           itemRender: function itemRender(item, index) {
-            return React.createElement("i", {
+            return /*#__PURE__*/React.createElement("i", {
               title: item.text,
               className: 'fa ' + item.icon,
               style: item.style
@@ -4628,7 +4630,7 @@ module.exports = React.createClass({
         });
 
       case 1:
-        return React.createElement("a", {
+        return /*#__PURE__*/React.createElement("a", {
           style: {
             textDecoration: 'underline'
           },
@@ -4640,24 +4642,24 @@ module.exports = React.createClass({
       case 2:
         switch (+value) {
           case 0:
-            return React.createElement("span", null, "\u7B49\u5F85\u5904\u7406");
+            return /*#__PURE__*/React.createElement("span", null, "\u7B49\u5F85\u5904\u7406");
 
           case 1:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: 'yellow'
               }
             }, "\u5904\u7406\u4E2D");
 
           case 2:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: 'red'
               }
             }, "\u5DF2\u7ECF\u89E3\u51B3");
 
           case 3:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: 'red'
               }
@@ -4669,17 +4671,17 @@ module.exports = React.createClass({
       case 3:
         switch (+value) {
           case 1:
-            return React.createElement("span", null, "\u6B63\u5E38");
+            return /*#__PURE__*/React.createElement("span", null, "\u6B63\u5E38");
 
           case 2:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: '#F44336'
               }
             }, "\u7D27\u6025");
 
           case 3:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: 'red'
               }
@@ -4692,7 +4694,7 @@ module.exports = React.createClass({
   __updateItem: function __updateItem(data) {
     zn.dialog({
       title: '修改',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/update",
         exts: {
           model: this.props.model,
@@ -4725,7 +4727,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '添加',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/insert",
         exts: {
           model: this.props.model
@@ -4762,12 +4764,12 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       title: "\u95EE\u9898\u5217\u8868",
       icon: "fa-list-ul",
       onToolbarClick: this.__onToolbarClick,
       toolbarItems: this.state.toolbarItems
-    }, React.createElement(zn.react.PagerView, {
+    }, /*#__PURE__*/React.createElement(zn.react.PagerView, {
       view: "Table",
       checkbox: 0,
       enableFilter: true,
@@ -4785,14 +4787,14 @@ module.exports = React.createClass({
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = zn.arrayValueToObject(['Base', 'Config', 'ConfigManager', 'Menu', 'MenuPage', 'Role', 'Var', 'UsersForRoles'], function (value, index) {
-  return __webpack_require__(318)("./" + value + ".js");
+  return __webpack_require__(319)("./" + value + ".js");
 });
 
 /***/ }),
 /* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(326);
+__webpack_require__(327);
 
 var React = __webpack_require__(0);
 
@@ -4822,12 +4824,12 @@ module.exports = React.createClass({
   __itemRender: function __itemRender(item, index) {
     var _this = this;
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "user"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "avatar",
       src: item.avatar_img ? zn.http.fixURL(item.avatar_img) : "./images/DefaultAvatar.png"
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "name",
       onClick: function onClick(event) {
         return _this.__onUserClick(event, item, index);
@@ -4835,7 +4837,7 @@ module.exports = React.createClass({
     }, item.name));
   },
   render: function render() {
-    return React.createElement(zn.react.PagerView, {
+    return /*#__PURE__*/React.createElement(zn.react.PagerView, {
       view: "ListView",
       className: "zn-plugin-admin-users-for-roles",
       textKey: "name",
@@ -4852,7 +4854,7 @@ module.exports = React.createClass({
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = zn.arrayValueToObject(['Info', 'InfoEdit', 'List', 'LoginLog'], function (value, index) {
-  return __webpack_require__(328)("./" + value + ".js");
+  return __webpack_require__(329)("./" + value + ".js");
 });
 
 /***/ }),
@@ -4862,7 +4864,7 @@ module.exports = zn.arrayValueToObject(['Info', 'InfoEdit', 'List', 'LoginLog'],
 __webpack_require__(103);
 
 zn.plugin.admin = __webpack_require__(109);
-module.exports = __webpack_require__(304);
+module.exports = __webpack_require__(305);
 
 /***/ }),
 /* 103 */
@@ -4976,7 +4978,7 @@ module.exports = {
 
     zn.dialog({
       title: _argv.title,
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "values",
         action: "/zn.plugin.admin/model/insert",
         exts: zn.extend({
@@ -4996,7 +4998,7 @@ module.exports = {
 
     zn.dialog({
       title: _argv.title,
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "updates",
         action: "/zn.plugin.admin/model/update",
         exts: {
@@ -5063,22 +5065,22 @@ var React = __webpack_require__(0);
 module.exports = React.createClass({
   displayName: "exports",
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-error-page"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "alert"
-    }, React.createElement("h1", null, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("h1", null, /*#__PURE__*/React.createElement("div", {
       className: "l12n"
-    }, "This Connection Is Not Private"))), React.createElement("div", {
+    }, "This Connection Is Not Private"))), /*#__PURE__*/React.createElement("div", {
       className: "alert-body"
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "details"
-    }, React.createElement("p", {
+    }, /*#__PURE__*/React.createElement("p", {
       id: "detailsText"
-    }, React.createElement("p", null, "Safari warns you when a website has a certificate that is not valid. This may happen if the website is misconfigured or an attacker has compromised your connection."), React.createElement("p", null, "To learn more, you can", React.createElement("a", {
+    }, /*#__PURE__*/React.createElement("p", null, "Safari warns you when a website has a certificate that is not valid. This may happen if the website is misconfigured or an attacker has compromised your connection."), /*#__PURE__*/React.createElement("p", null, "To learn more, you can", /*#__PURE__*/React.createElement("a", {
       role: "button",
       onclick: "CertificateWarningController.showCertificateInformation();"
-    }, "view the certificate"), ". If you understand the risks involved, you can ", React.createElement("a", {
+    }, "view the certificate"), ". If you understand the risks involved, you can ", /*#__PURE__*/React.createElement("a", {
       role: "button",
       onclick: "CertificateWarningController.visitInsecureWebsite();"
     }, "visit this website"), "."))));
@@ -5238,11 +5240,11 @@ module.exports = React.createClass({
     var _value = this.state.value,
         _search = this.state.search;
     this._users = [];
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "user-view"
-    }, React.createElement(zn.react.Search, {
+    }, /*#__PURE__*/React.createElement(zn.react.Search, {
       onSearch: this.__onSearch
-    }), !this.state.loading ? React.createElement("ul", {
+    }), !this.state.loading ? /*#__PURE__*/React.createElement("ul", {
       className: "users"
     }, this.state.users.map(function (user, index) {
       var _this = this;
@@ -5267,27 +5269,27 @@ module.exports = React.createClass({
         _selected = +_value === +_userId;
       }
 
-      return React.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         key: index,
         className: 'user ' + (_selected ? 'selected' : ''),
         onClick: function onClick() {
           return _this.__onUserClick(user);
         }
-      }, user.avatar_img ? React.createElement("img", {
+      }, user.avatar_img ? /*#__PURE__*/React.createElement("img", {
         className: "avatar",
         src: zn.http.fixURL(user.avatar_img) || './images/DefaultAvatar.png'
-      }) : React.createElement("span", {
+      }) : /*#__PURE__*/React.createElement("span", {
         className: "first-char"
-      }, user.first_char), React.createElement("span", {
+      }, user.first_char), /*#__PURE__*/React.createElement("span", {
         className: "name",
         dangerouslySetInnerHTML: {
           __html: _name
         }
       }));
-    }.bind(this)), this.props.mulitable && React.createElement("li", null, React.createElement(zn.react.Checkbox, {
+    }.bind(this)), this.props.mulitable && /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(zn.react.Checkbox, {
       text: "\u5168\u9009",
       onChange: this.__onUserCheckAll
-    }))) : React.createElement(zn.react.DataLoader, {
+    }))) : /*#__PURE__*/React.createElement(zn.react.DataLoader, {
       content: "\u6B63\u5728\u52A0\u8F7D...",
       loader: "timer"
     }));
@@ -5307,12 +5309,12 @@ module.exports = React.createClass({
   __renderView: function __renderView() {
     switch (this.state.currIndex) {
       case 0:
-        return React.createElement(LetterSelector, {
+        return /*#__PURE__*/React.createElement(LetterSelector, {
           onChange: this.__onLetterChange
         });
 
       case 1:
-        return React.createElement(RoleSelector, {
+        return /*#__PURE__*/React.createElement(RoleSelector, {
           checkboxEnabled: false,
           onChange: this.__onRoleChange
         });
@@ -5321,9 +5323,9 @@ module.exports = React.createClass({
   render: function render() {
     var _this2 = this;
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-user-selector"
-    }, React.createElement(zn.react.ListView, {
+    }, /*#__PURE__*/React.createElement(zn.react.ListView, {
       className: "zr-tab-ios",
       selectMode: "radio",
       textKey: "text",
@@ -5343,7 +5345,7 @@ module.exports = React.createClass({
         text: '所属部门',
         icon: 'fa-sitemap'
       }]
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "user-selector"
     }, this.__renderView(), this.__renderUsers()));
   }
@@ -5460,11 +5462,11 @@ module.exports = React.createClass({
     var _value = this.state.value,
         _search = this.state.search;
     this._users = [];
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "user-view"
-    }, React.createElement(zn.react.Search, {
+    }, /*#__PURE__*/React.createElement(zn.react.Search, {
       onSearch: this.__onSearch
-    }), !this.state.loading ? React.createElement("ul", {
+    }), !this.state.loading ? /*#__PURE__*/React.createElement("ul", {
       className: "users"
     }, this.state.users.map(function (user, index) {
       var _this = this;
@@ -5489,27 +5491,27 @@ module.exports = React.createClass({
         _selected = +_value === +_userId;
       }
 
-      return React.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         key: index,
         className: 'user ' + (_selected ? 'selected' : ''),
         onClick: function onClick() {
           return _this.__onUserClick(user);
         }
-      }, user.avatar_img ? React.createElement("img", {
+      }, user.avatar_img ? /*#__PURE__*/React.createElement("img", {
         className: "avatar",
         src: zn.http.fixURL(user.avatar_img) || './images/DefaultAvatar.png'
-      }) : React.createElement("span", {
+      }) : /*#__PURE__*/React.createElement("span", {
         className: "first-char"
-      }, user.first_char), React.createElement("span", {
+      }, user.first_char), /*#__PURE__*/React.createElement("span", {
         className: "name",
         dangerouslySetInnerHTML: {
           __html: _name
         }
       }));
-    }.bind(this)), this.props.mulitable && React.createElement("li", null, React.createElement(zn.react.Checkbox, {
+    }.bind(this)), this.props.mulitable && /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(zn.react.Checkbox, {
       text: "\u5168\u9009",
       onChange: this.__onUserCheckAll
-    }))) : React.createElement(zn.react.DataLoader, {
+    }))) : /*#__PURE__*/React.createElement(zn.react.DataLoader, {
       content: "\u6B63\u5728\u52A0\u8F7D...",
       loader: "timer"
     }));
@@ -5529,12 +5531,12 @@ module.exports = React.createClass({
   __renderView: function __renderView() {
     switch (this.state.currIndex) {
       case 0:
-        return React.createElement(LetterSelector, {
+        return /*#__PURE__*/React.createElement(LetterSelector, {
           onChange: this.__onLetterChange
         });
 
       case 1:
-        return React.createElement(RoleSelector, {
+        return /*#__PURE__*/React.createElement(RoleSelector, {
           checkboxEnabled: false,
           onChange: this.__onRoleChange
         });
@@ -5543,9 +5545,9 @@ module.exports = React.createClass({
   render: function render() {
     var _this2 = this;
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-user-selector"
-    }, React.createElement(zn.react.ListView, {
+    }, /*#__PURE__*/React.createElement(zn.react.ListView, {
       className: "zr-tab-ios",
       selectMode: "radio",
       textKey: "text",
@@ -5565,7 +5567,7 @@ module.exports = React.createClass({
         text: '所属部门',
         icon: 'fa-sitemap'
       }]
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "user-selector"
     }, this.__renderView(), this.__renderUsers()));
   }
@@ -5592,29 +5594,29 @@ var React = __webpack_require__(0);
 module.exports = React.createClass({
   displayName: "exports",
   __renderItem: function __renderItem(item, index) {
-    return React.createElement("li", {
+    return /*#__PURE__*/React.createElement("li", {
       className: "menu-item"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "item-title"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa " + item.icon
     }), item.zn_title), !!item.children && !!item.children.length && this.__renderChildren(item.children));
   },
   __renderChildren: function __renderChildren(children) {
-    return React.createElement("ul", {
+    return /*#__PURE__*/React.createElement("ul", {
       className: "sub-menu-list"
     }, children.map(function (item, index) {
       var _this = this;
 
-      return React.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         className: item.url && zn.react.session.containPath(item.url) ? 'active-item' : '',
         key: index,
         onClick: function onClick() {
           return _this.__onSubItemClick(item, index);
         }
-      }, React.createElement("div", {
+      }, /*#__PURE__*/React.createElement("div", {
         className: "item-title"
-      }, React.createElement("i", {
+      }, /*#__PURE__*/React.createElement("i", {
         className: "fa " + item.icon
       }), item.zn_title));
     }.bind(this)));
@@ -5638,10 +5640,10 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-navigation-bar",
       style: this.props.style
-    }, React.createElement("ul", {
+    }, /*#__PURE__*/React.createElement("ul", {
       className: "menu-list"
     }, this.props.data.map(function (item, index) {
       return this.__renderItem(item, index);
@@ -5655,8 +5657,8 @@ module.exports = React.createClass({
 
 var map = {
 	"./ColorPicker.js": 129,
-	"./FontAwesomeIcons.js": 297,
-	"./Role.js": 299,
+	"./FontAwesomeIcons.js": 298,
+	"./Role.js": 300,
 	"./index.js": 58
 };
 
@@ -5715,9 +5717,9 @@ module.exports = React.createClass({
     return this.state.value;
   },
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: zn.react.classname("zn-plugin-admin-color-picker", this.props.className)
-    }, React.createElement(ChromePicker, {
+    }, /*#__PURE__*/React.createElement(ChromePicker, {
       color: this.state.value,
       onChange: this.__onColorClick
     }));
@@ -5778,7 +5780,7 @@ Object.defineProperty(exports, 'ChromePicker', {
   }
 });
 
-var _Compact = __webpack_require__(271);
+var _Compact = __webpack_require__(272);
 
 Object.defineProperty(exports, 'CompactPicker', {
   enumerable: true,
@@ -5787,7 +5789,7 @@ Object.defineProperty(exports, 'CompactPicker', {
   }
 });
 
-var _Github = __webpack_require__(274);
+var _Github = __webpack_require__(275);
 
 Object.defineProperty(exports, 'GithubPicker', {
   enumerable: true,
@@ -5796,7 +5798,7 @@ Object.defineProperty(exports, 'GithubPicker', {
   }
 });
 
-var _Hue = __webpack_require__(276);
+var _Hue = __webpack_require__(277);
 
 Object.defineProperty(exports, 'HuePicker', {
   enumerable: true,
@@ -5805,7 +5807,7 @@ Object.defineProperty(exports, 'HuePicker', {
   }
 });
 
-var _Material = __webpack_require__(278);
+var _Material = __webpack_require__(279);
 
 Object.defineProperty(exports, 'MaterialPicker', {
   enumerable: true,
@@ -5814,7 +5816,7 @@ Object.defineProperty(exports, 'MaterialPicker', {
   }
 });
 
-var _Photoshop = __webpack_require__(279);
+var _Photoshop = __webpack_require__(280);
 
 Object.defineProperty(exports, 'PhotoshopPicker', {
   enumerable: true,
@@ -5823,7 +5825,7 @@ Object.defineProperty(exports, 'PhotoshopPicker', {
   }
 });
 
-var _Sketch = __webpack_require__(285);
+var _Sketch = __webpack_require__(286);
 
 Object.defineProperty(exports, 'SketchPicker', {
   enumerable: true,
@@ -5832,7 +5834,7 @@ Object.defineProperty(exports, 'SketchPicker', {
   }
 });
 
-var _Slider = __webpack_require__(288);
+var _Slider = __webpack_require__(289);
 
 Object.defineProperty(exports, 'SliderPicker', {
   enumerable: true,
@@ -5841,7 +5843,7 @@ Object.defineProperty(exports, 'SliderPicker', {
   }
 });
 
-var _Swatches = __webpack_require__(292);
+var _Swatches = __webpack_require__(293);
 
 Object.defineProperty(exports, 'SwatchesPicker', {
   enumerable: true,
@@ -5850,7 +5852,7 @@ Object.defineProperty(exports, 'SwatchesPicker', {
   }
 });
 
-var _Twitter = __webpack_require__(296);
+var _Twitter = __webpack_require__(297);
 
 Object.defineProperty(exports, 'TwitterPicker', {
   enumerable: true,
@@ -6015,7 +6017,7 @@ exports.default = flattenNames;
 
 var baseGetTag = __webpack_require__(11),
     isArray = __webpack_require__(3),
-    isObjectLike = __webpack_require__(9);
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var stringTag = '[object String]';
@@ -6213,7 +6215,7 @@ module.exports = baseTimes;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(11),
-    isObjectLike = __webpack_require__(9);
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]';
@@ -6262,7 +6264,7 @@ module.exports = stubFalse;
 
 var baseGetTag = __webpack_require__(11),
     isLength = __webpack_require__(38),
-    isObjectLike = __webpack_require__(9);
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]',
@@ -9024,7 +9026,7 @@ module.exports = isMap;
 /***/ (function(module, exports, __webpack_require__) {
 
 var getTag = __webpack_require__(27),
-    isObjectLike = __webpack_require__(9);
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]';
@@ -9081,7 +9083,7 @@ module.exports = isSet;
 /***/ (function(module, exports, __webpack_require__) {
 
 var getTag = __webpack_require__(27),
-    isObjectLike = __webpack_require__(9);
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var setTag = '[object Set]';
@@ -9696,15 +9698,8 @@ var VALID_KEY_CODES = [UP_KEY_CODE, DOWN_KEY_CODE];
 var isValidKeyCode = function isValidKeyCode(keyCode) {
   return VALID_KEY_CODES.indexOf(keyCode) > -1;
 };
-
-var getFormattedPercentage = function getFormattedPercentage(number) {
-  return number + '%';
-};
 var getNumberValue = function getNumberValue(value) {
   return Number(String(value).replace(/%/g, ''));
-};
-var getIsPercentage = function getIsPercentage(value) {
-  return String(value).indexOf('%') > -1;
 };
 
 var EditableInput = exports.EditableInput = function (_ref) {
@@ -9804,10 +9799,7 @@ var EditableInput = exports.EditableInput = function (_ref) {
       var onChangeValue = this.props.label ? this.getValueObjectWithLabel(value) : value;
       this.props.onChange && this.props.onChange(onChangeValue, e);
 
-      var isPercentage = getIsPercentage(e.target.value);
-      this.setState({
-        value: isPercentage ? getFormattedPercentage(value) : value
-      });
+      this.setState({ value: value });
     }
   }, {
     key: 'render',
@@ -10050,7 +10042,7 @@ var calculateChange = exports.calculateChange = function calculateChange(e, dire
         s: hsl.s,
         l: hsl.l,
         a: hsl.a,
-        source: 'rgb'
+        source: 'hsl'
       };
     }
   } else {
@@ -10070,7 +10062,7 @@ var calculateChange = exports.calculateChange = function calculateChange(e, dire
         s: hsl.s,
         l: hsl.l,
         a: hsl.a,
-        source: 'rgb'
+        source: 'hsl'
       };
     }
   }
@@ -10445,7 +10437,7 @@ module.exports = baseMergeDeep;
 /***/ (function(module, exports, __webpack_require__) {
 
 var isArrayLike = __webpack_require__(13),
-    isObjectLike = __webpack_require__(9);
+    isObjectLike = __webpack_require__(8);
 
 /**
  * This method is like `_.isArrayLike` except that it also checks if `value`
@@ -11194,7 +11186,7 @@ var calculateChange = exports.calculateChange = function calculateChange(e, hsl,
     s: saturation,
     v: bright,
     a: hsl.a,
-    source: 'rgb'
+    source: 'hsv'
   };
 };
 
@@ -12688,7 +12680,7 @@ var _merge = __webpack_require__(5);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-var _color = __webpack_require__(8);
+var _color = __webpack_require__(9);
 
 var _color2 = _interopRequireDefault(_color);
 
@@ -13048,7 +13040,7 @@ var CircleSwatch = exports.CircleSwatch = function CircleSwatch(_ref) {
       Swatch: {
         borderRadius: '50%',
         background: 'transparent',
-        boxShadow: 'inset 0 0 0 ' + circleSize / 2 + 'px ' + color,
+        boxShadow: 'inset 0 0 0 ' + (circleSize / 2 + 1) + 'px ' + color,
         transition: '100ms box-shadow ease'
       }
     },
@@ -13118,11 +13110,11 @@ var _ChromeFields = __webpack_require__(267);
 
 var _ChromeFields2 = _interopRequireDefault(_ChromeFields);
 
-var _ChromePointer = __webpack_require__(269);
+var _ChromePointer = __webpack_require__(270);
 
 var _ChromePointer2 = _interopRequireDefault(_ChromePointer);
 
-var _ChromePointerCircle = __webpack_require__(270);
+var _ChromePointerCircle = __webpack_require__(271);
 
 var _ChromePointerCircle2 = _interopRequireDefault(_ChromePointerCircle);
 
@@ -13330,13 +13322,17 @@ var _reactcss = __webpack_require__(1);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _color = __webpack_require__(8);
+var _color = __webpack_require__(9);
 
 var _color2 = _interopRequireDefault(_color);
 
+var _isUndefined = __webpack_require__(268);
+
+var _isUndefined2 = _interopRequireDefault(_isUndefined);
+
 var _common = __webpack_require__(2);
 
-var _UnfoldMoreHorizontalIcon = __webpack_require__(268);
+var _UnfoldMoreHorizontalIcon = __webpack_require__(269);
 
 var _UnfoldMoreHorizontalIcon2 = _interopRequireDefault(_UnfoldMoreHorizontalIcon);
 
@@ -13406,10 +13402,17 @@ var ChromeFields = exports.ChromeFields = function (_React$Component) {
           data.l = data.l.replace('%', '');
         }
 
+        // We store HSL as a unit interval so we need to override the 1 input to 0.01
+        if (data.s == 1) {
+          data.s = 0.01;
+        } else if (data.l == 1) {
+          data.l = 0.01;
+        }
+
         _this.props.onChange({
           h: data.h || _this.props.hsl.h,
-          s: Number(data.s && data.s || _this.props.hsl.s),
-          l: Number(data.l && data.l || _this.props.hsl.l),
+          s: Number(!(0, _isUndefined2.default)(data.s) ? data.s : _this.props.hsl.s),
+          l: Number(!(0, _isUndefined2.default)(data.l) ? data.l : _this.props.hsl.l),
           source: 'hsl'
         }, e);
       }
@@ -13666,6 +13669,34 @@ exports.default = ChromeFields;
 
 /***/ }),
 /* 268 */
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is `undefined`.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `undefined`, else `false`.
+ * @example
+ *
+ * _.isUndefined(void 0);
+ * // => true
+ *
+ * _.isUndefined(null);
+ * // => false
+ */
+function isUndefined(value) {
+  return value === undefined;
+}
+
+module.exports = isUndefined;
+
+
+/***/ }),
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13709,7 +13740,7 @@ exports.default = function (_ref) {
 };
 
 /***/ }),
-/* 269 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13750,7 +13781,7 @@ var ChromePointer = exports.ChromePointer = function ChromePointer() {
 exports.default = ChromePointer;
 
 /***/ }),
-/* 270 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13790,7 +13821,7 @@ var ChromePointerCircle = exports.ChromePointerCircle = function ChromePointerCi
 exports.default = ChromePointerCircle;
 
 /***/ }),
-/* 271 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13821,17 +13852,17 @@ var _merge = __webpack_require__(5);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-var _color = __webpack_require__(8);
+var _color = __webpack_require__(9);
 
 var _color2 = _interopRequireDefault(_color);
 
 var _common = __webpack_require__(2);
 
-var _CompactColor = __webpack_require__(272);
+var _CompactColor = __webpack_require__(273);
 
 var _CompactColor2 = _interopRequireDefault(_CompactColor);
 
-var _CompactFields = __webpack_require__(273);
+var _CompactFields = __webpack_require__(274);
 
 var _CompactFields2 = _interopRequireDefault(_CompactFields);
 
@@ -13915,7 +13946,7 @@ Compact.defaultProps = {
 exports.default = (0, _common.ColorWrap)(Compact);
 
 /***/ }),
-/* 272 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13934,7 +13965,7 @@ var _reactcss = __webpack_require__(1);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _color = __webpack_require__(8);
+var _color = __webpack_require__(9);
 
 var _color2 = _interopRequireDefault(_color);
 
@@ -14004,7 +14035,7 @@ var CompactColor = exports.CompactColor = function CompactColor(_ref) {
 exports.default = CompactColor;
 
 /***/ }),
-/* 273 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14143,7 +14174,7 @@ var CompactFields = exports.CompactFields = function CompactFields(_ref) {
 exports.default = CompactFields;
 
 /***/ }),
-/* 274 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14176,7 +14207,7 @@ var _merge2 = _interopRequireDefault(_merge);
 
 var _common = __webpack_require__(2);
 
-var _GithubSwatch = __webpack_require__(275);
+var _GithubSwatch = __webpack_require__(276);
 
 var _GithubSwatch2 = _interopRequireDefault(_GithubSwatch);
 
@@ -14314,7 +14345,7 @@ Github.defaultProps = {
 exports.default = (0, _common.ColorWrap)(Github);
 
 /***/ }),
-/* 275 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14378,7 +14409,7 @@ var GithubSwatch = exports.GithubSwatch = function GithubSwatch(_ref) {
 exports.default = (0, _reactcss.handleHover)(GithubSwatch);
 
 /***/ }),
-/* 276 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14409,7 +14440,7 @@ var _merge2 = _interopRequireDefault(_merge);
 
 var _common = __webpack_require__(2);
 
-var _HuePointer = __webpack_require__(277);
+var _HuePointer = __webpack_require__(278);
 
 var _HuePointer2 = _interopRequireDefault(_HuePointer);
 
@@ -14471,7 +14502,7 @@ HuePicker.defaultProps = {
 exports.default = (0, _common.ColorWrap)(HuePicker);
 
 /***/ }),
-/* 277 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14519,7 +14550,7 @@ var SliderPointer = exports.SliderPointer = function SliderPointer(_ref) {
 exports.default = SliderPointer;
 
 /***/ }),
-/* 278 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14542,7 +14573,7 @@ var _merge = __webpack_require__(5);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-var _color = __webpack_require__(8);
+var _color = __webpack_require__(9);
 
 var _color2 = _interopRequireDefault(_color);
 
@@ -14694,7 +14725,7 @@ var Material = exports.Material = function Material(_ref) {
 exports.default = (0, _common.ColorWrap)(Material);
 
 /***/ }),
-/* 279 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14725,23 +14756,23 @@ var _merge2 = _interopRequireDefault(_merge);
 
 var _common = __webpack_require__(2);
 
-var _PhotoshopFields = __webpack_require__(280);
+var _PhotoshopFields = __webpack_require__(281);
 
 var _PhotoshopFields2 = _interopRequireDefault(_PhotoshopFields);
 
-var _PhotoshopPointerCircle = __webpack_require__(281);
+var _PhotoshopPointerCircle = __webpack_require__(282);
 
 var _PhotoshopPointerCircle2 = _interopRequireDefault(_PhotoshopPointerCircle);
 
-var _PhotoshopPointer = __webpack_require__(282);
+var _PhotoshopPointer = __webpack_require__(283);
 
 var _PhotoshopPointer2 = _interopRequireDefault(_PhotoshopPointer);
 
-var _PhotoshopButton = __webpack_require__(283);
+var _PhotoshopButton = __webpack_require__(284);
 
 var _PhotoshopButton2 = _interopRequireDefault(_PhotoshopButton);
 
-var _PhotoshopPreviews = __webpack_require__(284);
+var _PhotoshopPreviews = __webpack_require__(285);
 
 var _PhotoshopPreviews2 = _interopRequireDefault(_PhotoshopPreviews);
 
@@ -14913,7 +14944,7 @@ Photoshop.defaultProps = {
 exports.default = (0, _common.ColorWrap)(Photoshop);
 
 /***/ }),
-/* 280 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14932,7 +14963,7 @@ var _reactcss = __webpack_require__(1);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _color = __webpack_require__(8);
+var _color = __webpack_require__(9);
 
 var _color2 = _interopRequireDefault(_color);
 
@@ -15112,7 +15143,7 @@ var PhotoshopPicker = exports.PhotoshopPicker = function PhotoshopPicker(_ref) {
 exports.default = PhotoshopPicker;
 
 /***/ }),
-/* 281 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15159,7 +15190,7 @@ var PhotoshopPointerCircle = exports.PhotoshopPointerCircle = function Photoshop
 exports.default = PhotoshopPointerCircle;
 
 /***/ }),
-/* 282 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15240,7 +15271,7 @@ var PhotoshopPointerCircle = exports.PhotoshopPointerCircle = function Photoshop
 exports.default = PhotoshopPointerCircle;
 
 /***/ }),
-/* 283 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15300,7 +15331,7 @@ var PhotoshopButton = exports.PhotoshopButton = function PhotoshopButton(_ref) {
 exports.default = PhotoshopButton;
 
 /***/ }),
-/* 284 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15376,7 +15407,7 @@ var PhotoshopPreviews = exports.PhotoshopPreviews = function PhotoshopPreviews(_
 exports.default = PhotoshopPreviews;
 
 /***/ }),
-/* 285 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15407,11 +15438,11 @@ var _merge2 = _interopRequireDefault(_merge);
 
 var _common = __webpack_require__(2);
 
-var _SketchFields = __webpack_require__(286);
+var _SketchFields = __webpack_require__(287);
 
 var _SketchFields2 = _interopRequireDefault(_SketchFields);
 
-var _SketchPresetColors = __webpack_require__(287);
+var _SketchPresetColors = __webpack_require__(288);
 
 var _SketchPresetColors2 = _interopRequireDefault(_SketchPresetColors);
 
@@ -15586,7 +15617,7 @@ Sketch.defaultProps = {
 exports.default = (0, _common.ColorWrap)(Sketch);
 
 /***/ }),
-/* 286 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15605,7 +15636,7 @@ var _reactcss = __webpack_require__(1);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _color = __webpack_require__(8);
+var _color = __webpack_require__(9);
 
 var _color2 = _interopRequireDefault(_color);
 
@@ -15762,7 +15793,7 @@ var SketchFields = exports.SketchFields = function SketchFields(_ref) {
 exports.default = SketchFields;
 
 /***/ }),
-/* 287 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15865,7 +15896,7 @@ SketchPresetColors.propTypes = {
 exports.default = SketchPresetColors;
 
 /***/ }),
-/* 288 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15894,11 +15925,11 @@ var _merge2 = _interopRequireDefault(_merge);
 
 var _common = __webpack_require__(2);
 
-var _SliderSwatches = __webpack_require__(289);
+var _SliderSwatches = __webpack_require__(290);
 
 var _SliderSwatches2 = _interopRequireDefault(_SliderSwatches);
 
-var _SliderPointer = __webpack_require__(291);
+var _SliderPointer = __webpack_require__(292);
 
 var _SliderPointer2 = _interopRequireDefault(_SliderPointer);
 
@@ -15957,7 +15988,7 @@ Slider.defaultProps = {
 exports.default = (0, _common.ColorWrap)(Slider);
 
 /***/ }),
-/* 289 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15976,7 +16007,7 @@ var _reactcss = __webpack_require__(1);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _SliderSwatch = __webpack_require__(290);
+var _SliderSwatch = __webpack_require__(291);
 
 var _SliderSwatch2 = _interopRequireDefault(_SliderSwatch);
 
@@ -16068,7 +16099,7 @@ var SliderSwatches = exports.SliderSwatches = function SliderSwatches(_ref) {
 exports.default = SliderSwatches;
 
 /***/ }),
-/* 290 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16139,7 +16170,7 @@ var SliderSwatch = exports.SliderSwatch = function SliderSwatch(_ref) {
 exports.default = SliderSwatch;
 
 /***/ }),
-/* 291 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16180,7 +16211,7 @@ var SliderPointer = exports.SliderPointer = function SliderPointer() {
 exports.default = SliderPointer;
 
 /***/ }),
-/* 292 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16211,17 +16242,13 @@ var _merge = __webpack_require__(5);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-var _color = __webpack_require__(8);
-
-var _color2 = _interopRequireDefault(_color);
-
 var _materialColors = __webpack_require__(92);
 
 var material = _interopRequireWildcard(_materialColors);
 
 var _common = __webpack_require__(2);
 
-var _SwatchesGroup = __webpack_require__(293);
+var _SwatchesGroup = __webpack_require__(294);
 
 var _SwatchesGroup2 = _interopRequireDefault(_SwatchesGroup);
 
@@ -16261,10 +16288,7 @@ var Swatches = exports.Swatches = function Swatches(_ref) {
   }, passedStyles));
 
   var handleChange = function handleChange(data, e) {
-    _color2.default.isValidHex(data) && onChange({
-      hex: data,
-      source: 'hex'
-    }, e);
+    return onChange({ hex: data, source: 'hex' }, e);
   };
 
   return _react2.default.createElement(
@@ -16312,7 +16336,7 @@ Swatches.propTypes = {
 exports.default = (0, _common.ColorWrap)(Swatches);
 
 /***/ }),
-/* 293 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16335,7 +16359,7 @@ var _map = __webpack_require__(10);
 
 var _map2 = _interopRequireDefault(_map);
 
-var _SwatchesColor = __webpack_require__(294);
+var _SwatchesColor = __webpack_require__(295);
 
 var _SwatchesColor2 = _interopRequireDefault(_SwatchesColor);
 
@@ -16378,7 +16402,7 @@ var SwatchesGroup = exports.SwatchesGroup = function SwatchesGroup(_ref) {
 exports.default = SwatchesGroup;
 
 /***/ }),
-/* 294 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16397,13 +16421,13 @@ var _reactcss = __webpack_require__(1);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _color = __webpack_require__(8);
+var _color = __webpack_require__(9);
 
 var _color2 = _interopRequireDefault(_color);
 
 var _common = __webpack_require__(2);
 
-var _CheckIcon = __webpack_require__(295);
+var _CheckIcon = __webpack_require__(296);
 
 var _CheckIcon2 = _interopRequireDefault(_CheckIcon);
 
@@ -16491,7 +16515,7 @@ var SwatchesColor = exports.SwatchesColor = function SwatchesColor(_ref) {
 exports.default = SwatchesColor;
 
 /***/ }),
-/* 295 */
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16535,7 +16559,7 @@ exports.default = function (_ref) {
 };
 
 /***/ }),
-/* 296 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16566,7 +16590,7 @@ var _merge = __webpack_require__(5);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-var _color = __webpack_require__(8);
+var _color = __webpack_require__(9);
 
 var _color2 = _interopRequireDefault(_color);
 
@@ -16749,10 +16773,10 @@ Twitter.defaultProps = {
 exports.default = (0, _common.ColorWrap)(Twitter);
 
 /***/ }),
-/* 297 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(298);
+__webpack_require__(299);
 
 var React = __webpack_require__(0);
 
@@ -16780,12 +16804,12 @@ module.exports = React.createClass({
     this.props.onChange && this.props.onChange(item, item);
   },
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: zn.react.classname("zn-plugin-admin-font-awesome-icons", this.props.className)
     }, this.state.data.map(function (item, index) {
       var _this = this;
 
-      return React.createElement("i", {
+      return /*#__PURE__*/React.createElement("i", {
         onClick: function onClick() {
           return _this.__onIconClick(item, index);
         },
@@ -16797,13 +16821,13 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 298 */
+/* 299 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 299 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -16818,29 +16842,29 @@ module.exports = React.createClass({
   },
   componentDidMount: function componentDidMount() {},
   __renderItem: function __renderItem(item, index) {
-    return React.createElement("li", {
+    return /*#__PURE__*/React.createElement("li", {
       className: "menu-item"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "item-title"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa " + item.icon
     }), item.zn_title), !!item.children && !!item.children.length && this.__renderChildren(item.children));
   },
   __renderChildren: function __renderChildren(children) {
-    return React.createElement("ul", {
+    return /*#__PURE__*/React.createElement("ul", {
       className: "sub-menu-list"
     }, children.map(function (item, index) {
       var _this = this;
 
-      return React.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         className: zn.react.session.isPath(item.url) ? 'active-item' : '',
         key: index,
         onClick: function onClick() {
           return _this.__onSubItemClick(item, index);
         }
-      }, React.createElement("div", {
+      }, /*#__PURE__*/React.createElement("div", {
         className: "item-title"
-      }, React.createElement("i", {
+      }, /*#__PURE__*/React.createElement("i", {
         className: "fa " + item.icon
       }), item.zn_title));
     }.bind(this)));
@@ -16851,9 +16875,9 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-widget-navigation-bar"
-    }, React.createElement("ul", {
+    }, /*#__PURE__*/React.createElement("ul", {
       className: "menu-list"
     }, this.props.data.map(function (item, index) {
       return this.__renderItem(item, index);
@@ -16862,13 +16886,13 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 300 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./BaseBusinessView.js": 301,
-	"./BaseModelView.js": 302,
-	"./MasterSlave.js": 303,
+	"./BaseBusinessView.js": 302,
+	"./BaseModelView.js": 303,
+	"./MasterSlave.js": 304,
 	"./Slave.js": 94,
 	"./TreeModelView.js": 18,
 	"./index.js": 93
@@ -16892,10 +16916,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 300;
+webpackContext.id = 301;
 
 /***/ }),
-/* 301 */
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -16942,7 +16966,7 @@ module.exports = React.createClass({
   __addItem: function __addItem(pid) {
     zn.dialog({
       title: '添加项',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/insert",
         exts: {
           model: this.props.model
@@ -16970,7 +16994,7 @@ module.exports = React.createClass({
   __updateItem: function __updateItem(data) {
     zn.dialog({
       title: '更新项目信息',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         method: "POST",
         layout: "stacked",
         action: "/zn.plugin.admin/model/updates",
@@ -17034,15 +17058,15 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement(zn.react.ActivityLayout, {
+    return /*#__PURE__*/React.createElement(zn.react.ActivityLayout, {
       direction: "top-bottoom",
       begin: 35,
       barWidth: 3
-    }, React.createElement(zn.react.ButtonGroup, {
+    }, /*#__PURE__*/React.createElement(zn.react.ButtonGroup, {
       "float": "right",
       items: this.state.toolbarItems,
       onClick: this.__onToolbarClick
-    }), React.createElement(zn.react.PagerView, {
+    }), /*#__PURE__*/React.createElement(zn.react.PagerView, {
       view: "Table",
       enableFilter: false,
       checkbox: 50,
@@ -17055,7 +17079,7 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 302 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -17126,7 +17150,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '添加项',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/insert",
         exts: {
           model: this.props.model
@@ -17163,7 +17187,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '修改项',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/update",
         exts: {
           model: this.props.model
@@ -17232,15 +17256,15 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement(zn.react.ActivityLayout, {
+    return /*#__PURE__*/React.createElement(zn.react.ActivityLayout, {
       direction: "top-bottoom",
       begin: 35,
       barWidth: 3
-    }, React.createElement(zn.react.ButtonGroup, {
+    }, /*#__PURE__*/React.createElement(zn.react.ButtonGroup, {
       "float": "right",
       items: this.state.toolbarItems,
       onClick: this.__onToolbarClick
-    }), React.createElement(zn.react.PagerView, {
+    }), /*#__PURE__*/React.createElement(zn.react.PagerView, {
       view: "Table",
       enableFilter: false,
       checkbox: 50,
@@ -17252,7 +17276,7 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 303 */
+/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -17296,7 +17320,7 @@ module.exports = React.createClass({
   __addItem: function __addItem() {
     zn.dialog({
       title: '添加',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/insert",
         exts: {
           model: this.props.model
@@ -17359,7 +17383,7 @@ module.exports = React.createClass({
   __updateItem: function __updateItem(data) {
     zn.dialog({
       title: '更新项目信息',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/update",
         exts: {
           model: this.props.model
@@ -17409,14 +17433,14 @@ module.exports = React.createClass({
     });
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       toolbarItems: this.props.toolbarItems,
       onToolbarClick: this.__onToolbarClick,
       title: this.props.title
-    }, React.createElement(zn.react.ActivityLayout, {
+    }, /*#__PURE__*/React.createElement(zn.react.ActivityLayout, {
       direction: "left-right",
       begin: this.props.leftWidth || 250
-    }, React.createElement(zn.react.PagerView, {
+    }, /*#__PURE__*/React.createElement(zn.react.PagerView, {
       view: "ListView",
       className: "zr-list-view-border",
       textKey: "name",
@@ -17427,14 +17451,14 @@ module.exports = React.createClass({
       itemRender: this.props.itemRender,
       itemClassName: this.props.itemClassName,
       data: this.state.data
-    }), !!this.state.masterId ? React.createElement(Slave, _extends({}, this.props.slave, {
+    }), !!this.state.masterId ? /*#__PURE__*/React.createElement(Slave, _extends({}, this.props.slave, {
       masterId: this.state.masterId
-    })) : React.createElement("div", null, "\u8BF7\u9009\u62E9\u4E3B\u8868\u6570\u636E\u8BB0\u5F55")));
+    })) : /*#__PURE__*/React.createElement("div", null, "\u8BF7\u9009\u62E9\u4E3B\u8868\u6570\u636E\u8BB0\u5F55")));
   }
 });
 
 /***/ }),
-/* 304 */
+/* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _exports = {},
@@ -17456,9 +17480,9 @@ Object.keys(_data).map(function (path) {
   }
 });
 _data = {
-  Login: __webpack_require__(335),
-  Main: __webpack_require__(337),
-  UserActive: __webpack_require__(339)
+  Login: __webpack_require__(336),
+  Main: __webpack_require__(338),
+  UserActive: __webpack_require__(340)
 };
 Object.keys(_data).map(function (path) {
   _path = './' + path + '.js';
@@ -17469,13 +17493,13 @@ Object.keys(_data).map(function (path) {
 module.exports = [_subs, _exports];
 
 /***/ }),
-/* 305 */
+/* 306 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./DataModelManager.js": 306,
-	"./PageDebugger.js": 308,
-	"./ServerManager.js": 309,
+	"./DataModelManager.js": 307,
+	"./PageDebugger.js": 309,
+	"./ServerManager.js": 310,
 	"./index.js": 95
 };
 
@@ -17497,15 +17521,15 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 305;
+webpackContext.id = 306;
 
 /***/ }),
-/* 306 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-__webpack_require__(307);
+__webpack_require__(308);
 
 var React = __webpack_require__(0);
 
@@ -17534,9 +17558,9 @@ var API = React.createClass({
       }
 
       if (_items.length) {
-        return React.createElement(zn.react.Group, {
+        return /*#__PURE__*/React.createElement(zn.react.Group, {
           title: "\u8BF7\u6C42\u53C2\u6570"
-        }, React.createElement(zn.react.Form, {
+        }, /*#__PURE__*/React.createElement(zn.react.Form, {
           items: _items,
           buttons: [{
             text: '发送请求',
@@ -17546,7 +17570,7 @@ var API = React.createClass({
           onSubmitBefore: this.__onFormSubmitBefore
         }));
       } else {
-        return React.createElement(zn.react.Button, {
+        return /*#__PURE__*/React.createElement(zn.react.Button, {
           onClick: function onClick() {
             return _this.__submit();
           },
@@ -17560,9 +17584,9 @@ var API = React.createClass({
   },
   __renderData: function __renderData() {
     if (this.state.data) {
-      return React.createElement(zn.react.Group, {
+      return /*#__PURE__*/React.createElement(zn.react.Group, {
         title: "\u8FD4\u56DE\u7ED3\u679C"
-      }, React.createElement("code", {
+      }, /*#__PURE__*/React.createElement("code", {
         style: {
           padding: 5
         }
@@ -17601,21 +17625,21 @@ var API = React.createClass({
   render: function render() {
     var _this2 = this;
 
-    return React.createElement("li", {
+    return /*#__PURE__*/React.createElement("li", {
       className: "api"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "info"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "i-header"
-    }, this.props.method && React.createElement("span", {
+    }, this.props.method && /*#__PURE__*/React.createElement("span", {
       className: "method"
-    }, this.props.method), React.createElement("span", null, this.props.router), React.createElement("i", {
+    }, this.props.method), /*#__PURE__*/React.createElement("span", null, this.props.router), /*#__PURE__*/React.createElement("i", {
       "data-tooltip": "\u590D\u5236\u94FE\u63A5",
       onClick: function onClick() {
         return zn.react.copyToClipboard(_this2.props.router);
       },
       className: "fa fa-clipboard zr-padding-3"
-    })), React.createElement("div", {
+    })), /*#__PURE__*/React.createElement("div", {
       className: "i-body"
     }, this.__renderArgvForm(), this.__renderData())));
   }
@@ -17680,25 +17704,25 @@ module.exports = React.createClass({
     });
   },
   __renderApps: function __renderApps() {
-    return React.createElement("ul", {
+    return /*#__PURE__*/React.createElement("ul", {
       className: "apps"
     }, this.state.apps.map(function (app, index) {
       var _this3 = this;
 
-      return React.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         key: index,
         className: "app " + (this.state.app == app ? 'curr' : ''),
         onClick: function onClick() {
           return _this3.__onAppClick(app);
         }
-      }, React.createElement("a", null, app));
+      }, /*#__PURE__*/React.createElement("a", null, app));
     }.bind(this)));
   },
   __renderApis: function __renderApis() {
-    return React.createElement("ul", {
+    return /*#__PURE__*/React.createElement("ul", {
       className: "apis"
     }, this.state.apis.map(function (api, index) {
-      return React.createElement(API, _extends({
+      return /*#__PURE__*/React.createElement(API, _extends({
         key: index
       }, api));
     }.bind(this)));
@@ -17747,32 +17771,32 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       className: "zn-plugin-admin-devtool-server-manager",
       title: "\u670D\u52A1\u5668API\u7BA1\u7406",
       toolbarItems: this.state.toolbarItems,
       onToolbarClick: this.__onToolbarClick
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "zr-flex-layout zn-plugin-admin-master-slave-flex-layout row"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "layout-header",
       style: {
         minWidth: 200
       }
-    }, this.__renderApps()), React.createElement("div", {
+    }, this.__renderApps()), /*#__PURE__*/React.createElement("div", {
       className: "layout-body"
     }, this.__renderApis())));
   }
 });
 
 /***/ }),
-/* 307 */
+/* 308 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 308 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -17781,24 +17805,24 @@ module.exports = React.createClass({
   displayName: "exports",
   __renderPages: function __renderPages() {
     var _routers = zn.react.app._routers;
-    return React.createElement("ul", null, Object.keys(_routers).map(function (router, index) {
-      return React.createElement("li", {
+    return /*#__PURE__*/React.createElement("ul", null, Object.keys(_routers).map(function (router, index) {
+      return /*#__PURE__*/React.createElement("li", {
         style: {
           padding: 3
         }
-      }, React.createElement("i", {
+      }, /*#__PURE__*/React.createElement("i", {
         "data-tooltip": "\u590D\u5236\u94FE\u63A5",
         onClick: function onClick() {
           return zn.react.copyToClipboard(router);
         },
         className: "fa fa-clipboard zr-padding-3"
-      }), React.createElement("a", {
+      }), /*#__PURE__*/React.createElement("a", {
         href: '#' + router
       }, router));
     }));
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       className: "zn-plugin-admin-devtool-page-debuger",
       title: "\u9875\u9762\u8C03\u8BD5\u5668"
     }, this.__renderPages());
@@ -17806,12 +17830,12 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 309 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-__webpack_require__(310);
+__webpack_require__(311);
 
 var React = __webpack_require__(0);
 
@@ -17840,9 +17864,9 @@ var API = React.createClass({
       }
 
       if (_items.length) {
-        return React.createElement(zn.react.Group, {
+        return /*#__PURE__*/React.createElement(zn.react.Group, {
           title: "\u8BF7\u6C42\u53C2\u6570"
-        }, React.createElement(zn.react.Form, {
+        }, /*#__PURE__*/React.createElement(zn.react.Form, {
           items: _items,
           buttons: [{
             text: '发送请求',
@@ -17852,7 +17876,7 @@ var API = React.createClass({
           onSubmitBefore: this.__onFormSubmitBefore
         }));
       } else {
-        return React.createElement(zn.react.Button, {
+        return /*#__PURE__*/React.createElement(zn.react.Button, {
           onClick: function onClick() {
             return _this.__submit();
           },
@@ -17866,9 +17890,9 @@ var API = React.createClass({
   },
   __renderData: function __renderData() {
     if (this.state.data) {
-      return React.createElement(zn.react.Group, {
+      return /*#__PURE__*/React.createElement(zn.react.Group, {
         title: "\u8FD4\u56DE\u7ED3\u679C"
-      }, React.createElement("code", {
+      }, /*#__PURE__*/React.createElement("code", {
         style: {
           padding: 5
         }
@@ -17907,21 +17931,21 @@ var API = React.createClass({
   render: function render() {
     var _this2 = this;
 
-    return React.createElement("li", {
+    return /*#__PURE__*/React.createElement("li", {
       className: "api"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "info"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "i-header"
-    }, this.props.method && React.createElement("span", {
+    }, this.props.method && /*#__PURE__*/React.createElement("span", {
       className: "method"
-    }, this.props.method), React.createElement("span", null, this.props.router), React.createElement("i", {
+    }, this.props.method), /*#__PURE__*/React.createElement("span", null, this.props.router), /*#__PURE__*/React.createElement("i", {
       "data-tooltip": "\u590D\u5236\u94FE\u63A5",
       onClick: function onClick() {
         return zn.react.copyToClipboard(_this2.props.router);
       },
       className: "fa fa-clipboard zr-padding-3"
-    })), React.createElement("div", {
+    })), /*#__PURE__*/React.createElement("div", {
       className: "i-body"
     }, this.__renderArgvForm(), this.__renderData())));
   }
@@ -17986,25 +18010,25 @@ module.exports = React.createClass({
     });
   },
   __renderApps: function __renderApps() {
-    return React.createElement("ul", {
+    return /*#__PURE__*/React.createElement("ul", {
       className: "apps"
     }, this.state.apps.map(function (app, index) {
       var _this3 = this;
 
-      return React.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         key: index,
         className: "app " + (this.state.app == app ? 'curr' : ''),
         onClick: function onClick() {
           return _this3.__onAppClick(app);
         }
-      }, React.createElement("a", null, app));
+      }, /*#__PURE__*/React.createElement("a", null, app));
     }.bind(this)));
   },
   __renderApis: function __renderApis() {
-    return React.createElement("ul", {
+    return /*#__PURE__*/React.createElement("ul", {
       className: "apis"
     }, this.state.apis.map(function (api, index) {
-      return React.createElement(API, _extends({
+      return /*#__PURE__*/React.createElement(API, _extends({
         key: index
       }, api));
     }.bind(this)));
@@ -18053,37 +18077,37 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       className: "zn-plugin-admin-devtool-server-manager",
       title: "\u670D\u52A1\u5668\u7BA1\u7406",
       toolbarItems: this.state.toolbarItems,
       onToolbarClick: this.__onToolbarClick
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "zr-flex-layout zn-plugin-admin-master-slave-flex-layout row"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "layout-header",
       style: {
         minWidth: 200
       }
-    }, this.__renderApps()), React.createElement("div", {
+    }, this.__renderApps()), /*#__PURE__*/React.createElement("div", {
       className: "layout-body"
     }, this.__renderApis())));
   }
 });
 
 /***/ }),
-/* 310 */
+/* 311 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 311 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./Dashboard.js": 312,
-	"./Info.js": 314,
+	"./Dashboard.js": 313,
+	"./Info.js": 315,
 	"./index.js": 96
 };
 
@@ -18105,13 +18129,13 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 311;
+webpackContext.id = 312;
 
 /***/ }),
-/* 312 */
+/* 313 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(313);
+__webpack_require__(314);
 
 var React = __webpack_require__(0);
 
@@ -18141,29 +18165,29 @@ module.exports = React.createClass({
   },
   render: function render() {
     if (!this.state.info) {
-      return React.createElement(zn.react.DataLoader, {
+      return /*#__PURE__*/React.createElement(zn.react.DataLoader, {
         content: "\u6B63\u5728\u52A0\u8F7D\u4E2D...",
         loader: "timer"
       });
     }
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-my-dashboard"
-    }, React.createElement("div", null, React.createElement("span", null, "\u6211\u7684\u5DE5\u4F5C\u53F0")), React.createElement("div", null));
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, "\u6211\u7684\u5DE5\u4F5C\u53F0")), /*#__PURE__*/React.createElement("div", null));
   }
 });
 
 /***/ }),
-/* 313 */
+/* 314 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 314 */
+/* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(315);
+__webpack_require__(316);
 
 var React = __webpack_require__(0);
 
@@ -18238,7 +18262,7 @@ module.exports = React.createClass({
   __onEdit: function __onEdit(data) {
     zn.dialog({
       title: '修改个人信息',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/update",
         exts: {
           model: 'ZNPluginAdminUser',
@@ -18283,7 +18307,7 @@ module.exports = React.createClass({
       _icon = 'fa-graduation-cap';
     }
 
-    return React.createElement("span", null, React.createElement("i", {
+    return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
       style: {
         margin: 5
       },
@@ -18292,42 +18316,42 @@ module.exports = React.createClass({
   },
   render: function render() {
     if (!this.state.info) {
-      return React.createElement(zn.react.DataLoader, {
+      return /*#__PURE__*/React.createElement(zn.react.DataLoader, {
         content: "\u6B63\u5728\u52A0\u8F7D\u4E2D...",
         loader: "timer"
       });
     }
 
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       className: "zn-plugin-admin-my-info",
       title: this.state.info.name,
       toolbarItems: this.state.toolbarItems
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "user-info"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "info-form user-item"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "avatar",
       src: zn.http.fixURL(this.state.info.avatar_img) || './images/DefaultAvatar.png'
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "details"
-    }, React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "last-logintime"
-    }, "\u6700\u8FD1\u4E00\u6B21\u767B\u5F55\u65F6\u95F4\uFF1A", this.state.info.last_login_time || '还未登陆'), React.createElement("div", {
+    }, "\u6700\u8FD1\u4E00\u6B21\u767B\u5F55\u65F6\u95F4\uFF1A", this.state.info.last_login_time || '还未登陆'), /*#__PURE__*/React.createElement("div", {
       className: "name"
-    }, this.state.info.name), React.createElement("div", null, React.createElement("i", {
+    }, this.state.info.name), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-clock-o"
-    }), "\u521B\u5EFA\u65F6\u95F4\uFF1A", this.state.info.zn_create_time), React.createElement("div", null, React.createElement("i", {
+    }), "\u521B\u5EFA\u65F6\u95F4\uFF1A", this.state.info.zn_create_time), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-envelope"
-    }), "\u90AE\u7BB1\uFF1A", this.state.info.email), React.createElement("div", null, React.createElement("i", {
+    }), "\u90AE\u7BB1\uFF1A", this.state.info.email), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-phone"
-    }), "\u624B\u673A\u53F7\uFF1A", this.state.info.phone), React.createElement("div", null, React.createElement("i", {
+    }), "\u624B\u673A\u53F7\uFF1A", this.state.info.phone), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-qq"
-    }), "QQ\u53F7\uFF1A", this.state.info.qq), React.createElement("div", null, React.createElement("i", {
+    }), "QQ\u53F7\uFF1A", this.state.info.qq), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-weixin"
-    }), "\u5FAE\u4FE1\u53F7\uFF1A", this.state.info.wechat), React.createElement("div", null, this.state.info.zn_note))), React.createElement(zn.react.Card, {
+    }), "\u5FAE\u4FE1\u53F7\uFF1A", this.state.info.wechat), /*#__PURE__*/React.createElement("div", null, this.state.info.zn_note))), /*#__PURE__*/React.createElement(zn.react.Card, {
       title: "\u90E8\u95E8\u53CA\u89D2\u8272"
-    }, React.createElement(zn.react.TreeListView, {
+    }, /*#__PURE__*/React.createElement(zn.react.TreeListView, {
       disabled: true,
       cascade: false,
       enableCheckbox: true,
@@ -18342,17 +18366,17 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 315 */
+/* 316 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 316 */
+/* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./Project.js": 317,
+	"./Project.js": 318,
 	"./ProjectBug.js": 98,
 	"./index.js": 97
 };
@@ -18375,10 +18399,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 316;
+webpackContext.id = 317;
 
 /***/ }),
-/* 317 */
+/* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -18445,25 +18469,25 @@ module.exports = React.createClass({
   },
   __rightRender: function __rightRender(tree) {
     var _currItem = tree.state.currItem;
-    return React.createElement(ProjectBug, {
+    return /*#__PURE__*/React.createElement(ProjectBug, {
       data: _currItem ? _currItem.props.data : null
     });
   },
   __itemContentRender: function __itemContentRender(item) {
     //console.log(item);
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       style: {
         display: 'inline-flex',
         lineHeight: '25px'
       }
-    }, React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "title"
-    }, item.data.zn_title), React.createElement("span", {
+    }, item.data.zn_title), /*#__PURE__*/React.createElement("span", {
       className: "version"
     }, "(", item.data.version, ")"));
   },
   render: function render() {
-    return React.createElement(TreeModelView, _extends({
+    return /*#__PURE__*/React.createElement(TreeModelView, _extends({
       itemContentRender: this.__itemContentRender
     }, this.props, {
       rightRender: this.__rightRender
@@ -18472,18 +18496,18 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 318 */
+/* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./Base.js": 319,
-	"./Config.js": 320,
-	"./ConfigManager.js": 321,
-	"./Menu.js": 323,
-	"./MenuPage.js": 324,
-	"./Role.js": 325,
+	"./Base.js": 320,
+	"./Config.js": 321,
+	"./ConfigManager.js": 322,
+	"./Menu.js": 324,
+	"./MenuPage.js": 325,
+	"./Role.js": 326,
 	"./UsersForRoles.js": 100,
-	"./Var.js": 327,
+	"./Var.js": 328,
 	"./index.js": 99
 };
 
@@ -18505,10 +18529,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 318;
+webpackContext.id = 319;
 
 /***/ }),
-/* 319 */
+/* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -18550,15 +18574,15 @@ module.exports = React.createClass({
     }.bind(this));
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       loading: !this.state.items,
       title: '参数设置: ' + this.state._id
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       style: {
         backgroundColor: '#FFF',
         padding: 5
       }
-    }, this.state.items && React.createElement(zn.react.Form, {
+    }, this.state.items && /*#__PURE__*/React.createElement(zn.react.Form, {
       items: this.state.items,
       action: "/zn.plugin.admin/config/updateBy_id",
       merge: "updates",
@@ -18570,7 +18594,7 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 320 */
+/* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -18688,7 +18712,7 @@ module.exports = React.createClass({
   __addItem: function __addItem() {
     zn.dialog({
       title: '新增',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/insert",
         merge: "values",
         exts: {
@@ -18702,7 +18726,7 @@ module.exports = React.createClass({
   __updateItem: function __updateItem(data) {
     zn.dialog({
       title: '更新',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/update",
         exts: {
           model: this.props.model,
@@ -18756,7 +18780,7 @@ module.exports = React.createClass({
 
     switch (columnIndex) {
       case 1:
-        return React.createElement("div", null, React.createElement("i", {
+        return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", {
           className: "fa fa-edit",
           onClick: function onClick() {
             return _this.__updateItem(data);
@@ -18764,17 +18788,17 @@ module.exports = React.createClass({
           style: {
             padding: 5
           }
-        }), React.createElement("a", {
+        }), /*#__PURE__*/React.createElement("a", {
           href: '#' + zn.react.session.fixPath('/znpluginadmin.setting.base') + '?_id=' + data._id
         }, value));
     }
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       title: "\u7CFB\u7EDF\u53C2\u6570\u914D\u7F6E",
       toolbarItems: this.state.toolbarItems,
       onToolbarClick: this.__onToolbarClick
-    }, React.createElement(zn.react.PagerView, {
+    }, /*#__PURE__*/React.createElement(zn.react.PagerView, {
       ref: "table",
       view: "Table",
       enableFilter: true,
@@ -18788,12 +18812,12 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 321 */
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-__webpack_require__(322);
+__webpack_require__(323);
 
 var React = __webpack_require__(0);
 
@@ -18822,9 +18846,9 @@ var Config = React.createClass({
       }
 
       if (_items.length) {
-        return React.createElement(zn.react.Group, {
+        return /*#__PURE__*/React.createElement(zn.react.Group, {
           title: "\u8BF7\u6C42\u53C2\u6570"
-        }, React.createElement(zn.react.Form, {
+        }, /*#__PURE__*/React.createElement(zn.react.Form, {
           items: _items,
           buttons: [{
             text: '发送请求',
@@ -18834,7 +18858,7 @@ var Config = React.createClass({
           onSubmitBefore: this.__onFormSubmitBefore
         }));
       } else {
-        return React.createElement(zn.react.Button, {
+        return /*#__PURE__*/React.createElement(zn.react.Button, {
           onClick: function onClick() {
             return _this.__submit();
           },
@@ -18848,9 +18872,9 @@ var Config = React.createClass({
   },
   __renderData: function __renderData() {
     if (this.state.data) {
-      return React.createElement(zn.react.Group, {
+      return /*#__PURE__*/React.createElement(zn.react.Group, {
         title: "\u8FD4\u56DE\u7ED3\u679C"
-      }, React.createElement("code", {
+      }, /*#__PURE__*/React.createElement("code", {
         style: {
           padding: 5
         }
@@ -18935,40 +18959,40 @@ var Config = React.createClass({
     var _this2 = this;
 
     var _Input = zn.react[this.props.input_type];
-    return React.createElement("li", {
+    return /*#__PURE__*/React.createElement("li", {
       className: "api"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "info"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "i-header"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "head-left"
-    }, this.props.input_type && React.createElement("span", {
+    }, this.props.input_type && /*#__PURE__*/React.createElement("span", {
       className: "method"
-    }, this.props.input_type), React.createElement("span", null, this.props._key), React.createElement("i", {
+    }, this.props.input_type), /*#__PURE__*/React.createElement("span", null, this.props._key), /*#__PURE__*/React.createElement("i", {
       "data-tooltip": "\u590D\u5236\u94FE\u63A5",
       onClick: function onClick() {
         return zn.react.copyToClipboard(_this2.props._key);
       },
       className: "fa fa-clipboard zr-padding-3"
-    })), React.createElement("div", {
+    })), /*#__PURE__*/React.createElement("div", {
       className: "head-right"
-    }, React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       onClick: this.__onSave,
       className: "method"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-save zr-padding-3"
-    }), "\u4FDD\u5B58"), React.createElement("span", {
+    }), "\u4FDD\u5B58"), /*#__PURE__*/React.createElement("span", {
       onClick: this.__onEdit,
       className: "method"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-edit zr-padding-3"
-    }), "\u7F16\u8F91"), React.createElement("i", {
+    }), "\u7F16\u8F91"), /*#__PURE__*/React.createElement("i", {
       onClick: this.__onRemove,
       className: "fa fa-remove zr-padding-3"
-    }))), React.createElement("div", {
+    }))), /*#__PURE__*/React.createElement("div", {
       className: "i-body"
-    }, React.createElement(zn.react.FormItem, {
+    }, /*#__PURE__*/React.createElement(zn.react.FormItem, {
       type: _Input,
       title: this.props._title,
       value: this.props._value
@@ -19045,18 +19069,18 @@ module.exports = React.createClass({
     });
   },
   __renderConfigKey: function __renderConfigKey() {
-    return React.createElement("ul", {
+    return /*#__PURE__*/React.createElement("ul", {
       className: "apps"
     }, this.state.configKeys.map(function (key, index) {
       var _this3 = this;
 
-      return React.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         key: index,
         className: "app " + (this.state.key == key ? 'curr' : ''),
         onClick: function onClick() {
           return _this3.__onAppClick(key);
         }
-      }, React.createElement("a", null, key.text));
+      }, /*#__PURE__*/React.createElement("a", null, key.text));
     }.bind(this)));
   },
   __addArgument: function __addArgument() {
@@ -19064,7 +19088,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '添加参数',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/insert",
         merge: "values",
         exts: {
@@ -19114,20 +19138,20 @@ module.exports = React.createClass({
     });
   },
   __renderConfigs: function __renderConfigs() {
-    return React.createElement("div", null, this.state.key && React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", null, this.state.key && /*#__PURE__*/React.createElement("div", {
       style: {
         padding: 5
       }
-    }, React.createElement(zn.react.Button, {
+    }, /*#__PURE__*/React.createElement(zn.react.Button, {
       onClick: this.__addArgument,
       text: "\u6DFB\u52A0\u53C2\u6570",
       icon: "fa-plus"
-    })), React.createElement("ul", {
+    })), /*#__PURE__*/React.createElement("ul", {
       className: "apis"
     }, Object.keys(this.state.configs).map(function (key, index) {
       var _this5 = this;
 
-      return React.createElement(Config, _extends({
+      return /*#__PURE__*/React.createElement(Config, _extends({
         key: index
       }, this.state.configs[key], {
         onRemoveSuccess: function onRemoveSuccess() {
@@ -19147,7 +19171,7 @@ module.exports = React.createClass({
       case 'config.add':
         zn.dialog({
           title: '新增配置',
-          content: React.createElement(zn.react.Form, {
+          content: /*#__PURE__*/React.createElement(zn.react.Form, {
             action: "/zn.plugin.admin/model/insert",
             merge: "values",
             exts: {
@@ -19230,32 +19254,32 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       className: "zn-plugin-admin-setting-config-manager",
       title: "\u914D\u7F6E\u7BA1\u7406",
       toolbarItems: this.state.toolbarItems,
       onToolbarClick: this.__onToolbarClick
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "zr-flex-layout zn-plugin-admin-master-slave-flex-layout row"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "layout-header",
       style: {
         minWidth: 200
       }
-    }, this.__renderConfigKey()), React.createElement("div", {
+    }, this.__renderConfigKey()), /*#__PURE__*/React.createElement("div", {
       className: "layout-body"
     }, this.__renderConfigs())));
   }
 });
 
 /***/ }),
-/* 322 */
+/* 323 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 323 */
+/* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -19278,17 +19302,17 @@ var MenuInfo = React.createClass({
   __renderBody: function __renderBody() {
     switch (this.state.currIndex) {
       case 0:
-        return React.createElement(ModelEditor, this.props);
+        return /*#__PURE__*/React.createElement(ModelEditor, this.props);
 
       case 1:
-        return React.createElement("div", {
+        return /*#__PURE__*/React.createElement("div", {
           style: {
             textAlign: 'center'
           }
         }, "\u8FD8\u5728\u5F00\u53D1\u4E2D...");
 
       case 2:
-        return React.createElement(FormDesigner, {
+        return /*#__PURE__*/React.createElement(FormDesigner, {
           menuId: this.props.data.value
         });
     }
@@ -19296,9 +19320,9 @@ var MenuInfo = React.createClass({
   render: function render() {
     var _this = this;
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zr-flex-layout"
-    }, React.createElement(zn.react.ListView, {
+    }, /*#__PURE__*/React.createElement(zn.react.ListView, {
       className: "layout-header zr-tab-ios",
       style: {
         margin: 5
@@ -19325,7 +19349,7 @@ var MenuInfo = React.createClass({
         text: '表单定义',
         icon: 'fa-server'
       }]
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "layout-body"
     }, this.__renderBody()));
   }
@@ -19368,7 +19392,7 @@ module.exports = React.createClass({
         type: 'RichSelector',
         selector: zn.plugin.admin.FontAwesomeIcons,
         textRender: function textRender(text) {
-          return React.createElement("i", {
+          return /*#__PURE__*/React.createElement("i", {
             className: "fa " + text
           });
         },
@@ -19409,19 +19433,19 @@ module.exports = React.createClass({
       return null;
     }
 
-    return React.createElement(MenuInfo, _extends({}, this.state, {
+    return /*#__PURE__*/React.createElement(MenuInfo, _extends({}, this.state, {
       data: data
     }));
   },
   render: function render() {
-    return React.createElement(TreeModelView, _extends({}, this.state, {
+    return /*#__PURE__*/React.createElement(TreeModelView, _extends({}, this.state, {
       rightRender: this.__rightRender
     }));
   }
 });
 
 /***/ }),
-/* 324 */
+/* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -19513,7 +19537,7 @@ module.exports = React.createClass({
   __addItem: function __addItem() {
     zn.dialog({
       title: '新增用户',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/model/insert",
         merge: "values",
         exts: {
@@ -19527,7 +19551,7 @@ module.exports = React.createClass({
   __updateItem: function __updateItem(data) {
     zn.dialog({
       title: '更新用户信息',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "updates",
         action: "/zn.plugin.admin/model/update",
         exts: {
@@ -19586,17 +19610,17 @@ module.exports = React.createClass({
 
     switch (columnIndex) {
       case 1:
-        return React.createElement("div", {
+        return /*#__PURE__*/React.createElement("div", {
           style: {
             display: 'flex',
             alignItems: 'center'
           }
-        }, React.createElement("i", {
+        }, /*#__PURE__*/React.createElement("i", {
           onClick: function onClick() {
             return _this.__updateItem(data);
           },
           className: "fa fa-edit zr-padding-3"
-        }), data.avatar_img && React.createElement("img", {
+        }), data.avatar_img && /*#__PURE__*/React.createElement("img", {
           className: "avatar",
           style: {
             width: 16,
@@ -19605,17 +19629,17 @@ module.exports = React.createClass({
             borderRadius: 16
           },
           src: data.avatar_img
-        }), React.createElement("a", {
+        }), /*#__PURE__*/React.createElement("a", {
           href: '#' + zn.react.session.fixPath('/znpluginadmin.user.infoedit') + '?userId=' + data.id
         }, value));
     }
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       title: "\u7CFB\u7EDF\u8D26\u6237\u7BA1\u7406",
       toolbarItems: this.state.toolbarItems,
       onToolbarClick: this.__onToolbarClick
-    }, React.createElement(zn.react.PagerView, {
+    }, /*#__PURE__*/React.createElement(zn.react.PagerView, {
       ref: "table",
       view: "Table",
       enableFilter: true,
@@ -19629,7 +19653,7 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 325 */
+/* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -19667,12 +19691,12 @@ var Info = React.createClass({
           });
         }
 
-        return React.createElement(ModelEditor, _extends({}, this.props, {
+        return /*#__PURE__*/React.createElement(ModelEditor, _extends({}, this.props, {
           fields: _fields
         }));
 
       case 1:
-        return React.createElement(UsersForRoles, {
+        return /*#__PURE__*/React.createElement(UsersForRoles, {
           roleId: this.props.data.value
         });
     }
@@ -19680,9 +19704,9 @@ var Info = React.createClass({
   render: function render() {
     var _this = this;
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zr-flex-layout"
-    }, React.createElement(zn.react.ListView, {
+    }, /*#__PURE__*/React.createElement(zn.react.ListView, {
       className: "layout-header zr-tab-ios",
       style: {
         margin: 5
@@ -19705,7 +19729,7 @@ var Info = React.createClass({
         text: '用户列表',
         icon: 'fa-users'
       }]
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "layout-body"
     }, this.__renderBody()));
   }
@@ -19753,7 +19777,7 @@ module.exports = React.createClass({
       return null;
     }
 
-    return React.createElement(Info, _extends({}, this.props, {
+    return /*#__PURE__*/React.createElement(Info, _extends({}, this.props, {
       data: data
     }));
   },
@@ -19762,10 +19786,10 @@ module.exports = React.createClass({
 
     switch (_data.type) {
       case 0:
-        return React.createElement("span", null, _data.zn_title);
+        return /*#__PURE__*/React.createElement("span", null, _data.zn_title);
 
       case 1:
-        return React.createElement("span", null, React.createElement("i", {
+        return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
           title: "\u8FD9\u662F\u90E8\u95E8",
           className: "fa fa-sitemap",
           style: {
@@ -19775,7 +19799,7 @@ module.exports = React.createClass({
         }), _data.zn_title);
 
       case 2:
-        return React.createElement("span", null, React.createElement("i", {
+        return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
           title: "\u8FD9\u662F\u89D2\u8272",
           className: "fa fa-graduation-cap",
           style: {
@@ -19785,7 +19809,7 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement(TreeModelView, _extends({}, this.props, {
+    return /*#__PURE__*/React.createElement(TreeModelView, _extends({}, this.props, {
       rightRender: this.__rightRender,
       itemContentRender: this.__itemContentRender
     }));
@@ -19793,13 +19817,13 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 326 */
+/* 327 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 327 */
+/* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -19859,7 +19883,7 @@ module.exports = React.createClass({
         type: 'RichSelector',
         selector: zn.plugin.admin.FontAwesomeIcons,
         textRender: function textRender(text) {
-          return React.createElement("i", {
+          return /*#__PURE__*/React.createElement("i", {
             className: "fa " + text
           });
         },
@@ -19911,14 +19935,14 @@ module.exports = React.createClass({
 
     switch (_data.type) {
       case 1:
-        return React.createElement("span", null, React.createElement("i", {
+        return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
           title: "\u8FD9\u662F\u64CD\u4F5C\u6309\u94AE",
           className: "fa fa-hand-o-up",
           style: {
             margin: 5,
             color: '#0B72A5'
           }
-        }), React.createElement("i", {
+        }), /*#__PURE__*/React.createElement("i", {
           className: 'fa ' + _data.icon,
           style: {
             marginRight: 5
@@ -19926,14 +19950,14 @@ module.exports = React.createClass({
         }), _data.id + '、' + _data.zn_title);
 
       case 2:
-        return React.createElement("span", null, React.createElement("i", {
+        return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
           title: "\u8FD9\u662F\u9759\u6001\u5E38\u91CF",
           className: "fa fa-text-width",
           style: {
             margin: 5,
             color: '#d9534f'
           }
-        }), React.createElement("i", {
+        }), /*#__PURE__*/React.createElement("i", {
           className: 'fa ' + _data.icon,
           style: {
             marginRight: 5
@@ -19941,13 +19965,13 @@ module.exports = React.createClass({
         }), _data.id + '、' + _data.zn_title);
 
       case 3:
-        return React.createElement("span", null, React.createElement("i", {
+        return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
           title: "\u8FD9\u662F\u6807\u7B7E\u7C7B\u522B",
           className: "fa fa-tag",
           style: {
             margin: 5
           }
-        }), React.createElement("i", {
+        }), /*#__PURE__*/React.createElement("i", {
           className: 'fa ' + _data.icon,
           style: {
             marginRight: 5
@@ -19956,7 +19980,7 @@ module.exports = React.createClass({
     }
   },
   render: function render() {
-    return React.createElement(TreeModelView, _extends({}, this.props, {
+    return /*#__PURE__*/React.createElement(TreeModelView, _extends({}, this.props, {
       where: {
         menu_id: this.props.menuId
       },
@@ -19967,14 +19991,14 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 328 */
+/* 329 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./Info.js": 329,
-	"./InfoEdit.js": 331,
-	"./List.js": 333,
-	"./LoginLog.js": 334,
+	"./Info.js": 330,
+	"./InfoEdit.js": 332,
+	"./List.js": 334,
+	"./LoginLog.js": 335,
 	"./index.js": 101
 };
 
@@ -19996,13 +20020,13 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 328;
+webpackContext.id = 329;
 
 /***/ }),
-/* 329 */
+/* 330 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(330);
+__webpack_require__(331);
 
 var React = __webpack_require__(0);
 
@@ -20098,7 +20122,7 @@ module.exports = React.createClass({
       _icon = 'fa-graduation-cap';
     }
 
-    return React.createElement("span", null, React.createElement("i", {
+    return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
       style: {
         margin: 5
       },
@@ -20110,7 +20134,7 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: '修改信息',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "updates",
         action: "/zn.plugin.admin/model/update",
         exts: {
@@ -20136,62 +20160,62 @@ module.exports = React.createClass({
   },
   render: function render() {
     if (!this.state.info) {
-      return React.createElement(zn.react.DataLoader, {
+      return /*#__PURE__*/React.createElement(zn.react.DataLoader, {
         content: "\u6B63\u5728\u52A0\u8F7D\u4E2D...",
         loader: "timer"
       });
     }
 
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       title: this.state.info.name,
       icon: "fa-newspaper-o",
       toolbarItems: this.state.toolbarItems
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-user-info"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "info-form user-item"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "avatar",
       src: zn.http.fixURL(this.state.info.avatar_img) || './images/DefaultAvatar.png'
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "details"
-    }, this.state.isSelf && React.createElement("span", {
+    }, this.state.isSelf && /*#__PURE__*/React.createElement("span", {
       onClick: this.__update,
       className: "last-logintime"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-edit zr-padding-3"
-    }), "\u4FEE\u6539\u4FE1\u606F"), React.createElement("div", {
+    }), "\u4FEE\u6539\u4FE1\u606F"), /*#__PURE__*/React.createElement("div", {
       className: "name"
-    }, this.state.info.name), React.createElement("div", {
+    }, this.state.info.name), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-phone"
-    }), "\u7535\u8BDD\uFF1A", this.state.info.phone), React.createElement("div", {
+    }), "\u7535\u8BDD\uFF1A", this.state.info.phone), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-qq"
-    }), "QQ\u53F7\uFF1A", this.state.info.qq), React.createElement("div", {
+    }), "QQ\u53F7\uFF1A", this.state.info.qq), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-weixin"
-    }), "\u5FAE\u4FE1\u53F7\uFF1A", this.state.info.wechat), React.createElement("div", {
+    }), "\u5FAE\u4FE1\u53F7\uFF1A", this.state.info.wechat), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-envelope"
-    }), "\u90AE\u7BB1\uFF1A", this.state.info.email), this.state.isSelf && React.createElement("div", {
+    }), "\u90AE\u7BB1\uFF1A", this.state.info.email), this.state.isSelf && /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-users"
-    }), "\u4EE3\u7406\u4EBA\uFF1A", this.state.info.agents_convert), this.state.info.zn_note && React.createElement("div", {
+    }), "\u4EE3\u7406\u4EBA\uFF1A", this.state.info.agents_convert), this.state.info.zn_note && /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, this.state.info.zn_note))), zn.plugin.wechat && zn.plugin.wechat.ZNPluginAdminUserWechatInfo && React.createElement(zn.react.Card, {
+    }, this.state.info.zn_note))), zn.plugin.wechat && zn.plugin.wechat.ZNPluginAdminUserWechatInfo && /*#__PURE__*/React.createElement(zn.react.Card, {
       className: "wechat-info",
       title: "\u5FAE\u4FE1\u7ED1\u5B9A\u53CA\u67E5\u770B"
-    }, React.createElement(zn.plugin.wechat.ZNPluginAdminUserWechatInfo, {
+    }, /*#__PURE__*/React.createElement(zn.plugin.wechat.ZNPluginAdminUserWechatInfo, {
       openid: this.state.info.zn_plugin_wechat_open_id
-    })), React.createElement(zn.react.Card, {
+    })), /*#__PURE__*/React.createElement(zn.react.Card, {
       title: "\u90E8\u95E8\u53CA\u89D2\u8272"
-    }, React.createElement(zn.plugin.admin.RoleSelector, {
+    }, /*#__PURE__*/React.createElement(zn.plugin.admin.RoleSelector, {
       disabled: true,
       value: this.state.info.role_ids
     }))));
@@ -20199,16 +20223,16 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 330 */
+/* 331 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 331 */
+/* 332 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(332);
+__webpack_require__(333);
 
 var React = __webpack_require__(0);
 
@@ -20265,7 +20289,7 @@ module.exports = React.createClass({
       _icon = 'fa-graduation-cap';
     }
 
-    return React.createElement("span", null, React.createElement("i", {
+    return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
       style: {
         margin: 5
       },
@@ -20277,55 +20301,55 @@ module.exports = React.createClass({
   },
   render: function render() {
     if (!this.state.info) {
-      return React.createElement(zn.react.DataLoader, {
+      return /*#__PURE__*/React.createElement(zn.react.DataLoader, {
         content: "\u6B63\u5728\u52A0\u8F7D\u4E2D...",
         loader: "timer"
       });
     }
 
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       title: this.state.info.name,
       toolbarItems: this.state.toolbarItems
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-user-info"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "info-form user-item"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "avatar",
       src: zn.http.fixURL(this.state.info.avatar_img) || './images/DefaultAvatar.png'
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "details"
-    }, React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       "data-tooltip": "\u67E5\u770B\u767B\u5F55\u65E5\u5FD7\u8BB0\u5F55",
       onClick: this.__onLoginTimeClick,
       className: "last-logintime"
-    }, "\u6700\u8FD1\u4E00\u6B21\u767B\u5F55\u65F6\u95F4\uFF1A", this.state.info.last_login_time || '还未登陆'), React.createElement("div", {
+    }, "\u6700\u8FD1\u4E00\u6B21\u767B\u5F55\u65F6\u95F4\uFF1A", this.state.info.last_login_time || '还未登陆'), /*#__PURE__*/React.createElement("div", {
       className: "name"
-    }, this.state.info.name), React.createElement("div", {
+    }, this.state.info.name), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-clock-o"
-    }), "\u6CE8\u518C\u65F6\u95F4\uFF1A", this.state.info.zn_create_time), React.createElement("div", {
+    }), "\u6CE8\u518C\u65F6\u95F4\uFF1A", this.state.info.zn_create_time), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-envelope"
-    }), "\u90AE\u7BB1\uFF1A", this.state.info.email), React.createElement("div", {
+    }), "\u90AE\u7BB1\uFF1A", this.state.info.email), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-phone"
-    }), "\u624B\u673A\u53F7\uFF1A", this.state.info.phone), React.createElement("div", {
+    }), "\u624B\u673A\u53F7\uFF1A", this.state.info.phone), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-wechat"
-    }), "\u5FAE\u4FE1\u53F7\uFF1A", this.state.info.wechat), React.createElement("div", {
+    }), "\u5FAE\u4FE1\u53F7\uFF1A", this.state.info.wechat), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-qq"
-    }), "QQ\u53F7\uFF1A", this.state.info.qq), React.createElement("div", {
+    }), "QQ\u53F7\uFF1A", this.state.info.qq), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, this.state.info.zn_note))), React.createElement(zn.react.Card, {
+    }, this.state.info.zn_note))), /*#__PURE__*/React.createElement(zn.react.Card, {
       title: "\u90E8\u95E8\u53CA\u89D2\u8272"
-    }, React.createElement(zn.plugin.admin.RoleSelector, {
+    }, /*#__PURE__*/React.createElement(zn.plugin.admin.RoleSelector, {
       value: this.state.info.role_ids,
       onChange: this.__onRoleChange
     }))));
@@ -20333,13 +20357,13 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 332 */
+/* 333 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 333 */
+/* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -20508,7 +20532,7 @@ module.exports = React.createClass({
   __addItem: function __addItem() {
     zn.dialog({
       title: '新增用户',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         action: "/zn.plugin.admin/user/addUser",
         merge: "values",
         exts: {
@@ -20522,7 +20546,7 @@ module.exports = React.createClass({
   __updateItem: function __updateItem(data) {
     zn.dialog({
       title: '更新用户信息',
-      content: React.createElement(zn.react.Form, {
+      content: /*#__PURE__*/React.createElement(zn.react.Form, {
         merge: "updates",
         action: "/zn.plugin.admin/model/update",
         exts: {
@@ -20599,7 +20623,7 @@ module.exports = React.createClass({
   __viewWechatUserInfo: function __viewWechatUserInfo(value) {
     zn.dialog({
       title: 'OPENID: ' + value,
-      content: React.createElement(zn.plugin.wechat.UserInfo, {
+      content: /*#__PURE__*/React.createElement(zn.plugin.wechat.UserInfo, {
         openid: value
       })
     });
@@ -20669,18 +20693,18 @@ module.exports = React.createClass({
 
     zn.dialog({
       title: "激活用户: " + data.name,
-      content: React.createElement("div", {
+      content: /*#__PURE__*/React.createElement("div", {
         style: {
           padding: 20
         }
-      }, React.createElement(zn.react.Button, {
+      }, /*#__PURE__*/React.createElement(zn.react.Button, {
         onClick: function onClick(props, btn) {
           return _this.__onActiveUser(data, 'sms', btn);
         },
         text: "\u624B\u673A\u77ED\u4FE1\u6FC0\u6D3B",
         icon: "fa-phone zr-padding-3",
         tooltip: "\u7CFB\u7EDF\u76F4\u63A5\u4EE5\u77ED\u4FE1\u65B9\u5F0F\u53D1\u9001\u8D26\u53F7\u5BC6\u7801\u5230\u624B\u673A\u4E0A"
-      }), React.createElement(zn.react.Button, {
+      }), /*#__PURE__*/React.createElement(zn.react.Button, {
         onClick: function onClick(props, btn) {
           return _this.__onActiveUser(data, 'email', btn);
         },
@@ -20701,11 +20725,11 @@ module.exports = React.createClass({
       case 'status':
         switch (value) {
           case 0:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: '#1d18184d'
               }
-            }, React.createElement("i", {
+            }, /*#__PURE__*/React.createElement("i", {
               onClick: function onClick() {
                 return _this2.__onActive(data);
               },
@@ -20714,14 +20738,14 @@ module.exports = React.createClass({
             }), "\u5F85\u6FC0\u6D3B");
 
           case 1:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: '#008000'
               }
             }, "\u6B63\u5E38");
 
           case -1:
-            return React.createElement("span", {
+            return /*#__PURE__*/React.createElement("span", {
               style: {
                 color: '#d9534f'
               }
@@ -20729,17 +20753,17 @@ module.exports = React.createClass({
         }
 
       case 'name':
-        return React.createElement("div", {
+        return /*#__PURE__*/React.createElement("div", {
           style: {
             display: 'flex',
             alignItems: 'center'
           }
-        }, React.createElement("i", {
+        }, /*#__PURE__*/React.createElement("i", {
           onClick: function onClick() {
             return _this2.__updateItem(data);
           },
           className: "fa fa-edit zr-padding-3"
-        }), data.avatar_img && React.createElement("img", {
+        }), data.avatar_img && /*#__PURE__*/React.createElement("img", {
           className: "avatar",
           style: {
             width: 16,
@@ -20748,13 +20772,13 @@ module.exports = React.createClass({
             borderRadius: 16
           },
           src: data.avatar_img
-        }), React.createElement("a", {
+        }), /*#__PURE__*/React.createElement("a", {
           href: '#' + zn.react.session.fixPath('/znpluginadmin.user.infoedit') + '?userId=' + data.id
         }, value));
 
       case 'zn_plugin_wechat_open_id':
         if (value) {
-          return React.createElement("a", {
+          return /*#__PURE__*/React.createElement("a", {
             onClick: function onClick() {
               return _this2.__viewWechatUserInfo(value);
             },
@@ -20763,16 +20787,16 @@ module.exports = React.createClass({
               color: 'green',
               fontWeight: 'bold'
             }
-          }, React.createElement("i", {
+          }, /*#__PURE__*/React.createElement("i", {
             className: "fa fa-eye zr-padding-3"
           }), "\u5DF2\u7ED1\u5B9A");
         } else {
-          return React.createElement("span", null, "\u672A\u7ED1\u5B9A");
+          return /*#__PURE__*/React.createElement("span", null, "\u672A\u7ED1\u5B9A");
         }
 
       case 'qq':
         if (value) {
-          return React.createElement("img", {
+          return /*#__PURE__*/React.createElement("img", {
             "data-tooltip": value,
             style: {
               cursor: 'point'
@@ -20799,9 +20823,9 @@ module.exports = React.createClass({
     }).refresh();
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       title: "\u7CFB\u7EDF\u8D26\u6237\u7BA1\u7406",
-      headerCenter: React.createElement(zn.react.ListView, {
+      headerCenter: /*#__PURE__*/React.createElement(zn.react.ListView, {
         className: "zr-tab-ios",
         selectMode: "radio",
         valueKey: "status",
@@ -20820,7 +20844,7 @@ module.exports = React.createClass({
       }),
       toolbarItems: this.state.toolbarItems,
       onToolbarClick: this.__onToolbarClick
-    }, React.createElement(zn.react.PagerView, {
+    }, /*#__PURE__*/React.createElement(zn.react.PagerView, {
       ref: "table",
       view: "Table",
       enableFilter: true,
@@ -20834,7 +20858,7 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 334 */
+/* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -20876,13 +20900,13 @@ module.exports = React.createClass({
     };
   },
   render: function render() {
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       toolbarItems: [{
         text: '导出'
       }],
       onToolbarClick: this.__onToolbarClick,
       title: "\u7CFB\u7EDF\u8D26\u6237\u767B\u5F55\u65E5\u5FD7"
-    }, React.createElement(zn.react.PagerView, {
+    }, /*#__PURE__*/React.createElement(zn.react.PagerView, {
       view: "Table",
       enableFilter: false,
       checkbox: 0,
@@ -20894,10 +20918,10 @@ module.exports = React.createClass({
 });
 
 /***/ }),
-/* 335 */
+/* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(336);
+__webpack_require__(337);
 
 var React = __webpack_require__(0); //var QRCode = require('qrcode.react');
 
@@ -20991,77 +21015,77 @@ var exports = React.createClass({
   },
   render: function render() {
     if (!this.state.base) {
-      return React.createElement(zn.react.DataLoader, {
+      return /*#__PURE__*/React.createElement(zn.react.DataLoader, {
         content: "\u6B63\u5728\u52A0\u8F7D\u57FA\u7840\u4FE1\u606F...",
         loader: "timer"
       });
     }
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-login"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "background-image",
       src: this.state.base.login_background_image
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "section-head"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "head-left"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "company-logo",
       src: this.state.base.company_logo
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "company-title"
-    }, this.state.base.company_title)), React.createElement("div", {
+    }, this.state.base.company_title)), /*#__PURE__*/React.createElement("div", {
       className: "head-right"
-    }, React.createElement("ul", {
+    }, /*#__PURE__*/React.createElement("ul", {
       className: "link-nav"
-    }, React.createElement("li", null, React.createElement("a", {
+    }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
       href: this.state.base.company_website
-    }, "\u5B98\u7F51")))))), React.createElement("div", {
+    }, "\u5B98\u7F51")))))), /*#__PURE__*/React.createElement("div", {
       className: "section-body zr-scroll-webkit"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp",
       style: {
         width: 640
       }
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "intro"
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "form-dialog"
-    }, React.createElement("form", {
+    }, /*#__PURE__*/React.createElement("form", {
       className: "form"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "dialog-title"
-    }, "\u7528\u6237\u767B\u5F55"), React.createElement("div", {
+    }, "\u7528\u6237\u767B\u5F55"), /*#__PURE__*/React.createElement("div", {
       className: "form-item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-user"
-    }), React.createElement("input", {
+    }), /*#__PURE__*/React.createElement("input", {
       name: "name",
       type: "input",
       placeholder: "\u767B\u5F55\u7528\u6237\u540D",
       required: true
-    })), React.createElement("div", {
+    })), /*#__PURE__*/React.createElement("div", {
       className: "form-item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-lock"
-    }), React.createElement("input", {
+    }), /*#__PURE__*/React.createElement("input", {
       name: "password",
       type: "password",
       placeholder: "\u5BC6\u7801",
       required: true
-    })), React.createElement("button", {
+    })), /*#__PURE__*/React.createElement("button", {
       onClick: this.__onLogin,
       className: "btn-login"
-    }, "\u767B \u5F55"))))), React.createElement("div", {
+    }, "\u767B \u5F55"))))), /*#__PURE__*/React.createElement("div", {
       className: "section-foot"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "TM"
-    }, React.createElement("a", {
+    }, /*#__PURE__*/React.createElement("a", {
       href: ""
     }, "\u4E0A\u6D77\u4F51\u6D0B\u4FE1\u606F\u79D1\u6280\u6709\u9650\u516C\u53F8"), " \u63D0\u4F9B\u6280\u672F\u652F\u6301"))));
   }
@@ -21069,16 +21093,16 @@ var exports = React.createClass({
 module.exports = exports;
 
 /***/ }),
-/* 336 */
+/* 337 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 337 */
+/* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(338);
+__webpack_require__(339);
 
 var React = __webpack_require__(0);
 
@@ -21152,7 +21176,7 @@ var _exports = React.createClass({
     }.bind(this));
   },
   __onSessionClick: function __onSessionClick() {
-    zn.modal.open(React.createElement(UserSessionInfo, null), {
+    zn.modal.open( /*#__PURE__*/React.createElement(UserSessionInfo, null), {
       modalStyle: {
         overflow: 'hidden'
       },
@@ -21169,7 +21193,7 @@ var _exports = React.createClass({
     });
   },
   __onMenuClick: function __onMenuClick() {
-    zn.modal.open(React.createElement(NavigationBar, {
+    zn.modal.open( /*#__PURE__*/React.createElement(NavigationBar, {
       onMenuItemClick: function onMenuItemClick() {
         return zn.modal.close();
       },
@@ -21213,7 +21237,7 @@ var _exports = React.createClass({
   __onExchangeAccount: function __onExchangeAccount() {
     zn.dialog({
       title: '账号快速切换',
-      content: React.createElement(zn.plugin.admin.UserSelector, {
+      content: /*#__PURE__*/React.createElement(zn.plugin.admin.UserSelector, {
         onUserClick: this.__onUserClick
       })
     });
@@ -21224,98 +21248,98 @@ var _exports = React.createClass({
     }
 
     if (!this.state.base) {
-      return React.createElement(zn.react.DataLoader, {
+      return /*#__PURE__*/React.createElement(zn.react.DataLoader, {
         content: "\u6B63\u5728\u52A0\u8F7D\u4E2D...",
         loader: "timer"
       });
     }
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-main"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "background-image",
       src: this.state.base.main_background_image
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "section-head"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "head-left"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "wap"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       onClick: this.__onMenuClick,
       className: "fa fa-bars"
-    }), React.createElement("img", {
+    }), /*#__PURE__*/React.createElement("img", {
       className: "company-logo",
       title: "\u8DF3\u8F6C\u4E3B\u9875\u9762",
       onClick: this.__onCompanyClick,
       src: this.state.base.company_logo
-    })), React.createElement("div", {
+    })), /*#__PURE__*/React.createElement("div", {
       className: "web",
       title: "\u8DF3\u8F6C\u4E3B\u9875\u9762",
       onClick: this.__onCompanyClick
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "company-logo",
       src: this.state.base.company_logo
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "company-title"
-    }, this.state.base.company_title))), React.createElement("div", {
+    }, this.state.base.company_title))), /*#__PURE__*/React.createElement("div", {
       className: "head-right"
-    }, React.createElement("ul", {
+    }, /*#__PURE__*/React.createElement("ul", {
       className: "link-nav"
-    }, zn.DEBUG && React.createElement("li", {
+    }, zn.DEBUG && /*#__PURE__*/React.createElement("li", {
       onClick: this.__onExchangeAccount
-    }, React.createElement("span", null, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-exchange zr-padding-3"
-    }), "\u8D26\u53F7\u5FEB\u901F\u5207\u6362"))), React.createElement("div", {
+    }), "\u8D26\u53F7\u5FEB\u901F\u5207\u6362"))), /*#__PURE__*/React.createElement("div", {
       className: "user-session"
-    }, React.createElement("figure", {
+    }, /*#__PURE__*/React.createElement("figure", {
       className: "avatar",
       onClick: function onClick() {
         return zn.react.session.relativeJump('/znpluginadmin.user.info');
       }
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       "data-tooltip": "\u67E5\u770B\u6211\u7684\u4E2A\u4EBA\u4FE1\u606F",
       src: zn.http.fixURL(zn.react.session.json().avatar_img) || './images/DefaultAvatar.png'
-    })), React.createElement("span", {
+    })), /*#__PURE__*/React.createElement("span", {
       className: "name"
-    }, zn.react.session.json().name), React.createElement("i", {
+    }, zn.react.session.json().name), /*#__PURE__*/React.createElement("i", {
       className: "fa fa-angle-down",
       onClick: this.__onSessionClick
-    })), React.createElement("div", {
+    })), /*#__PURE__*/React.createElement("div", {
       className: "icons"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       onClick: this.__onMessage,
       className: "fa fa-comment-o",
       title: "\u6D88\u606F"
-    }), React.createElement("i", {
+    }), /*#__PURE__*/React.createElement("i", {
       onClick: this.__onSetting,
       className: "fa fa-gear",
       title: "\u8BBE\u7F6E"
-    }), React.createElement("i", {
+    }), /*#__PURE__*/React.createElement("i", {
       onClick: this.__onSignOut,
       className: "sign-out fa fa-sign-out",
       title: "\u6CE8\u9500"
-    }))))), React.createElement("div", {
+    }))))), /*#__PURE__*/React.createElement("div", {
       className: "section-body"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp inner-content"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "navigation-view zr-scroll-webkit"
-    }, React.createElement(NavigationBar, {
+    }, /*#__PURE__*/React.createElement(NavigationBar, {
       data: this.state.menus
-    })), React.createElement("div", {
+    })), /*#__PURE__*/React.createElement("div", {
       className: "page-view"
-    }, this.props.view && React.createElement(this.props.view, {
+    }, this.props.view && /*#__PURE__*/React.createElement(this.props.view, {
       request: this.props.request
-    })))), React.createElement("div", {
+    })))), /*#__PURE__*/React.createElement("div", {
       className: "section-foot"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "TM"
-    }, React.createElement("a", {
+    }, /*#__PURE__*/React.createElement("a", {
       href: ""
     }, "\u4E0A\u6D77\u4F51\u6D0B\u4FE1\u606F\u79D1\u6280\u6709\u9650\u516C\u53F8"), " \u63D0\u4F9B\u6280\u672F\u652F\u6301"))));
   }
@@ -21324,16 +21348,16 @@ var _exports = React.createClass({
 module.exports = _exports;
 
 /***/ }),
-/* 338 */
+/* 339 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 339 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(340);
+__webpack_require__(341);
 
 var React = __webpack_require__(0); //var QRCode = require('qrcode.react');
 
@@ -21411,62 +21435,62 @@ var exports = React.createClass({
   },
   render: function render() {
     if (!this.state.base) {
-      return React.createElement(zn.react.DataLoader, {
+      return /*#__PURE__*/React.createElement(zn.react.DataLoader, {
         content: "\u6B63\u5728\u52A0\u8F7D\u57FA\u7840\u4FE1\u606F...",
         loader: "timer"
       });
     }
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-user-active"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "background-image",
       src: this.state.base.login_background_image
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "section-head"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "head-left"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "company-logo",
       src: this.state.base.company_logo
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "company-title"
-    }, this.state.base.company_title)), React.createElement("div", {
+    }, this.state.base.company_title)), /*#__PURE__*/React.createElement("div", {
       className: "head-right"
-    }, React.createElement("ul", {
+    }, /*#__PURE__*/React.createElement("ul", {
       className: "link-nav"
-    }, React.createElement("li", null, React.createElement("a", {
+    }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
       href: this.state.base.company_website
-    }, "\u5B98\u7F51")), React.createElement("li", null, "\u4E0B\u8F7D"))))), React.createElement("div", {
+    }, "\u5B98\u7F51")), /*#__PURE__*/React.createElement("li", null, "\u4E0B\u8F7D"))))), /*#__PURE__*/React.createElement("div", {
       className: "section-body zr-scroll-webkit"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp",
       style: {
         width: 640,
         backgroundColor: '#FFF',
         padding: 20
       }
-    }, this.state.user ? React.createElement("div", {
+    }, this.state.user ? /*#__PURE__*/React.createElement("div", {
       style: {
         display: 'flex',
         flexDirection: 'column',
         width: '100%'
       }
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       style: {
         padding: 10
       }
-    }, "hi ", this.state.user.name), this.state.user.actived ? React.createElement("div", {
+    }, "hi ", this.state.user.name), this.state.user.actived ? /*#__PURE__*/React.createElement("div", {
       style: {
         padding: 10
       }
-    }, "\u60A8\u8D26\u53F7\u5DF2\u7ECF\u6FC0\u6D3B, \u8BF7\u52FF\u91CD\u590D\u64CD\u4F5C\u3002") : React.createElement("div", {
+    }, "\u60A8\u8D26\u53F7\u5DF2\u7ECF\u6FC0\u6D3B, \u8BF7\u52FF\u91CD\u590D\u64CD\u4F5C\u3002") : /*#__PURE__*/React.createElement("div", {
       style: {
         padding: 10
       }
-    }, "\u606D\u559C\u60A8, \u60A8\u7684\u8D26\u53F7\u6210\u529F\u6FC0\u6D3B\uFF0C\u7CFB\u7EDF\u5DF2\u628A\u767B\u5F55\u4FE1\u606F\u53D1\u9001\u5230\u60A8\u6FC0\u6D3B\u90AE\u7BB1(", this.state.user.email, ")\u3002"), React.createElement(zn.react.Button, {
+    }, "\u606D\u559C\u60A8, \u60A8\u7684\u8D26\u53F7\u6210\u529F\u6FC0\u6D3B\uFF0C\u7CFB\u7EDF\u5DF2\u628A\u767B\u5F55\u4FE1\u606F\u53D1\u9001\u5230\u60A8\u6FC0\u6D3B\u90AE\u7BB1(", this.state.user.email, ")\u3002"), /*#__PURE__*/React.createElement(zn.react.Button, {
       onClick: function onClick() {
         return zn.react.session.jump('/zn.plugin.admin/login');
       },
@@ -21474,18 +21498,18 @@ var exports = React.createClass({
         margin: 10
       },
       text: "\u70B9\u51FB\u767B\u5F55"
-    })) : React.createElement("div", null, React.createElement(zn.react.DataLoader, {
+    })) : /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(zn.react.DataLoader, {
       content: "\u9A8C\u8BC1\u4E2D...",
       loader: "timer"
-    })))), React.createElement("div", {
+    })))), /*#__PURE__*/React.createElement("div", {
       className: "section-foot"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "warp"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "TM"
-    }, React.createElement("a", {
+    }, /*#__PURE__*/React.createElement("a", {
       href: "http://www.youyangit.com"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       src: "./images/youyangit-logo.png"
     }), "\u4E0A\u6D77\u4F51\u6D0B\u4FE1\u606F\u79D1\u6280\u6709\u9650\u516C\u53F8"), " \u63D0\u4F9B\u6280\u672F\u652F\u6301"))));
   }
@@ -21493,7 +21517,7 @@ var exports = React.createClass({
 module.exports = exports;
 
 /***/ }),
-/* 340 */
+/* 341 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

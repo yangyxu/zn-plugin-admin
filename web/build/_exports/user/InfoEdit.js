@@ -57,7 +57,7 @@ module.exports = React.createClass({
       _icon = 'fa-graduation-cap';
     }
 
-    return React.createElement("span", null, React.createElement("i", {
+    return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
       style: {
         margin: 5
       },
@@ -69,48 +69,48 @@ module.exports = React.createClass({
   },
   render: function render() {
     if (!this.state.info) {
-      return React.createElement(zn.react.DataLoader, {
+      return /*#__PURE__*/React.createElement(zn.react.DataLoader, {
         content: "\u6B63\u5728\u52A0\u8F7D\u4E2D...",
         loader: "timer"
       });
     }
 
-    return React.createElement(zn.react.Page, {
+    return /*#__PURE__*/React.createElement(zn.react.Page, {
       title: this.state.info.name,
       icon: "fa-newspaper-o",
       toolbarItems: this.state.toolbarItems
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "zn-plugin-admin-user-info"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "info-form user-item"
-    }, React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", {
       className: "avatar",
       src: zn.http.fixURL(this.state.info.avatar_img) || './images/DefaultAvatar.png'
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "details"
-    }, React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       "data-tooltip": "\u67E5\u770B\u767B\u5F55\u65E5\u5FD7\u8BB0\u5F55",
       onClick: this.__onLoginTimeClick,
       className: "last-logintime"
-    }, "\u6700\u8FD1\u4E00\u6B21\u767B\u5F55\u65F6\u95F4\uFF1A", this.state.info.last_login_time || '还未登陆'), React.createElement("div", {
+    }, "\u6700\u8FD1\u4E00\u6B21\u767B\u5F55\u65F6\u95F4\uFF1A", this.state.info.last_login_time || '还未登陆'), /*#__PURE__*/React.createElement("div", {
       className: "name"
-    }, this.state.info.name), React.createElement("div", {
+    }, this.state.info.name), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-clock-o"
-    }), "\u6CE8\u518C\u65F6\u95F4\uFF1A", this.state.info.zn_create_time), React.createElement("div", {
+    }), "\u6CE8\u518C\u65F6\u95F4\uFF1A", this.state.info.zn_create_time), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-envelope"
-    }), "\u90AE\u7BB1\uFF1A", this.state.info.email), React.createElement("div", {
+    }), "\u90AE\u7BB1\uFF1A", this.state.info.email), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fa fa-phone"
-    }), "\u624B\u673A\u53F7\uFF1A", this.state.info.phone), React.createElement("div", {
+    }), "\u624B\u673A\u53F7\uFF1A", this.state.info.phone), /*#__PURE__*/React.createElement("div", {
       className: "item"
-    }, this.state.info.zn_note))), React.createElement(zn.react.Card, {
+    }, this.state.info.zn_note))), /*#__PURE__*/React.createElement(zn.react.Card, {
       title: "\u90E8\u95E8\u53CA\u89D2\u8272"
-    }, React.createElement(zn.plugin.admin.RoleSelector, {
+    }, /*#__PURE__*/React.createElement(zn.plugin.admin.RoleSelector, {
       value: this.state.info.role_ids,
       onChange: this.__onRoleChange
     }))));
