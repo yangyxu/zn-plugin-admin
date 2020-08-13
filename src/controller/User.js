@@ -1,6 +1,7 @@
 zn.define(['node:chinese-to-pinyin'],function (pinyin) {
 
     var getClientIP = function (req) {
+        return '127.0.0.1';
         return req.headers['x-real-ip'] || req.headers['x-forwarded-for'] ||
             req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
     }
